@@ -1,6 +1,6 @@
-package com.brodeckyondrej.SignUp.AbstractEntity.Service;
+package com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service;
 
-import com.brodeckyondrej.SignUp.AbstractEntity.BaseEntity;
+import com.brodeckyondrej.SignUp.Universal.AbstractEntity.BaseEntity;
 import org.springframework.stereotype.Service;
 
 @Service

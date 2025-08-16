@@ -1,4 +1,4 @@
-package com.brodeckyondrej.SignUp.AbstractEntity.Service;
+package com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service;
 
 import org.springframework.stereotype.Component;
 

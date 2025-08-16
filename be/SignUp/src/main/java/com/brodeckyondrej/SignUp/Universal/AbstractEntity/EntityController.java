@@ -1,6 +1,6 @@
-package com.brodeckyondrej.SignUp.AbstractEntity;
+package com.brodeckyondrej.SignUp.Universal.AbstractEntity;
 
-import com.brodeckyondrej.SignUp.AbstractEntity.Service.EntityService;
+import com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service.EntityService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

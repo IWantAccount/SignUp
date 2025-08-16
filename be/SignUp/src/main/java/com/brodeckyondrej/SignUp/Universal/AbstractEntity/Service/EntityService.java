@@ -1,7 +1,7 @@
-package com.brodeckyondrej.SignUp.AbstractEntity.Service;
+package com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service;
 
-import com.brodeckyondrej.SignUp.AbstractEntity.BaseEntity;
-import com.brodeckyondrej.SignUp.AbstractEntity.EntityRepository;
+import com.brodeckyondrej.SignUp.Universal.AbstractEntity.BaseEntity;
+import com.brodeckyondrej.SignUp.Universal.AbstractEntity.EntityRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,6 @@ public abstract class EntityService<
         GetDetailDto,
         GetListDto
         > {
-
 
     private final EntityRepository<Entity> repository;
 
