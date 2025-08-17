@@ -1,7 +1,6 @@
 package com.brodeckyondrej.SignUp.DbEntity.Subject;
 import com.brodeckyondrej.SignUp.DbEntity.Category.Category;
-import com.brodeckyondrej.SignUp.DbEntity.User.Student;
-import com.brodeckyondrej.SignUp.DbEntity.User.User;
+import com.brodeckyondrej.SignUp.DbEntity.User.Student.Student;
 import com.brodeckyondrej.SignUp.Universal.NamedEntity.NamedEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;

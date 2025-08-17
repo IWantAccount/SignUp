@@ -1,7 +1,8 @@
-package com.brodeckyondrej.SignUp.DbEntity.User;
+package com.brodeckyondrej.SignUp.DbEntity.User.Student;
 
 import com.brodeckyondrej.SignUp.DbEntity.Classroom.Classroom;
 import com.brodeckyondrej.SignUp.DbEntity.Subject.Subject;
+import com.brodeckyondrej.SignUp.DbEntity.User.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.Fetch;
