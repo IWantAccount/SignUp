@@ -7,7 +7,6 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Getter
-@Setter
 public class GetClassroomListDto extends NamedDtoWithId {
 
     private int numberOfStudents;

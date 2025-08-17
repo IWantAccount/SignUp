@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Setter
 public class InputClassroomDto extends NamedDto {
     public InputClassroomDto(String name) {
         super(name);

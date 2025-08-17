@@ -7,13 +7,16 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "subject")
+@Getter
 public class Subject extends NamedEntity {
     @OneToMany(mappedBy = "subject")
     @Fetch(FetchMode.SELECT)
@@ -24,4 +27,14 @@ public class Subject extends NamedEntity {
     @Fetch(FetchMode.SELECT)
     @NotNull
     private Set<Student> students;
+
+    public Subject(String name){
+        super(name);
+        categories = new HashSet<>();
+        students = new HashSet<>();
+    }
+
+    protected Subject(){
+
+    }
 }
