@@ -1,18 +1,25 @@
 package com.brodeckyondrej.SignUp.DbEntity.Subject.Service;
 
+import com.brodeckyondrej.SignUp.DbEntity.Category.Dto.CategoryGetListDto;
+import com.brodeckyondrej.SignUp.DbEntity.Category.Service.CategoryMapper;
 import com.brodeckyondrej.SignUp.DbEntity.Subject.Dto.CreateSubjectDto;
 import com.brodeckyondrej.SignUp.DbEntity.Subject.Dto.SubjectGetDetailDto;
 import com.brodeckyondrej.SignUp.DbEntity.Subject.Dto.SubjectGetListDto;
 import com.brodeckyondrej.SignUp.DbEntity.Subject.Dto.UpdateSubjectDto;
 import com.brodeckyondrej.SignUp.DbEntity.Subject.Subject;
+import com.brodeckyondrej.SignUp.DbEntity.User.Student.Dto.StudentGetListDto;
+import com.brodeckyondrej.SignUp.DbEntity.User.Student.Service.StudentMapper;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service.EntityMapper;
-import org.springframework.stereotype.Component;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Component
+@Service
+@RequiredArgsConstructor
 public class SubjectMapper implements EntityMapper<Subject, CreateSubjectDto, UpdateSubjectDto, SubjectGetDetailDto, SubjectGetListDto> {
 
-    //TODO category mapper
-    //TODO student mapper
+    private final CategoryMapper categoryMapper;
+    private final StudentMapper studentMapper;
 
     @Override
     public Subject fromCreateDto(CreateSubjectDto createSubjectDto) {
@@ -26,8 +33,9 @@ public class SubjectMapper implements EntityMapper<Subject, CreateSubjectDto, Up
 
     @Override
     public SubjectGetDetailDto toDetailDto(Subject entity) {
-        //TODO az budes mit student a category mappery
-        return null;
+        List<StudentGetListDto> students = entity.getStudents().stream().map(studentMapper::toListDto).toList();
+        List<CategoryGetListDto> categories = entity.getCategories().stream().map(categoryMapper::toListDto).toList();
+        return new SubjectGetDetailDto(entity.getId(), entity.getName(), students, categories);
     }
 
     @Override

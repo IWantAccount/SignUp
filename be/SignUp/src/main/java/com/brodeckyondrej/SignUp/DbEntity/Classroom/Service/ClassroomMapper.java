@@ -5,9 +5,9 @@ import com.brodeckyondrej.SignUp.DbEntity.Classroom.Dto.GetClassroomDetailDto;
 import com.brodeckyondrej.SignUp.DbEntity.Classroom.Dto.GetClassroomListDto;
 import com.brodeckyondrej.SignUp.DbEntity.Classroom.Dto.InputClassroomDto;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service.EntityMapper;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class ClassroomMapper implements EntityMapper<Classroom, InputClassroomDto, InputClassroomDto, GetClassroomDetailDto, GetClassroomListDto> {
 
 

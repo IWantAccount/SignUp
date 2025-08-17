@@ -4,11 +4,11 @@ import com.brodeckyondrej.SignUp.DbEntity.Classroom.ClassroomRepository;
 import com.brodeckyondrej.SignUp.DbEntity.Classroom.Dto.InputClassroomDto;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Component
+@Service
 public class ClassroomValidator implements Validator<InputClassroomDto, InputClassroomDto> {
 
     @Autowired
