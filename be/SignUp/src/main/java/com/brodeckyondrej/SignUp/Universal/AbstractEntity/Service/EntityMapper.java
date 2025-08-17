@@ -13,7 +13,7 @@ public interface EntityMapper<
         > {
 
     public Entity fromCreateDto(CreateDto createDto);
-    public UpdateDto updateFromDto(Entity entity, UpdateDto updateDto);
+    public void updateFromDto(Entity entity, UpdateDto updateDto);
     public GetDetailDto toDetailDto(Entity entity);
     public ListDto toListDto(Entity entity);
 }

@@ -3,7 +3,9 @@ package com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.BaseEntity;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.EntityRepository;
 import jakarta.transaction.Transactional;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,6 @@ import java.util.List;
 
 @Transactional
 @RequiredArgsConstructor
-@Service
 public abstract class EntityService<
         Entity extends BaseEntity,
         CreateDto,
@@ -24,11 +25,11 @@ public abstract class EntityService<
         GetListDto
         > {
 
-    private final EntityRepository<Entity> repository;
+    protected final EntityRepository<Entity> repository;
 
-    private final Validator<CreateDto, UpdateDto> validator;
+    protected final Validator<CreateDto, UpdateDto> validator;
 
-    private final EntityMapper<Entity, CreateDto, UpdateDto, GetDetailDto, GetListDto> mapper;
+    protected final EntityMapper<Entity, CreateDto, UpdateDto, GetDetailDto, GetListDto> mapper;
 
     public GetDetailDto create(CreateDto createDto) {
         validator.validateCreateOrThrow(createDto);
@@ -56,7 +57,7 @@ public abstract class EntityService<
     }
 
     public GetDetailDto update(UUID id, UpdateDto updateDto) {
-        validator.validateUpdateOrThrow(updateDto);
+        validator.validateUpdateOrThrow(id, updateDto);
         Entity found = repository.findByIdOrThrow(id);
         mapper.updateFromDto(found, updateDto);
         return mapper.toDetailDto(found);
