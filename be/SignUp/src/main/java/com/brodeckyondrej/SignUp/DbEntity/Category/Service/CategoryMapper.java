@@ -5,22 +5,18 @@ import com.brodeckyondrej.SignUp.DbEntity.Category.Dto.CreateCategoryDto;
 import com.brodeckyondrej.SignUp.DbEntity.Category.Dto.CategoryGetDetailDto;
 import com.brodeckyondrej.SignUp.DbEntity.Category.Dto.CategoryGetListDto;
 import com.brodeckyondrej.SignUp.DbEntity.Category.Dto.UpdateCategoryDto;
-import com.brodeckyondrej.SignUp.DbEntity.Sign.Dto.SignGetListDto;
-import com.brodeckyondrej.SignUp.DbEntity.Sign.Service.SignMapper;
 import com.brodeckyondrej.SignUp.DbEntity.Subject.Service.SubjectRepository;
 import com.brodeckyondrej.SignUp.DbEntity.Subject.Subject;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service.EntityMapper;
 import com.brodeckyondrej.SignUp.Universal.NamedEntity.Dto.NamedDtoWithId;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class CategoryMapper implements EntityMapper<Category, CreateCategoryDto, UpdateCategoryDto, CategoryGetDetailDto, CategoryGetListDto> {
 
     private final SubjectRepository subjectRepository;
-    private final SignMapper signMapper;
 
     @Override
     public Category fromCreateDto(CreateCategoryDto createCategoryDto) {
@@ -37,12 +33,7 @@ public class CategoryMapper implements EntityMapper<Category, CreateCategoryDto,
 
     @Override
     public CategoryGetDetailDto toDetailDto(Category entity) {
-        List<SignGetListDto> signs = entity.getSigns()
-                .stream()
-                .map(signMapper::toListDto)
-                .toList();
-
-        return new CategoryGetDetailDto(entity.getId(), entity.getName(), signs);
+        return new CategoryGetDetailDto(entity.getId(), entity.getName());
     }
 
     @Override

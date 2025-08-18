@@ -9,10 +9,8 @@ import java.util.UUID;
 
 @Getter
 public class CategoryGetDetailDto extends NamedDtoWithId {
-    private final List<SignGetListDto> signs;
 
-    public CategoryGetDetailDto(UUID id, String name, List<SignGetListDto> signs){
+    public CategoryGetDetailDto(UUID id, String name){
         super(id, name);
-        this.signs = signs;
     }
 }

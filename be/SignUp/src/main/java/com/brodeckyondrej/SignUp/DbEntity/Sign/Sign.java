@@ -1,6 +1,9 @@
 package com.brodeckyondrej.SignUp.DbEntity.Sign;
 
 import com.brodeckyondrej.SignUp.DbEntity.Category.Category;
+import com.brodeckyondrej.SignUp.DbEntity.Sign.Enum.LanguageLevel;
+import com.brodeckyondrej.SignUp.DbEntity.Sign.Enum.Region;
+import com.brodeckyondrej.SignUp.DbEntity.Sign.Enum.SignType;
 import com.brodeckyondrej.SignUp.DbEntity.SignComponent.Components.*;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.BaseEntity;
 import jakarta.persistence.*;

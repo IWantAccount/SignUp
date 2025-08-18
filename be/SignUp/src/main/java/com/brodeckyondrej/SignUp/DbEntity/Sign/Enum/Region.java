@@ -1,4 +1,4 @@
-package com.brodeckyondrej.SignUp.DbEntity.Sign;
+package com.brodeckyondrej.SignUp.DbEntity.Sign.Enum;
 
 public enum Region {
     CZECHIA,
