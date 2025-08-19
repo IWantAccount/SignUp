@@ -1,12 +1,28 @@
 package com.brodeckyondrej.SignUp.DbEntity.SignComponent;
 
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@MappedSuperclass
-public abstract class SignComponent extends BaseEntity {
+@Setter
+@AllArgsConstructor
+@Entity
+@Table(name = "sign_component")
+public class SignComponent extends BaseEntity {
+
+    @NotBlank
     private String component;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private SignComponentType type;
+
+    protected SignComponent() {
+
+    }
 }

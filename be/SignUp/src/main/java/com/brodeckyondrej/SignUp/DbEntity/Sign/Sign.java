@@ -4,7 +4,7 @@ import com.brodeckyondrej.SignUp.DbEntity.Category.Category;
 import com.brodeckyondrej.SignUp.DbEntity.Sign.Enum.LanguageLevel;
 import com.brodeckyondrej.SignUp.DbEntity.Sign.Enum.Region;
 import com.brodeckyondrej.SignUp.DbEntity.Sign.Enum.SignType;
-import com.brodeckyondrej.SignUp.DbEntity.SignComponent.Components.*;
+import com.brodeckyondrej.SignUp.DbEntity.SignComponent.SignComponent;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -52,29 +52,29 @@ public class Sign extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "hand_shape_id")
-    private HandShape handShape;
+    private SignComponent handShape;
 
     @ManyToOne
     @JoinColumn(name = "location_component_id")
-    private LocationComponent location;
+    private SignComponent location;
 
     @ManyToOne
     @JoinColumn(name = "movement_component_id")
-    private MovementComponent movementComponent;
+    private SignComponent movementComponent;
 
     @ManyToOne
     @JoinColumn(name = "palm_orientation_id")
-    private PalmOrientation palmOrientation;
+    private SignComponent palmOrientation;
 
     @ManyToOne
     @JoinColumn(name = "finger_orientation_id")
-    private FingerOrientation fingerOrientation;
+    private SignComponent fingerOrientation;
 
     @ManyToOne
     @JoinColumn(name = "contact_region_id")
-    private ContactRegion contactRegion;
+    private SignComponent contactRegion;
 
     @ManyToOne
     @JoinColumn(name = "hand_arrangement_id")
-    private HandArrangement handArrangement;
+    private SignComponent handArrangement;
 }

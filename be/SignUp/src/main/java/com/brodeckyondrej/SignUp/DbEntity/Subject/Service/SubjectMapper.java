@@ -33,9 +33,7 @@ public class SubjectMapper implements EntityMapper<Subject, CreateSubjectDto, Up
 
     @Override
     public SubjectGetDetailDto toDetailDto(Subject entity) {
-        List<StudentGetListDto> students = entity.getStudents().stream().map(studentMapper::toListDto).toList();
-        List<CategoryGetListDto> categories = entity.getCategories().stream().map(categoryMapper::toListDto).toList();
-        return new SubjectGetDetailDto(entity.getId(), entity.getName(), students, categories);
+        return new SubjectGetDetailDto(entity.getId(), entity.getName());
     }
 
     @Override

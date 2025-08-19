@@ -3,12 +3,9 @@ package com.brodeckyondrej.SignUp.Universal.AbstractEntity.Service;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.BaseEntity;
 import com.brodeckyondrej.SignUp.Universal.AbstractEntity.EntityRepository;
 import jakarta.transaction.Transactional;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.stream.Collectors;

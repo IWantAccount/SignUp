@@ -10,12 +10,8 @@ import java.util.UUID;
 
 @Getter
 public class SubjectGetDetailDto extends NamedDtoWithId {
-    private final List<StudentGetListDto> students;
-    private final List<CategoryGetListDto> categories;
 
-    public SubjectGetDetailDto(UUID id, String name, List<StudentGetListDto> students, List<CategoryGetListDto> categories) {
+    public SubjectGetDetailDto(UUID id, String name) {
         super(id, name);
-        this.students = students;
-        this.categories = categories;
     }
 }
