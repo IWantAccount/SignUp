@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -38,11 +39,24 @@ public class User extends NamedEntity {
 
     @ManyToOne
     @JoinColumn(name = "classroom_id")
-    @NotNull
     private Classroom classroom;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @NotNull
     private Set<Subject> subjects;
+
+    public User(String name, String password, String email, UserRole role){
+        super(name);
+        this.password = password;
+        this.email = email;
+        this.role = role;
+
+        signCollection = new HashSet<>();
+        subjects = new HashSet<>();
+    }
+
+    protected User(){
+
+    }
 }

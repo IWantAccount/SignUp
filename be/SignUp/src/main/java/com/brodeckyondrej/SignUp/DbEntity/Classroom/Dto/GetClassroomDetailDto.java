@@ -10,7 +10,6 @@ import java.util.UUID;
 @Getter
 public class GetClassroomDetailDto extends NamedDtoWithId {
     private List<User> students;
-    private int numberOfStudents;
 
     public GetClassroomDetailDto (UUID id, String name){
         super(id, name);

@@ -12,21 +12,24 @@ import org.springframework.stereotype.Service;
 public class UserMapper implements EntityMapper<User, UserCreateDto, UserUpdateDto, UserGetDetailDto, UserGetListDto> {
     @Override
     public User fromCreateDto(UserCreateDto userCreateDto) {
-        return null;
+        return new User(userCreateDto.getName(), userCreateDto.getPassword(), userCreateDto.getEmail(), userCreateDto.getRole());
     }
 
     @Override
     public void updateFromDto(User entity, UserUpdateDto userUpdateDto) {
-
+        entity.setName(userUpdateDto.getName());
+        entity.setPassword(userUpdateDto.getPassword());
+        entity.setEmail(userUpdateDto.getEmail());
+        entity.setRole(userUpdateDto.getRole());
     }
 
     @Override
     public UserGetDetailDto toDetailDto(User entity) {
-        return null;
+        return new UserGetDetailDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getClassroom() == null ? "" : entity.getClassroom().getName());
     }
 
     @Override
     public UserGetListDto toListDto(User entity) {
-        return null;
+        return new UserGetListDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getClassroom() == null ? "" : entity.getClassroom().getName());
     }
 }
