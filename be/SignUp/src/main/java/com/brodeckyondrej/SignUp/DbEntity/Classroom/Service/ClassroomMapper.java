@@ -23,7 +23,7 @@ public class ClassroomMapper implements EntityMapper<Classroom, InputClassroomDt
 
     @Override
     public GetClassroomDetailDto toDetailDto(Classroom entity) {
-        return new GetClassroomDetailDto(entity.getId(), entity.getName(), entity.getStudents().stream().toList());
+        return new GetClassroomDetailDto(entity.getId(), entity.getName());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.brodeckyondrej.SignUp.DbEntity.Subject;
 import com.brodeckyondrej.SignUp.DbEntity.Category.Category;
-import com.brodeckyondrej.SignUp.DbEntity.User.Student.Student;
+import com.brodeckyondrej.SignUp.DbEntity.User.User;
 import com.brodeckyondrej.SignUp.Universal.NamedEntity.NamedEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
@@ -26,7 +26,7 @@ public class Subject extends NamedEntity {
     @ManyToMany
     @Fetch(FetchMode.SELECT)
     @NotNull
-    private Set<Student> students;
+    private Set<User> students;
 
     public Subject(String name){
         super(name);

@@ -1,6 +1,8 @@
 package com.brodeckyondrej.SignUp.DbEntity.User;
 
+import com.brodeckyondrej.SignUp.DbEntity.Classroom.Classroom;
 import com.brodeckyondrej.SignUp.DbEntity.PrivateCollection.PrivateCollection;
+import com.brodeckyondrej.SignUp.DbEntity.Subject.Subject;
 import com.brodeckyondrej.SignUp.Universal.NamedEntity.NamedEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -33,4 +35,14 @@ public class User extends NamedEntity {
     @Fetch(FetchMode.SELECT)
     @NotNull
     private Set<PrivateCollection> signCollection;
+
+    @ManyToOne
+    @JoinColumn(name = "classroom_id")
+    @NotNull
+    private Classroom classroom;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+    @NotNull
+    private Set<Subject> subjects;
 }

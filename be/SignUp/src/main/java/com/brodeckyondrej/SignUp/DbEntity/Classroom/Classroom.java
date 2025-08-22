@@ -1,6 +1,6 @@
 package com.brodeckyondrej.SignUp.DbEntity.Classroom;
 
-import com.brodeckyondrej.SignUp.DbEntity.User.Student.Student;
+import com.brodeckyondrej.SignUp.DbEntity.User.User;
 import com.brodeckyondrej.SignUp.Universal.NamedEntity.NamedEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -24,7 +24,7 @@ public class Classroom extends NamedEntity {
     @NotNull
     @OneToMany(mappedBy = "classroom", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
-    private Set<Student> students;
+    private Set<User> students;
 
     public Classroom(String name){
         super(name);
