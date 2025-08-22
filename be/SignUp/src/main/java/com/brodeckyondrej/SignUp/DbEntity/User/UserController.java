@@ -5,11 +5,12 @@ import com.brodeckyondrej.SignUp.DbEntity.User.Service.UserService;
 import com.brodeckyondrej.SignUp.Universal.Dto.FindByNameDto;
 import com.brodeckyondrej.SignUp.Universal.NamedEntity.NamedEntityController;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -31,5 +32,15 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
     public ResponseEntity<Void> removeStudentFromClassroom(@Valid @RequestBody StudentClassroomDto dto){
         userService.removeStudentFromClassroom(dto);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/by-subject/{id}")
+    public ResponseEntity<Page<UserGetListDto>> getBySubjectId(@PathVariable UUID id, Pageable pageable){
+        return ResponseEntity.ok(userService.findBySubjects(id, pageable));
+    }
+
+    @GetMapping("/by-classroom/{id}")
+    public ResponseEntity<Page<UserGetListDto>> getByClassroomId(@PathVariable UUID id, Pageable pageable){
+        return ResponseEntity.ok(userService.findByClassroom(id, pageable));
     }
 }
