@@ -41,7 +41,7 @@ public class User extends NamedEntity {
     @JoinColumn(name = "classroom_id")
     private Classroom classroom;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @NotNull
     private Set<Subject> subjects;

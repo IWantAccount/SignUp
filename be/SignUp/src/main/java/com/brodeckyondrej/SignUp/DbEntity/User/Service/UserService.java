@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -54,7 +56,7 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
 
     public Page<UserGetListDto> findBySubjects(UUID subjectId, Pageable pageable) {
         Subject subject = subjectRepository.findByIdOrThrow(subjectId);
-        return userRepository.findBySubjects(subject, pageable).map(userMapper::toListDto);
+        return userRepository.findDistinctBySubjectsContaining(subject, pageable).map(userMapper::toListDto);
     }
 
     public Page<UserGetListDto> findByClassroom(UUID classroomId, Pageable pageable) {

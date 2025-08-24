@@ -36,11 +36,13 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
 
     @GetMapping("/by-subject/{id}")
     public ResponseEntity<Page<UserGetListDto>> getBySubjectId(@PathVariable UUID id, Pageable pageable){
+        //TODO možná odfiltrovat nestudenty?
         return ResponseEntity.ok(userService.findBySubjects(id, pageable));
     }
 
     @GetMapping("/by-classroom/{id}")
     public ResponseEntity<Page<UserGetListDto>> getByClassroomId(@PathVariable UUID id, Pageable pageable){
+        //TODO možná odfiltrovat nestudenty?
         return ResponseEntity.ok(userService.findByClassroom(id, pageable));
     }
 }

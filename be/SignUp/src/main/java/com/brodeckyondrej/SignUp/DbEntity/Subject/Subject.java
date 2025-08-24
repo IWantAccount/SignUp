@@ -2,10 +2,7 @@ package com.brodeckyondrej.SignUp.DbEntity.Subject;
 import com.brodeckyondrej.SignUp.DbEntity.Category.Category;
 import com.brodeckyondrej.SignUp.DbEntity.User.User;
 import com.brodeckyondrej.SignUp.Universal.NamedEntity.NamedEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.hibernate.annotations.Fetch;
@@ -23,7 +20,12 @@ public class Subject extends NamedEntity {
     @NotNull
     private Set<Category> categories;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "subject_student",
+        joinColumns = @JoinColumn(name = "subject_id"),
+        inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
     @Fetch(FetchMode.SELECT)
     @NotNull
     private Set<User> students;
@@ -32,6 +34,14 @@ public class Subject extends NamedEntity {
         super(name);
         categories = new HashSet<>();
         students = new HashSet<>();
+    }
+
+    public void addStudent(User user){
+        students.add(user);
+    }
+
+    public void removeStudent(User user){
+        students.remove(user);
     }
 
     protected Subject(){
