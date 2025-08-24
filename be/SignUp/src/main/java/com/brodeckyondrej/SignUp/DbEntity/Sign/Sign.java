@@ -1,6 +1,7 @@
 package com.brodeckyondrej.SignUp.DbEntity.Sign;
 
 import com.brodeckyondrej.SignUp.DbEntity.Category.Category;
+import com.brodeckyondrej.SignUp.DbEntity.PrivateCollection.PrivateCollection;
 import com.brodeckyondrej.SignUp.DbEntity.Sign.Enum.LanguageLevel;
 import com.brodeckyondrej.SignUp.DbEntity.Sign.Enum.Region;
 import com.brodeckyondrej.SignUp.DbEntity.Sign.Enum.SignType;
@@ -77,4 +78,9 @@ public class Sign extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "hand_arrangement_id")
     private SignComponent handArrangement;
+
+    @ManyToMany(mappedBy = "signs", fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+    @NotNull
+    private Set<PrivateCollection> inPrivateCollections;
 }
