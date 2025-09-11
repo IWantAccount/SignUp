@@ -10,16 +10,5 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  app:
-    build: .
-    image: sign-up-be:latest
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./uploads/sign-videos:/uploads/sign-videos
-
-    environment:
-      - SPRING_APPLICATION_JSON={"storage":{"location":"/uploads/sign-videos"}}
-
 volumes:
   pgdata: {}
