@@ -2,7 +2,7 @@ package com.brodeckyondrej.SignUp.business.service.user;
 
 import com.brodeckyondrej.SignUp.business.dto.user.*;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
-import com.brodeckyondrej.SignUp.persistence.entity.ClassroomRepository;
+import com.brodeckyondrej.SignUp.persistence.repository.ClassroomRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
