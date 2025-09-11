@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface StorageService {
 
+    void init();
+
     /**
      * @param file file to store
      * @return filename
