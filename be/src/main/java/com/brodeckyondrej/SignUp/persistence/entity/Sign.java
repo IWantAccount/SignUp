@@ -45,7 +45,7 @@ public class Sign extends BaseEntity {
     private String explanation;
 
     @NotBlank
-    private String pathToVideo;
+    private String videoFileName;
 
     @ManyToOne
     @JoinColumn(name = "hand_shape_id")

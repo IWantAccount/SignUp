@@ -53,11 +53,9 @@ public class FileSystemStorageService implements StorageService{
         String key = UUID.randomUUID() + extension;
         Path destination = resolveInsideRoot(key) ;
 
-        try{
+        try (InputStream inputStream = file.getInputStream()){
 
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, destination, REPLACE_EXISTING);
-            }
+            Files.copy(inputStream, destination, REPLACE_EXISTING);
 
             return key;
         }
@@ -96,7 +94,7 @@ public class FileSystemStorageService implements StorageService{
     }
 
     @Override
-    public void replace(String filename, MultipartFile file) {
+    public void replace(String filename, @NotNull MultipartFile file) {
         if(file.isEmpty()){
             throw new ValidationException("File is empty");
         }
@@ -124,7 +122,7 @@ public class FileSystemStorageService implements StorageService{
         return candidate;
     }
 
-    private static String extractExtension(String name) {
+    protected static String extractExtension(String name) {
         int i = name.lastIndexOf('.');
         if (i < 0 || i == name.length() - 1) return "";
         String ext = name.substring(i);
