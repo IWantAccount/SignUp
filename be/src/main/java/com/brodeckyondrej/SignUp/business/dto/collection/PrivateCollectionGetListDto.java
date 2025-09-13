@@ -11,7 +11,7 @@ public class PrivateCollectionGetListDto extends NamedDtoWithId {
     private final UserGetListDto owner;
 
     public PrivateCollectionGetListDto(UUID id, UserGetListDto owner, String name){
-        super(owner.getId(), name);
+        super(id, name);
         this.owner = owner;
     }
 }
