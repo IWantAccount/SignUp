@@ -7,7 +7,6 @@ import com.brodeckyondrej.SignUp.persistence.enumerated.SignType;
 import com.brodeckyondrej.SignUp.business.dto.component.ComponentIdDto;
 import com.brodeckyondrej.SignUp.business.dto.subject.SubjectGetListDto;
 import lombok.Getter;
-import org.springframework.core.io.Resource;
 
 import java.util.Set;
 import java.util.UUID;
@@ -27,7 +26,7 @@ public class SignGetDetailDto extends SignGetListDto {
     private final ComponentIdDto fingerOrientation;
     private final ComponentIdDto contactRegion;
     private final ComponentIdDto handArrangement;
-    private final Resource video;
+    private final String videoFileName;
 
     public SignGetDetailDto(
             UUID id, CategoryGetListDto category, Set<String> translations,
@@ -36,8 +35,8 @@ public class SignGetDetailDto extends SignGetListDto {
             ComponentIdDto handShape, ComponentIdDto location, ComponentIdDto movement,
             ComponentIdDto palmOrientation, ComponentIdDto fingerOrientation,
             ComponentIdDto contactRegion, ComponentIdDto handArrangement,
-            Resource video) {
-        super(id, video, category, translations);
+            String videoFileName) {
+        super(id, videoFileName, category, translations);
         this.subject = subject;
         this.region = region;
         this.languageLevel = languageLevel;
@@ -50,6 +49,6 @@ public class SignGetDetailDto extends SignGetListDto {
         this.fingerOrientation = fingerOrientation;
         this.contactRegion = contactRegion;
         this.handArrangement = handArrangement;
-        this.video = video;
+        this.videoFileName = videoFileName;
     }
 }

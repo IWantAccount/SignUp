@@ -21,11 +21,17 @@ public class SignComponentMapper implements EntityMapper<SignComponent, Componen
 
     @Override
     public ComponentIdDto toDetailDto(SignComponent entity) {
+        if (entity == null) {
+            return null;
+        }
         return new ComponentIdDto(entity.getId(), entity.getComponent(), entity.getType());
     }
 
     @Override
     public ComponentIdDto toListDto(SignComponent entity) {
+        if(entity == null) {
+            return null;
+        }
         return new ComponentIdDto(entity.getId(), entity.getComponent(), entity.getType());
     }
 }

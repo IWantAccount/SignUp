@@ -3,7 +3,7 @@ package com.brodeckyondrej.SignUp.business.dto.sign;
 import com.brodeckyondrej.SignUp.persistence.enumerated.LanguageLevel;
 import com.brodeckyondrej.SignUp.persistence.enumerated.Region;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignType;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class UpdateSignDto {
     private final LanguageLevel languageLevel;
     private final Region region;
 
-    @NotBlank
+    @NotEmpty
     private final Set<String> translations;
 
     private final String explanation;

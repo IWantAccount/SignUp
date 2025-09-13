@@ -11,13 +11,13 @@ import java.util.UUID;
 @Getter
 public class SignGetListDto extends IdDto {
 
-    private final Resource video;
+    private final String videoFileName;
     private final CategoryGetListDto category;
     private final Set<String> translations;
 
-    public SignGetListDto(UUID id, Resource video, CategoryGetListDto category, Set<String> translations) {
+    public SignGetListDto(UUID id, String videoFileName, CategoryGetListDto category, Set<String> translations) {
         super(id);
-        this.video = video;
+        this.videoFileName = videoFileName;
         this.category = category;
         this.translations = translations;
     }

@@ -5,6 +5,7 @@ import com.brodeckyondrej.SignUp.exception.StorageException;
 import com.brodeckyondrej.SignUp.exception.ValidationException;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 //Inspiroval jsem se tady https://spring.io/guides/gs/uploading-files
+@Primary
 @Service
 public class FileSystemStorageService implements StorageService{
 
@@ -52,6 +54,12 @@ public class FileSystemStorageService implements StorageService{
         String extension = extractExtension(original);
         String key = UUID.randomUUID() + extension;
         Path destination = resolveInsideRoot(key) ;
+
+        //Já vím, že se tohle se asi nikdy nestane, ale tak proč ne ...
+        while(Files.exists(destination)){
+            key = UUID.randomUUID() + extension;
+            destination = resolveInsideRoot(key) ;
+        }
 
         try (InputStream inputStream = file.getInputStream()){
 

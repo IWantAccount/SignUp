@@ -18,13 +18,11 @@ import com.brodeckyondrej.SignUp.persistence.entity.SignComponent;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignComponentType;
 import com.brodeckyondrej.SignUp.persistence.repository.CategoryRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SignComponentRepository;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-//TODO fix types
 @Service
 @Transactional
 public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignDto, SignGetDetailDto, SignGetListDto> {
@@ -71,6 +69,7 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
         newSign.setFingerOrientation(fingerOrientation);
         newSign.setContactRegion(contactRegion);
         newSign.setHandArrangement(handArrangementId);
+        newSign.setType(createSignDto.getType());
 
         return newSign;
     }
@@ -85,6 +84,10 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
         SignComponent fingerOrientation = findAndValidateSignComponent(SignComponentType.FINGER_ORIENTATION, updateSignDto.getFingerOrientationId());
         SignComponent contactRegion = findAndValidateSignComponent(SignComponentType.CONTACT_REGION, updateSignDto.getContactRegionId());
         SignComponent handArrangementId = findAndValidateSignComponent(SignComponentType.HAND_ARRANGEMENT, updateSignDto.getHandArrangementId());
+
+        if(updateSignDto.getType() != null){
+            entity.setType(updateSignDto.getType());
+        }
 
         if(updateSignDto.getCategoryId() != null) {
             entity.setCategory(categoryRepository.findByIdOrThrow(updateSignDto.getCategoryId()));
@@ -123,7 +126,6 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
     public SignGetDetailDto toDetailDto(Sign entity) {
         CategoryGetListDto categoryDto = categoryMapper.toListDto(entity.getCategory());
         SubjectGetListDto subjectDto = subjectMapper.toListDto(entity.getCategory().getSubject());
-        Resource video = videoStorage.load(entity.getVideoFileName());
 
         return new SignGetDetailDto(
                 entity.getId(), categoryDto, entity.getTranslations(),
@@ -131,15 +133,14 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
                 entity.getType(), entity.getExplanation(), signComponentMapper.toListDto(entity.getHandShape()),
                 signComponentMapper.toListDto(entity.getLocation()), signComponentMapper.toListDto(entity.getMovementComponent()),
                 signComponentMapper.toListDto(entity.getPalmOrientation()), signComponentMapper.toListDto(entity.getFingerOrientation()),
-                signComponentMapper.toListDto(entity.getContactRegion()), signComponentMapper.toListDto(entity.getHandArrangement()), video
+                signComponentMapper.toListDto(entity.getContactRegion()), signComponentMapper.toListDto(entity.getHandArrangement()), entity.getVideoFileName()
         );
     }
 
     @Override
     public SignGetListDto toListDto(Sign entity) {
         CategoryGetListDto categoryDto = categoryMapper.toListDto(entity.getCategory());
-        Resource video = videoStorage.load(entity.getVideoFileName());
-        return new SignGetListDto(entity.getId(), video, categoryDto, entity.getTranslations());
+        return new SignGetListDto(entity.getId(), entity.getVideoFileName(), categoryDto, entity.getTranslations());
     }
 
     private SignComponent findAndValidateSignComponent(SignComponentType requiredType, UUID id) {

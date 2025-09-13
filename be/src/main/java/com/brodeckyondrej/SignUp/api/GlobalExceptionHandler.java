@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
     }
 
-    @ExceptionHandler({Exception.class})
+    //@ExceptionHandler({Exception.class})
     public ResponseEntity<ProblemDetail> other(Exception e) {
         ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         pd.setTitle("Internal Server Error");

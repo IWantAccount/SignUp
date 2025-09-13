@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -78,5 +79,5 @@ public class Sign extends BaseEntity {
     @ManyToMany(mappedBy = "signs", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @NotNull
-    private Set<PrivateCollection> inPrivateCollections;
+    private Set<PrivateCollection> inPrivateCollections = new HashSet<>();
 }
