@@ -60,6 +60,11 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
 
         Sign newSign = new Sign();
         newSign.setCategory(category);
+        newSign.setType(createSignDto.getType());
+        newSign.setLanguageLevel(createSignDto.getLanguageLevel());
+        newSign.setRegion(createSignDto.getRegion());
+        newSign.setTranslations(createSignDto.getTranslations());
+        newSign.setExplanation(createSignDto.getExplanation());
         newSign.setVideoFileName(fileName);
 
         newSign.setHandShape(handShape);
@@ -76,6 +81,7 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
 
     @Override
     public void updateFromDto(Sign entity, UpdateSignDto updateSignDto) {
+        Category category = categoryRepository.findByIdOrThrow(updateSignDto.getCategoryId());
 
         SignComponent handShape = findAndValidateSignComponent(SignComponentType.HAND_SHAPE, updateSignDto.getHandShapeId());
         SignComponent signLocation = findAndValidateSignComponent(SignComponentType.LOCATION, updateSignDto.getSignLocationId());
@@ -119,6 +125,13 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
         if(handArrangementId != null) {
             entity.setHandArrangement(handArrangementId);
         }
+
+        entity.setCategory(category);
+        entity.setType(updateSignDto.getType());
+        entity.setLanguageLevel(updateSignDto.getLanguageLevel());
+        entity.setRegion(updateSignDto.getRegion());
+        entity.setExplanation(updateSignDto.getExplanation());
+        entity.setTranslations(updateSignDto.getTranslations());
 
     }
 

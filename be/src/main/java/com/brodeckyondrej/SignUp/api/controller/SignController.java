@@ -45,4 +45,12 @@ public class SignController extends EntityController<Sign, CreateSignDto, Update
         Page<SignGetListDto> result = signService.getByPrivateCollectionId(collectionId, pageable);
         return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping("/debug/all")
+    public ResponseEntity<Void> deleteAll(){
+        signService.getAll().forEach(sign -> {
+            signService.delete(sign.getId());
+        });
+        return ResponseEntity.noContent().build();
+    }
 }
