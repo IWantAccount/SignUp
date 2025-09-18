@@ -21,7 +21,7 @@ public class Category extends NamedEntity {
     @Setter
     private Subject subject;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     @NotNull
     private Set<Sign> signs;

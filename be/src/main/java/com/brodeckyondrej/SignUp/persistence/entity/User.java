@@ -29,7 +29,7 @@ public class User extends NamedEntity {
     @NotNull
     private UserRole role;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,  cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     @NotNull
     private Set<PrivateCollection> signCollection;

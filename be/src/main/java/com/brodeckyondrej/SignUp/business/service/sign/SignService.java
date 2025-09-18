@@ -60,6 +60,10 @@ public class SignService extends EntityService<Sign, CreateSignDto, UpdateSignDt
             return;
         }
 
+        //This is owned side of many to many relationship. it is necessary to delete relationships
+        sign.get().getInPrivateCollections()
+                        .forEach(privateCollection -> privateCollection.removeSign(sign.get()));
+
         fileSystemVideoStorage.delete(sign.get().getVideoFileName());
         super.delete(id);
     }
