@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "subject")
 @Getter
 public class Subject extends NamedEntity {
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     @NotNull
     private Set<Category> categories;

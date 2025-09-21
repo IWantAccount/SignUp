@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -60,6 +61,19 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
     public Page<UserGetListDto> findByClassroom(UUID classroomId, Pageable pageable) {
         Classroom classroom = classroomRepository.findByIdOrThrow(classroomId);
         return userRepository.findByClassroom(classroom, pageable).map(userMapper::toListDto);
+    }
+
+    @Override
+    public void delete(UUID id){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isEmpty()){
+            return;
+        }
+
+        //This is owned side of many to many relationship. it is necessary to delete relationships
+        user.get().getSubjects()
+                .forEach(subject -> subject.removeStudent(user.get()));
+        super.delete(id);
     }
 
 }
