@@ -9,38 +9,186 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppTestRouteRouteImport } from './routes/app/test-route'
+import { Route as AppDebugRouteRouteImport } from './routes/app/debug/route'
+import { Route as AppDebugUsersRouteImport } from './routes/app/debug/users'
+import { Route as AppDebugSubjectsRouteImport } from './routes/app/debug/subjects'
+import { Route as AppDebugSignsRouteImport } from './routes/app/debug/signs'
+import { Route as AppDebugSignComponentsRouteImport } from './routes/app/debug/sign-components'
+import { Route as AppDebugCategoriesRouteImport } from './routes/app/debug/categories'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRouteRoute = AppRouteRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppTestRouteRoute = AppTestRouteRouteImport.update({
+  id: '/test-route',
+  path: '/test-route',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppDebugRouteRoute = AppDebugRouteRouteImport.update({
+  id: '/debug',
+  path: '/debug',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppDebugUsersRoute = AppDebugUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AppDebugRouteRoute,
+} as any)
+const AppDebugSubjectsRoute = AppDebugSubjectsRouteImport.update({
+  id: '/subjects',
+  path: '/subjects',
+  getParentRoute: () => AppDebugRouteRoute,
+} as any)
+const AppDebugSignsRoute = AppDebugSignsRouteImport.update({
+  id: '/signs',
+  path: '/signs',
+  getParentRoute: () => AppDebugRouteRoute,
+} as any)
+const AppDebugSignComponentsRoute = AppDebugSignComponentsRouteImport.update({
+  id: '/sign-components',
+  path: '/sign-components',
+  getParentRoute: () => AppDebugRouteRoute,
+} as any)
+const AppDebugCategoriesRoute = AppDebugCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => AppDebugRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/app/debug': typeof AppDebugRouteRouteWithChildren
+  '/app/test-route': typeof AppTestRouteRoute
+  '/app/debug/categories': typeof AppDebugCategoriesRoute
+  '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
+  '/app/debug/signs': typeof AppDebugSignsRoute
+  '/app/debug/subjects': typeof AppDebugSubjectsRoute
+  '/app/debug/users': typeof AppDebugUsersRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/app/debug': typeof AppDebugRouteRouteWithChildren
+  '/app/test-route': typeof AppTestRouteRoute
+  '/app/debug/categories': typeof AppDebugCategoriesRoute
+  '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
+  '/app/debug/signs': typeof AppDebugSignsRoute
+  '/app/debug/subjects': typeof AppDebugSubjectsRoute
+  '/app/debug/users': typeof AppDebugUsersRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/app/debug': typeof AppDebugRouteRouteWithChildren
+  '/app/test-route': typeof AppTestRouteRoute
+  '/app/debug/categories': typeof AppDebugCategoriesRoute
+  '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
+  '/app/debug/signs': typeof AppDebugSignsRoute
+  '/app/debug/subjects': typeof AppDebugSubjectsRoute
+  '/app/debug/users': typeof AppDebugUsersRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/register'
+    | '/app/debug'
+    | '/app/test-route'
+    | '/app/debug/categories'
+    | '/app/debug/sign-components'
+    | '/app/debug/signs'
+    | '/app/debug/subjects'
+    | '/app/debug/users'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/app'
+    | '/login'
+    | '/register'
+    | '/app/debug'
+    | '/app/test-route'
+    | '/app/debug/categories'
+    | '/app/debug/sign-components'
+    | '/app/debug/signs'
+    | '/app/debug/subjects'
+    | '/app/debug/users'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/login'
+    | '/register'
+    | '/app/debug'
+    | '/app/test-route'
+    | '/app/debug/categories'
+    | '/app/debug/sign-components'
+    | '/app/debug/signs'
+    | '/app/debug/subjects'
+    | '/app/debug/users'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRouteRoute: typeof AppRouteRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +196,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/test-route': {
+      id: '/app/test-route'
+      path: '/test-route'
+      fullPath: '/app/test-route'
+      preLoaderRoute: typeof AppTestRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/debug': {
+      id: '/app/debug'
+      path: '/debug'
+      fullPath: '/app/debug'
+      preLoaderRoute: typeof AppDebugRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/debug/users': {
+      id: '/app/debug/users'
+      path: '/users'
+      fullPath: '/app/debug/users'
+      preLoaderRoute: typeof AppDebugUsersRouteImport
+      parentRoute: typeof AppDebugRouteRoute
+    }
+    '/app/debug/subjects': {
+      id: '/app/debug/subjects'
+      path: '/subjects'
+      fullPath: '/app/debug/subjects'
+      preLoaderRoute: typeof AppDebugSubjectsRouteImport
+      parentRoute: typeof AppDebugRouteRoute
+    }
+    '/app/debug/signs': {
+      id: '/app/debug/signs'
+      path: '/signs'
+      fullPath: '/app/debug/signs'
+      preLoaderRoute: typeof AppDebugSignsRouteImport
+      parentRoute: typeof AppDebugRouteRoute
+    }
+    '/app/debug/sign-components': {
+      id: '/app/debug/sign-components'
+      path: '/sign-components'
+      fullPath: '/app/debug/sign-components'
+      preLoaderRoute: typeof AppDebugSignComponentsRouteImport
+      parentRoute: typeof AppDebugRouteRoute
+    }
+    '/app/debug/categories': {
+      id: '/app/debug/categories'
+      path: '/categories'
+      fullPath: '/app/debug/categories'
+      preLoaderRoute: typeof AppDebugCategoriesRouteImport
+      parentRoute: typeof AppDebugRouteRoute
+    }
   }
 }
 
+interface AppDebugRouteRouteChildren {
+  AppDebugCategoriesRoute: typeof AppDebugCategoriesRoute
+  AppDebugSignComponentsRoute: typeof AppDebugSignComponentsRoute
+  AppDebugSignsRoute: typeof AppDebugSignsRoute
+  AppDebugSubjectsRoute: typeof AppDebugSubjectsRoute
+  AppDebugUsersRoute: typeof AppDebugUsersRoute
+}
+
+const AppDebugRouteRouteChildren: AppDebugRouteRouteChildren = {
+  AppDebugCategoriesRoute: AppDebugCategoriesRoute,
+  AppDebugSignComponentsRoute: AppDebugSignComponentsRoute,
+  AppDebugSignsRoute: AppDebugSignsRoute,
+  AppDebugSubjectsRoute: AppDebugSubjectsRoute,
+  AppDebugUsersRoute: AppDebugUsersRoute,
+}
+
+const AppDebugRouteRouteWithChildren = AppDebugRouteRoute._addFileChildren(
+  AppDebugRouteRouteChildren,
+)
+
+interface AppRouteRouteChildren {
+  AppDebugRouteRoute: typeof AppDebugRouteRouteWithChildren
+  AppTestRouteRoute: typeof AppTestRouteRoute
+}
+
+const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppDebugRouteRoute: AppDebugRouteRouteWithChildren,
+  AppTestRouteRoute: AppTestRouteRoute,
+}
+
+const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
+  AppRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRouteRoute: AppRouteRouteWithChildren,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

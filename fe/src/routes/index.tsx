@@ -1,4 +1,5 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute, Link} from '@tanstack/react-router'
+import {Button} from "@mui/material";
 import logo from '../logo.svg'
 import '../App.css'
 
@@ -10,6 +11,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <Button component={Link} to="/app/test-route">proklik</Button>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/routes/index.tsx</code> and save to reload.
