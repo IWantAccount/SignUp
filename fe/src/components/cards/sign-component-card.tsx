@@ -10,8 +10,6 @@ export function SignComponentCard({signComponentId, description, type}: Props) {
     return (
         <Card sx={{
             minWidth: 200,
-            gap: 2,
-            mb: 2
         }}>
             <CardActionArea onClick={() => {console.log("jdeme na komponentu s id: " + signComponentId)}}>
                 <CardContent>

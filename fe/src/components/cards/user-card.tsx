@@ -11,9 +11,7 @@ interface Props {
 export function UserCard({id, name, email, classname}: Props){
     return (
         <Card sx={{
-            minWidth: 200,
-            gap: 2,
-            mb: 2
+            minWidth: 200
         }}>
             <CardContent>
                 <Stack spacing={2} alignItems="center">

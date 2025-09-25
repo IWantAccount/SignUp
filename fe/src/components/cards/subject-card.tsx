@@ -12,8 +12,6 @@ export function SubjectCard({id, name, categoryCount, studentCount}: Props){
     return (
         <Card sx={{
             minWidth: 200,
-            gap: 2,
-            mb: 2
         }}>
             <CardContent>
                 <Stack spacing={2} alignItems="center">

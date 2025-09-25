@@ -13,9 +13,6 @@ export function CategoryCard({categoryId, categoryName, signCount, subjectId, su
     return (
         <Card sx={{
             minWidth: 200,
-            gap: 2,
-            mb: 2
-
         }}>
             <CardContent>
                 <Stack spacing={2} alignItems="center">
