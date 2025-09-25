@@ -20,6 +20,10 @@ const theme = createTheme({
             light: '#e8453a',
             dark: '#941008',
         },
+        background: {
+            default: '#e3edf3',
+            paper: '#d5dfe6',
+        },
     },
     spacing: 8,
 })

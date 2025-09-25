@@ -1,5 +1,7 @@
 import {Toolbar, AppBar, Button, IconButton, Box, Slide, useScrollTrigger, CssBaseline} from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu'
 import React from "react";
+import {SideBar} from "@/components/side-bar.tsx";
 
 // Většinu kódu jsem převzal z oficiální dokumentace MUI: https://mui.com/material-ui/react-app-bar/
 interface Props {
@@ -21,6 +23,7 @@ function HideOnScroll(props: Props) {
 }
 
 export function TopBar(props: Props){
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
     return (
         <React.Fragment>
             <CssBaseline />
@@ -28,12 +31,21 @@ export function TopBar(props: Props){
                 <AppBar position="static">
                     <Toolbar sx={{ display: 'flex', justifyContent: 'left', flexWrap: 'wrap' }}>
                         <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{ mr: 2 }}
+                            onClick={ () => setDrawerOpen(true)}>
+                            <MenuIcon />
+                        </IconButton>
+                        <IconButton
                             edge="start"
                             href={"/"}
                             aria-labe="domů">
                             <Box
                                 component="img"
-                                src="../../public/neslhk_logo.png"
+                                src="/neslhk_logo.png"
                                 alt="Neslhk logo"
                                 sx={{ height: 40 }}>
 
@@ -45,6 +57,7 @@ export function TopBar(props: Props){
                 </AppBar>
             </HideOnScroll>
             <Toolbar />
+            <SideBar open={drawerOpen} onClose={() => setDrawerOpen(false)}/>
         </React.Fragment>
     );
 
