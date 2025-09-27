@@ -1,19 +1,17 @@
 import {Avatar, Button, Card, CardActions, CardContent, Stack, Typography} from "@mui/material";
 import {AccountCircle} from "@mui/icons-material";
 
-interface Props {
+export interface UserCardProps {
     id: string;
     name: string;
     email: string;
     classname?: string;
 }
 
-export function UserCard({id, name, email, classname}: Props){
+export function UserCard({id, name, email, classname}: UserCardProps){
     return (
         <Card sx={{
-            minWidth: 200,
-            gap: 2,
-            mb: 2
+            minWidth: 200
         }}>
             <CardContent>
                 <Stack spacing={2} alignItems="center">

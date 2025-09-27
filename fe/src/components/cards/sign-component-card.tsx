@@ -1,17 +1,15 @@
 import {Card, CardActionArea, CardContent, Stack, Typography} from "@mui/material";
 
-interface Props {
+export interface SignComponentCardProps {
     signComponentId: string;
     description: string;
     type: string;
 }
 
-export function SignComponentCard({signComponentId, description, type}: Props) {
+export function SignComponentCard({signComponentId, description, type}: SignComponentCardProps) {
     return (
         <Card sx={{
             minWidth: 200,
-            gap: 2,
-            mb: 2
         }}>
             <CardActionArea onClick={() => {console.log("jdeme na komponentu s id: " + signComponentId)}}>
                 <CardContent>

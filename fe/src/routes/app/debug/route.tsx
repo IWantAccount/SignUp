@@ -6,7 +6,6 @@ export const Route = createFileRoute('/app/debug')({
 
 function RouteComponent() {
   return <>
-    <div>DEBUG jen zkouším cards</div>
       <Outlet></Outlet>
   </>
 }

@@ -1,6 +1,6 @@
 import {Button, Card, CardActions, CardContent, Typography, Stack} from "@mui/material";
 
-interface Props {
+export interface CategoryCardProps {
     categoryId: string;
     categoryName: string;
     signCount: number;
@@ -8,14 +8,11 @@ interface Props {
     subjectName: string;
 }
 
-export function CategoryCard({categoryId, categoryName, signCount, subjectId, subjectName}: Props) {
+export function CategoryCard({categoryId, categoryName, signCount, subjectId, subjectName}: CategoryCardProps) {
 
     return (
         <Card sx={{
             minWidth: 200,
-            gap: 2,
-            mb: 2
-
         }}>
             <CardContent>
                 <Stack spacing={2} alignItems="center">

@@ -19,6 +19,7 @@ import { Route as AppDebugUsersRouteImport } from './routes/app/debug/users'
 import { Route as AppDebugSubjectsRouteImport } from './routes/app/debug/subjects'
 import { Route as AppDebugSignsRouteImport } from './routes/app/debug/signs'
 import { Route as AppDebugSignComponentsRouteImport } from './routes/app/debug/sign-components'
+import { Route as AppDebugPrivateCollectionsRouteImport } from './routes/app/debug/private-collections'
 import { Route as AppDebugCategoriesRouteImport } from './routes/app/debug/categories'
 
 const RegisterRoute = RegisterRouteImport.update({
@@ -71,6 +72,12 @@ const AppDebugSignComponentsRoute = AppDebugSignComponentsRouteImport.update({
   path: '/sign-components',
   getParentRoute: () => AppDebugRouteRoute,
 } as any)
+const AppDebugPrivateCollectionsRoute =
+  AppDebugPrivateCollectionsRouteImport.update({
+    id: '/private-collections',
+    path: '/private-collections',
+    getParentRoute: () => AppDebugRouteRoute,
+  } as any)
 const AppDebugCategoriesRoute = AppDebugCategoriesRouteImport.update({
   id: '/categories',
   path: '/categories',
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/test-route': typeof AppTestRouteRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
+  '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
   '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
   '/app/debug/signs': typeof AppDebugSignsRoute
   '/app/debug/subjects': typeof AppDebugSubjectsRoute
@@ -98,6 +106,7 @@ export interface FileRoutesByTo {
   '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/test-route': typeof AppTestRouteRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
+  '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
   '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
   '/app/debug/signs': typeof AppDebugSignsRoute
   '/app/debug/subjects': typeof AppDebugSubjectsRoute
@@ -112,6 +121,7 @@ export interface FileRoutesById {
   '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/test-route': typeof AppTestRouteRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
+  '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
   '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
   '/app/debug/signs': typeof AppDebugSignsRoute
   '/app/debug/subjects': typeof AppDebugSubjectsRoute
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/app/debug'
     | '/app/test-route'
     | '/app/debug/categories'
+    | '/app/debug/private-collections'
     | '/app/debug/sign-components'
     | '/app/debug/signs'
     | '/app/debug/subjects'
@@ -140,6 +151,7 @@ export interface FileRouteTypes {
     | '/app/debug'
     | '/app/test-route'
     | '/app/debug/categories'
+    | '/app/debug/private-collections'
     | '/app/debug/sign-components'
     | '/app/debug/signs'
     | '/app/debug/subjects'
@@ -153,6 +165,7 @@ export interface FileRouteTypes {
     | '/app/debug'
     | '/app/test-route'
     | '/app/debug/categories'
+    | '/app/debug/private-collections'
     | '/app/debug/sign-components'
     | '/app/debug/signs'
     | '/app/debug/subjects'
@@ -238,6 +251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDebugSignComponentsRouteImport
       parentRoute: typeof AppDebugRouteRoute
     }
+    '/app/debug/private-collections': {
+      id: '/app/debug/private-collections'
+      path: '/private-collections'
+      fullPath: '/app/debug/private-collections'
+      preLoaderRoute: typeof AppDebugPrivateCollectionsRouteImport
+      parentRoute: typeof AppDebugRouteRoute
+    }
     '/app/debug/categories': {
       id: '/app/debug/categories'
       path: '/categories'
@@ -250,6 +270,7 @@ declare module '@tanstack/react-router' {
 
 interface AppDebugRouteRouteChildren {
   AppDebugCategoriesRoute: typeof AppDebugCategoriesRoute
+  AppDebugPrivateCollectionsRoute: typeof AppDebugPrivateCollectionsRoute
   AppDebugSignComponentsRoute: typeof AppDebugSignComponentsRoute
   AppDebugSignsRoute: typeof AppDebugSignsRoute
   AppDebugSubjectsRoute: typeof AppDebugSubjectsRoute
@@ -258,6 +279,7 @@ interface AppDebugRouteRouteChildren {
 
 const AppDebugRouteRouteChildren: AppDebugRouteRouteChildren = {
   AppDebugCategoriesRoute: AppDebugCategoriesRoute,
+  AppDebugPrivateCollectionsRoute: AppDebugPrivateCollectionsRoute,
   AppDebugSignComponentsRoute: AppDebugSignComponentsRoute,
   AppDebugSignsRoute: AppDebugSignsRoute,
   AppDebugSubjectsRoute: AppDebugSubjectsRoute,
