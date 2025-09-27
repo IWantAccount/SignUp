@@ -1,12 +1,12 @@
 import {Card, CardActionArea, CardContent, Stack, Typography} from "@mui/material";
 
-interface Props {
+export interface SignComponentCardProps {
     signComponentId: string;
     description: string;
     type: string;
 }
 
-export function SignComponentCard({signComponentId, description, type}: Props) {
+export function SignComponentCard({signComponentId, description, type}: SignComponentCardProps) {
     return (
         <Card sx={{
             minWidth: 200,

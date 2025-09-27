@@ -1,12 +1,12 @@
 import {Card, CardActionArea, CardContent, Typography} from "@mui/material";
 
-interface Props {
+export interface PrivateCollectionCardProps {
     collectionId: string;
     name: string;
     //TODO co třeba počet znaků v kolekci? Potřeba změnit i na be
 }
 
-export function PrivateCollectionCard({collectionId, name}: Props) {
+export function PrivateCollectionCard({collectionId, name}: PrivateCollectionCardProps) {
     return (
         <Card sx={{
             minWidth: 200,

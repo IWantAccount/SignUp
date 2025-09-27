@@ -1,6 +1,6 @@
 import {Button, Card, CardActionArea, CardContent, CardMedia, Chip, Stack} from "@mui/material";
 
-interface Props {
+export interface SignCardProps {
     signId: string;
     fileName: string;
     categoryId: string;
@@ -8,7 +8,7 @@ interface Props {
     translations: string[];
 }
 
-export function SignCard({signId, fileName, categoryId, categoryName, translations}: Props) {
+export function SignCard({signId, fileName, categoryId, categoryName, translations}: SignCardProps) {
 
     return (
         <Card sx={{

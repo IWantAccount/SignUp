@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {Box} from "@mui/material";
-import {CategoryCard} from "@/components/cards/category-card.tsx";
+import {CategoryGrid} from "@/components/grids/category-grid.tsx";
+import {SearchableCardSectionTopBar} from "@/components/bars/searchable-card-section-top-bar.tsx";
 
 export const Route = createFileRoute('/app/debug/categories')({
   component: RouteComponent,
@@ -8,28 +9,26 @@ export const Route = createFileRoute('/app/debug/categories')({
 
 function RouteComponent() {
     const categories = Array.from({ length: 20 }, (_, i) => ({
-        name: "Kategorie " + (i + 1).toString(),
+        categoryId: (i + 1).toString(),
+        categoryName: "Kategorie " + (i + 1).toString(),
         signCount: i * 2,
         subjectId: (i + 156).toString(),
         subjectName: "Předmět " + (i + 1).toString(),
     }));
-  return <>
-      <h1>Zkouška vypisování kategorií</h1>
-      <Box sx={{
-        display: 'flex',
-        flexDirection: 'row',
-        gap: 2,
-        flexWrap: 'wrap',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    }}>
-        {
-            categories.map((category, index) => (
-                <CategoryCard categoryId={index.toString()} categoryName={category.name}
-                              signCount={category.signCount} subjectId={category.subjectId}
-                              subjectName={category.subjectName}></CategoryCard>
-            ))
-        }
-    </Box>
-  </>
+  return (
+      <Box sx={{flexDirection: 'column', m: 1, display: 'flex', gap: 2}}>
+          <SearchableCardSectionTopBar title={"ČZJ1"}
+                                       onEditNavigate={
+                                           () => console.log("jdeme na editaci kategorie")
+                                       }
+                                       onDelete={
+                                             () => console.log("jdeme na smazání kategorie")
+                                       }
+                                       onSearch={
+                                             (searchTerm: string) => console.log("hledáme kategorie s termínem: " + searchTerm)
+                                       }/>
+          <CategoryGrid list={categories}/>
+      </Box>
+  )
+
 }

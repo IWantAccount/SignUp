@@ -1,12 +1,12 @@
 import {Button, Card, CardActions, CardContent, Stack, Typography} from "@mui/material";
-interface Props {
+export interface SubjectCardProps {
     id: string;
     name: string;
     categoryCount: number;
     studentCount: number;
 }
 
-export function SubjectCard({id, name, categoryCount, studentCount}: Props){
+export function SubjectCard({id, name, categoryCount, studentCount}: SubjectCardProps){
     //TODO přidat onClick, přesměrování na detail předmětu podle id.
 
     return (
