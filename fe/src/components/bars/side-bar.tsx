@@ -32,11 +32,13 @@ export function SideBar(props: Props) {
         },
 
         {
+            //TODO podmíněně jen pro učitele a adminy
             color: "secondary",
             list: [
                 {text: "Přidat znak", Icon: SignLanguageIcon, href: "/"},
                 {text: "Přidat předmět", Icon: SchoolIcon, href: "/"},
                 {text: "Přidat kategorii", Icon: CategoryIcon, href: "/"},
+                //TODO pro adminy ještě správa uživatelů
             ]
         }
     ]
