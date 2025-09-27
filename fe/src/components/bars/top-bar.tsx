@@ -1,7 +1,7 @@
 import {Toolbar, AppBar, Button, IconButton, Box, Slide, useScrollTrigger, CssBaseline} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu'
 import React from "react";
-import {SideBar} from "@/components/side-bar.tsx";
+import {SideBar} from "@/components/bars/side-bar.tsx";
 
 // Většinu kódu jsem převzal z oficiální dokumentace MUI: https://mui.com/material-ui/react-app-bar/
 interface Props {
