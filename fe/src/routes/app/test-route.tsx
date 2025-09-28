@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import {SearchableCardSectionTopBar} from "@/components/bars/searchable-card-section-top-bar.tsx";
+import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 export const Route = createFileRoute('/app/test-route')({
   component: RouteComponent,
 })
@@ -7,7 +7,7 @@ export const Route = createFileRoute('/app/test-route')({
 
 
 function RouteComponent() {
-  return <SearchableCardSectionTopBar
+  return <SearchableCardSectionTopBarActions
       title={"Pokus"}
       onEditNavigate={
         () => {console.log("navigujeme na editaci")}

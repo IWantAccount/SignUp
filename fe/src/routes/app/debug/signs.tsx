@@ -10,8 +10,8 @@ function RouteComponent() {
     const signs = Array.from({ length: 20 }, (_, i) => ({
         signId: i,
         fileName: "invalid file name",
-        categoryId: i + 2,
-        categoryName: "kategorie cislo " + (i + 5).toString(),
+        categoryId: i,
+        categoryName: "kategorie cislo " + (i).toString(),
         translations: ["překlad jedna", "překlad dva", "už jich je hodně", "uplne moc toho je"]
 
     }));
