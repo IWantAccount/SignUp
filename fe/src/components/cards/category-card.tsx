@@ -1,4 +1,5 @@
 import {Button, Card, CardActions, CardContent, Typography, Stack} from "@mui/material";
+import {Link} from "@tanstack/react-router";
 
 export interface CategoryCardProps {
     categoryId: string;
@@ -17,15 +18,15 @@ export function CategoryCard({categoryId, categoryName, signCount, subjectId, su
             <CardContent>
                 <Stack spacing={2} alignItems="center">
                     <Typography variant="h6">{categoryName}</Typography>
-                    <Button variant="contained" onClick={(e) => { e.stopPropagation(); console.log("jdeme na subject s id:" + subjectId); }}>
-                        {subjectName}
-                    </Button>
+                    <Button variant="contained"
+                            component={Link} to={`/app/subjects/${subjectId}/`}>
+                        {subjectName}</Button>
                     <Typography variant="body2">Počet znaků: {signCount}</Typography>
                 </Stack>
             </CardContent>
             <CardActions>
                 <Button size="small"
-                        onClick={() => console.log("jde se na detail kateogire s id: " + categoryId)}
+                        component={Link} to={`/app/categories/${categoryId}/`}
                 >Detail</Button>
             </CardActions>
         </Card>

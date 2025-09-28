@@ -14,6 +14,7 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTestRouteRouteImport } from './routes/app/test-route'
+import { Route as AppOndraJeFrajerRouteImport } from './routes/app/ondra-je-frajer'
 import { Route as AppDebugRouteRouteImport } from './routes/app/debug/route'
 import { Route as AppUsersIndexRouteImport } from './routes/app/users/index'
 import { Route as AppSubjectsIndexRouteImport } from './routes/app/subjects/index'
@@ -69,6 +70,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppTestRouteRoute = AppTestRouteRouteImport.update({
   id: '/test-route',
   path: '/test-route',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppOndraJeFrajerRoute = AppOndraJeFrajerRouteImport.update({
+  id: '/ondra-je-frajer',
+  path: '/ondra-je-frajer',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppDebugRouteRoute = AppDebugRouteRouteImport.update({
@@ -244,6 +250,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
+  '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
@@ -282,6 +289,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
+  '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
@@ -321,6 +329,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
+  '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
@@ -361,6 +370,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app/debug'
+    | '/app/ondra-je-frajer'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/debug/categories'
@@ -399,6 +409,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app/debug'
+    | '/app/ondra-je-frajer'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/debug/categories'
@@ -437,6 +448,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app/debug'
+    | '/app/ondra-je-frajer'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/debug/categories'
@@ -512,6 +524,13 @@ declare module '@tanstack/react-router' {
       path: '/test-route'
       fullPath: '/app/test-route'
       preLoaderRoute: typeof AppTestRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/ondra-je-frajer': {
+      id: '/app/ondra-je-frajer'
+      path: '/ondra-je-frajer'
+      fullPath: '/app/ondra-je-frajer'
+      preLoaderRoute: typeof AppOndraJeFrajerRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/debug': {
@@ -758,6 +777,7 @@ const AppDebugRouteRouteWithChildren = AppDebugRouteRoute._addFileChildren(
 
 interface AppRouteRouteChildren {
   AppDebugRouteRoute: typeof AppDebugRouteRouteWithChildren
+  AppOndraJeFrajerRoute: typeof AppOndraJeFrajerRoute
   AppTestRouteRoute: typeof AppTestRouteRoute
   AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
   AppPrivateCollectionsCreateRoute: typeof AppPrivateCollectionsCreateRoute
@@ -787,6 +807,7 @@ interface AppRouteRouteChildren {
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDebugRouteRoute: AppDebugRouteRouteWithChildren,
+  AppOndraJeFrajerRoute: AppOndraJeFrajerRoute,
   AppTestRouteRoute: AppTestRouteRoute,
   AppCategoriesCreateRoute: AppCategoriesCreateRoute,
   AppPrivateCollectionsCreateRoute: AppPrivateCollectionsCreateRoute,

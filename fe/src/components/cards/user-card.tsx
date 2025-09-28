@@ -1,5 +1,6 @@
 import {Avatar, Button, Card, CardActions, CardContent, Stack, Typography} from "@mui/material";
 import {AccountCircle} from "@mui/icons-material";
+import {Link} from "@tanstack/react-router";
 
 export interface UserCardProps {
     id: string;
@@ -25,9 +26,8 @@ export function UserCard({id, name, email, classname}: UserCardProps){
             </CardContent>
             <CardActions>
                 <Button size="small"
-                        //TODO routing
-                        onClick={() => console.log("jde se na detail osoby s id: " + id)}
-                >Detail</Button>
+                        component={Link} to={`/app/users/${id}`}>
+                Detail</Button>
             </CardActions>
         </Card>
     )

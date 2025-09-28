@@ -1,4 +1,5 @@
 import {Button, Card, CardActionArea, CardContent, CardMedia, Chip, Stack} from "@mui/material";
+import {Link} from "@tanstack/react-router";
 
 export interface SignCardProps {
     signId: string;
@@ -15,8 +16,7 @@ export function SignCard({signId, fileName, categoryId, categoryName, translatio
             minWidth: 200,
             maxWidth: 350,
         }}>
-            {/*TODO routing*/}
-            <CardActionArea onClick={() => console.log("jdeme na znak s id: " + signId)}>
+            <CardActionArea component={Link} to={`/app/signs/${signId}}/`}>
                 <CardMedia
                     component="video"
                     src={fileName}
@@ -29,11 +29,7 @@ export function SignCard({signId, fileName, categoryId, categoryName, translatio
                 </CardMedia>
                 <CardContent>
                     <Stack>
-                        <Button onClick={(event) => {
-                            event.stopPropagation();
-                            //TODO routing
-                            console.log("jdeme na kategorii s id: " + categoryId);
-                        }}>{categoryName}</Button>
+                        <Button component={Link} to={`/app/categories/${categoryId}`}>{categoryName}</Button>
                         <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap >
                             {translations.map((t, i) => (
                                 <Chip key={i} label={t} size="small" />
