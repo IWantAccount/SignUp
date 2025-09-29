@@ -1,3 +1,4 @@
+import { NameForm } from '@/components/forms/name-form'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/app/private-collections/create')({
@@ -5,5 +6,14 @@ export const Route = createFileRoute('/app/private-collections/create')({
 })
 
 function RouteComponent() {
-  return <div>Hello "/app/private-collections/create"!</div>
+    return (
+        <NameForm header={"Vytvořit soukromou kolekci"}
+                  onSubmit={
+                    (data) => {
+                        //TODO api call
+                        console.log(data)
+                    }
+                  }
+                  submitButtonText={"Uložit"}/>
+    )
 }

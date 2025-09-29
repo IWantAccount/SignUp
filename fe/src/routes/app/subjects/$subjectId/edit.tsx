@@ -11,8 +11,8 @@ function RouteComponent() {
 
   return (
       <NameForm defaultName={name}
-                header={"Aktualizovat předmět"}
-                submitButtonText={"Aktualizovat"}
+                header={"Přejmenovat předmět"}
+                submitButtonText={"Přejmenovat"}
                 onSubmit={
                   (data) => {
                     //TODO api call

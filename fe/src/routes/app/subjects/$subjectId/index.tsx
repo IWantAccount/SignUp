@@ -14,7 +14,10 @@ function RouteComponent() {
     return (
         <TopBarItemsGrid>
           <SearchableCardSectionTopBarActions
-              title={"Předmět s  id:" + subjectId}
+              title={
+              //TODO vzít z vhodného api callu, použít normální jméno
+                  "Předmět s  id:" + subjectId
+              }
               onSearch={
                 (searchData) => {
                     //TODO funkční search
