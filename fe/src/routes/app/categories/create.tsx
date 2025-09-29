@@ -9,8 +9,8 @@ export const Route = createFileRoute('/app/categories/create')({
 function RouteComponent() {
   return (
       <Box sx={{display: "flex", flexDirection: "column", gap: 2, p: 2, alignItems: "center"}}>
-        <Typography variant="h4">Vytvořit novou kategorii</Typography>
-        <CategoryForm subjects={[]} onSubmit={() => {}} submitText={"Uložit"}/>
+        <Typography variant="h5">Vytvořit novou kategorii</Typography>
+        <CategoryForm subjects={[]} onSubmit={() => {/*TODO api call*/}} submitButtonText={"Uložit"}/>
       </Box>
   )
 }

@@ -21,7 +21,7 @@ interface Props {
     defaultSubjectName?: string;
     subjects: SubjectNameId[];
     onSubmit: SubmitHandler<CategoryFormData>;
-    submitText: string;
+    submitButtonText: string;
 }
 
 export function CategoryForm(props: Props) {
@@ -48,7 +48,7 @@ export function CategoryForm(props: Props) {
                 sx={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: 2,
+                    gap: 1.5,
                     px: 5,
                     py: 2,
                     maxWidth: 500,
@@ -92,7 +92,7 @@ export function CategoryForm(props: Props) {
                 )}
             />
 
-            <Button variant="contained" type="submit">{props.submitText}</Button>
+            <Button variant="contained" type="submit">{props.submitButtonText}</Button>
 
         </Box>
     )
