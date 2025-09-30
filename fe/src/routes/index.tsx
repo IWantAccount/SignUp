@@ -11,7 +11,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Button component={Link} to="/app/test-route">proklik</Button>
+        <Button component={Link} to="/app">proklik</Button>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/routes/index.tsx</code> and save to reload.

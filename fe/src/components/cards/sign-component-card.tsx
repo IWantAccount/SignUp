@@ -1,10 +1,11 @@
 import {Card, CardActionArea, CardContent, Stack, Typography} from "@mui/material";
 import {Link} from "@tanstack/react-router";
+import {componentTypeToCzechDict, type SignComponentTypeEnum} from "@/domain/sign-component-type-enum.ts";
 
 export interface SignComponentCardProps {
     signComponentId: string;
     description: string;
-    type: string;
+    type: SignComponentTypeEnum;
 }
 
 export function SignComponentCard({signComponentId, description, type}: SignComponentCardProps) {
@@ -16,8 +17,7 @@ export function SignComponentCard({signComponentId, description, type}: SignComp
                 <CardContent>
                     <Stack>
                         <Typography variant="body2">Popis: {description}</Typography>
-                        {/*TODO ty typy jsou v angličtině a velkým písmem. Udělej nějakej switch, co to přeloží*/}
-                        <Typography variant="body2">Druh: {type}</Typography>
+                        <Typography variant="body2">Druh: {componentTypeToCzechDict(type)}</Typography>
                     </Stack>
                 </CardContent>
             </CardActionArea>

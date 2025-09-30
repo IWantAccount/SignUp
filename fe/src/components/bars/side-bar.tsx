@@ -6,6 +6,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import {NavItemList} from "@/components/util/nav-item-list.tsx";
 
 //Část kódu jsem převzal z oficiální dokumentace MUI: https://mui.com/material-ui/react-drawer/
@@ -46,6 +47,8 @@ export function SideBar(props: Props) {
                 {text: "Přidat kategorii", Icon: CategoryIcon, href: "/app/categories/create"},
                 {text: "Uživatelé", Icon: AccountCircleIcon, href: "/app/debug/users"},
                 {text: "Komponenty znaku", Icon: ExtensionIcon, href: "/app/debug/sign-components"},
+                {text: "Přidat komponentu znaku", Icon: AddBoxIcon, href: "/app/sign-components/create"},
+
                 //TODO pro adminy ještě správa uživatelů
             ]
         }
