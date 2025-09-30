@@ -1,0 +1,25 @@
+import { z } from "zod";
+
+export const signComponentTypeEnum = z.enum([
+    "HANDSHAPE",
+    "LOCATION",
+    "MOVEMENT",
+    "PALM_ORIENTATION",
+    "FINGER_ORIENTATION",
+    "CONTACT_REGION",
+    "HAND_ARRANGEMENT",
+]);
+
+export type SignComponentTypeEnum = z.infer<typeof signComponentTypeEnum>;
+
+export const SignComponentTypeLabels = {
+    HANDSHAPE: "tvar ruky",
+    LOCATION: "místo artikulace",
+    MOVEMENT: "pohyb",
+    PALM_ORIENTATION: "orientace dlaně",
+    FINGER_ORIENTATION: "orientace prstů",
+    CONTACT_REGION: "místo doteku",
+    HAND_ARRANGEMENT: "vzájemná poloha rukou",
+} as const satisfies Record<SignComponentTypeEnum, string>;
+
+export const componentTypeToCzechDict = (t: SignComponentTypeEnum) => SignComponentTypeLabels[t];
