@@ -6,6 +6,6 @@ public enum SignComponentType {
     MOVEMENT,
     PALM_ORIENTATION,
     FINGER_ORIENTATION,
-    CONTACT_REGION,
+    CONTACT,
     HAND_ARRANGEMENT
 }

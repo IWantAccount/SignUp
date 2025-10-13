@@ -1,5 +1,6 @@
 package com.brodeckyondrej.SignUp.business.dto.sign;
 
+import com.brodeckyondrej.SignUp.business.dto.sign.notation.NotationIdDto;
 import com.brodeckyondrej.SignUp.persistence.enumerated.LanguageLevel;
 import com.brodeckyondrej.SignUp.persistence.enumerated.Region;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignType;
@@ -29,11 +30,5 @@ public class UpdateSignDto {
 
     private final String explanation;
 
-    private final UUID handShapeId;
-    private final UUID signLocationId;
-    private final UUID movementId;
-    private final UUID palmOrientationId;
-    private final UUID fingerOrientationId;
-    private final UUID contactRegionId;
-    private final UUID handArrangementId;
+    private final NotationIdDto notation;
 }
