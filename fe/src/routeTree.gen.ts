@@ -9,11 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as RegisterRouteImport } from './routes/register'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTestRouteRouteImport } from './routes/app/test-route'
+import { Route as AppRegisterRouteImport } from './routes/app/register'
 import { Route as AppOndraJeFrajerRouteImport } from './routes/app/ondra-je-frajer'
 import { Route as AppDebugRouteRouteImport } from './routes/app/debug/route'
 import { Route as AppUsersIndexRouteImport } from './routes/app/users/index'
@@ -47,11 +47,6 @@ import { Route as AppSignComponentsComponentIdEditRouteImport } from './routes/a
 import { Route as AppPrivateCollectionsCollectionIdEditRouteImport } from './routes/app/private-collections/$collectionId/edit'
 import { Route as AppCategoriesCategoryIdEditRouteImport } from './routes/app/categories/$categoryId/edit'
 
-const RegisterRoute = RegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -70,6 +65,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppTestRouteRoute = AppTestRouteRouteImport.update({
   id: '/test-route',
   path: '/test-route',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppRegisterRoute = AppRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppOndraJeFrajerRoute = AppOndraJeFrajerRouteImport.update({
@@ -248,9 +248,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
+  '/app/register': typeof AppRegisterRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
@@ -287,9 +287,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
+  '/app/register': typeof AppRegisterRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
@@ -327,9 +327,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/register': typeof RegisterRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
+  '/app/register': typeof AppRegisterRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
@@ -368,9 +368,9 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/register'
     | '/app/debug'
     | '/app/ondra-je-frajer'
+    | '/app/register'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/debug/categories'
@@ -407,9 +407,9 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/register'
     | '/app/debug'
     | '/app/ondra-je-frajer'
+    | '/app/register'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/debug/categories'
@@ -446,9 +446,9 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/register'
     | '/app/debug'
     | '/app/ondra-je-frajer'
+    | '/app/register'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/debug/categories'
@@ -486,18 +486,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
-  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/register': {
-      id: '/register'
-      path: '/register'
-      fullPath: '/register'
-      preLoaderRoute: typeof RegisterRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -524,6 +516,13 @@ declare module '@tanstack/react-router' {
       path: '/test-route'
       fullPath: '/app/test-route'
       preLoaderRoute: typeof AppTestRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/register': {
+      id: '/app/register'
+      path: '/register'
+      fullPath: '/app/register'
+      preLoaderRoute: typeof AppRegisterRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/ondra-je-frajer': {
@@ -778,6 +777,7 @@ const AppDebugRouteRouteWithChildren = AppDebugRouteRoute._addFileChildren(
 interface AppRouteRouteChildren {
   AppDebugRouteRoute: typeof AppDebugRouteRouteWithChildren
   AppOndraJeFrajerRoute: typeof AppOndraJeFrajerRoute
+  AppRegisterRoute: typeof AppRegisterRoute
   AppTestRouteRoute: typeof AppTestRouteRoute
   AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
   AppPrivateCollectionsCreateRoute: typeof AppPrivateCollectionsCreateRoute
@@ -808,6 +808,7 @@ interface AppRouteRouteChildren {
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDebugRouteRoute: AppDebugRouteRouteWithChildren,
   AppOndraJeFrajerRoute: AppOndraJeFrajerRoute,
+  AppRegisterRoute: AppRegisterRoute,
   AppTestRouteRoute: AppTestRouteRoute,
   AppCategoriesCreateRoute: AppCategoriesCreateRoute,
   AppPrivateCollectionsCreateRoute: AppPrivateCollectionsCreateRoute,
@@ -846,7 +847,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
   LoginRoute: LoginRoute,
-  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

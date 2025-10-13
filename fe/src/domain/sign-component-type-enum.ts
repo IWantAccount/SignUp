@@ -12,7 +12,7 @@ export const signComponentTypeEnum = z.enum([
 
 export type SignComponentTypeEnum = z.infer<typeof signComponentTypeEnum>;
 
-export const SignComponentTypeLabels = {
+const SignComponentTypeLabels = {
     HANDSHAPE: "tvar ruky",
     LOCATION: "místo artikulace",
     MOVEMENT: "pohyb",
@@ -22,4 +22,4 @@ export const SignComponentTypeLabels = {
     HAND_ARRANGEMENT: "vzájemná poloha rukou",
 } as const satisfies Record<SignComponentTypeEnum, string>;
 
-export const componentTypeToCzechDict = (t: SignComponentTypeEnum) => SignComponentTypeLabels[t];
+export const componentTypeToCzech = (type: SignComponentTypeEnum) => SignComponentTypeLabels[type];

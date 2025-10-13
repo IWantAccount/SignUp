@@ -1,14 +1,14 @@
 import {z} from "zod";
 import {Controller, type SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {componentTypeToCzechDict, signComponentTypeEnum, type SignComponentTypeEnum } from "@/domain/sign-component-type-enum";
+import {componentTypeToCzech, signComponentTypeEnum, type SignComponentTypeEnum } from "@/domain/sign-component-type-enum";
 import {Autocomplete, Box, Button, TextField } from "@mui/material";
 
 const schema = z.object({
     description: z.string().trim().min(1, "Popis je povinný").max(40, "Popis může mít maximálně 40 znaků"),
     type: signComponentTypeEnum
         .nullable()
-        .refine((v) => v !== null, {
+        .refine((type) => type !== null, {
             message: "Typ komponenty je povinný",
         }),
 })
@@ -65,9 +65,9 @@ export function SignComponentForm(props: Props) {
                 <Autocomplete<SignComponentTypeEnum, false, false, false>
                     options={signComponentTypeEnum.options}
                     value={field.value}
-                    onChange={(_, v) => field.onChange(v)}
-                    getOptionLabel={(o) => componentTypeToCzechDict(o)}
-                    isOptionEqualToValue={(o, v) => o === v}
+                    onChange={(_, value) => field.onChange(value)}
+                    getOptionLabel={(option) => componentTypeToCzech(option)}
+                    isOptionEqualToValue={(option, value) => option === value}
                     renderInput={(params) => (
                         <TextField
                             {...params}
