@@ -14,13 +14,38 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTestRouteRouteImport } from './routes/app/test-route'
+import { Route as AppOndraJeFrajerRouteImport } from './routes/app/ondra-je-frajer'
 import { Route as AppDebugRouteRouteImport } from './routes/app/debug/route'
+import { Route as AppUsersIndexRouteImport } from './routes/app/users/index'
+import { Route as AppSubjectsIndexRouteImport } from './routes/app/subjects/index'
+import { Route as AppSignsIndexRouteImport } from './routes/app/signs/index'
+import { Route as AppSignComponentsIndexRouteImport } from './routes/app/sign-components/index'
+import { Route as AppPrivateCollectionsIndexRouteImport } from './routes/app/private-collections/index'
+import { Route as AppCategoriesIndexRouteImport } from './routes/app/categories/index'
+import { Route as AppUsersCreateRouteImport } from './routes/app/users/create'
+import { Route as AppSubjectsCreateRouteImport } from './routes/app/subjects/create'
+import { Route as AppSignsCreateRouteImport } from './routes/app/signs/create'
+import { Route as AppSignComponentsCreateRouteImport } from './routes/app/sign-components/create'
+import { Route as AppPrivateCollectionsCreateRouteImport } from './routes/app/private-collections/create'
 import { Route as AppDebugUsersRouteImport } from './routes/app/debug/users'
 import { Route as AppDebugSubjectsRouteImport } from './routes/app/debug/subjects'
 import { Route as AppDebugSignsRouteImport } from './routes/app/debug/signs'
 import { Route as AppDebugSignComponentsRouteImport } from './routes/app/debug/sign-components'
 import { Route as AppDebugPrivateCollectionsRouteImport } from './routes/app/debug/private-collections'
 import { Route as AppDebugCategoriesRouteImport } from './routes/app/debug/categories'
+import { Route as AppCategoriesCreateRouteImport } from './routes/app/categories/create'
+import { Route as AppUsersUseridIndexRouteImport } from './routes/app/users/$userid/index'
+import { Route as AppSubjectsSubjectIdIndexRouteImport } from './routes/app/subjects/$subjectId/index'
+import { Route as AppSignsSignIdIndexRouteImport } from './routes/app/signs/$signId/index'
+import { Route as AppSignComponentsComponentIdIndexRouteImport } from './routes/app/sign-components/$componentId/index'
+import { Route as AppPrivateCollectionsCollectionIdIndexRouteImport } from './routes/app/private-collections/$collectionId/index'
+import { Route as AppCategoriesCategoryIdIndexRouteImport } from './routes/app/categories/$categoryId/index'
+import { Route as AppUsersUseridEditRouteImport } from './routes/app/users/$userid/edit'
+import { Route as AppSubjectsSubjectIdEditRouteImport } from './routes/app/subjects/$subjectId/edit'
+import { Route as AppSignsSignIdEditRouteImport } from './routes/app/signs/$signId/edit'
+import { Route as AppSignComponentsComponentIdEditRouteImport } from './routes/app/sign-components/$componentId/edit'
+import { Route as AppPrivateCollectionsCollectionIdEditRouteImport } from './routes/app/private-collections/$collectionId/edit'
+import { Route as AppCategoriesCategoryIdEditRouteImport } from './routes/app/categories/$categoryId/edit'
 
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
@@ -47,11 +72,73 @@ const AppTestRouteRoute = AppTestRouteRouteImport.update({
   path: '/test-route',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppOndraJeFrajerRoute = AppOndraJeFrajerRouteImport.update({
+  id: '/ondra-je-frajer',
+  path: '/ondra-je-frajer',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppDebugRouteRoute = AppDebugRouteRouteImport.update({
   id: '/debug',
   path: '/debug',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppUsersIndexRoute = AppUsersIndexRouteImport.update({
+  id: '/users/',
+  path: '/users/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSubjectsIndexRoute = AppSubjectsIndexRouteImport.update({
+  id: '/subjects/',
+  path: '/subjects/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSignsIndexRoute = AppSignsIndexRouteImport.update({
+  id: '/signs/',
+  path: '/signs/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSignComponentsIndexRoute = AppSignComponentsIndexRouteImport.update({
+  id: '/sign-components/',
+  path: '/sign-components/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPrivateCollectionsIndexRoute =
+  AppPrivateCollectionsIndexRouteImport.update({
+    id: '/private-collections/',
+    path: '/private-collections/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppCategoriesIndexRoute = AppCategoriesIndexRouteImport.update({
+  id: '/categories/',
+  path: '/categories/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppUsersCreateRoute = AppUsersCreateRouteImport.update({
+  id: '/users/create',
+  path: '/users/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSubjectsCreateRoute = AppSubjectsCreateRouteImport.update({
+  id: '/subjects/create',
+  path: '/subjects/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSignsCreateRoute = AppSignsCreateRouteImport.update({
+  id: '/signs/create',
+  path: '/signs/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSignComponentsCreateRoute = AppSignComponentsCreateRouteImport.update({
+  id: '/sign-components/create',
+  path: '/sign-components/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppPrivateCollectionsCreateRoute =
+  AppPrivateCollectionsCreateRouteImport.update({
+    id: '/private-collections/create',
+    path: '/private-collections/create',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 const AppDebugUsersRoute = AppDebugUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -83,6 +170,79 @@ const AppDebugCategoriesRoute = AppDebugCategoriesRouteImport.update({
   path: '/categories',
   getParentRoute: () => AppDebugRouteRoute,
 } as any)
+const AppCategoriesCreateRoute = AppCategoriesCreateRouteImport.update({
+  id: '/categories/create',
+  path: '/categories/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppUsersUseridIndexRoute = AppUsersUseridIndexRouteImport.update({
+  id: '/users/$userid/',
+  path: '/users/$userid/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSubjectsSubjectIdIndexRoute =
+  AppSubjectsSubjectIdIndexRouteImport.update({
+    id: '/subjects/$subjectId/',
+    path: '/subjects/$subjectId/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppSignsSignIdIndexRoute = AppSignsSignIdIndexRouteImport.update({
+  id: '/signs/$signId/',
+  path: '/signs/$signId/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSignComponentsComponentIdIndexRoute =
+  AppSignComponentsComponentIdIndexRouteImport.update({
+    id: '/sign-components/$componentId/',
+    path: '/sign-components/$componentId/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppPrivateCollectionsCollectionIdIndexRoute =
+  AppPrivateCollectionsCollectionIdIndexRouteImport.update({
+    id: '/private-collections/$collectionId/',
+    path: '/private-collections/$collectionId/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppCategoriesCategoryIdIndexRoute =
+  AppCategoriesCategoryIdIndexRouteImport.update({
+    id: '/categories/$categoryId/',
+    path: '/categories/$categoryId/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppUsersUseridEditRoute = AppUsersUseridEditRouteImport.update({
+  id: '/users/$userid/edit',
+  path: '/users/$userid/edit',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSubjectsSubjectIdEditRoute =
+  AppSubjectsSubjectIdEditRouteImport.update({
+    id: '/subjects/$subjectId/edit',
+    path: '/subjects/$subjectId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppSignsSignIdEditRoute = AppSignsSignIdEditRouteImport.update({
+  id: '/signs/$signId/edit',
+  path: '/signs/$signId/edit',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppSignComponentsComponentIdEditRoute =
+  AppSignComponentsComponentIdEditRouteImport.update({
+    id: '/sign-components/$componentId/edit',
+    path: '/sign-components/$componentId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppPrivateCollectionsCollectionIdEditRoute =
+  AppPrivateCollectionsCollectionIdEditRouteImport.update({
+    id: '/private-collections/$collectionId/edit',
+    path: '/private-collections/$collectionId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppCategoriesCategoryIdEditRoute =
+  AppCategoriesCategoryIdEditRouteImport.update({
+    id: '/categories/$categoryId/edit',
+    path: '/categories/$categoryId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -90,13 +250,38 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
+  '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/test-route': typeof AppTestRouteRoute
+  '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
   '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
   '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
   '/app/debug/signs': typeof AppDebugSignsRoute
   '/app/debug/subjects': typeof AppDebugSubjectsRoute
   '/app/debug/users': typeof AppDebugUsersRoute
+  '/app/private-collections/create': typeof AppPrivateCollectionsCreateRoute
+  '/app/sign-components/create': typeof AppSignComponentsCreateRoute
+  '/app/signs/create': typeof AppSignsCreateRoute
+  '/app/subjects/create': typeof AppSubjectsCreateRoute
+  '/app/users/create': typeof AppUsersCreateRoute
+  '/app/categories': typeof AppCategoriesIndexRoute
+  '/app/private-collections': typeof AppPrivateCollectionsIndexRoute
+  '/app/sign-components': typeof AppSignComponentsIndexRoute
+  '/app/signs': typeof AppSignsIndexRoute
+  '/app/subjects': typeof AppSubjectsIndexRoute
+  '/app/users': typeof AppUsersIndexRoute
+  '/app/categories/$categoryId/edit': typeof AppCategoriesCategoryIdEditRoute
+  '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
+  '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
+  '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
+  '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
+  '/app/users/$userid/edit': typeof AppUsersUseridEditRoute
+  '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
+  '/app/private-collections/$collectionId': typeof AppPrivateCollectionsCollectionIdIndexRoute
+  '/app/sign-components/$componentId': typeof AppSignComponentsComponentIdIndexRoute
+  '/app/signs/$signId': typeof AppSignsSignIdIndexRoute
+  '/app/subjects/$subjectId': typeof AppSubjectsSubjectIdIndexRoute
+  '/app/users/$userid': typeof AppUsersUseridIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -104,13 +289,38 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
+  '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/test-route': typeof AppTestRouteRoute
+  '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
   '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
   '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
   '/app/debug/signs': typeof AppDebugSignsRoute
   '/app/debug/subjects': typeof AppDebugSubjectsRoute
   '/app/debug/users': typeof AppDebugUsersRoute
+  '/app/private-collections/create': typeof AppPrivateCollectionsCreateRoute
+  '/app/sign-components/create': typeof AppSignComponentsCreateRoute
+  '/app/signs/create': typeof AppSignsCreateRoute
+  '/app/subjects/create': typeof AppSubjectsCreateRoute
+  '/app/users/create': typeof AppUsersCreateRoute
+  '/app/categories': typeof AppCategoriesIndexRoute
+  '/app/private-collections': typeof AppPrivateCollectionsIndexRoute
+  '/app/sign-components': typeof AppSignComponentsIndexRoute
+  '/app/signs': typeof AppSignsIndexRoute
+  '/app/subjects': typeof AppSubjectsIndexRoute
+  '/app/users': typeof AppUsersIndexRoute
+  '/app/categories/$categoryId/edit': typeof AppCategoriesCategoryIdEditRoute
+  '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
+  '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
+  '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
+  '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
+  '/app/users/$userid/edit': typeof AppUsersUseridEditRoute
+  '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
+  '/app/private-collections/$collectionId': typeof AppPrivateCollectionsCollectionIdIndexRoute
+  '/app/sign-components/$componentId': typeof AppSignComponentsComponentIdIndexRoute
+  '/app/signs/$signId': typeof AppSignsSignIdIndexRoute
+  '/app/subjects/$subjectId': typeof AppSubjectsSubjectIdIndexRoute
+  '/app/users/$userid': typeof AppUsersUseridIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -119,13 +329,38 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
+  '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/test-route': typeof AppTestRouteRoute
+  '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
   '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
   '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
   '/app/debug/signs': typeof AppDebugSignsRoute
   '/app/debug/subjects': typeof AppDebugSubjectsRoute
   '/app/debug/users': typeof AppDebugUsersRoute
+  '/app/private-collections/create': typeof AppPrivateCollectionsCreateRoute
+  '/app/sign-components/create': typeof AppSignComponentsCreateRoute
+  '/app/signs/create': typeof AppSignsCreateRoute
+  '/app/subjects/create': typeof AppSubjectsCreateRoute
+  '/app/users/create': typeof AppUsersCreateRoute
+  '/app/categories/': typeof AppCategoriesIndexRoute
+  '/app/private-collections/': typeof AppPrivateCollectionsIndexRoute
+  '/app/sign-components/': typeof AppSignComponentsIndexRoute
+  '/app/signs/': typeof AppSignsIndexRoute
+  '/app/subjects/': typeof AppSubjectsIndexRoute
+  '/app/users/': typeof AppUsersIndexRoute
+  '/app/categories/$categoryId/edit': typeof AppCategoriesCategoryIdEditRoute
+  '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
+  '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
+  '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
+  '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
+  '/app/users/$userid/edit': typeof AppUsersUseridEditRoute
+  '/app/categories/$categoryId/': typeof AppCategoriesCategoryIdIndexRoute
+  '/app/private-collections/$collectionId/': typeof AppPrivateCollectionsCollectionIdIndexRoute
+  '/app/sign-components/$componentId/': typeof AppSignComponentsComponentIdIndexRoute
+  '/app/signs/$signId/': typeof AppSignsSignIdIndexRoute
+  '/app/subjects/$subjectId/': typeof AppSubjectsSubjectIdIndexRoute
+  '/app/users/$userid/': typeof AppUsersUseridIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -135,13 +370,38 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app/debug'
+    | '/app/ondra-je-frajer'
     | '/app/test-route'
+    | '/app/categories/create'
     | '/app/debug/categories'
     | '/app/debug/private-collections'
     | '/app/debug/sign-components'
     | '/app/debug/signs'
     | '/app/debug/subjects'
     | '/app/debug/users'
+    | '/app/private-collections/create'
+    | '/app/sign-components/create'
+    | '/app/signs/create'
+    | '/app/subjects/create'
+    | '/app/users/create'
+    | '/app/categories'
+    | '/app/private-collections'
+    | '/app/sign-components'
+    | '/app/signs'
+    | '/app/subjects'
+    | '/app/users'
+    | '/app/categories/$categoryId/edit'
+    | '/app/private-collections/$collectionId/edit'
+    | '/app/sign-components/$componentId/edit'
+    | '/app/signs/$signId/edit'
+    | '/app/subjects/$subjectId/edit'
+    | '/app/users/$userid/edit'
+    | '/app/categories/$categoryId'
+    | '/app/private-collections/$collectionId'
+    | '/app/sign-components/$componentId'
+    | '/app/signs/$signId'
+    | '/app/subjects/$subjectId'
+    | '/app/users/$userid'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -149,13 +409,38 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app/debug'
+    | '/app/ondra-je-frajer'
     | '/app/test-route'
+    | '/app/categories/create'
     | '/app/debug/categories'
     | '/app/debug/private-collections'
     | '/app/debug/sign-components'
     | '/app/debug/signs'
     | '/app/debug/subjects'
     | '/app/debug/users'
+    | '/app/private-collections/create'
+    | '/app/sign-components/create'
+    | '/app/signs/create'
+    | '/app/subjects/create'
+    | '/app/users/create'
+    | '/app/categories'
+    | '/app/private-collections'
+    | '/app/sign-components'
+    | '/app/signs'
+    | '/app/subjects'
+    | '/app/users'
+    | '/app/categories/$categoryId/edit'
+    | '/app/private-collections/$collectionId/edit'
+    | '/app/sign-components/$componentId/edit'
+    | '/app/signs/$signId/edit'
+    | '/app/subjects/$subjectId/edit'
+    | '/app/users/$userid/edit'
+    | '/app/categories/$categoryId'
+    | '/app/private-collections/$collectionId'
+    | '/app/sign-components/$componentId'
+    | '/app/signs/$signId'
+    | '/app/subjects/$subjectId'
+    | '/app/users/$userid'
   id:
     | '__root__'
     | '/'
@@ -163,13 +448,38 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/app/debug'
+    | '/app/ondra-je-frajer'
     | '/app/test-route'
+    | '/app/categories/create'
     | '/app/debug/categories'
     | '/app/debug/private-collections'
     | '/app/debug/sign-components'
     | '/app/debug/signs'
     | '/app/debug/subjects'
     | '/app/debug/users'
+    | '/app/private-collections/create'
+    | '/app/sign-components/create'
+    | '/app/signs/create'
+    | '/app/subjects/create'
+    | '/app/users/create'
+    | '/app/categories/'
+    | '/app/private-collections/'
+    | '/app/sign-components/'
+    | '/app/signs/'
+    | '/app/subjects/'
+    | '/app/users/'
+    | '/app/categories/$categoryId/edit'
+    | '/app/private-collections/$collectionId/edit'
+    | '/app/sign-components/$componentId/edit'
+    | '/app/signs/$signId/edit'
+    | '/app/subjects/$subjectId/edit'
+    | '/app/users/$userid/edit'
+    | '/app/categories/$categoryId/'
+    | '/app/private-collections/$collectionId/'
+    | '/app/sign-components/$componentId/'
+    | '/app/signs/$signId/'
+    | '/app/subjects/$subjectId/'
+    | '/app/users/$userid/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -216,11 +526,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTestRouteRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/ondra-je-frajer': {
+      id: '/app/ondra-je-frajer'
+      path: '/ondra-je-frajer'
+      fullPath: '/app/ondra-je-frajer'
+      preLoaderRoute: typeof AppOndraJeFrajerRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/debug': {
       id: '/app/debug'
       path: '/debug'
       fullPath: '/app/debug'
       preLoaderRoute: typeof AppDebugRouteRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/users/': {
+      id: '/app/users/'
+      path: '/users'
+      fullPath: '/app/users'
+      preLoaderRoute: typeof AppUsersIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/subjects/': {
+      id: '/app/subjects/'
+      path: '/subjects'
+      fullPath: '/app/subjects'
+      preLoaderRoute: typeof AppSubjectsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/signs/': {
+      id: '/app/signs/'
+      path: '/signs'
+      fullPath: '/app/signs'
+      preLoaderRoute: typeof AppSignsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/sign-components/': {
+      id: '/app/sign-components/'
+      path: '/sign-components'
+      fullPath: '/app/sign-components'
+      preLoaderRoute: typeof AppSignComponentsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/private-collections/': {
+      id: '/app/private-collections/'
+      path: '/private-collections'
+      fullPath: '/app/private-collections'
+      preLoaderRoute: typeof AppPrivateCollectionsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/categories/': {
+      id: '/app/categories/'
+      path: '/categories'
+      fullPath: '/app/categories'
+      preLoaderRoute: typeof AppCategoriesIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/users/create': {
+      id: '/app/users/create'
+      path: '/users/create'
+      fullPath: '/app/users/create'
+      preLoaderRoute: typeof AppUsersCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/subjects/create': {
+      id: '/app/subjects/create'
+      path: '/subjects/create'
+      fullPath: '/app/subjects/create'
+      preLoaderRoute: typeof AppSubjectsCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/signs/create': {
+      id: '/app/signs/create'
+      path: '/signs/create'
+      fullPath: '/app/signs/create'
+      preLoaderRoute: typeof AppSignsCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/sign-components/create': {
+      id: '/app/sign-components/create'
+      path: '/sign-components/create'
+      fullPath: '/app/sign-components/create'
+      preLoaderRoute: typeof AppSignComponentsCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/private-collections/create': {
+      id: '/app/private-collections/create'
+      path: '/private-collections/create'
+      fullPath: '/app/private-collections/create'
+      preLoaderRoute: typeof AppPrivateCollectionsCreateRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/debug/users': {
@@ -265,6 +659,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDebugCategoriesRouteImport
       parentRoute: typeof AppDebugRouteRoute
     }
+    '/app/categories/create': {
+      id: '/app/categories/create'
+      path: '/categories/create'
+      fullPath: '/app/categories/create'
+      preLoaderRoute: typeof AppCategoriesCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/users/$userid/': {
+      id: '/app/users/$userid/'
+      path: '/users/$userid'
+      fullPath: '/app/users/$userid'
+      preLoaderRoute: typeof AppUsersUseridIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/subjects/$subjectId/': {
+      id: '/app/subjects/$subjectId/'
+      path: '/subjects/$subjectId'
+      fullPath: '/app/subjects/$subjectId'
+      preLoaderRoute: typeof AppSubjectsSubjectIdIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/signs/$signId/': {
+      id: '/app/signs/$signId/'
+      path: '/signs/$signId'
+      fullPath: '/app/signs/$signId'
+      preLoaderRoute: typeof AppSignsSignIdIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/sign-components/$componentId/': {
+      id: '/app/sign-components/$componentId/'
+      path: '/sign-components/$componentId'
+      fullPath: '/app/sign-components/$componentId'
+      preLoaderRoute: typeof AppSignComponentsComponentIdIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/private-collections/$collectionId/': {
+      id: '/app/private-collections/$collectionId/'
+      path: '/private-collections/$collectionId'
+      fullPath: '/app/private-collections/$collectionId'
+      preLoaderRoute: typeof AppPrivateCollectionsCollectionIdIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/categories/$categoryId/': {
+      id: '/app/categories/$categoryId/'
+      path: '/categories/$categoryId'
+      fullPath: '/app/categories/$categoryId'
+      preLoaderRoute: typeof AppCategoriesCategoryIdIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/users/$userid/edit': {
+      id: '/app/users/$userid/edit'
+      path: '/users/$userid/edit'
+      fullPath: '/app/users/$userid/edit'
+      preLoaderRoute: typeof AppUsersUseridEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/subjects/$subjectId/edit': {
+      id: '/app/subjects/$subjectId/edit'
+      path: '/subjects/$subjectId/edit'
+      fullPath: '/app/subjects/$subjectId/edit'
+      preLoaderRoute: typeof AppSubjectsSubjectIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/signs/$signId/edit': {
+      id: '/app/signs/$signId/edit'
+      path: '/signs/$signId/edit'
+      fullPath: '/app/signs/$signId/edit'
+      preLoaderRoute: typeof AppSignsSignIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/sign-components/$componentId/edit': {
+      id: '/app/sign-components/$componentId/edit'
+      path: '/sign-components/$componentId/edit'
+      fullPath: '/app/sign-components/$componentId/edit'
+      preLoaderRoute: typeof AppSignComponentsComponentIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/private-collections/$collectionId/edit': {
+      id: '/app/private-collections/$collectionId/edit'
+      path: '/private-collections/$collectionId/edit'
+      fullPath: '/app/private-collections/$collectionId/edit'
+      preLoaderRoute: typeof AppPrivateCollectionsCollectionIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/categories/$categoryId/edit': {
+      id: '/app/categories/$categoryId/edit'
+      path: '/categories/$categoryId/edit'
+      fullPath: '/app/categories/$categoryId/edit'
+      preLoaderRoute: typeof AppCategoriesCategoryIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
@@ -292,12 +777,65 @@ const AppDebugRouteRouteWithChildren = AppDebugRouteRoute._addFileChildren(
 
 interface AppRouteRouteChildren {
   AppDebugRouteRoute: typeof AppDebugRouteRouteWithChildren
+  AppOndraJeFrajerRoute: typeof AppOndraJeFrajerRoute
   AppTestRouteRoute: typeof AppTestRouteRoute
+  AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
+  AppPrivateCollectionsCreateRoute: typeof AppPrivateCollectionsCreateRoute
+  AppSignComponentsCreateRoute: typeof AppSignComponentsCreateRoute
+  AppSignsCreateRoute: typeof AppSignsCreateRoute
+  AppSubjectsCreateRoute: typeof AppSubjectsCreateRoute
+  AppUsersCreateRoute: typeof AppUsersCreateRoute
+  AppCategoriesIndexRoute: typeof AppCategoriesIndexRoute
+  AppPrivateCollectionsIndexRoute: typeof AppPrivateCollectionsIndexRoute
+  AppSignComponentsIndexRoute: typeof AppSignComponentsIndexRoute
+  AppSignsIndexRoute: typeof AppSignsIndexRoute
+  AppSubjectsIndexRoute: typeof AppSubjectsIndexRoute
+  AppUsersIndexRoute: typeof AppUsersIndexRoute
+  AppCategoriesCategoryIdEditRoute: typeof AppCategoriesCategoryIdEditRoute
+  AppPrivateCollectionsCollectionIdEditRoute: typeof AppPrivateCollectionsCollectionIdEditRoute
+  AppSignComponentsComponentIdEditRoute: typeof AppSignComponentsComponentIdEditRoute
+  AppSignsSignIdEditRoute: typeof AppSignsSignIdEditRoute
+  AppSubjectsSubjectIdEditRoute: typeof AppSubjectsSubjectIdEditRoute
+  AppUsersUseridEditRoute: typeof AppUsersUseridEditRoute
+  AppCategoriesCategoryIdIndexRoute: typeof AppCategoriesCategoryIdIndexRoute
+  AppPrivateCollectionsCollectionIdIndexRoute: typeof AppPrivateCollectionsCollectionIdIndexRoute
+  AppSignComponentsComponentIdIndexRoute: typeof AppSignComponentsComponentIdIndexRoute
+  AppSignsSignIdIndexRoute: typeof AppSignsSignIdIndexRoute
+  AppSubjectsSubjectIdIndexRoute: typeof AppSubjectsSubjectIdIndexRoute
+  AppUsersUseridIndexRoute: typeof AppUsersUseridIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDebugRouteRoute: AppDebugRouteRouteWithChildren,
+  AppOndraJeFrajerRoute: AppOndraJeFrajerRoute,
   AppTestRouteRoute: AppTestRouteRoute,
+  AppCategoriesCreateRoute: AppCategoriesCreateRoute,
+  AppPrivateCollectionsCreateRoute: AppPrivateCollectionsCreateRoute,
+  AppSignComponentsCreateRoute: AppSignComponentsCreateRoute,
+  AppSignsCreateRoute: AppSignsCreateRoute,
+  AppSubjectsCreateRoute: AppSubjectsCreateRoute,
+  AppUsersCreateRoute: AppUsersCreateRoute,
+  AppCategoriesIndexRoute: AppCategoriesIndexRoute,
+  AppPrivateCollectionsIndexRoute: AppPrivateCollectionsIndexRoute,
+  AppSignComponentsIndexRoute: AppSignComponentsIndexRoute,
+  AppSignsIndexRoute: AppSignsIndexRoute,
+  AppSubjectsIndexRoute: AppSubjectsIndexRoute,
+  AppUsersIndexRoute: AppUsersIndexRoute,
+  AppCategoriesCategoryIdEditRoute: AppCategoriesCategoryIdEditRoute,
+  AppPrivateCollectionsCollectionIdEditRoute:
+    AppPrivateCollectionsCollectionIdEditRoute,
+  AppSignComponentsComponentIdEditRoute: AppSignComponentsComponentIdEditRoute,
+  AppSignsSignIdEditRoute: AppSignsSignIdEditRoute,
+  AppSubjectsSubjectIdEditRoute: AppSubjectsSubjectIdEditRoute,
+  AppUsersUseridEditRoute: AppUsersUseridEditRoute,
+  AppCategoriesCategoryIdIndexRoute: AppCategoriesCategoryIdIndexRoute,
+  AppPrivateCollectionsCollectionIdIndexRoute:
+    AppPrivateCollectionsCollectionIdIndexRoute,
+  AppSignComponentsComponentIdIndexRoute:
+    AppSignComponentsComponentIdIndexRoute,
+  AppSignsSignIdIndexRoute: AppSignsSignIdIndexRoute,
+  AppSubjectsSubjectIdIndexRoute: AppSubjectsSubjectIdIndexRoute,
+  AppUsersUseridIndexRoute: AppUsersUseridIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

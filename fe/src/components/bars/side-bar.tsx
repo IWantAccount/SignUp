@@ -3,6 +3,8 @@ import SignLanguageIcon from '@mui/icons-material/SignLanguage';
 import SchoolIcon from '@mui/icons-material/School';
 import CategoryIcon from '@mui/icons-material/Category';
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ExtensionIcon from '@mui/icons-material/Extension';
 import {NavItemList} from "@/components/util/nav-item-list.tsx";
 
 //Část kódu jsem převzal z oficiální dokumentace MUI: https://mui.com/material-ui/react-drawer/
@@ -16,18 +18,20 @@ export function SideBar(props: Props) {
 
     const itemsWithColor = [
         {
+
+            //TODO správný routing, ne debug
             color: "primary",
             list: [
-                {text: "Znaky", Icon: SignLanguageIcon, href: "/"},
-                {text: "Předměty", Icon: SchoolIcon, href: "/"},
-                {text: "Kategorie", Icon: CategoryIcon, href: "/"},
+                {text: "Znaky", Icon: SignLanguageIcon, href: "/app/debug/signs"},
+                {text: "Předměty", Icon: SchoolIcon, href: "/app/debug/subjects"},
+                {text: "Kategorie", Icon: CategoryIcon, href: "/app/debug/categories"},
             ]
         },
 
         {
             color: "primary",
             list: [
-                {text: "Privátní kolekce", Icon: BookmarksIcon, href: "/bookmarks"},
+                {text: "Privátní kolekce", Icon: BookmarksIcon, href: "/app/debug/private-collections"},
             ]
         },
 
@@ -35,9 +39,11 @@ export function SideBar(props: Props) {
             //TODO podmíněně jen pro učitele a adminy
             color: "secondary",
             list: [
-                {text: "Přidat znak", Icon: SignLanguageIcon, href: "/"},
-                {text: "Přidat předmět", Icon: SchoolIcon, href: "/"},
-                {text: "Přidat kategorii", Icon: CategoryIcon, href: "/"},
+                {text: "Přidat znak", Icon: SignLanguageIcon, href: "/app/signs/create"},
+                {text: "Přidat předmět", Icon: SchoolIcon, href: "/app/subjects/create"},
+                {text: "Přidat kategorii", Icon: CategoryIcon, href: "/app/categories/create"},
+                {text: "Uživatelé", Icon: AccountCircleIcon, href: "/app/debug/users"},
+                {text: "Komponenty znaku", Icon: ExtensionIcon, href: "/app/debug/sign-components"},
                 //TODO pro adminy ještě správa uživatelů
             ]
         }

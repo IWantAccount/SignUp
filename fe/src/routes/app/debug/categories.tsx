@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {Box} from "@mui/material";
 import {CategoryGrid} from "@/components/grids/category-grid.tsx";
-import {SearchableCardSectionTopBar} from "@/components/bars/searchable-card-section-top-bar.tsx";
+import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 
 export const Route = createFileRoute('/app/debug/categories')({
   component: RouteComponent,
@@ -17,14 +17,14 @@ function RouteComponent() {
     }));
   return (
       <Box sx={{flexDirection: 'column', m: 1, display: 'flex', gap: 2}}>
-          <SearchableCardSectionTopBar title={"ČZJ1"}
-                                       onEditNavigate={
+          <SearchableCardSectionTopBarActions title={"ČZJ1"}
+                                              onEditNavigate={
                                            () => console.log("jdeme na editaci kategorie")
                                        }
-                                       onDelete={
+                                              onDelete={
                                              () => console.log("jdeme na smazání kategorie")
                                        }
-                                       onSearch={
+                                              onSearch={
                                              (searchTerm: string) => console.log("hledáme kategorie s termínem: " + searchTerm)
                                        }/>
           <CategoryGrid list={categories}/>

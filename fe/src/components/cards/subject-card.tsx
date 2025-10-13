@@ -1,4 +1,5 @@
 import {Button, Card, CardActions, CardContent, Stack, Typography} from "@mui/material";
+import {Link} from "@tanstack/react-router";
 export interface SubjectCardProps {
     id: string;
     name: string;
@@ -7,7 +8,6 @@ export interface SubjectCardProps {
 }
 
 export function SubjectCard({id, name, categoryCount, studentCount}: SubjectCardProps){
-    //TODO přidat onClick, přesměrování na detail předmětu podle id.
 
     return (
         <Card sx={{
@@ -22,7 +22,7 @@ export function SubjectCard({id, name, categoryCount, studentCount}: SubjectCard
             </CardContent>
             <CardActions>
                 <Button size="small"
-                        onClick={() => console.log("jde se na detail předmět s id: " + id)}
+                        component={Link} to={`/app/subjects/${id}`}
                 >Detail</Button>
             </CardActions>
         </Card>

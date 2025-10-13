@@ -2,6 +2,7 @@ import {Toolbar, AppBar, Button, IconButton, Box, Slide, useScrollTrigger, CssBa
 import MenuIcon from '@mui/icons-material/Menu'
 import React from "react";
 import {SideBar} from "@/components/bars/side-bar.tsx";
+import { Link } from '@tanstack/react-router'
 
 // Většinu kódu jsem převzal z oficiální dokumentace MUI: https://mui.com/material-ui/react-app-bar/
 interface Props {
@@ -41,7 +42,7 @@ export function TopBar(props: Props){
                         </IconButton>
                         <IconButton
                             edge="start"
-                            href={"/"}
+                            component={Link} to={"/app"}
                             aria-labe="domů">
                             <Box
                                 component="img"
@@ -53,6 +54,8 @@ export function TopBar(props: Props){
                         </IconButton>
                         <Button color="inherit">Účet</Button>
                         <Button color="inherit">Nápověda</Button>
+                        <Button color="inherit"
+                                component={Link} to={"/app/ondra-je-frajer"}>O systému</Button>
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>

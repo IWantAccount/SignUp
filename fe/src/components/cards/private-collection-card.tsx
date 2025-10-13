@@ -1,4 +1,5 @@
 import {Card, CardActionArea, CardContent, Typography} from "@mui/material";
+import {Link} from "@tanstack/react-router";
 
 export interface PrivateCollectionCardProps {
     collectionId: string;
@@ -12,8 +13,8 @@ export function PrivateCollectionCard({collectionId, name}: PrivateCollectionCar
             minWidth: 200,
             minHeight: 100,
         }}>
-                {/*TODO nahradit routingem*/}
-                <CardActionArea sx={{height: "100%"}} onClick={() => {console.log("jdeme na kolekci s id: " + collectionId)}}>
+                <CardActionArea sx={{height: "100%"}}
+                                component={Link} to={`/app/private-collections/${collectionId}/`}>
                     <CardContent>
                         <Typography variant="h5">{name}</Typography>
                     </CardContent>
