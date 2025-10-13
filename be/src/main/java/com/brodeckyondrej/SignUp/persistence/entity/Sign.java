@@ -1,5 +1,6 @@
 package com.brodeckyondrej.SignUp.persistence.entity;
 
+import com.brodeckyondrej.SignUp.persistence.embeded.SignNotation;
 import com.brodeckyondrej.SignUp.persistence.enumerated.LanguageLevel;
 import com.brodeckyondrej.SignUp.persistence.enumerated.Region;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignType;
@@ -42,39 +43,13 @@ public class Sign extends BaseEntity {
     )
     private Set<String> translations;
 
-
     private String explanation;
 
     @NotBlank
     private String videoFileName;
 
-    @ManyToOne
-    @JoinColumn(name = "hand_shape_id")
-    private SignComponent handShape;
-
-    @ManyToOne
-    @JoinColumn(name = "location_component_id")
-    private SignComponent location;
-
-    @ManyToOne
-    @JoinColumn(name = "movement_component_id")
-    private SignComponent movementComponent;
-
-    @ManyToOne
-    @JoinColumn(name = "palm_orientation_id")
-    private SignComponent palmOrientation;
-
-    @ManyToOne
-    @JoinColumn(name = "finger_orientation_id")
-    private SignComponent fingerOrientation;
-
-    @ManyToOne
-    @JoinColumn(name = "contact_region_id")
-    private SignComponent contactRegion;
-
-    @ManyToOne
-    @JoinColumn(name = "hand_arrangement_id")
-    private SignComponent handArrangement;
+    @Embedded
+    private SignNotation signNotation;
 
     @ManyToMany(mappedBy = "signs", fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)

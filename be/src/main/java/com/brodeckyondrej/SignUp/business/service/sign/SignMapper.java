@@ -1,6 +1,11 @@
 package com.brodeckyondrej.SignUp.business.service.sign;
 
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetListDto;
+import com.brodeckyondrej.SignUp.business.dto.component.ComponentIdDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.notation.HandNotationDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.notation.HandNotationIdDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.notation.NotationDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.notation.NotationIdDto;
 import com.brodeckyondrej.SignUp.business.service.category.CategoryMapper;
 import com.brodeckyondrej.SignUp.business.dto.sign.CreateSignDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetDetailDto;
@@ -8,6 +13,8 @@ import com.brodeckyondrej.SignUp.business.dto.sign.SignGetListDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.UpdateSignDto;
 import com.brodeckyondrej.SignUp.business.service.storage.FileSystemVideoStorage;
 import com.brodeckyondrej.SignUp.exception.ValidationException;
+import com.brodeckyondrej.SignUp.persistence.embeded.HandNotation;
+import com.brodeckyondrej.SignUp.persistence.embeded.SignNotation;
 import com.brodeckyondrej.SignUp.persistence.entity.Category;
 import com.brodeckyondrej.SignUp.persistence.entity.Sign;
 import com.brodeckyondrej.SignUp.business.service.component.SignComponentMapper;
@@ -48,13 +55,7 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
     public Sign fromCreateDto(CreateSignDto createSignDto) {
         Category category = categoryRepository.findByIdOrThrow(createSignDto.getCategoryId());
 
-        SignComponent handShape = findAndValidateSignComponent(SignComponentType.HAND_SHAPE, createSignDto.getHandShapeId());
-        SignComponent signLocation = findAndValidateSignComponent(SignComponentType.LOCATION, createSignDto.getSignLocationId());
-        SignComponent movement = findAndValidateSignComponent(SignComponentType.MOVEMENT, createSignDto.getMovementId());
-        SignComponent palmOrientation = findAndValidateSignComponent(SignComponentType.PALM_ORIENTATION, createSignDto.getPalmOrientationId());
-        SignComponent fingerOrientation = findAndValidateSignComponent(SignComponentType.FINGER_ORIENTATION, createSignDto.getFingerOrientationId());
-        SignComponent contactRegion = findAndValidateSignComponent(SignComponentType.CONTACT_REGION, createSignDto.getContactRegionId());
-        SignComponent handArrangementId = findAndValidateSignComponent(SignComponentType.HAND_ARRANGEMENT, createSignDto.getHandArrangementId());
+        SignNotation signNotation = findAndValidateNotation(createSignDto.getNotation());
 
         String fileName = videoStorage.store(createSignDto.getVideo());
 
@@ -67,13 +68,7 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
         newSign.setExplanation(createSignDto.getExplanation());
         newSign.setVideoFileName(fileName);
 
-        newSign.setHandShape(handShape);
-        newSign.setLocation(signLocation);
-        newSign.setMovementComponent(movement);
-        newSign.setPalmOrientation(palmOrientation);
-        newSign.setFingerOrientation(fingerOrientation);
-        newSign.setContactRegion(contactRegion);
-        newSign.setHandArrangement(handArrangementId);
+        newSign.setSignNotation(signNotation);
         newSign.setType(createSignDto.getType());
 
         return newSign;
@@ -82,57 +77,15 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
     @Override
     public void updateFromDto(Sign entity, UpdateSignDto updateSignDto) {
         Category category = categoryRepository.findByIdOrThrow(updateSignDto.getCategoryId());
-
-        SignComponent handShape = findAndValidateSignComponent(SignComponentType.HAND_SHAPE, updateSignDto.getHandShapeId());
-        SignComponent signLocation = findAndValidateSignComponent(SignComponentType.LOCATION, updateSignDto.getSignLocationId());
-        SignComponent movement = findAndValidateSignComponent(SignComponentType.MOVEMENT, updateSignDto.getMovementId());
-        SignComponent palmOrientation = findAndValidateSignComponent(SignComponentType.PALM_ORIENTATION, updateSignDto.getPalmOrientationId());
-        SignComponent fingerOrientation = findAndValidateSignComponent(SignComponentType.FINGER_ORIENTATION, updateSignDto.getFingerOrientationId());
-        SignComponent contactRegion = findAndValidateSignComponent(SignComponentType.CONTACT_REGION, updateSignDto.getContactRegionId());
-        SignComponent handArrangementId = findAndValidateSignComponent(SignComponentType.HAND_ARRANGEMENT, updateSignDto.getHandArrangementId());
-
-        if(updateSignDto.getType() != null){
-            entity.setType(updateSignDto.getType());
-        }
-
-        if(updateSignDto.getCategoryId() != null) {
-            entity.setCategory(categoryRepository.findByIdOrThrow(updateSignDto.getCategoryId()));
-        }
-
-        if(handShape != null) {
-            entity.setHandShape(handShape);
-        }
-
-        if(signLocation != null){
-            entity.setLocation(signLocation);
-        }
-
-        if(movement != null) {
-            entity.setMovementComponent(movement);
-        }
-
-        if(palmOrientation != null) {
-            entity.setPalmOrientation(palmOrientation);
-        }
-        if(fingerOrientation != null) {
-            entity.setFingerOrientation(fingerOrientation);
-        }
-
-        if(contactRegion != null) {
-            entity.setContactRegion(contactRegion);
-        }
-
-        if(handArrangementId != null) {
-            entity.setHandArrangement(handArrangementId);
-        }
+        SignNotation notation = findAndValidateNotation(updateSignDto.getNotation());
 
         entity.setCategory(category);
+        entity.setSignNotation(notation);
         entity.setType(updateSignDto.getType());
         entity.setLanguageLevel(updateSignDto.getLanguageLevel());
         entity.setRegion(updateSignDto.getRegion());
         entity.setExplanation(updateSignDto.getExplanation());
         entity.setTranslations(updateSignDto.getTranslations());
-
     }
 
     @Override
@@ -143,10 +96,7 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
         return new SignGetDetailDto(
                 entity.getId(), categoryDto, entity.getTranslations(),
                 subjectDto, entity.getRegion(), entity.getLanguageLevel(),
-                entity.getType(), entity.getExplanation(), signComponentMapper.toListDto(entity.getHandShape()),
-                signComponentMapper.toListDto(entity.getLocation()), signComponentMapper.toListDto(entity.getMovementComponent()),
-                signComponentMapper.toListDto(entity.getPalmOrientation()), signComponentMapper.toListDto(entity.getFingerOrientation()),
-                signComponentMapper.toListDto(entity.getContactRegion()), signComponentMapper.toListDto(entity.getHandArrangement()), entity.getVideoFileName()
+                entity.getType(), entity.getExplanation(), mapNotationToDto(entity.getSignNotation()), entity.getVideoFileName()
         );
     }
 
@@ -163,9 +113,85 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
 
         SignComponent foundComponent = signComponentRepository.findByIdOrThrow(id);
         if (!foundComponent.getType().equals(requiredType)) {
-            throw new ValidationException("Id and component mismatch");
+            throw new ValidationException("Id and component type mismatch");
         }
 
         return foundComponent;
+    }
+
+    private NotationDto mapNotationToDto(SignNotation notation){
+        HandNotationDto activeHand = mapHandNotationToDto(notation.getActiveHandNotation());
+        HandNotationDto passiveHand = mapHandNotationToDto(notation.getPassiveHandNotation());
+
+        return new NotationDto(
+                notation.isBothHandsUsed(),
+                notation.isAsymmetricSign(),
+                activeHand,
+                passiveHand,
+                signComponentMapper.toDetailDto(notation.getArticulationLocation()),
+                signComponentMapper.toDetailDto(notation.getMovement()),
+                signComponentMapper.toDetailDto(notation.getContact()),
+                signComponentMapper.toDetailDto(notation.getHandArrangement())
+        );
+    }
+
+    private HandNotationDto mapHandNotationToDto(HandNotation handNotation){
+        ComponentIdDto handShape = signComponentMapper.toDetailDto(handNotation.getHandShape());
+        ComponentIdDto palmOrientation = signComponentMapper.toDetailDto(handNotation.getPalmOrientation());
+        ComponentIdDto fingerOrientation = signComponentMapper.toDetailDto(handNotation.getFingerOrientation());
+
+        return new HandNotationDto(handShape, palmOrientation, fingerOrientation);
+    }
+
+    private SignNotation findAndValidateNotation(NotationIdDto dto){
+        if(dto == null){
+            HandNotation activeHandNotation = new HandNotation();
+            HandNotation passiveHandNotation = new HandNotation();
+
+            SignNotation emptyNotation = new SignNotation();
+            emptyNotation.setActiveHandNotation(activeHandNotation);
+            emptyNotation.setPassiveHandNotation(passiveHandNotation);
+
+            return emptyNotation;
+        }
+
+        HandNotation activeHand = findAndValidateHandNotation(dto.getActiveHandNotation());
+
+        HandNotation passiveHand = null;
+        if(dto.isBothHandsUsed() && dto.isAsymmetricSign()){
+            passiveHand = findAndValidateHandNotation(dto.getPassiveHandNotation());
+        }
+
+        SignNotation result = new SignNotation();
+
+        result.setBothHandsUsed(dto.isBothHandsUsed());
+        result.setAsymmetricSign(dto.isAsymmetricSign());
+        result.setActiveHandNotation(activeHand);
+        result.setPassiveHandNotation(passiveHand);
+        result.setArticulationLocation(findAndValidateSignComponent(
+                SignComponentType.LOCATION,
+                dto.getArticulationLocationId()
+        ));
+        result.setMovement(findAndValidateSignComponent(
+                SignComponentType.MOVEMENT,
+                dto.getMovementId()
+        ));
+        result.setContact(findAndValidateSignComponent(
+                SignComponentType.CONTACT,
+                dto.getMovementId()
+        ));
+        result.setHandArrangement(findAndValidateSignComponent(
+                SignComponentType.HAND_ARRANGEMENT,
+                dto.getHandArrangementId()
+        ));
+        return result;
+    }
+
+    private HandNotation findAndValidateHandNotation(HandNotationIdDto dto){
+        SignComponent handShape = findAndValidateSignComponent(SignComponentType.HAND_SHAPE, dto.getHandShapeId());
+        SignComponent palmOrientation = findAndValidateSignComponent(SignComponentType.PALM_ORIENTATION, dto.getPalmOrientationId());
+        SignComponent fingerOrientation = findAndValidateSignComponent(SignComponentType.FINGER_ORIENTATION, dto.getFingerOrientationId());
+
+        return new HandNotation(handShape, palmOrientation, fingerOrientation);
     }
 }

@@ -9,6 +9,6 @@ import java.util.UUID;
 @NoRepositoryBean
 public interface EntityRepository<Entity extends BaseEntity> extends JpaRepository<Entity, UUID> {
     default Entity findByIdOrThrow(UUID id){
-        return findById(id).orElseThrow(() -> new MissingObjectException(""));
+        return findById(id).orElseThrow(() -> new MissingObjectException("Chybí objekt s id: " + id));
     }
 }

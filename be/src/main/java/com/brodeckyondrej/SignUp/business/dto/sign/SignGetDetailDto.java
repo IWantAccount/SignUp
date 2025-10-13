@@ -1,10 +1,10 @@
 package com.brodeckyondrej.SignUp.business.dto.sign;
 
+import com.brodeckyondrej.SignUp.business.dto.sign.notation.NotationDto;
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetListDto;
 import com.brodeckyondrej.SignUp.persistence.enumerated.LanguageLevel;
 import com.brodeckyondrej.SignUp.persistence.enumerated.Region;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignType;
-import com.brodeckyondrej.SignUp.business.dto.component.ComponentIdDto;
 import com.brodeckyondrej.SignUp.business.dto.subject.SubjectGetListDto;
 import lombok.Getter;
 
@@ -19,22 +19,14 @@ public class SignGetDetailDto extends SignGetListDto {
     private final SignType signType;
     private final String explanation;
     
-    private final ComponentIdDto handShape;
-    private final ComponentIdDto location;
-    private final ComponentIdDto movement;
-    private final ComponentIdDto palmOrientation;
-    private final ComponentIdDto fingerOrientation;
-    private final ComponentIdDto contactRegion;
-    private final ComponentIdDto handArrangement;
+    private final NotationDto notation;
     private final String videoFileName;
 
     public SignGetDetailDto(
             UUID id, CategoryGetListDto category, Set<String> translations,
             SubjectGetListDto subject, Region region, LanguageLevel languageLevel,
             SignType signType, String explanation,
-            ComponentIdDto handShape, ComponentIdDto location, ComponentIdDto movement,
-            ComponentIdDto palmOrientation, ComponentIdDto fingerOrientation,
-            ComponentIdDto contactRegion, ComponentIdDto handArrangement,
+            NotationDto notation,
             String videoFileName) {
         super(id, videoFileName, category, translations);
         this.subject = subject;
@@ -42,13 +34,7 @@ public class SignGetDetailDto extends SignGetListDto {
         this.languageLevel = languageLevel;
         this.signType = signType;
         this.explanation = explanation;
-        this.handShape = handShape;
-        this.location = location;
-        this.movement = movement;
-        this.palmOrientation = palmOrientation;
-        this.fingerOrientation = fingerOrientation;
-        this.contactRegion = contactRegion;
-        this.handArrangement = handArrangement;
+        this.notation = notation;
         this.videoFileName = videoFileName;
     }
 }
