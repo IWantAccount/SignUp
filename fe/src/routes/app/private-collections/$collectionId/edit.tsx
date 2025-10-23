@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import {NameForm} from "@/components/forms/name-form.tsx";
 
 export const Route = createFileRoute(
   '/app/private-collections/$collectionId/edit',
@@ -7,5 +8,16 @@ export const Route = createFileRoute(
 })
 
 function RouteComponent() {
-  return <div>Hello "/app/private-collections/$collectionId/edit"!</div>
+  const name = "Moje kolekce";
+  return (
+      <NameForm defaultName={name}
+                header={"Přejmenovat soukromou kolekci"}
+                submitButtonText={"Přejmenovat"}
+                onSubmit={
+                  (data) => {
+                    //TODO api call
+                    console.log(data)
+                  }
+                }/>
+  )
 }
