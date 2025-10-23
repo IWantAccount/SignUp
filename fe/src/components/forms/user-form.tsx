@@ -22,7 +22,7 @@ interface Props {
 }
 
 
-export function UserComponentForm(props: Props) {
+export function UserForm(props: Props) {
 
     const {control, handleSubmit} = useForm<UserFormData>({
         resolver: zodResolver(schema),

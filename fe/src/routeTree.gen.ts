@@ -21,6 +21,7 @@ import { Route as AppSubjectsIndexRouteImport } from './routes/app/subjects/inde
 import { Route as AppSignsIndexRouteImport } from './routes/app/signs/index'
 import { Route as AppSignComponentsIndexRouteImport } from './routes/app/sign-components/index'
 import { Route as AppPrivateCollectionsIndexRouteImport } from './routes/app/private-collections/index'
+import { Route as AppClassroomsIndexRouteImport } from './routes/app/classrooms/index'
 import { Route as AppCategoriesIndexRouteImport } from './routes/app/categories/index'
 import { Route as AppUsersCreateRouteImport } from './routes/app/users/create'
 import { Route as AppSubjectsCreateRouteImport } from './routes/app/subjects/create'
@@ -33,18 +34,21 @@ import { Route as AppDebugSignsRouteImport } from './routes/app/debug/signs'
 import { Route as AppDebugSignComponentsRouteImport } from './routes/app/debug/sign-components'
 import { Route as AppDebugPrivateCollectionsRouteImport } from './routes/app/debug/private-collections'
 import { Route as AppDebugCategoriesRouteImport } from './routes/app/debug/categories'
+import { Route as AppClassroomsCreateRouteImport } from './routes/app/classrooms/create'
 import { Route as AppCategoriesCreateRouteImport } from './routes/app/categories/create'
 import { Route as AppUsersUseridIndexRouteImport } from './routes/app/users/$userid/index'
 import { Route as AppSubjectsSubjectIdIndexRouteImport } from './routes/app/subjects/$subjectId/index'
 import { Route as AppSignsSignIdIndexRouteImport } from './routes/app/signs/$signId/index'
 import { Route as AppSignComponentsComponentIdIndexRouteImport } from './routes/app/sign-components/$componentId/index'
 import { Route as AppPrivateCollectionsCollectionIdIndexRouteImport } from './routes/app/private-collections/$collectionId/index'
+import { Route as AppClassroomsClassroomIdIndexRouteImport } from './routes/app/classrooms/$classroomId/index'
 import { Route as AppCategoriesCategoryIdIndexRouteImport } from './routes/app/categories/$categoryId/index'
 import { Route as AppUsersUseridEditRouteImport } from './routes/app/users/$userid/edit'
 import { Route as AppSubjectsSubjectIdEditRouteImport } from './routes/app/subjects/$subjectId/edit'
 import { Route as AppSignsSignIdEditRouteImport } from './routes/app/signs/$signId/edit'
 import { Route as AppSignComponentsComponentIdEditRouteImport } from './routes/app/sign-components/$componentId/edit'
 import { Route as AppPrivateCollectionsCollectionIdEditRouteImport } from './routes/app/private-collections/$collectionId/edit'
+import { Route as AppClassroomsClassroomIdEditRouteImport } from './routes/app/classrooms/$classroomId/edit'
 import { Route as AppCategoriesCategoryIdEditRouteImport } from './routes/app/categories/$categoryId/edit'
 
 const LoginRoute = LoginRouteImport.update({
@@ -108,6 +112,11 @@ const AppPrivateCollectionsIndexRoute =
     path: '/private-collections/',
     getParentRoute: () => AppRouteRoute,
   } as any)
+const AppClassroomsIndexRoute = AppClassroomsIndexRouteImport.update({
+  id: '/classrooms/',
+  path: '/classrooms/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppCategoriesIndexRoute = AppCategoriesIndexRouteImport.update({
   id: '/categories/',
   path: '/categories/',
@@ -170,6 +179,11 @@ const AppDebugCategoriesRoute = AppDebugCategoriesRouteImport.update({
   path: '/categories',
   getParentRoute: () => AppDebugRouteRoute,
 } as any)
+const AppClassroomsCreateRoute = AppClassroomsCreateRouteImport.update({
+  id: '/classrooms/create',
+  path: '/classrooms/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppCategoriesCreateRoute = AppCategoriesCreateRouteImport.update({
   id: '/categories/create',
   path: '/categories/create',
@@ -201,6 +215,12 @@ const AppPrivateCollectionsCollectionIdIndexRoute =
   AppPrivateCollectionsCollectionIdIndexRouteImport.update({
     id: '/private-collections/$collectionId/',
     path: '/private-collections/$collectionId/',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppClassroomsClassroomIdIndexRoute =
+  AppClassroomsClassroomIdIndexRouteImport.update({
+    id: '/classrooms/$classroomId/',
+    path: '/classrooms/$classroomId/',
     getParentRoute: () => AppRouteRoute,
   } as any)
 const AppCategoriesCategoryIdIndexRoute =
@@ -237,6 +257,12 @@ const AppPrivateCollectionsCollectionIdEditRoute =
     path: '/private-collections/$collectionId/edit',
     getParentRoute: () => AppRouteRoute,
   } as any)
+const AppClassroomsClassroomIdEditRoute =
+  AppClassroomsClassroomIdEditRouteImport.update({
+    id: '/classrooms/$classroomId/edit',
+    path: '/classrooms/$classroomId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 const AppCategoriesCategoryIdEditRoute =
   AppCategoriesCategoryIdEditRouteImport.update({
     id: '/categories/$categoryId/edit',
@@ -253,6 +279,7 @@ export interface FileRoutesByFullPath {
   '/app/register': typeof AppRegisterRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
+  '/app/classrooms/create': typeof AppClassroomsCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
   '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
   '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
@@ -265,18 +292,21 @@ export interface FileRoutesByFullPath {
   '/app/subjects/create': typeof AppSubjectsCreateRoute
   '/app/users/create': typeof AppUsersCreateRoute
   '/app/categories': typeof AppCategoriesIndexRoute
+  '/app/classrooms': typeof AppClassroomsIndexRoute
   '/app/private-collections': typeof AppPrivateCollectionsIndexRoute
   '/app/sign-components': typeof AppSignComponentsIndexRoute
   '/app/signs': typeof AppSignsIndexRoute
   '/app/subjects': typeof AppSubjectsIndexRoute
   '/app/users': typeof AppUsersIndexRoute
   '/app/categories/$categoryId/edit': typeof AppCategoriesCategoryIdEditRoute
+  '/app/classrooms/$classroomId/edit': typeof AppClassroomsClassroomIdEditRoute
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
   '/app/users/$userid/edit': typeof AppUsersUseridEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
+  '/app/classrooms/$classroomId': typeof AppClassroomsClassroomIdIndexRoute
   '/app/private-collections/$collectionId': typeof AppPrivateCollectionsCollectionIdIndexRoute
   '/app/sign-components/$componentId': typeof AppSignComponentsComponentIdIndexRoute
   '/app/signs/$signId': typeof AppSignsSignIdIndexRoute
@@ -292,6 +322,7 @@ export interface FileRoutesByTo {
   '/app/register': typeof AppRegisterRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
+  '/app/classrooms/create': typeof AppClassroomsCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
   '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
   '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
@@ -304,18 +335,21 @@ export interface FileRoutesByTo {
   '/app/subjects/create': typeof AppSubjectsCreateRoute
   '/app/users/create': typeof AppUsersCreateRoute
   '/app/categories': typeof AppCategoriesIndexRoute
+  '/app/classrooms': typeof AppClassroomsIndexRoute
   '/app/private-collections': typeof AppPrivateCollectionsIndexRoute
   '/app/sign-components': typeof AppSignComponentsIndexRoute
   '/app/signs': typeof AppSignsIndexRoute
   '/app/subjects': typeof AppSubjectsIndexRoute
   '/app/users': typeof AppUsersIndexRoute
   '/app/categories/$categoryId/edit': typeof AppCategoriesCategoryIdEditRoute
+  '/app/classrooms/$classroomId/edit': typeof AppClassroomsClassroomIdEditRoute
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
   '/app/users/$userid/edit': typeof AppUsersUseridEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
+  '/app/classrooms/$classroomId': typeof AppClassroomsClassroomIdIndexRoute
   '/app/private-collections/$collectionId': typeof AppPrivateCollectionsCollectionIdIndexRoute
   '/app/sign-components/$componentId': typeof AppSignComponentsComponentIdIndexRoute
   '/app/signs/$signId': typeof AppSignsSignIdIndexRoute
@@ -332,6 +366,7 @@ export interface FileRoutesById {
   '/app/register': typeof AppRegisterRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
+  '/app/classrooms/create': typeof AppClassroomsCreateRoute
   '/app/debug/categories': typeof AppDebugCategoriesRoute
   '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
   '/app/debug/sign-components': typeof AppDebugSignComponentsRoute
@@ -344,18 +379,21 @@ export interface FileRoutesById {
   '/app/subjects/create': typeof AppSubjectsCreateRoute
   '/app/users/create': typeof AppUsersCreateRoute
   '/app/categories/': typeof AppCategoriesIndexRoute
+  '/app/classrooms/': typeof AppClassroomsIndexRoute
   '/app/private-collections/': typeof AppPrivateCollectionsIndexRoute
   '/app/sign-components/': typeof AppSignComponentsIndexRoute
   '/app/signs/': typeof AppSignsIndexRoute
   '/app/subjects/': typeof AppSubjectsIndexRoute
   '/app/users/': typeof AppUsersIndexRoute
   '/app/categories/$categoryId/edit': typeof AppCategoriesCategoryIdEditRoute
+  '/app/classrooms/$classroomId/edit': typeof AppClassroomsClassroomIdEditRoute
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
   '/app/users/$userid/edit': typeof AppUsersUseridEditRoute
   '/app/categories/$categoryId/': typeof AppCategoriesCategoryIdIndexRoute
+  '/app/classrooms/$classroomId/': typeof AppClassroomsClassroomIdIndexRoute
   '/app/private-collections/$collectionId/': typeof AppPrivateCollectionsCollectionIdIndexRoute
   '/app/sign-components/$componentId/': typeof AppSignComponentsComponentIdIndexRoute
   '/app/signs/$signId/': typeof AppSignsSignIdIndexRoute
@@ -373,6 +411,7 @@ export interface FileRouteTypes {
     | '/app/register'
     | '/app/test-route'
     | '/app/categories/create'
+    | '/app/classrooms/create'
     | '/app/debug/categories'
     | '/app/debug/private-collections'
     | '/app/debug/sign-components'
@@ -385,18 +424,21 @@ export interface FileRouteTypes {
     | '/app/subjects/create'
     | '/app/users/create'
     | '/app/categories'
+    | '/app/classrooms'
     | '/app/private-collections'
     | '/app/sign-components'
     | '/app/signs'
     | '/app/subjects'
     | '/app/users'
     | '/app/categories/$categoryId/edit'
+    | '/app/classrooms/$classroomId/edit'
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
     | '/app/subjects/$subjectId/edit'
     | '/app/users/$userid/edit'
     | '/app/categories/$categoryId'
+    | '/app/classrooms/$classroomId'
     | '/app/private-collections/$collectionId'
     | '/app/sign-components/$componentId'
     | '/app/signs/$signId'
@@ -412,6 +454,7 @@ export interface FileRouteTypes {
     | '/app/register'
     | '/app/test-route'
     | '/app/categories/create'
+    | '/app/classrooms/create'
     | '/app/debug/categories'
     | '/app/debug/private-collections'
     | '/app/debug/sign-components'
@@ -424,18 +467,21 @@ export interface FileRouteTypes {
     | '/app/subjects/create'
     | '/app/users/create'
     | '/app/categories'
+    | '/app/classrooms'
     | '/app/private-collections'
     | '/app/sign-components'
     | '/app/signs'
     | '/app/subjects'
     | '/app/users'
     | '/app/categories/$categoryId/edit'
+    | '/app/classrooms/$classroomId/edit'
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
     | '/app/subjects/$subjectId/edit'
     | '/app/users/$userid/edit'
     | '/app/categories/$categoryId'
+    | '/app/classrooms/$classroomId'
     | '/app/private-collections/$collectionId'
     | '/app/sign-components/$componentId'
     | '/app/signs/$signId'
@@ -451,6 +497,7 @@ export interface FileRouteTypes {
     | '/app/register'
     | '/app/test-route'
     | '/app/categories/create'
+    | '/app/classrooms/create'
     | '/app/debug/categories'
     | '/app/debug/private-collections'
     | '/app/debug/sign-components'
@@ -463,18 +510,21 @@ export interface FileRouteTypes {
     | '/app/subjects/create'
     | '/app/users/create'
     | '/app/categories/'
+    | '/app/classrooms/'
     | '/app/private-collections/'
     | '/app/sign-components/'
     | '/app/signs/'
     | '/app/subjects/'
     | '/app/users/'
     | '/app/categories/$categoryId/edit'
+    | '/app/classrooms/$classroomId/edit'
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
     | '/app/subjects/$subjectId/edit'
     | '/app/users/$userid/edit'
     | '/app/categories/$categoryId/'
+    | '/app/classrooms/$classroomId/'
     | '/app/private-collections/$collectionId/'
     | '/app/sign-components/$componentId/'
     | '/app/signs/$signId/'
@@ -574,6 +624,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPrivateCollectionsIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/classrooms/': {
+      id: '/app/classrooms/'
+      path: '/classrooms'
+      fullPath: '/app/classrooms'
+      preLoaderRoute: typeof AppClassroomsIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/categories/': {
       id: '/app/categories/'
       path: '/categories'
@@ -658,6 +715,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDebugCategoriesRouteImport
       parentRoute: typeof AppDebugRouteRoute
     }
+    '/app/classrooms/create': {
+      id: '/app/classrooms/create'
+      path: '/classrooms/create'
+      fullPath: '/app/classrooms/create'
+      preLoaderRoute: typeof AppClassroomsCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/categories/create': {
       id: '/app/categories/create'
       path: '/categories/create'
@@ -698,6 +762,13 @@ declare module '@tanstack/react-router' {
       path: '/private-collections/$collectionId'
       fullPath: '/app/private-collections/$collectionId'
       preLoaderRoute: typeof AppPrivateCollectionsCollectionIdIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/classrooms/$classroomId/': {
+      id: '/app/classrooms/$classroomId/'
+      path: '/classrooms/$classroomId'
+      fullPath: '/app/classrooms/$classroomId'
+      preLoaderRoute: typeof AppClassroomsClassroomIdIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/categories/$categoryId/': {
@@ -742,6 +813,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPrivateCollectionsCollectionIdEditRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/classrooms/$classroomId/edit': {
+      id: '/app/classrooms/$classroomId/edit'
+      path: '/classrooms/$classroomId/edit'
+      fullPath: '/app/classrooms/$classroomId/edit'
+      preLoaderRoute: typeof AppClassroomsClassroomIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/categories/$categoryId/edit': {
       id: '/app/categories/$categoryId/edit'
       path: '/categories/$categoryId/edit'
@@ -780,24 +858,28 @@ interface AppRouteRouteChildren {
   AppRegisterRoute: typeof AppRegisterRoute
   AppTestRouteRoute: typeof AppTestRouteRoute
   AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
+  AppClassroomsCreateRoute: typeof AppClassroomsCreateRoute
   AppPrivateCollectionsCreateRoute: typeof AppPrivateCollectionsCreateRoute
   AppSignComponentsCreateRoute: typeof AppSignComponentsCreateRoute
   AppSignsCreateRoute: typeof AppSignsCreateRoute
   AppSubjectsCreateRoute: typeof AppSubjectsCreateRoute
   AppUsersCreateRoute: typeof AppUsersCreateRoute
   AppCategoriesIndexRoute: typeof AppCategoriesIndexRoute
+  AppClassroomsIndexRoute: typeof AppClassroomsIndexRoute
   AppPrivateCollectionsIndexRoute: typeof AppPrivateCollectionsIndexRoute
   AppSignComponentsIndexRoute: typeof AppSignComponentsIndexRoute
   AppSignsIndexRoute: typeof AppSignsIndexRoute
   AppSubjectsIndexRoute: typeof AppSubjectsIndexRoute
   AppUsersIndexRoute: typeof AppUsersIndexRoute
   AppCategoriesCategoryIdEditRoute: typeof AppCategoriesCategoryIdEditRoute
+  AppClassroomsClassroomIdEditRoute: typeof AppClassroomsClassroomIdEditRoute
   AppPrivateCollectionsCollectionIdEditRoute: typeof AppPrivateCollectionsCollectionIdEditRoute
   AppSignComponentsComponentIdEditRoute: typeof AppSignComponentsComponentIdEditRoute
   AppSignsSignIdEditRoute: typeof AppSignsSignIdEditRoute
   AppSubjectsSubjectIdEditRoute: typeof AppSubjectsSubjectIdEditRoute
   AppUsersUseridEditRoute: typeof AppUsersUseridEditRoute
   AppCategoriesCategoryIdIndexRoute: typeof AppCategoriesCategoryIdIndexRoute
+  AppClassroomsClassroomIdIndexRoute: typeof AppClassroomsClassroomIdIndexRoute
   AppPrivateCollectionsCollectionIdIndexRoute: typeof AppPrivateCollectionsCollectionIdIndexRoute
   AppSignComponentsComponentIdIndexRoute: typeof AppSignComponentsComponentIdIndexRoute
   AppSignsSignIdIndexRoute: typeof AppSignsSignIdIndexRoute
@@ -811,18 +893,21 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppRegisterRoute: AppRegisterRoute,
   AppTestRouteRoute: AppTestRouteRoute,
   AppCategoriesCreateRoute: AppCategoriesCreateRoute,
+  AppClassroomsCreateRoute: AppClassroomsCreateRoute,
   AppPrivateCollectionsCreateRoute: AppPrivateCollectionsCreateRoute,
   AppSignComponentsCreateRoute: AppSignComponentsCreateRoute,
   AppSignsCreateRoute: AppSignsCreateRoute,
   AppSubjectsCreateRoute: AppSubjectsCreateRoute,
   AppUsersCreateRoute: AppUsersCreateRoute,
   AppCategoriesIndexRoute: AppCategoriesIndexRoute,
+  AppClassroomsIndexRoute: AppClassroomsIndexRoute,
   AppPrivateCollectionsIndexRoute: AppPrivateCollectionsIndexRoute,
   AppSignComponentsIndexRoute: AppSignComponentsIndexRoute,
   AppSignsIndexRoute: AppSignsIndexRoute,
   AppSubjectsIndexRoute: AppSubjectsIndexRoute,
   AppUsersIndexRoute: AppUsersIndexRoute,
   AppCategoriesCategoryIdEditRoute: AppCategoriesCategoryIdEditRoute,
+  AppClassroomsClassroomIdEditRoute: AppClassroomsClassroomIdEditRoute,
   AppPrivateCollectionsCollectionIdEditRoute:
     AppPrivateCollectionsCollectionIdEditRoute,
   AppSignComponentsComponentIdEditRoute: AppSignComponentsComponentIdEditRoute,
@@ -830,6 +915,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppSubjectsSubjectIdEditRoute: AppSubjectsSubjectIdEditRoute,
   AppUsersUseridEditRoute: AppUsersUseridEditRoute,
   AppCategoriesCategoryIdIndexRoute: AppCategoriesCategoryIdIndexRoute,
+  AppClassroomsClassroomIdIndexRoute: AppClassroomsClassroomIdIndexRoute,
   AppPrivateCollectionsCollectionIdIndexRoute:
     AppPrivateCollectionsCollectionIdIndexRoute,
   AppSignComponentsComponentIdIndexRoute:
