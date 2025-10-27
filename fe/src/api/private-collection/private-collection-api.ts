@@ -1,9 +1,10 @@
 import type {
     PrivateCollectionCreateDto,
-    PrivateCollectionGetDetailDto, PrivateCollectionUpdateDto
+    PrivateCollectionGetDetailDto, PrivateCollectionGetListDto, PrivateCollectionUpdateDto
 } from "@/api/private-collection/private-collection-dtos.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
+import type {Page} from "../universal/dto/spring-boot-page";
 
 
 const url = "/private-collection";
@@ -25,4 +26,10 @@ export const createCollection = async (dto: PrivateCollectionCreateDto): Promise
 
 export const deleteCollectionById = async (id: string): Promise<void> => {
     await api.delete<PrivateCollectionGetDetailDto>(buildPath([url, id]));
+}
+
+export const getCollectionPaged = async (page: number, pageSize?: number): Promise<Page<PrivateCollectionGetListDto>> => {
+    const size = pageSize ? pageSize : 20;
+    const res = await api.get<Page<PrivateCollectionGetListDto>>(buildPath([url], page, size))
+    return res.data;
 }

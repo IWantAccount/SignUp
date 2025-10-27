@@ -1,17 +1,19 @@
-import {PrivateCollectionCard, type PrivateCollectionCardProps} from "@/components/cards/private-collection-card.tsx";
+import {PrivateCollectionCard} from "@/components/cards/private-collection-card.tsx";
 import {BaseGrid} from "@/components/grids/base-grid.tsx";
+import type {
+    PrivateCollectionGetListDto
+} from "@/api/private-collection/private-collection-dtos.ts";
 
 interface Props {
-    list: PrivateCollectionCardProps[];
+    list: PrivateCollectionGetListDto[];
 }
 
 export function PrivateCollectionGrid({list}: Props) {
     return (
         <BaseGrid>
             {
-                list.map( collection => (
-                    <PrivateCollectionCard  collectionId={collection.collectionId}
-                                            name={collection.name}/>
+                list.map(collection => (
+                    <PrivateCollectionCard key={collection.id} {...collection} />
                 ))
             }
         </BaseGrid>

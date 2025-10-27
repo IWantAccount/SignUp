@@ -25,7 +25,7 @@ export function SideBar(props: Props) {
             color: "primary",
             list: [
                 {text: "Znaky", Icon: SignLanguageIcon, href: "/app/debug/signs"},
-                {text: "Předměty", Icon: SchoolIcon, href: "/app/debug/subjects"},
+                {text: "Předměty", Icon: SchoolIcon, href: "/app/subjects"},
                 {text: "Kategorie", Icon: CategoryIcon, href: "/app/debug/categories"},
             ]
         },
@@ -33,7 +33,7 @@ export function SideBar(props: Props) {
         {
             color: "primary",
             list: [
-                {text: "Soukormé kolekce znaků", Icon: BookmarksIcon, href: "/app/debug/private-collections"},
+                {text: "Soukormé kolekce znaků", Icon: BookmarksIcon, href: "/app/private-collections"},
                 {text: "Přidat soukromou kolekci", Icon: BookmarkAddIcon, href: "/app/private-collections/create"},
             ]
         },

@@ -21,7 +21,7 @@ function RouteComponent() {
                 {
                     subjects.map((subject, index) => (
                         <SubjectCard id={index.toString()} name={subject.name}
-                                     categoryCount={subject.categoriesCount} studentCount={subject.studentCount} />
+                                     numberOfCategories={subject.categoriesCount} studentCount={subject.studentCount} />
                     ))
                 }
             </Box>

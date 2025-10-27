@@ -1,14 +1,15 @@
-import {queryOptions, type UseMutationOptions} from "@tanstack/react-query"
+import {infiniteQueryOptions, queryOptions, type UseMutationOptions} from "@tanstack/react-query"
 import {
     createCollection,
-    getCollectionById,
+    getCollectionById, getCollectionPaged,
     updateCollectionById
 } from "@/api/private-collection/private-collection-api.ts";
 import type {
     PrivateCollectionCreateDto,
-    PrivateCollectionGetDetailDto,
+    PrivateCollectionGetDetailDto, PrivateCollectionGetListDto,
     PrivateCollectionUpdateDto
 } from "@/api/private-collection/private-collection-dtos.ts";
+import type { Page } from "../universal/dto/spring-boot-page";
 
 export const privateCollectionQueryKey = "private-collection";
 
@@ -35,4 +36,16 @@ export function createCreateCollectionOptions(): UseMutationOptions<
     return {
         mutationFn: (dto) => createCollection(dto)
     }
+}
+
+export function createCollectionInfiniteQueryOptions() {
+    return infiniteQueryOptions({
+        queryKey: [privateCollectionQueryKey, "infinite"],
+        queryFn: ({pageParam}) => getCollectionPaged(pageParam, 2),
+        initialPageParam: 0,
+        getNextPageParam: (lastPage: Page<PrivateCollectionGetListDto>)=> {
+            const next = lastPage.number + 1;
+            return next < lastPage.totalPages ? next : undefined
+        }
+    })
 }

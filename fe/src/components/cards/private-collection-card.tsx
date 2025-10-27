@@ -1,22 +1,19 @@
 import {Card, CardActionArea, CardContent, Typography} from "@mui/material";
 import {Link} from "@tanstack/react-router";
+import type {
+    PrivateCollectionGetListDto
+} from "@/api/private-collection/private-collection-dtos.ts";
 
-export interface PrivateCollectionCardProps {
-    collectionId: string;
-    name: string;
-    //TODO co třeba počet znaků v kolekci? Potřeba změnit i na be
-}
-
-export function PrivateCollectionCard({collectionId, name}: PrivateCollectionCardProps) {
+export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
     return (
         <Card sx={{
             minWidth: 200,
             minHeight: 100,
         }}>
                 <CardActionArea sx={{height: "100%"}}
-                                component={Link} to={`/app/private-collections/${collectionId}/`}>
+                                component={Link} to={`/app/private-collections/${dto.id}/`}>
                     <CardContent>
-                        <Typography variant="h5">{name}</Typography>
+                        <Typography variant="h5">{dto.name}</Typography>
                     </CardContent>
                 </CardActionArea>
         </Card>

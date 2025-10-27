@@ -1,6 +1,7 @@
 import api from "@/api/universal/axios.ts";
-import type {SubjectCreateDto, SubjectGetDetailDto, SubjectUpdateDto} from "@/api/subject/subject-dtos.ts";
+import type {SubjectCreateDto, SubjectGetDetailDto, SubjectGetListDto, SubjectUpdateDto} from "@/api/subject/subject-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
+import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
 
 const url = "/subject";
 
@@ -21,4 +22,15 @@ export const updateSubject = async (id:string, dto: SubjectUpdateDto): Promise<S
 
 export const deleteSubject = async(id: string): Promise<void> => {
     await api.delete<SubjectGetDetailDto>(buildPath([url, id]));
+}
+
+export const getAllSubjects = async(): Promise<SubjectGetListDto[]> => {
+    const res = await api.get<SubjectGetListDto[]>(buildPath([url, "all"]));
+    return res.data
+}
+
+export const getSubjectPaged = async (page: number, pageSize?: number ): Promise<Page<SubjectGetListDto>> => {
+    const size = pageSize ? pageSize : 20;
+    const res = await api.get<Page<SubjectGetListDto>>(buildPath([url], page, size));
+    return res.data;
 }
