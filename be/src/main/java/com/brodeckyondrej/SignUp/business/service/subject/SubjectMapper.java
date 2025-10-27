@@ -1,10 +1,10 @@
 package com.brodeckyondrej.SignUp.business.service.subject;
 
 import com.brodeckyondrej.SignUp.business.service.category.CategoryMapper;
-import com.brodeckyondrej.SignUp.business.dto.subject.CreateSubjectDto;
+import com.brodeckyondrej.SignUp.business.dto.subject.SubjectCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.subject.SubjectGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.subject.SubjectGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.subject.UpdateSubjectDto;
+import com.brodeckyondrej.SignUp.business.dto.subject.SubjectUpdateDto;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.business.service.user.UserMapper;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityMapper;
@@ -13,19 +13,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SubjectMapper implements EntityMapper<Subject, CreateSubjectDto, UpdateSubjectDto, SubjectGetDetailDto, SubjectGetListDto> {
+public class SubjectMapper implements EntityMapper<Subject, SubjectCreateDto, SubjectUpdateDto, SubjectGetDetailDto, SubjectGetListDto> {
 
     private final CategoryMapper categoryMapper;
     private final UserMapper userMapper;
 
     @Override
-    public Subject fromCreateDto(CreateSubjectDto createSubjectDto) {
-        return new Subject(createSubjectDto.getName());
+    public Subject fromCreateDto(SubjectCreateDto subjectCreateDto) {
+        return new Subject(subjectCreateDto.getName());
     }
 
     @Override
-    public void updateFromDto(Subject entity, UpdateSubjectDto updateSubjectDto) {
-        entity.setName(updateSubjectDto.getName());
+    public void updateFromDto(Subject entity, SubjectUpdateDto subjectUpdateDto) {
+        entity.setName(subjectUpdateDto.getName());
     }
 
     @Override

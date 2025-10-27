@@ -2,6 +2,9 @@ import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {CategoryGrid} from "@/components/grids/category-grid.tsx";
+import {createGetSubjectByIdOptions, subjectQueryKey} from "@/api/subject/subject-query-options.ts";
+import {useMutation, useQueryClient, useSuspenseQuery} from "@tanstack/react-query";
+import {deleteSubject} from "@/api/subject/subject-api.ts";
 
 export const Route = createFileRoute('/app/subjects/$subjectId/')({
   component: RouteComponent,
@@ -10,14 +13,27 @@ export const Route = createFileRoute('/app/subjects/$subjectId/')({
 function RouteComponent() {
     const navigate = useNavigate()
     const {subjectId} = Route.useParams()
+    const {
+        data,
+        //isLoading,
+        //isError
+    } = useSuspenseQuery(createGetSubjectByIdOptions(subjectId))
+
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteSubject(subjectId),
+        onSuccess: () => {
+            navigate({
+                to: "/app/subjects",
+            })
+        }
+    })
+
+    const queryClient = useQueryClient();
 
     return (
         <TopBarItemsGrid>
           <SearchableCardSectionTopBarActions
-              title={
-              //TODO vzít z vhodného api callu, použít normální jméno
-                  "Předmět s  id:" + subjectId
-              }
+              title={data.name}
               onSearch={
                 (searchData) => {
                     //TODO funkční search
@@ -25,8 +41,8 @@ function RouteComponent() {
                 }}
               onDelete={
                 () => {
-                    //TODO api call
-                  console.log("Mazání předmětu s id: " + subjectId)
+                    deleteMutation.mutate()
+                    queryClient.invalidateQueries({queryKey: [subjectQueryKey, subjectId]})
                 }
               }
               onEditNavigate={

@@ -25,7 +25,7 @@ function RouteComponent() {
     if (isError) return <div>Chyba při načítání!</div>;
 
     const mutation = useMutation({
-        mutationFn: (id: string) => deleteCollectionById(collectionId),
+        mutationFn: () => deleteCollectionById(collectionId),
         onSuccess: () => {
             navigate({
                 to: "/app/private-collections",
@@ -48,7 +48,7 @@ function RouteComponent() {
                     onDelete={
                         //TODO api call
                         () => {
-                            mutation.mutate(collectionId)
+                            mutation.mutate()
                         }
                     }
                     onEditNavigate={

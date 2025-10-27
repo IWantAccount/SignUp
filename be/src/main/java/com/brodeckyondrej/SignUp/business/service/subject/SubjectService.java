@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
-public class SubjectService extends NamedEntityService<Subject, CreateSubjectDto, UpdateSubjectDto, SubjectGetDetailDto, SubjectGetListDto> {
+public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto, SubjectUpdateDto, SubjectGetDetailDto, SubjectGetListDto> {
 
     private final SubjectRepository subjectRepository;
     private final SubjectValidator subjectValidator;
