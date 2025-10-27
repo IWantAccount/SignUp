@@ -13,7 +13,6 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTestRouteRouteImport } from './routes/app/test-route'
-import { Route as AppRegisterRouteImport } from './routes/app/register'
 import { Route as AppOndraJeFrajerRouteImport } from './routes/app/ondra-je-frajer'
 import { Route as AppDebugRouteRouteImport } from './routes/app/debug/route'
 import { Route as AppUsersIndexRouteImport } from './routes/app/users/index'
@@ -69,11 +68,6 @@ const IndexRoute = IndexRouteImport.update({
 const AppTestRouteRoute = AppTestRouteRouteImport.update({
   id: '/test-route',
   path: '/test-route',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppRegisterRoute = AppRegisterRouteImport.update({
-  id: '/register',
-  path: '/register',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppOndraJeFrajerRoute = AppOndraJeFrajerRouteImport.update({
@@ -276,7 +270,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
-  '/app/register': typeof AppRegisterRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
@@ -319,7 +312,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
-  '/app/register': typeof AppRegisterRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
@@ -363,7 +355,6 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
-  '/app/register': typeof AppRegisterRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
@@ -408,7 +399,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/debug'
     | '/app/ondra-je-frajer'
-    | '/app/register'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/classrooms/create'
@@ -451,7 +441,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/debug'
     | '/app/ondra-je-frajer'
-    | '/app/register'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/classrooms/create'
@@ -494,7 +483,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/debug'
     | '/app/ondra-je-frajer'
-    | '/app/register'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/classrooms/create'
@@ -566,13 +554,6 @@ declare module '@tanstack/react-router' {
       path: '/test-route'
       fullPath: '/app/test-route'
       preLoaderRoute: typeof AppTestRouteRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/register': {
-      id: '/app/register'
-      path: '/register'
-      fullPath: '/app/register'
-      preLoaderRoute: typeof AppRegisterRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/ondra-je-frajer': {
@@ -855,7 +836,6 @@ const AppDebugRouteRouteWithChildren = AppDebugRouteRoute._addFileChildren(
 interface AppRouteRouteChildren {
   AppDebugRouteRoute: typeof AppDebugRouteRouteWithChildren
   AppOndraJeFrajerRoute: typeof AppOndraJeFrajerRoute
-  AppRegisterRoute: typeof AppRegisterRoute
   AppTestRouteRoute: typeof AppTestRouteRoute
   AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
   AppClassroomsCreateRoute: typeof AppClassroomsCreateRoute
@@ -890,7 +870,6 @@ interface AppRouteRouteChildren {
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppDebugRouteRoute: AppDebugRouteRouteWithChildren,
   AppOndraJeFrajerRoute: AppOndraJeFrajerRoute,
-  AppRegisterRoute: AppRegisterRoute,
   AppTestRouteRoute: AppTestRouteRoute,
   AppCategoriesCreateRoute: AppCategoriesCreateRoute,
   AppClassroomsCreateRoute: AppClassroomsCreateRoute,
