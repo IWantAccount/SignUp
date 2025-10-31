@@ -5,6 +5,8 @@ import {Button, Stack} from "@mui/material";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {PrivateCollectionGrid} from "@/components/grids/private-collection-grid.tsx";
+import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
+import {ErrorAlert} from "@/components/util/error-alert.tsx";
 
 export const Route = createFileRoute('/app/private-collections/')({
     component: RouteComponent,
@@ -17,6 +19,10 @@ function RouteComponent() {
         "Vše načteno" :
         infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další";
     const buttonDisabled = !infiniteQuery.hasNextPage || infiniteQuery.isFetchingNextPage;
+
+    if(infiniteQuery.isLoading) return <BackdropLoading/>
+    if(infiniteQuery.isError) return <ErrorAlert message={"Chyba při načítání soukromých kolekcí"}/>
+
     return (
         <Stack sx={{padding: 2}} spacing={2} alignItems="center">
             <TopBarItemsGrid>

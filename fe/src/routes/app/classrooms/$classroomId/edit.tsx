@@ -1,12 +1,14 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {NameForm} from "@/components/forms/name-form.tsx";
-import {useSuspenseQuery} from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import {
     classroomQueryKey,
     createGetClassroomByIdOptions,
     createUpdateClassroomOptions
 } from "@/api/classroom/classroom-query-options.ts";
 import {useMutationWithSnackBar} from "@/api/universal/hooks/use-mutation-snack-bar.tsx";
+import {ErrorAlert} from "@/components/util/error-alert.tsx";
+import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 
 export const Route = createFileRoute('/app/classrooms/$classroomId/edit')({
     component: RouteComponent,
@@ -14,11 +16,15 @@ export const Route = createFileRoute('/app/classrooms/$classroomId/edit')({
 
 function RouteComponent() {
     const classroomId = Route.useParams().classroomId;
-    const query = useSuspenseQuery(createGetClassroomByIdOptions(classroomId));
+    const query = useQuery(createGetClassroomByIdOptions(classroomId));
     const {
         mutation,
         SnackBarComponent
     } = useMutationWithSnackBar([classroomQueryKey], createUpdateClassroomOptions(classroomId), "Povedlo se přejmenovat třídu")
+
+    if (query.isPending) return <BackdropLoading/>
+    if (query.isError) return <ErrorAlert message={"Chyba při načítání třídy"}/>
+
     return (
         <>
 

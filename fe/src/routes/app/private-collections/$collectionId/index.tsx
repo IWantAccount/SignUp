@@ -1,28 +1,26 @@
 import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
-import { SignGrid } from '@/components/grids/sign-grid';
-import {useMutation, useSuspenseQuery} from "@tanstack/react-query";
+import {SignGrid} from '@/components/grids/sign-grid';
+import {useMutation, useQuery} from "@tanstack/react-query";
 import {createGetCollectionByIdOptions} from "@/api/private-collection/private-collection-query-options.ts";
-import { deleteCollectionById } from '@/api/private-collection/private-collection-api';
+import {deleteCollectionById} from '@/api/private-collection/private-collection-api';
+import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
+import {ErrorAlert} from "@/components/util/error-alert.tsx";
 
 export const Route = createFileRoute('/app/private-collections/$collectionId/')(
-  {
-    component: RouteComponent,
-  },
+    {
+        component: RouteComponent
+    },
 )
 
 function RouteComponent() {
     const collectionId = Route.useParams().collectionId;
     const navigate = useNavigate()
 
-    const {
-        data,
-        isLoading,
-        isError,
-    } = useSuspenseQuery(createGetCollectionByIdOptions(collectionId))
-    if (isLoading) return <div>Načítám kolekci...</div>;
-    if (isError) return <div>Chyba při načítání!</div>;
+    const query = useQuery(createGetCollectionByIdOptions(collectionId))
+    if (query.isPending) return <BackdropLoading/>
+    if(query.isError) return <ErrorAlert message={"Chyba při načítání kolekce"} />
 
     const mutation = useMutation({
         mutationFn: () => deleteCollectionById(collectionId),
@@ -32,12 +30,12 @@ function RouteComponent() {
             })
         }
     })
-  return (
+    return (
         <>
             <TopBarItemsGrid>
                 <SearchableCardSectionTopBarActions
                     title={
-                        data.name
+                        query.data.name
                     }
                     onSearch={
                         (searchData) => {
@@ -63,5 +61,5 @@ function RouteComponent() {
                 <SignGrid list={[]}/>
             </TopBarItemsGrid>
         </>
-  )
+    )
 }

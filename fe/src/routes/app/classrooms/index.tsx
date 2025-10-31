@@ -4,6 +4,8 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 import {createClassroomInfiniteQueryOptions} from "@/api/classroom/classroom-query-options.ts";
 import type {ClassroomGetListDto} from "@/api/classroom/classroom-dtos.ts";
 import {Button, Stack, Typography} from "@mui/material";
+import { BackdropLoading } from '@/components/util/backdrop-loading';
+import {ErrorAlert} from "@/components/util/error-alert.tsx";
 
 export const Route = createFileRoute('/app/classrooms/')({
   component: RouteComponent,
@@ -12,6 +14,10 @@ export const Route = createFileRoute('/app/classrooms/')({
 function RouteComponent() {
     const infiniteQuery = useInfiniteQuery(createClassroomInfiniteQueryOptions());
     const classrooms: ClassroomGetListDto[] = infiniteQuery.data?.pages.flatMap(page => page.content) || [];
+
+    if(infiniteQuery.isPending) return <BackdropLoading/>
+    if(infiniteQuery.isError) return <ErrorAlert message={"Chyba při načítání tříd"}/>
+
   return (
       <>
           <Stack sx={{padding: 2}} spacing={2} alignItems="center">

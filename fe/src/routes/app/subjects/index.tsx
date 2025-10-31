@@ -6,6 +6,8 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 import {createSubjectInfiniteQueryOptions} from "@/api/subject/subject-query-options.ts";
 import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
 import {Button, Stack} from "@mui/material";
+import {ErrorAlert} from "@/components/util/error-alert.tsx";
+import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 
 export const Route = createFileRoute('/app/subjects/')({
     component: RouteComponent,
@@ -19,6 +21,9 @@ function RouteComponent() {
         infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další";
 
     const buttonIsDisabled = !infiniteQuery.hasNextPage || infiniteQuery.isFetchingNextPage;
+
+    if(infiniteQuery.isLoading) return <BackdropLoading/>
+    if(infiniteQuery.isError) return <ErrorAlert message={"Chyba při načítání předmětů"}/>
 
     return (
         <Stack sx={{padding: 2}} spacing={2} alignItems="center">

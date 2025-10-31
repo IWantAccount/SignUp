@@ -3,21 +3,21 @@ import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {CategoryGrid} from "@/components/grids/category-grid.tsx";
 import {createGetSubjectByIdOptions, subjectQueryKey} from "@/api/subject/subject-query-options.ts";
-import {useMutation, useQueryClient, useSuspenseQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {deleteSubject} from "@/api/subject/subject-api.ts";
+import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
+import {ErrorAlert} from "@/components/util/error-alert.tsx";
 
 export const Route = createFileRoute('/app/subjects/$subjectId/')({
-  component: RouteComponent,
+    component: RouteComponent,
+    errorComponent: () => <ErrorAlert message={"Chyba při načítání předmětu"}/>,
+    pendingComponent: () => <BackdropLoading/>,
 })
 
 function RouteComponent() {
     const navigate = useNavigate()
     const {subjectId} = Route.useParams()
-    const {
-        data,
-        //isLoading,
-        //isError
-    } = useSuspenseQuery(createGetSubjectByIdOptions(subjectId))
+    const query = useQuery(createGetSubjectByIdOptions(subjectId))
 
     const deleteMutation = useMutation({
         mutationFn: () => deleteSubject(subjectId),
@@ -30,32 +30,35 @@ function RouteComponent() {
 
     const queryClient = useQueryClient();
 
+    if(query.isPending) return <BackdropLoading/>
+    if(query.isError) return <ErrorAlert message={"Chyba při načítání předmětu"}/>
+
     return (
         <TopBarItemsGrid>
-          <SearchableCardSectionTopBarActions
-              title={data.name}
-              onSearch={
-                (searchData) => {
-                    //TODO funkční search
-                    console.log(searchData)
-                }}
-              onDelete={
-                () => {
-                    deleteMutation.mutate()
-                    queryClient.invalidateQueries({queryKey: [subjectQueryKey, subjectId]})
+            <SearchableCardSectionTopBarActions
+                title={query.data.name}
+                onSearch={
+                    (searchData) => {
+                        //TODO funkční search
+                        console.log(searchData)
+                    }}
+                onDelete={
+                    () => {
+                        deleteMutation.mutate()
+                        queryClient.invalidateQueries({queryKey: [subjectQueryKey, subjectId]})
+                    }
                 }
-              }
-              onEditNavigate={
-                () => {
-                    navigate({
-                        to: '/app/subjects/$subjectId/edit',
-                        params: {subjectId},
-                    })
+                onEditNavigate={
+                    () => {
+                        navigate({
+                            to: '/app/subjects/$subjectId/edit',
+                            params: {subjectId},
+                        })
+                    }
                 }
-              }
-          />
-          {/*TODO vhodný api call*/}
-          <CategoryGrid list={[]}/>
+            />
+            {/*TODO vhodný api call*/}
+            <CategoryGrid list={[]}/>
         </TopBarItemsGrid>
     )
 }

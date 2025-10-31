@@ -2,8 +2,10 @@ import {createFileRoute} from '@tanstack/react-router'
 import type {UserCardProps} from "@/components/cards/user-card.tsx";
 import {UserGrid} from "@/components/grids/user-grid.tsx";
 import {Stack, Typography} from "@mui/material";
-import {useSuspenseQuery} from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import {createGetClassroomByIdOptions} from "@/api/classroom/classroom-query-options.ts";
+import {ErrorAlert} from "@/components/util/error-alert.tsx";
+import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 
 export const Route = createFileRoute('/app/classrooms/$classroomId/')({
     component: RouteComponent,
@@ -12,7 +14,9 @@ export const Route = createFileRoute('/app/classrooms/$classroomId/')({
 function RouteComponent() {
     //TODO api call, nějaký tlačítka na přídání a odebrání uživatele
     const classroomId = Route.useParams().classroomId;
-    const query = useSuspenseQuery(createGetClassroomByIdOptions(classroomId))
+    const query = useQuery(createGetClassroomByIdOptions(classroomId))
+    if (query.isPending) return <BackdropLoading/>;
+    if (query.isError) return <ErrorAlert message={"Chyba při načítání třídy"}/>;
     const classname = query.data.name;
     const users: UserCardProps[] = [
         {
