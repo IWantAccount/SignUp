@@ -1,18 +1,17 @@
-import {ClassroomCard, type ClassroomCardProps} from "../cards/classroom-card";
+import {ClassroomCard} from "../cards/classroom-card";
 import {BaseGrid} from "@/components/grids/base-grid.tsx";
+import type {ClassroomGetListDto} from "@/api/classroom/classroom-dtos.ts";
 
 interface Props {
-    list: ClassroomCardProps[]
+    list: ClassroomGetListDto[]
 }
 
-export function ClassroomGrid({list}: Props){
+export function ClassroomGrid({list}: Props) {
     return (
         <BaseGrid>
             {
-                list.map((classroom)=> (
-                    <ClassroomCard  classroomId={classroom.classroomId}
-                                    name={classroom.name}
-                                    studentCount={classroom.studentCount}/>
+                list.map((classroom) => (
+                    <ClassroomCard key={classroom.id} {...classroom}/>
                 ))
             }
         </BaseGrid>

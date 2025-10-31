@@ -1,6 +1,6 @@
 import {useMutation, useQueryClient, type UseMutationOptions} from "@tanstack/react-query";
 import {useState} from "react";
-import {Alert, Snackbar} from "@mui/material";
+import {Alert, Slide, Snackbar} from "@mui/material";
 
 type SnackBarType = "success" | "error";
 
@@ -37,6 +37,7 @@ export function useMutationWithSnackBar<Data, Error, Variables>(
             autoHideDuration={5000}
             onClose={() => setSnack(prev => ({ ...prev, open: false }))}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            TransitionComponent={(props) => <Slide {...props} direction="down"></Slide>}
         >
             <Alert
                 severity={snack.type}

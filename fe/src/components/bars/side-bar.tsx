@@ -8,6 +8,8 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import {NavItemList} from "@/components/util/nav-item-list.tsx";
+import GroupIcon from '@mui/icons-material/Group';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 //Část kódu jsem převzal z oficiální dokumentace MUI: https://mui.com/material-ui/react-drawer/
 
@@ -27,6 +29,7 @@ export function SideBar(props: Props) {
                 {text: "Znaky", Icon: SignLanguageIcon, href: "/app/debug/signs"},
                 {text: "Předměty", Icon: SchoolIcon, href: "/app/subjects"},
                 {text: "Kategorie", Icon: CategoryIcon, href: "/app/debug/categories"},
+                {text: "Třídy", Icon: GroupIcon, href: "/app/classrooms"}
             ]
         },
 
@@ -48,6 +51,7 @@ export function SideBar(props: Props) {
                 {text: "Uživatelé", Icon: AccountCircleIcon, href: "/app/debug/users"},
                 {text: "Komponenty znaku", Icon: ExtensionIcon, href: "/app/debug/sign-components"},
                 {text: "Přidat komponentu znaku", Icon: AddBoxIcon, href: "/app/sign-components/create"},
+                {text: "Přidat třídu", Icon: GroupAddIcon, href: "/app/classrooms/create"},
 
                 //TODO pro adminy ještě správa uživatelů
             ]

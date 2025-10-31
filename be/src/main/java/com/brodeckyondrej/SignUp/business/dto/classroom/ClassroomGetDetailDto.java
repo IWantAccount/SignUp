@@ -1,17 +1,16 @@
 package com.brodeckyondrej.SignUp.business.dto.classroom;
 
+import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.business.dto.universal.NamedDtoWithId;
 import lombok.Getter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
-public class GetClassroomListDto extends NamedDtoWithId {
+public class ClassroomGetDetailDto extends NamedDtoWithId {
 
-    private int numberOfStudents;
-
-    public GetClassroomListDto (UUID id, String name, int numberOfStudents){
+    public ClassroomGetDetailDto(UUID id, String name){
         super(id, name);
-        this.numberOfStudents = numberOfStudents;
     }
 }

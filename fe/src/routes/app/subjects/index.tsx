@@ -24,7 +24,7 @@ function RouteComponent() {
         <Stack sx={{padding: 2}} spacing={2} alignItems="center">
             <TopBarItemsGrid>
                 <SearchableCardSectionTopBarActions title={"Předměty"} onSearch={(searchItem: string) => {/*TODO funkční search*/
-                }}/>
+                }} />
                 <SubjectGrid list={subjects}></SubjectGrid>
             </TopBarItemsGrid>
             <Button onClick={() => infiniteQuery.fetchNextPage()}

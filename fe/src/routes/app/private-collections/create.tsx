@@ -24,7 +24,7 @@ function RouteComponent() {
                                 mutation.mutate({name: data.name, ownerId: "442bfc1c-15d7-44c0-ae4a-e7e443d52fbf"})
                             }
                         }
-                        submitButtonText={"Uložit"}
+                        submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}
                         submitButtonDisabled={mutation.isPending}/>
 
             {SnackBarComponent}

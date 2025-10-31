@@ -1,24 +1,31 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {ClassroomGrid} from "@/components/grids/classroom-grid.tsx";
-import type {ClassroomCardProps} from "@/components/cards/classroom-card.tsx";
+import {useInfiniteQuery} from "@tanstack/react-query";
+import {createClassroomInfiniteQueryOptions} from "@/api/classroom/classroom-query-options.ts";
+import type {ClassroomGetListDto} from "@/api/classroom/classroom-dtos.ts";
+import {Button, Stack, Typography} from "@mui/material";
 
 export const Route = createFileRoute('/app/classrooms/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-    //generate random classrooms
-    const list: ClassroomCardProps[] = Array.from({length: 20}, (_, i) => ({
-        classroomId: i.toString(),
-        name: "classroom number: " + i.toString(),
-        studentCount: i * 5
-
-    }))
+    const infiniteQuery = useInfiniteQuery(createClassroomInfiniteQueryOptions());
+    const classrooms: ClassroomGetListDto[] = infiniteQuery.data?.pages.flatMap(page => page.content) || [];
   return (
-      //TODO change
       <>
-          <h2>Test</h2>
-          <ClassroomGrid list={list}/>
+          <Stack sx={{padding: 2}} spacing={2} alignItems="center">
+              <Typography variant="h4">Třídy</Typography>
+              <ClassroomGrid list={classrooms}/>
+              <Button   onClick={() => infiniteQuery.fetchNextPage()}
+                        disabled={!infiniteQuery.hasNextPage || infiniteQuery.isFetchingNextPage}
+                        sx={{maxWidth: 200}}
+                        variant="outlined">
+                  {!infiniteQuery.hasNextPage ?
+                  "Vše načteno" :
+                  infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další"}
+              </Button>
+          </Stack>
       </>
   )
 }
