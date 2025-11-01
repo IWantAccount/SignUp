@@ -15,15 +15,15 @@ export const Route = createFileRoute('/app/subjects/')({
 
 function RouteComponent() {
     const infiniteQuery = useInfiniteQuery(createSubjectInfiniteQueryOptions());
-    const subjects: SubjectGetListDto[] = infiniteQuery.data?.pages.flatMap(page => page.content) || [];
     const buttonText = !infiniteQuery.hasNextPage ?
         "Vše načteno" :
         infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další";
 
     const buttonIsDisabled = !infiniteQuery.hasNextPage || infiniteQuery.isFetchingNextPage;
 
-    if(infiniteQuery.isLoading) return <BackdropLoading/>
+    if(infiniteQuery.isPending) return <BackdropLoading/>
     if(infiniteQuery.isError) return <ErrorAlert message={"Chyba při načítání předmětů"}/>
+    const subjects: SubjectGetListDto[] = infiniteQuery.data.pages.flatMap(page => page.content) || [];
 
     return (
         <Stack sx={{padding: 2}} spacing={2} alignItems="center">

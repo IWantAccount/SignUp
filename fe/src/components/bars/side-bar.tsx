@@ -49,7 +49,7 @@ export function SideBar(props: Props) {
                 {text: "Přidat předmět", Icon: SchoolIcon, href: "/app/subjects/create"},
                 {text: "Přidat kategorii", Icon: CategoryIcon, href: "/app/categories/create"},
                 {text: "Uživatelé", Icon: AccountCircleIcon, href: "/app/debug/users"},
-                {text: "Komponenty znaku", Icon: ExtensionIcon, href: "/app/debug/sign-components"},
+                {text: "Komponenty znaku", Icon: ExtensionIcon, href: "/app/sign-components"},
                 {text: "Přidat komponentu znaku", Icon: AddBoxIcon, href: "/app/sign-components/create"},
                 {text: "Přidat třídu", Icon: GroupAddIcon, href: "/app/classrooms/create"},
 
