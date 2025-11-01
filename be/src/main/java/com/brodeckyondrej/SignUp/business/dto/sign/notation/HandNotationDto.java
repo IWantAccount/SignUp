@@ -1,13 +1,13 @@
 package com.brodeckyondrej.SignUp.business.dto.sign.notation;
 
-import com.brodeckyondrej.SignUp.business.dto.component.ComponentIdDto;
+import com.brodeckyondrej.SignUp.business.dto.component.SignComponentGetListDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
 public class HandNotationDto {
-    private final ComponentIdDto handShape;
-    private final ComponentIdDto palmOrientation;
-    private final ComponentIdDto fingerOrientation;
+    private final SignComponentGetListDto handShape;
+    private final SignComponentGetListDto palmOrientation;
+    private final SignComponentGetListDto fingerOrientation;
 }

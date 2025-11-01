@@ -16,7 +16,8 @@ import lombok.Setter;
 public class SignComponent extends BaseEntity {
 
     @NotBlank
-    private String component;
+    @Column(name = "text_description")
+    private String textDescription;
 
     @NotNull
     @Enumerated(EnumType.STRING)

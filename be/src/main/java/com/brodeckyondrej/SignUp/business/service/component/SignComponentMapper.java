@@ -1,37 +1,36 @@
 package com.brodeckyondrej.SignUp.business.service.component;
 
-import com.brodeckyondrej.SignUp.business.dto.component.ComponentDto;
-import com.brodeckyondrej.SignUp.business.dto.component.ComponentIdDto;
+import com.brodeckyondrej.SignUp.business.dto.component.*;
 import com.brodeckyondrej.SignUp.persistence.entity.SignComponent;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SignComponentMapper implements EntityMapper<SignComponent, ComponentDto, ComponentDto, ComponentIdDto, ComponentIdDto> {
+public class SignComponentMapper implements EntityMapper<SignComponent, SignComponentCreateDto, SignComponentUpdateDto, SignComponentGetDetailDto, SignComponentGetListDto> {
     @Override
-    public SignComponent fromCreateDto(ComponentDto componentDto) {
-        return new SignComponent(componentDto.getComponent(), componentDto.getType());
+    public SignComponent fromCreateDto(SignComponentCreateDto signComponentCreateDto) {
+        return new SignComponent(signComponentCreateDto.getTextDescription(), signComponentCreateDto.getType());
     }
 
     @Override
-    public void updateFromDto(SignComponent entity, ComponentDto componentDto) {
-        entity.setComponent(componentDto.getComponent());
-        entity.setType(componentDto.getType());
+    public void updateFromDto(SignComponent entity, SignComponentUpdateDto signComponentUpdateDto) {
+        entity.setTextDescription(signComponentUpdateDto.getTextDescription());
     }
 
     @Override
-    public ComponentIdDto toDetailDto(SignComponent entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new ComponentIdDto(entity.getId(), entity.getComponent(), entity.getType());
-    }
-
-    @Override
-    public ComponentIdDto toListDto(SignComponent entity) {
+    public SignComponentGetDetailDto toDetailDto(SignComponent entity) {
         if(entity == null) {
             return null;
         }
-        return new ComponentIdDto(entity.getId(), entity.getComponent(), entity.getType());
+
+        return new SignComponentGetDetailDto(entity.getId(), entity.getTextDescription(), entity.getType());
+    }
+
+    @Override
+    public SignComponentGetListDto toListDto(SignComponent entity) {
+        if(entity == null) {
+            return null;
+        }
+        return new SignComponentGetListDto(entity.getId(), entity.getTextDescription(), entity.getType());
     }
 }

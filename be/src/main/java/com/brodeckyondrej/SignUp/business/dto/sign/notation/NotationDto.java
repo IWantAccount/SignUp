@@ -1,6 +1,6 @@
 package com.brodeckyondrej.SignUp.business.dto.sign.notation;
 
-import com.brodeckyondrej.SignUp.business.dto.component.ComponentIdDto;
+import com.brodeckyondrej.SignUp.business.dto.component.SignComponentGetListDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -14,9 +14,9 @@ public class NotationDto {
     private final HandNotationDto activeHandNotation;
     private final HandNotationDto passiveHandNotation;
 
-    private final ComponentIdDto articulationLocation;
-    private final ComponentIdDto movement;
-    private final ComponentIdDto contact;
-    private final ComponentIdDto handArrangement;
+    private final SignComponentGetListDto articulationLocation;
+    private final SignComponentGetListDto movement;
+    private final SignComponentGetListDto contact;
+    private final SignComponentGetListDto handArrangement;
 
 }
