@@ -7,8 +7,6 @@ import type {
     ClassroomUpdateDto
 } from "@/api/classroom/classroom-dtos.ts";
 import type { Page } from "../universal/dto/spring-boot-page";
-import { enqueueSnackbar } from "notistack";
-import {formatError} from "@/api/util/format-error.ts";
 
 export const classroomQueryKey = "classroom";
 
@@ -28,10 +26,6 @@ export function createCreateClassroomOptions(queryClient: QueryClient): UseMutat
         mutationKey: [classroomQueryKey],
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [queryClient]});
-            enqueueSnackbar("Povedlo se", {variant: "success"});
-        },
-        onError: (err: Error) => {
-            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
         }
     }
 }
@@ -45,10 +39,6 @@ export function createUpdateClassroomOptions(id: string, queryClient: QueryClien
         mutationKey: [classroomQueryKey, id],
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [queryClient]});
-            enqueueSnackbar("Povedlo se", {variant: "success"});
-        },
-        onError: (err: Error) => {
-            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
         }
     }
 }

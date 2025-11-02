@@ -2,8 +2,6 @@ import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOp
 import {createSubject, getSubjectById, getSubjectPaged, updateSubject} from "@/api/subject/subject-api.ts";
 import type {SubjectCreateDto, SubjectGetDetailDto, SubjectUpdateDto} from "@/api/subject/subject-dtos.ts";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
-import {formatError} from "@/api/util/format-error.ts";
-import {enqueueSnackbar} from "notistack";
 
 export const subjectQueryKey = "subject";
 
@@ -22,10 +20,6 @@ export function createCreateSubjectOptions(queryClient: QueryClient): UseMutatio
         mutationFn: (dto: SubjectCreateDto) => createSubject(dto),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
-            enqueueSnackbar("Povedlo se", {variant: "success"});
-        },
-        onError: (err) => {
-            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
         }
     }
 }
@@ -38,10 +32,6 @@ export function createUpdateSubjectOptions(id: string, queryClient: QueryClient)
         mutationFn: (dto: SubjectUpdateDto) => updateSubject(id, dto),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
-            enqueueSnackbar("Povedlo se", {variant: "success"});
-        },
-        onError: (err) => {
-            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
         }
     }
 }

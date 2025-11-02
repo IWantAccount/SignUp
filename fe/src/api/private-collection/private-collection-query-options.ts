@@ -10,8 +10,6 @@ import type {
     PrivateCollectionUpdateDto
 } from "@/api/private-collection/private-collection-dtos.ts";
 import type { Page } from "../universal/dto/spring-boot-page";
-import {formatError} from "@/api/util/format-error.ts";
-import { enqueueSnackbar } from "notistack";
 
 export const privateCollectionQueryKey = "private-collection";
 
@@ -31,10 +29,6 @@ export function createUpdateCollectionByIdOptions(id:string, queryClient: QueryC
         mutationKey: [privateCollectionQueryKey, id],
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
-            enqueueSnackbar("Povedlo se", {variant: "success"});
-        },
-        onError: (err) => {
-            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
         }
     }
 }
@@ -48,10 +42,6 @@ export function createCreateCollectionOptions(queryClient: QueryClient): UseMuta
         mutationKey: [privateCollectionQueryKey],
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
-            enqueueSnackbar("Povedlo se", {variant: "success"})
-        },
-        onError: (err) => {
-            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
         }
 
     }
