@@ -14,14 +14,16 @@ export const Route = createFileRoute('/app/private-collections/')({
 
 function RouteComponent() {
     const infiniteQuery = useInfiniteQuery(createCollectionInfiniteQueryOptions());
-    const collections = infiniteQuery.data?.pages.flatMap(page => page.content) || [];
+
+    if(infiniteQuery.isPending) return <BackdropLoading/>
+    if(infiniteQuery.isError) return <ErrorAlert message={"Chyba při načítání soukromých kolekcí"}/>
+
+    const collections = infiniteQuery.data.pages.flatMap(page => page.content) || [];
     const buttonText = !infiniteQuery.hasNextPage ?
         "Vše načteno" :
         infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další";
     const buttonDisabled = !infiniteQuery.hasNextPage || infiniteQuery.isFetchingNextPage;
 
-    if(infiniteQuery.isLoading) return <BackdropLoading/>
-    if(infiniteQuery.isError) return <ErrorAlert message={"Chyba při načítání soukromých kolekcí"}/>
 
     return (
         <Stack sx={{padding: 2}} spacing={2} alignItems="center">

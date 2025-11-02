@@ -1,5 +1,11 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
-import {createSubject, getSubjectById, getSubjectPaged, updateSubject} from "@/api/subject/subject-api.ts";
+import {
+    createSubject,
+    deleteSubject,
+    getSubjectById,
+    getSubjectPaged,
+    updateSubject
+} from "@/api/subject/subject-api.ts";
 import type {SubjectCreateDto, SubjectGetDetailDto, SubjectUpdateDto} from "@/api/subject/subject-dtos.ts";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
 
@@ -36,10 +42,22 @@ export function createUpdateSubjectOptions(id: string, queryClient: QueryClient)
     }
 }
 
+export function createDeleteSubjectOptions(id: string, queryClient: QueryClient): UseMutationOptions<
+    void,
+    Error,
+    string> {
+    return {
+        mutationFn: (id: string) => deleteSubject(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+        }
+    }
+}
+
 export function createSubjectInfiniteQueryOptions() {
     return infiniteQueryOptions({
         queryKey: [subjectQueryKey, "infinite"],
-        queryFn: ({pageParam}) => getSubjectPaged(pageParam, 2),
+        queryFn: ({pageParam}) => getSubjectPaged(pageParam, 20),
         initialPageParam: 0,
         getNextPageParam: (lastPage: Page<SubjectGetDetailDto>) => {
             const next = lastPage.number + 1;

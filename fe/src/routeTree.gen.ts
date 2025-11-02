@@ -34,14 +34,14 @@ import { Route as AppDebugPrivateCollectionsRouteImport } from './routes/app/deb
 import { Route as AppDebugCategoriesRouteImport } from './routes/app/debug/categories'
 import { Route as AppClassroomsCreateRouteImport } from './routes/app/classrooms/create'
 import { Route as AppCategoriesCreateRouteImport } from './routes/app/categories/create'
-import { Route as AppUsersUseridIndexRouteImport } from './routes/app/users/$userid/index'
+import { Route as AppUsersUserIdIndexRouteImport } from './routes/app/users/$userId/index'
 import { Route as AppSubjectsSubjectIdIndexRouteImport } from './routes/app/subjects/$subjectId/index'
 import { Route as AppSignsSignIdIndexRouteImport } from './routes/app/signs/$signId/index'
 import { Route as AppSignComponentsComponentIdIndexRouteImport } from './routes/app/sign-components/$componentId/index'
 import { Route as AppPrivateCollectionsCollectionIdIndexRouteImport } from './routes/app/private-collections/$collectionId/index'
 import { Route as AppClassroomsClassroomIdIndexRouteImport } from './routes/app/classrooms/$classroomId/index'
 import { Route as AppCategoriesCategoryIdIndexRouteImport } from './routes/app/categories/$categoryId/index'
-import { Route as AppUsersUseridEditRouteImport } from './routes/app/users/$userid/edit'
+import { Route as AppUsersUserIdEditRouteImport } from './routes/app/users/$userId/edit'
 import { Route as AppSubjectsSubjectIdEditRouteImport } from './routes/app/subjects/$subjectId/edit'
 import { Route as AppSignsSignIdEditRouteImport } from './routes/app/signs/$signId/edit'
 import { Route as AppSignComponentsComponentIdEditRouteImport } from './routes/app/sign-components/$componentId/edit'
@@ -177,9 +177,9 @@ const AppCategoriesCreateRoute = AppCategoriesCreateRouteImport.update({
   path: '/categories/create',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppUsersUseridIndexRoute = AppUsersUseridIndexRouteImport.update({
-  id: '/users/$userid/',
-  path: '/users/$userid/',
+const AppUsersUserIdIndexRoute = AppUsersUserIdIndexRouteImport.update({
+  id: '/users/$userId/',
+  path: '/users/$userId/',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppSubjectsSubjectIdIndexRoute =
@@ -217,9 +217,9 @@ const AppCategoriesCategoryIdIndexRoute =
     path: '/categories/$categoryId/',
     getParentRoute: () => AppRouteRoute,
   } as any)
-const AppUsersUseridEditRoute = AppUsersUseridEditRouteImport.update({
-  id: '/users/$userid/edit',
-  path: '/users/$userid/edit',
+const AppUsersUserIdEditRoute = AppUsersUserIdEditRouteImport.update({
+  id: '/users/$userId/edit',
+  path: '/users/$userId/edit',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppSubjectsSubjectIdEditRoute =
@@ -290,14 +290,14 @@ export interface FileRoutesByFullPath {
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
-  '/app/users/$userid/edit': typeof AppUsersUseridEditRoute
+  '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
   '/app/classrooms/$classroomId': typeof AppClassroomsClassroomIdIndexRoute
   '/app/private-collections/$collectionId': typeof AppPrivateCollectionsCollectionIdIndexRoute
   '/app/sign-components/$componentId': typeof AppSignComponentsComponentIdIndexRoute
   '/app/signs/$signId': typeof AppSignsSignIdIndexRoute
   '/app/subjects/$subjectId': typeof AppSubjectsSubjectIdIndexRoute
-  '/app/users/$userid': typeof AppUsersUseridIndexRoute
+  '/app/users/$userId': typeof AppUsersUserIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -331,14 +331,14 @@ export interface FileRoutesByTo {
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
-  '/app/users/$userid/edit': typeof AppUsersUseridEditRoute
+  '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
   '/app/classrooms/$classroomId': typeof AppClassroomsClassroomIdIndexRoute
   '/app/private-collections/$collectionId': typeof AppPrivateCollectionsCollectionIdIndexRoute
   '/app/sign-components/$componentId': typeof AppSignComponentsComponentIdIndexRoute
   '/app/signs/$signId': typeof AppSignsSignIdIndexRoute
   '/app/subjects/$subjectId': typeof AppSubjectsSubjectIdIndexRoute
-  '/app/users/$userid': typeof AppUsersUseridIndexRoute
+  '/app/users/$userId': typeof AppUsersUserIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -373,14 +373,14 @@ export interface FileRoutesById {
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
-  '/app/users/$userid/edit': typeof AppUsersUseridEditRoute
+  '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId/': typeof AppCategoriesCategoryIdIndexRoute
   '/app/classrooms/$classroomId/': typeof AppClassroomsClassroomIdIndexRoute
   '/app/private-collections/$collectionId/': typeof AppPrivateCollectionsCollectionIdIndexRoute
   '/app/sign-components/$componentId/': typeof AppSignComponentsComponentIdIndexRoute
   '/app/signs/$signId/': typeof AppSignsSignIdIndexRoute
   '/app/subjects/$subjectId/': typeof AppSubjectsSubjectIdIndexRoute
-  '/app/users/$userid/': typeof AppUsersUseridIndexRoute
+  '/app/users/$userId/': typeof AppUsersUserIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -416,14 +416,14 @@ export interface FileRouteTypes {
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
     | '/app/subjects/$subjectId/edit'
-    | '/app/users/$userid/edit'
+    | '/app/users/$userId/edit'
     | '/app/categories/$categoryId'
     | '/app/classrooms/$classroomId'
     | '/app/private-collections/$collectionId'
     | '/app/sign-components/$componentId'
     | '/app/signs/$signId'
     | '/app/subjects/$subjectId'
-    | '/app/users/$userid'
+    | '/app/users/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -457,14 +457,14 @@ export interface FileRouteTypes {
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
     | '/app/subjects/$subjectId/edit'
-    | '/app/users/$userid/edit'
+    | '/app/users/$userId/edit'
     | '/app/categories/$categoryId'
     | '/app/classrooms/$classroomId'
     | '/app/private-collections/$collectionId'
     | '/app/sign-components/$componentId'
     | '/app/signs/$signId'
     | '/app/subjects/$subjectId'
-    | '/app/users/$userid'
+    | '/app/users/$userId'
   id:
     | '__root__'
     | '/'
@@ -498,14 +498,14 @@ export interface FileRouteTypes {
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
     | '/app/subjects/$subjectId/edit'
-    | '/app/users/$userid/edit'
+    | '/app/users/$userId/edit'
     | '/app/categories/$categoryId/'
     | '/app/classrooms/$classroomId/'
     | '/app/private-collections/$collectionId/'
     | '/app/sign-components/$componentId/'
     | '/app/signs/$signId/'
     | '/app/subjects/$subjectId/'
-    | '/app/users/$userid/'
+    | '/app/users/$userId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -691,11 +691,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCategoriesCreateRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/app/users/$userid/': {
-      id: '/app/users/$userid/'
-      path: '/users/$userid'
-      fullPath: '/app/users/$userid'
-      preLoaderRoute: typeof AppUsersUseridIndexRouteImport
+    '/app/users/$userId/': {
+      id: '/app/users/$userId/'
+      path: '/users/$userId'
+      fullPath: '/app/users/$userId'
+      preLoaderRoute: typeof AppUsersUserIdIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/subjects/$subjectId/': {
@@ -740,11 +740,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCategoriesCategoryIdIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/app/users/$userid/edit': {
-      id: '/app/users/$userid/edit'
-      path: '/users/$userid/edit'
-      fullPath: '/app/users/$userid/edit'
-      preLoaderRoute: typeof AppUsersUseridEditRouteImport
+    '/app/users/$userId/edit': {
+      id: '/app/users/$userId/edit'
+      path: '/users/$userId/edit'
+      fullPath: '/app/users/$userId/edit'
+      preLoaderRoute: typeof AppUsersUserIdEditRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/subjects/$subjectId/edit': {
@@ -836,14 +836,14 @@ interface AppRouteRouteChildren {
   AppSignComponentsComponentIdEditRoute: typeof AppSignComponentsComponentIdEditRoute
   AppSignsSignIdEditRoute: typeof AppSignsSignIdEditRoute
   AppSubjectsSubjectIdEditRoute: typeof AppSubjectsSubjectIdEditRoute
-  AppUsersUseridEditRoute: typeof AppUsersUseridEditRoute
+  AppUsersUserIdEditRoute: typeof AppUsersUserIdEditRoute
   AppCategoriesCategoryIdIndexRoute: typeof AppCategoriesCategoryIdIndexRoute
   AppClassroomsClassroomIdIndexRoute: typeof AppClassroomsClassroomIdIndexRoute
   AppPrivateCollectionsCollectionIdIndexRoute: typeof AppPrivateCollectionsCollectionIdIndexRoute
   AppSignComponentsComponentIdIndexRoute: typeof AppSignComponentsComponentIdIndexRoute
   AppSignsSignIdIndexRoute: typeof AppSignsSignIdIndexRoute
   AppSubjectsSubjectIdIndexRoute: typeof AppSubjectsSubjectIdIndexRoute
-  AppUsersUseridIndexRoute: typeof AppUsersUseridIndexRoute
+  AppUsersUserIdIndexRoute: typeof AppUsersUserIdIndexRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
@@ -871,7 +871,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppSignComponentsComponentIdEditRoute: AppSignComponentsComponentIdEditRoute,
   AppSignsSignIdEditRoute: AppSignsSignIdEditRoute,
   AppSubjectsSubjectIdEditRoute: AppSubjectsSubjectIdEditRoute,
-  AppUsersUseridEditRoute: AppUsersUseridEditRoute,
+  AppUsersUserIdEditRoute: AppUsersUserIdEditRoute,
   AppCategoriesCategoryIdIndexRoute: AppCategoriesCategoryIdIndexRoute,
   AppClassroomsClassroomIdIndexRoute: AppClassroomsClassroomIdIndexRoute,
   AppPrivateCollectionsCollectionIdIndexRoute:
@@ -880,7 +880,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
     AppSignComponentsComponentIdIndexRoute,
   AppSignsSignIdIndexRoute: AppSignsSignIdIndexRoute,
   AppSubjectsSubjectIdIndexRoute: AppSubjectsSubjectIdIndexRoute,
-  AppUsersUseridIndexRoute: AppUsersUseridIndexRoute,
+  AppUsersUserIdIndexRoute: AppUsersUserIdIndexRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

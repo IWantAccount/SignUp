@@ -61,7 +61,7 @@ export function createCollectionInfiniteQueryOptions() {
 export function createDeleteCollectionByIdOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, Error, string> {
     return {
         mutationKey: [privateCollectionQueryKey, id],
-        mutationFn: (id: string) =>deleteCollectionById(id),
+        mutationFn: (id: string) => deleteCollectionById(id),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]})
         }

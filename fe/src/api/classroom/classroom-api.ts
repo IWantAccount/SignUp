@@ -20,8 +20,8 @@ export const updateClassroom = async (id: string, dto: ClassroomUpdateDto): Prom
     return res.data;
 }
 
-export const deleteSubject = async (subjectId: string): Promise<void> => {
-    await api.delete<void>(buildPath([url, subjectId]));
+export const deleteClassroom = async (classroomId: string): Promise<void> => {
+    await api.delete<void>(buildPath([url, classroomId]));
 }
 
 export const getClassroomPaged = async (page: number, pageSize?: number ): Promise<Page<ClassroomGetListDto>> => {

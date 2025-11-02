@@ -2,14 +2,13 @@ import {z} from "zod";
 import {type UserRoleEnum, userRoleEnum, userRoleToCzech} from "@/domain/user-role-enum.ts";
 import {Controller, type SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Autocomplete, Box, Button, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 
 const schema = z.object({
     name: z.string().trim().min(1, "Jméno je povinné").max(40, "Jméno může mít maximálně 40 znaků"),
     email: z.email("Neplatný formát emailu"),
     password: z.string().trim().min(6, "Heslo musí mít alespoň 6 znaků"),
     role: userRoleEnum
-        .nullable()
         .refine((role) => role !== null, {
             message: "Role je povinná",
     }),
@@ -18,7 +17,14 @@ const schema = z.object({
 export type UserFormData = z.infer<typeof schema>;
 
 interface Props {
-    onSubmit: SubmitHandler<UserFormData>
+    onSubmit: SubmitHandler<UserFormData>;
+    header: string;
+    submitButtonText: string;
+    submitButtonDisabled: boolean;
+    defaultName?: string;
+    defaultEmail?: string;
+    defaultPassword?: string;
+    defaultRole?: UserRoleEnum;
 }
 
 
@@ -28,10 +34,10 @@ export function UserForm(props: Props) {
         resolver: zodResolver(schema),
         mode: "all",
         defaultValues: {
-            name: "",
-            email: "",
-            password: "",
-            role: "STUDENT",
+            name: props.defaultName ? props.defaultName : "",
+            email: props.defaultEmail ? props.defaultEmail : "",
+            password: props.defaultPassword? props.defaultPassword : "",
+            role: props.defaultRole ? props.defaultRole : "STUDENT",
         }
     });
 
@@ -49,6 +55,8 @@ export function UserForm(props: Props) {
                     width: "100%",
                     boxSizing: "border-box",
                 }}>
+
+            <Typography variant="h5">{props.header}</Typography>
 
             <Controller name="name"
                         control={control}
@@ -99,7 +107,7 @@ export function UserForm(props: Props) {
 
                         )}/>
 
-            <Button variant="contained" type="submit">Uložit</Button>
+            <Button variant="contained" type="submit" disabled={props.submitButtonDisabled}>{props.submitButtonText}</Button>
         </Box>
     )
 }
