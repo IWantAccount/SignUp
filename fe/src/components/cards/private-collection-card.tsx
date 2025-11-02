@@ -1,4 +1,4 @@
-import {Box, Card, CardActionArea, CardContent, IconButton, Skeleton, Typography} from "@mui/material";
+import {Card, CardActionArea, CardActions, CardContent, IconButton, Skeleton, Typography} from "@mui/material";
 import {Link, useNavigate} from "@tanstack/react-router";
 import type {
     PrivateCollectionGetListDto
@@ -22,25 +22,6 @@ export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
                 </CardContent>
             ) : (
                 <>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "right",
-                            alignItems: "center",
-                            px: 1,
-                        }}
-                    >
-                        <IconButton
-                            onClick={() => navigate({ to: `/app/private-collections/${dto.id}/edit/` })}
-                        >
-                            <EditIcon />
-                        </IconButton>
-
-                        <IconButton onClick={() => mutation.mutate(dto.id)}>
-                            <ClearIcon />
-                        </IconButton>
-                    </Box>
-
                     <CardActionArea
                         sx={{ height: "100%" }}
                         component={Link}
@@ -50,6 +31,16 @@ export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
                             <Typography variant="h5">{dto.name}</Typography>
                         </CardContent>
                     </CardActionArea>
+                    <CardActions sx={{justifyContent: "space-around"}}>
+                        <IconButton
+                            onClick={() => navigate({ to: `/app/private-collections/${dto.id}/edit/` })}>
+                            <EditIcon />
+                        </IconButton>
+
+                        <IconButton onClick={() => mutation.mutate(dto.id)}>
+                            <ClearIcon />
+                        </IconButton>
+                    </CardActions>
                 </>
             )}
         </Card>

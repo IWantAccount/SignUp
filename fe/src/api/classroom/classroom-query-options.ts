@@ -1,5 +1,11 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
-import {createClassroom, getClassroomById, getClassroomPaged, updateClassroom} from "@/api/classroom/classroom-api.ts";
+import {
+    createClassroom,
+    deleteClassroom,
+    getClassroomById,
+    getClassroomPaged,
+    updateClassroom
+} from "@/api/classroom/classroom-api.ts";
 import type {
     ClassroomCreateDto,
     ClassroomGetDetailDto,
@@ -25,7 +31,7 @@ export function createCreateClassroomOptions(queryClient: QueryClient): UseMutat
         mutationFn: (dto: ClassroomCreateDto) => createClassroom(dto),
         mutationKey: [classroomQueryKey],
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [queryClient]});
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
         }
     }
 }
@@ -38,7 +44,16 @@ export function createUpdateClassroomOptions(id: string, queryClient: QueryClien
         mutationFn: (dto: ClassroomUpdateDto) => updateClassroom(id, dto),
         mutationKey: [classroomQueryKey, id],
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [queryClient]});
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
+        }
+    }
+}
+
+export function createDeleteClassroomOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, Error, string> {
+    return {
+        mutationFn: (id: string) => deleteClassroom(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
         }
     }
 }

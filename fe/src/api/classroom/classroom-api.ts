@@ -21,6 +21,7 @@ export const updateClassroom = async (id: string, dto: ClassroomUpdateDto): Prom
 }
 
 export const deleteClassroom = async (classroomId: string): Promise<void> => {
+    await new Promise(resolve => {setTimeout(resolve, 3000)})
     await api.delete<void>(buildPath([url, classroomId]));
 }
 

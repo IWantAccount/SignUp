@@ -1,4 +1,13 @@
-import {Box, Card, CardActionArea, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
+import {
+    Card,
+    CardActionArea,
+    CardActions,
+    CardContent,
+    IconButton,
+    Skeleton,
+    Stack,
+    Typography
+} from "@mui/material";
 import {Link, useNavigate} from "@tanstack/react-router";
 import {componentTypeToCzech} from "@/domain/sign-component-type-enum.ts";
 import type {SignComponentGetListDto} from "@/api/sign-component/sign-component-dtos.ts";
@@ -28,28 +37,6 @@ export function SignComponentCard(props: SignComponentGetListDto) {
                     ) :
                     (
                         <Stack>
-                            <Box
-                                sx={{
-                                    display: "flex",
-                                    justifyContent: "right",
-                                    alignItems: "center",
-                                    px: 1,
-                                }}
-                            >
-                                <IconButton
-                                    onClick={() => {
-                                        navigate({to: `/app/sign-components/${props.id}/edit/`});
-                                    }}
-                                >
-                                    <EditIcon/>
-                                </IconButton>
-
-                                <IconButton
-                                    onClick={() => mutation.mutate(props.id)}
-                                >
-                                    <ClearIcon/>
-                                </IconButton>
-                            </Box>
                             <CardActionArea component={Link} to={`/app/sign-components/${props.id}/`}>
                                 <CardContent>
                                     <Stack>
@@ -59,6 +46,19 @@ export function SignComponentCard(props: SignComponentGetListDto) {
                                     </Stack>
                                 </CardContent>
                             </CardActionArea>
+                            <CardActions sx={{justifyContent: "space-between"}}>
+                                <IconButton
+                                    onClick={() => {
+                                        navigate({to: `/app/sign-components/${props.id}/edit/`});
+                                    }}>
+                                    <EditIcon/>
+                                </IconButton>
+
+                                <IconButton
+                                    onClick={() => mutation.mutate(props.id)}>
+                                    <ClearIcon/>
+                                </IconButton>
+                            </CardActions>
                         </Stack>
 
                     )
