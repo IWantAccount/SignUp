@@ -26,6 +26,7 @@ export const createCollection = async (dto: PrivateCollectionCreateDto): Promise
 }
 
 export const deleteCollectionById = async (id: string): Promise<void> => {
+    await new Promise(resolve => {setTimeout(resolve, 5000)})
     await api.delete<PrivateCollectionGetDetailDto>(buildPath([url, id]));
 }
 

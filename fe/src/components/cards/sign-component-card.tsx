@@ -1,4 +1,4 @@
-import {Box, Card, CardActionArea, CardContent, IconButton, Stack, Typography} from "@mui/material";
+import {Box, Card, CardActionArea, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
 import {Link, useNavigate} from "@tanstack/react-router";
 import {componentTypeToCzech} from "@/domain/sign-component-type-enum.ts";
 import type {SignComponentGetListDto} from "@/api/sign-component/sign-component-dtos.ts";
@@ -19,38 +19,51 @@ export function SignComponentCard(props: SignComponentGetListDto) {
         <Card sx={{
             minWidth: 200,
         }}>
-            <Stack>
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "right",
-                        alignItems: "center",
-                        px: 1,
-                    }}
-                >
-                    <IconButton
-                        onClick={() => {
-                            navigate({ to: `/app/sign-components/${props.id}/edit/` });
-                        }}
-                    >
-                        <EditIcon />
-                    </IconButton>
-
-                    <IconButton
-                        onClick={() => mutation.mutate(props.id)}
-                    >
-                        <ClearIcon />
-                    </IconButton>
-                </Box>
-                <CardActionArea component={Link} to={`/app/sign-components/${props.id}/`}>
-                    <CardContent>
+            {
+                mutation.isPending ? (
+                        <CardContent>
+                            <Skeleton variant="text" width="80%"/>
+                            <Skeleton variant="rectangular" width="80%"/>
+                        </CardContent>
+                    ) :
+                    (
                         <Stack>
-                            <Typography variant="body2">Popis: {props.textDescription}</Typography>
-                            <Typography variant="body2">Druh: {componentTypeToCzech(props.type)}</Typography>
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "right",
+                                    alignItems: "center",
+                                    px: 1,
+                                }}
+                            >
+                                <IconButton
+                                    onClick={() => {
+                                        navigate({to: `/app/sign-components/${props.id}/edit/`});
+                                    }}
+                                >
+                                    <EditIcon/>
+                                </IconButton>
+
+                                <IconButton
+                                    onClick={() => mutation.mutate(props.id)}
+                                >
+                                    <ClearIcon/>
+                                </IconButton>
+                            </Box>
+                            <CardActionArea component={Link} to={`/app/sign-components/${props.id}/`}>
+                                <CardContent>
+                                    <Stack>
+                                        <Typography variant="body2">Popis: {props.textDescription}</Typography>
+                                        <Typography
+                                            variant="body2">Druh: {componentTypeToCzech(props.type)}</Typography>
+                                    </Stack>
+                                </CardContent>
+                            </CardActionArea>
                         </Stack>
-                    </CardContent>
-                </CardActionArea>
-            </Stack>
+
+                    )
+            }
+
         </Card>
     )
 }

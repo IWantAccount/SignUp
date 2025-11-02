@@ -1,6 +1,6 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query"
 import {
-    createCollection,
+    createCollection, deleteCollectionById,
     getCollectionById, getCollectionPaged,
     updateCollectionById
 } from "@/api/private-collection/private-collection-api.ts";
@@ -56,4 +56,13 @@ export function createCollectionInfiniteQueryOptions() {
             return next < lastPage.totalPages ? next : undefined
         }
     })
+}
+export function createDeleteCollectionByIdOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, Error, string> {
+    return {
+        mutationKey: [privateCollectionQueryKey, id],
+        mutationFn: (id: string) =>deleteCollectionById(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]})
+        }
+    }
 }
