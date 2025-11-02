@@ -15,6 +15,8 @@ import type {
     SignComponentUpdateDto
 } from "@/api/sign-component/sign-component-dtos.ts";
 import type { Page } from "../universal/dto/spring-boot-page";
+import {formatError} from "@/api/util/format-error.ts";
+import { enqueueSnackbar } from "notistack";
 
 export const signComponentQueryKey = "sign-component";
 
@@ -33,7 +35,11 @@ export function createCreateSignComponentOptions(queryClient: QueryClient): UseM
         mutationKey: [signComponentQueryKey],
         mutationFn: (dto: SignComponentCreateDto) => createSignComponent(dto),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [signComponentQueryKey]})
+            queryClient.invalidateQueries({queryKey: [signComponentQueryKey]});
+            enqueueSnackbar("Povedlo se", {variant: "success"});
+        },
+        onError: (err) => {
+            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
         }
     }
 }
@@ -46,7 +52,11 @@ export function createUpdateSignComponentOptions(id: string, queryClient: QueryC
         mutationKey: [signComponentQueryKey, id],
         mutationFn: (dto: SignComponentUpdateDto) => updateSignComponent(id, dto),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [signComponentQueryKey, id]})
+            queryClient.invalidateQueries({queryKey: [signComponentQueryKey, id]});
+            enqueueSnackbar("Povedlo se", {variant: "success"})
+        },
+        onError: (err) => {
+            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
         }
     }
 }
@@ -56,7 +66,11 @@ export function createDeleteSignComponentOptions(id: string, queryClient: QueryC
         mutationKey: [signComponentQueryKey, id],
         mutationFn: (id: string) => deleteSignComponent(id),
         onSuccess: (_data, id: string) => {
-            queryClient.invalidateQueries({queryKey: [signComponentQueryKey]})
+            queryClient.invalidateQueries({queryKey: [signComponentQueryKey]});
+            enqueueSnackbar("Povedlo se", {variant: "success"})
+        },
+        onError: (err) => {
+            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
         }
     }
 }

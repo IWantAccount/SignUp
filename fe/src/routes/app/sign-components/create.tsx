@@ -1,11 +1,9 @@
 import {SignComponentForm} from '@/components/forms/sign-component-form'
 import {createFileRoute} from '@tanstack/react-router'
-import {useMutationWithSnackBar} from "@/api/universal/hooks/use-mutation-snack-bar.tsx";
 import {
-    createCreateSignComponentOptions,
-    signComponentQueryKey
+    createCreateSignComponentOptions
 } from "@/api/sign-component/sign-component-query-options.ts";
-import {useQueryClient} from "@tanstack/react-query";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 export const Route = createFileRoute('/app/sign-components/create')({
     component: RouteComponent,
@@ -13,23 +11,17 @@ export const Route = createFileRoute('/app/sign-components/create')({
 
 function RouteComponent() {
     const queryClient = useQueryClient()
-    const {
-        mutation,
-        SnackBarComponent
-    } = useMutationWithSnackBar([signComponentQueryKey], createCreateSignComponentOptions(queryClient), "Komponenta znaku vytvořena");
+    const mutation = useMutation(createCreateSignComponentOptions(queryClient));
 
     return (
-        <>
-            <SignComponentForm header={"Vytvořit komponentu znaku"}
-                               onSubmit={
-                                   (data) => {
-                                       mutation.mutate(data)
-                                   }
+        <SignComponentForm header={"Vytvořit komponentu znaku"}
+                           onSubmit={
+                               (data) => {
+                                   mutation.mutate(data)
                                }
-                               submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}
-                               submitButtonDisabled={mutation.isPending}
-                               renderType={true}/>
-            {SnackBarComponent}
-        </>
+                           }
+                           submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}
+                           submitButtonDisabled={mutation.isPending}
+                           renderType={true}/>
     )
 }

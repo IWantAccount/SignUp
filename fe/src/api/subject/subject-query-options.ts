@@ -1,7 +1,9 @@
-import {infiniteQueryOptions, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
+import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {createSubject, getSubjectById, getSubjectPaged, updateSubject} from "@/api/subject/subject-api.ts";
 import type {SubjectCreateDto, SubjectGetDetailDto, SubjectUpdateDto} from "@/api/subject/subject-dtos.ts";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import {formatError} from "@/api/util/format-error.ts";
+import {enqueueSnackbar} from "notistack";
 
 export const subjectQueryKey = "subject";
 
@@ -12,21 +14,35 @@ export function createGetSubjectByIdOptions(id: string) {
     })
 }
 
-export function createCreateSubjectOptions(): UseMutationOptions<
+export function createCreateSubjectOptions(queryClient: QueryClient): UseMutationOptions<
     SubjectGetDetailDto,
     Error,
     SubjectCreateDto> {
     return {
-        mutationFn: (dto: SubjectCreateDto) =>  createSubject(dto)
+        mutationFn: (dto: SubjectCreateDto) => createSubject(dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+            enqueueSnackbar("Povedlo se", {variant: "success"});
+        },
+        onError: (err) => {
+            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
+        }
     }
 }
 
-export function createUpdateSubjectOptions(id: string): UseMutationOptions<
+export function createUpdateSubjectOptions(id: string, queryClient: QueryClient): UseMutationOptions<
     SubjectGetDetailDto,
     Error,
     SubjectUpdateDto> {
     return {
-        mutationFn: (dto: SubjectUpdateDto) => updateSubject(id, dto)
+        mutationFn: (dto: SubjectUpdateDto) => updateSubject(id, dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+            enqueueSnackbar("Povedlo se", {variant: "success"});
+        },
+        onError: (err) => {
+            enqueueSnackbar("Něco se pokazilo:" + formatError(err), {variant: "error"});
+        }
     }
 }
 
