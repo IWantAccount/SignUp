@@ -1,4 +1,4 @@
-import {infiniteQueryOptions, queryOptions, type UseMutationOptions} from "@tanstack/react-query"
+import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query"
 import {
     createCollection,
     getCollectionById, getCollectionPaged,
@@ -20,21 +20,29 @@ export function createGetCollectionByIdOptions(id: string) {
     })
 }
 
-export function createUpdateCollectionByIdOptions(id:string): UseMutationOptions<
+export function createUpdateCollectionByIdOptions(id:string, queryClient: QueryClient): UseMutationOptions<
     PrivateCollectionGetDetailDto,
     Error,
     PrivateCollectionUpdateDto> {
     return {
         mutationFn: (dto) => updateCollectionById(id, dto),
+        mutationKey: [privateCollectionQueryKey, id],
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]})
+        }
     }
 }
 
-export function createCreateCollectionOptions(): UseMutationOptions<
+export function createCreateCollectionOptions(queryClient: QueryClient): UseMutationOptions<
     PrivateCollectionGetDetailDto,
     Error,
     PrivateCollectionCreateDto> {
     return {
-        mutationFn: (dto) => createCollection(dto)
+        mutationFn: (dto) => createCollection(dto),
+        mutationKey: [privateCollectionQueryKey],
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]})
+        }
     }
 }
 

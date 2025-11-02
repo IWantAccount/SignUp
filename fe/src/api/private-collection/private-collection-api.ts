@@ -20,7 +20,7 @@ export const updateCollectionById = async (id: string, updateDto: PrivateCollect
 }
 
 export const createCollection = async (dto: PrivateCollectionCreateDto): Promise<PrivateCollectionGetDetailDto> => {
-    await new Promise(resolve => {setTimeout(resolve, 5000)})
+    //await new Promise(resolve => {setTimeout(resolve, 5000)})
     const res = await api.post<PrivateCollectionGetDetailDto>(url, dto);
     return res.data;
 }

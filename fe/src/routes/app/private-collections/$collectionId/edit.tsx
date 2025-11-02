@@ -1,6 +1,6 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {NameForm} from "@/components/forms/name-form.tsx";
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 import {
     createGetCollectionByIdOptions,
     createUpdateCollectionByIdOptions,
@@ -19,13 +19,14 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
     const collectionId = Route.useParams().collectionId;
+    const queryClient = useQueryClient();
 
     const query = useQuery(createGetCollectionByIdOptions(collectionId))
 
     const {
         mutation,
         SnackBarComponent
-    } = useMutationWithSnackBar([privateCollectionQueryKey, collectionId], createUpdateCollectionByIdOptions(collectionId), "Kolekce přejmenována")
+    } = useMutationWithSnackBar([privateCollectionQueryKey, collectionId], createUpdateCollectionByIdOptions(collectionId, queryClient), "Kolekce přejmenována")
 
     if(query.isPending) return <BackdropLoading/>
     if(query.isError) return <ErrorAlert message={"Chyba při načítání kolekce"}/>

@@ -5,14 +5,16 @@ import {
     privateCollectionQueryKey
 } from "@/api/private-collection/private-collection-query-options.ts";
 import {useMutationWithSnackBar} from "@/api/universal/hooks/use-mutation-snack-bar.tsx";
+import {useQueryClient} from "@tanstack/react-query";
 
 export const Route = createFileRoute('/app/private-collections/create')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+    const queryClient = useQueryClient();
 
-    const {mutation, SnackBarComponent} = useMutationWithSnackBar([privateCollectionQueryKey], createCreateCollectionOptions(), "Kolekce vytvořena")
+    const {mutation, SnackBarComponent} = useMutationWithSnackBar([privateCollectionQueryKey], createCreateCollectionOptions(queryClient), "Kolekce vytvořena")
 
 
     return (
