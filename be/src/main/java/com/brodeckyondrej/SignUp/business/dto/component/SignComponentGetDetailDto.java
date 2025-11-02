@@ -1,7 +1,7 @@
 package com.brodeckyondrej.SignUp.business.dto.component;
 
-import com.brodeckyondrej.SignUp.persistence.enumerated.SignComponentType;
 import com.brodeckyondrej.SignUp.business.dto.universal.IdDto;
+import com.brodeckyondrej.SignUp.persistence.enumerated.SignComponentType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -9,17 +9,17 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class ComponentIdDto extends IdDto {
+public class SignComponentGetDetailDto extends IdDto {
 
     @NotBlank
-    private final String component;
+    private final String textDescription;
 
     @NotNull
     private final SignComponentType type;
 
-    public ComponentIdDto(UUID id, String component, SignComponentType type) {
+    public SignComponentGetDetailDto(UUID id, String textDescription, SignComponentType type) {
         super(id);
-        this.component = component;
+        this.textDescription = textDescription;
         this.type = type;
     }
 }

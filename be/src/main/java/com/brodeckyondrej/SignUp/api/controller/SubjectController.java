@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/subject")
-public class SubjectController extends NamedEntityController<Subject, CreateSubjectDto, UpdateSubjectDto, SubjectGetDetailDto, SubjectGetListDto, FindByNameDto> {
+public class SubjectController extends NamedEntityController<Subject, SubjectCreateDto, SubjectUpdateDto, SubjectGetDetailDto, SubjectGetListDto, FindByNameDto> {
 
     private final SubjectService subjectService;
 

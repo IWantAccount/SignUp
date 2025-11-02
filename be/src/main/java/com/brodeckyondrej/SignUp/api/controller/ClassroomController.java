@@ -1,9 +1,9 @@
 package com.brodeckyondrej.SignUp.api.controller;
 
-import com.brodeckyondrej.SignUp.business.dto.classroom.GetClassroomDetailDto;
-import com.brodeckyondrej.SignUp.business.dto.classroom.GetClassroomListDto;
-import com.brodeckyondrej.SignUp.business.dto.classroom.CreateClassroomDto;
-import com.brodeckyondrej.SignUp.business.dto.classroom.UpdateClassroomDto;
+import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomGetDetailDto;
+import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomGetListDto;
+import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomCreateDto;
+import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomUpdateDto;
 import com.brodeckyondrej.SignUp.business.service.classroom.ClassroomService;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/classroom")
-public class ClassroomController extends NamedEntityController<Classroom, CreateClassroomDto, UpdateClassroomDto, GetClassroomDetailDto, GetClassroomListDto, FindByNameDto> {
+public class ClassroomController extends NamedEntityController<Classroom, ClassroomCreateDto, ClassroomUpdateDto, ClassroomGetDetailDto, ClassroomGetListDto, FindByNameDto> {
 
     public ClassroomController(ClassroomService service){
         super(service);

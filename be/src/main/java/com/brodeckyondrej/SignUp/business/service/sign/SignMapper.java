@@ -1,7 +1,7 @@
 package com.brodeckyondrej.SignUp.business.service.sign;
 
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.component.ComponentIdDto;
+import com.brodeckyondrej.SignUp.business.dto.component.SignComponentGetListDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.notation.HandNotationDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.notation.HandNotationIdDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.notation.NotationDto;
@@ -128,17 +128,17 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
                 notation.isAsymmetricSign(),
                 activeHand,
                 passiveHand,
-                signComponentMapper.toDetailDto(notation.getArticulationLocation()),
-                signComponentMapper.toDetailDto(notation.getMovement()),
-                signComponentMapper.toDetailDto(notation.getContact()),
-                signComponentMapper.toDetailDto(notation.getHandArrangement())
+                signComponentMapper.toListDto(notation.getArticulationLocation()),
+                signComponentMapper.toListDto(notation.getMovement()),
+                signComponentMapper.toListDto(notation.getContact()),
+                signComponentMapper.toListDto(notation.getHandArrangement())
         );
     }
 
     private HandNotationDto mapHandNotationToDto(HandNotation handNotation){
-        ComponentIdDto handShape = signComponentMapper.toDetailDto(handNotation.getHandShape());
-        ComponentIdDto palmOrientation = signComponentMapper.toDetailDto(handNotation.getPalmOrientation());
-        ComponentIdDto fingerOrientation = signComponentMapper.toDetailDto(handNotation.getFingerOrientation());
+        SignComponentGetListDto handShape = signComponentMapper.toListDto(handNotation.getHandShape());
+        SignComponentGetListDto palmOrientation = signComponentMapper.toListDto(handNotation.getPalmOrientation());
+        SignComponentGetListDto fingerOrientation = signComponentMapper.toListDto(handNotation.getFingerOrientation());
 
         return new HandNotationDto(handShape, palmOrientation, fingerOrientation);
     }

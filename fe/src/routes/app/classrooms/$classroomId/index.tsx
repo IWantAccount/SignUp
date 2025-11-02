@@ -1,36 +1,51 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute} from '@tanstack/react-router'
 import type {UserCardProps} from "@/components/cards/user-card.tsx";
 import {UserGrid} from "@/components/grids/user-grid.tsx";
+import {Stack, Typography} from "@mui/material";
+import {useQuery} from "@tanstack/react-query";
+import {createGetClassroomByIdOptions} from "@/api/classroom/classroom-query-options.ts";
+import {ErrorAlert} from "@/components/util/error-alert.tsx";
+import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 
 export const Route = createFileRoute('/app/classrooms/$classroomId/')({
-  component: RouteComponent,
+    component: RouteComponent,
 })
 
 function RouteComponent() {
-  //TODO api call, nějaký tlačítka na přídání a odebrání uživatele
-  const classname = "VOŠ1";
-  const users: UserCardProps[] = [
-    {
-      id: "1",
-      name: "Máňa",
-      email: "mana@neco.com",
-      classname: classname
-    },
-    {
-      id: "2",
-      name: "Honza",
-      email: "jan.nezajimavy@neco.com",
-      classname: classname
-    },
-    {
-      id: "3",
-      name: "Ignác",
-      email: "ignac@blbyjmeno.com",
-      classname: classname
-    }
-  ]
+    //TODO api call, nějaký tlačítka na přídání a odebrání uživatele
+    const classroomId = Route.useParams().classroomId;
+    const query = useQuery(createGetClassroomByIdOptions(classroomId))
+    if (query.isPending) return <BackdropLoading/>;
+    if (query.isError) return <ErrorAlert message={"Chyba při načítání třídy"}/>;
+    const classname = query.data.name;
+    const users: UserCardProps[] = [
+        {
+            id: "1",
+            name: "Máňa",
+            email: "mana@neco.com",
+            classname: classname
+        },
+        {
+            id: "2",
+            name: "Honza",
+            email: "jan.nezajimavy@neco.com",
+            classname: classname
+        },
+        {
+            id: "3",
+            name: "Ignác",
+            email: "ignac@blbyjmeno.com",
+            classname: classname
+        }
+    ]
 
-  return (
-      <UserGrid list={users}/>
-  )
+    return (
+        <>
+            <Stack sx={{padding: 2}} spacing={2} alignItems="center">
+                <Typography variant="h4">{classname}</Typography>
+                <UserGrid list={users}/>
+            </Stack>
+        </>
+
+    )
 }

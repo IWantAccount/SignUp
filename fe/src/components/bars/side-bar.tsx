@@ -8,6 +8,8 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import {NavItemList} from "@/components/util/nav-item-list.tsx";
+import GroupIcon from '@mui/icons-material/Group';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 //Část kódu jsem převzal z oficiální dokumentace MUI: https://mui.com/material-ui/react-drawer/
 
@@ -25,15 +27,16 @@ export function SideBar(props: Props) {
             color: "primary",
             list: [
                 {text: "Znaky", Icon: SignLanguageIcon, href: "/app/debug/signs"},
-                {text: "Předměty", Icon: SchoolIcon, href: "/app/debug/subjects"},
+                {text: "Předměty", Icon: SchoolIcon, href: "/app/subjects"},
                 {text: "Kategorie", Icon: CategoryIcon, href: "/app/debug/categories"},
+                {text: "Třídy", Icon: GroupIcon, href: "/app/classrooms"}
             ]
         },
 
         {
             color: "primary",
             list: [
-                {text: "Soukormé kolekce znaků", Icon: BookmarksIcon, href: "/app/debug/private-collections"},
+                {text: "Soukormé kolekce znaků", Icon: BookmarksIcon, href: "/app/private-collections"},
                 {text: "Přidat soukromou kolekci", Icon: BookmarkAddIcon, href: "/app/private-collections/create"},
             ]
         },
@@ -45,9 +48,10 @@ export function SideBar(props: Props) {
                 {text: "Přidat znak", Icon: SignLanguageIcon, href: "/app/signs/create"},
                 {text: "Přidat předmět", Icon: SchoolIcon, href: "/app/subjects/create"},
                 {text: "Přidat kategorii", Icon: CategoryIcon, href: "/app/categories/create"},
-                {text: "Uživatelé", Icon: AccountCircleIcon, href: "/app/debug/users"},
-                {text: "Komponenty znaku", Icon: ExtensionIcon, href: "/app/debug/sign-components"},
+                {text: "Uživatelé", Icon: AccountCircleIcon, href: "/app/users"},
+                {text: "Komponenty znaku", Icon: ExtensionIcon, href: "/app/sign-components"},
                 {text: "Přidat komponentu znaku", Icon: AddBoxIcon, href: "/app/sign-components/create"},
+                {text: "Přidat třídu", Icon: GroupAddIcon, href: "/app/classrooms/create"},
 
                 //TODO pro adminy ještě správa uživatelů
             ]

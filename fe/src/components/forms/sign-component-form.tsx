@@ -5,9 +5,8 @@ import {componentTypeToCzech, signComponentTypeEnum, type SignComponentTypeEnum 
 import {Autocomplete, Box, Button, TextField } from "@mui/material";
 
 const schema = z.object({
-    description: z.string().trim().min(1, "Popis je povinný").max(40, "Popis může mít maximálně 40 znaků"),
+    textDescription: z.string().trim().min(1, "Popis je povinný").max(40, "Popis může mít maximálně 40 znaků"),
     type: signComponentTypeEnum
-        .nullable()
         .refine((type) => type !== null, {
             message: "Typ komponenty je povinný",
         }),
@@ -22,6 +21,7 @@ interface Props {
     onSubmit: SubmitHandler<SignComponentFormData>;
     submitButtonText: string;
     renderType: boolean
+    submitButtonDisabled?: boolean;
 }
 
 export function SignComponentForm(props: Props) {
@@ -29,8 +29,8 @@ export function SignComponentForm(props: Props) {
         resolver: zodResolver(schema),
         mode: "all",
         defaultValues: {
-            description: props.defaultDescription || "",
-            type: props.defaultType || "HANDSHAPE",
+            textDescription: props.defaultDescription || "",
+            type: props.defaultType || "HAND_SHAPE",
         }
     });
 
@@ -48,7 +48,7 @@ export function SignComponentForm(props: Props) {
                     width: "100%",
                     boxSizing: "border-box",
                 }}>
-            <Controller name="description"
+            <Controller name="textDescription"
                         control={control}
                         render={({field, fieldState}) => (
                             <TextField  {...field}
@@ -65,7 +65,7 @@ export function SignComponentForm(props: Props) {
                 <Autocomplete<SignComponentTypeEnum, false, false, false>
                     options={signComponentTypeEnum.options}
                     value={field.value}
-                    onChange={(_, value) => field.onChange(value)}
+                    onChange={(_, value) => field.onChange(value ? value : "HAND_SHAPE")}
                     getOptionLabel={(option) => componentTypeToCzech(option)}
                     isOptionEqualToValue={(option, value) => option === value}
                     renderInput={(params) => (
@@ -81,7 +81,9 @@ export function SignComponentForm(props: Props) {
             )}
         />}
 
-            <Button variant="contained" type="submit">{props.submitButtonText}</Button>
+            <Button variant="contained" type="submit" disabled={props.submitButtonDisabled ? props.submitButtonDisabled : false}>
+                {props.submitButtonText}
+            </Button>
         </Box>
     )
 }

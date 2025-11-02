@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const signComponentTypeEnum = z.enum([
-    "HANDSHAPE",
+    "HAND_SHAPE",
     "LOCATION",
     "MOVEMENT",
     "PALM_ORIENTATION",
@@ -13,7 +13,7 @@ export const signComponentTypeEnum = z.enum([
 export type SignComponentTypeEnum = z.infer<typeof signComponentTypeEnum>;
 
 const SignComponentTypeLabels = {
-    HANDSHAPE: "tvar ruky",
+    HAND_SHAPE: "tvar ruky",
     LOCATION: "místo artikulace",
     MOVEMENT: "pohyb",
     PALM_ORIENTATION: "orientace dlaně",

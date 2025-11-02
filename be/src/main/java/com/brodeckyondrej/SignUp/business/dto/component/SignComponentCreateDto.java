@@ -8,9 +8,9 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ComponentDto {
+public class SignComponentCreateDto {
     @NotBlank
-    private final String component;
+    private final String textDescription;
 
     @NotNull
     private final SignComponentType type;

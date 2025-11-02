@@ -15,6 +15,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("")
 @RequiredArgsConstructor
+//TODO tohle dej pryč až zavedeš spring security
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public abstract class EntityController<
         Entity extends BaseEntity,
         CreateDto,

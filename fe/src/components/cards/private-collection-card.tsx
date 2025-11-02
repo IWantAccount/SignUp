@@ -1,24 +1,49 @@
-import {Card, CardActionArea, CardContent, Typography} from "@mui/material";
-import {Link} from "@tanstack/react-router";
+import {Card, CardActionArea, CardActions, CardContent, IconButton, Skeleton, Typography} from "@mui/material";
+import {Link, useNavigate} from "@tanstack/react-router";
+import type {
+    PrivateCollectionGetListDto
+} from "@/api/private-collection/private-collection-dtos.ts";
+import EditIcon from "@mui/icons-material/Edit";
+import ClearIcon from "@mui/icons-material/Clear";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {createDeleteCollectionByIdOptions} from "@/api/private-collection/private-collection-query-options.ts";
 
-export interface PrivateCollectionCardProps {
-    collectionId: string;
-    name: string;
-    //TODO co třeba počet znaků v kolekci? Potřeba změnit i na be
-}
+export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
+    const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    const mutation = useMutation(createDeleteCollectionByIdOptions(dto.id, queryClient))
 
-export function PrivateCollectionCard({collectionId, name}: PrivateCollectionCardProps) {
     return (
-        <Card sx={{
-            minWidth: 200,
-            minHeight: 100,
-        }}>
-                <CardActionArea sx={{height: "100%"}}
-                                component={Link} to={`/app/private-collections/${collectionId}/`}>
-                    <CardContent>
-                        <Typography variant="h5">{name}</Typography>
-                    </CardContent>
-                </CardActionArea>
+        <Card sx={{ minWidth: 200, minHeight: 100 }}>
+            {mutation.isPending ? (
+                <CardContent>
+                    <Skeleton variant="text" width="80%" />
+                    <Skeleton variant="rectangular" width="80%" />
+                </CardContent>
+            ) : (
+                <>
+                    <CardActionArea
+                        sx={{ height: "100%" }}
+                        component={Link}
+                        to={`/app/private-collections/${dto.id}/`}
+                    >
+                        <CardContent>
+                            <Typography variant="h5">{dto.name}</Typography>
+                        </CardContent>
+                    </CardActionArea>
+                    <CardActions sx={{justifyContent: "space-around"}}>
+                        <IconButton
+                            onClick={() => navigate({ to: `/app/private-collections/${dto.id}/edit/` })}>
+                            <EditIcon />
+                        </IconButton>
+
+                        <IconButton onClick={() => mutation.mutate(dto.id)}>
+                            <ClearIcon />
+                        </IconButton>
+                    </CardActions>
+                </>
+            )}
         </Card>
+
     )
 }

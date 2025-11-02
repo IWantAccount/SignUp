@@ -1,4 +1,4 @@
-import type {NavItem} from "@/utils/nav-item.tsx";
+import type {NavItem} from "@/components/util/nav-item.tsx";
 import {Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import {Fragment} from "react";
 import { Link } from '@tanstack/react-router'

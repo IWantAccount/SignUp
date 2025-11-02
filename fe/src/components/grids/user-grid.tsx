@@ -1,8 +1,9 @@
-import {UserCard, type UserCardProps} from "@/components/cards/user-card.tsx";
+import {UserCard} from "@/components/cards/user-card.tsx";
 import {BaseGrid} from "@/components/grids/base-grid.tsx";
+import type {UserGetListDto} from "@/api/user/user-dtos.ts";
 
 interface Props {
-    list: UserCardProps[];
+    list: UserGetListDto[];
 }
 
 export function UserGrid({list}: Props) {
@@ -13,7 +14,8 @@ export function UserGrid({list}: Props) {
                     <UserCard   id={user.id}
                                 name={user.name}
                                 email={user.email}
-                                classname={user.classname}/>
+                                classroomName={user.classroomName}
+                                role={user.role}/>
                 ))
             }
         </BaseGrid>

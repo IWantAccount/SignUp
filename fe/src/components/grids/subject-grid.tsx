@@ -1,8 +1,9 @@
-import {SubjectCard, type SubjectCardProps } from "../cards/subject-card";
+import {SubjectCard} from "../cards/subject-card";
 import {BaseGrid} from "@/components/grids/base-grid.tsx";
+import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
 
 interface Props {
-    list: SubjectCardProps[];
+    list: SubjectGetListDto[];
 }
 
 export function SubjectGrid({ list }: Props) {
@@ -12,8 +13,8 @@ export function SubjectGrid({ list }: Props) {
                 list.map(subject => (
                     <SubjectCard    id={subject.id}
                                     name={subject.name}
-                                    categoryCount={subject.categoryCount}
-                                    studentCount={subject.studentCount}/>
+                                    numberOfCategories={subject.numberOfCategories}
+                                    numberOfStudents={subject.numberOfStudents}/>
 
                 ))
             }

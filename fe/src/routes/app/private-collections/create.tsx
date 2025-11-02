@@ -1,19 +1,29 @@
-import { NameForm } from '@/components/forms/name-form'
-import { createFileRoute } from '@tanstack/react-router'
+import {NameForm} from '@/components/forms/name-form'
+import {createFileRoute} from '@tanstack/react-router'
+import {
+    createCreateCollectionOptions,
+} from "@/api/private-collection/private-collection-query-options.ts";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 export const Route = createFileRoute('/app/private-collections/create')({
-  component: RouteComponent,
+    component: RouteComponent,
 })
 
 function RouteComponent() {
+    const queryClient = useQueryClient();
+
+    const mutation = useMutation(createCreateCollectionOptions(queryClient));
+
+
     return (
         <NameForm header={"Vytvořit soukromou kolekci"}
                   onSubmit={
-                    (data) => {
-                        //TODO api call
-                        console.log(data)
-                    }
+                      (data) => {
+                          //TODO fix. Zatím nemáme "přihlášeného uživatele"
+                          mutation.mutate({name: data.name, ownerId: "442bfc1c-15d7-44c0-ae4a-e7e443d52fbf"})
+                      }
                   }
-                  submitButtonText={"Uložit"}/>
+                  submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}
+                  submitButtonDisabled={mutation.isPending}/>
     )
 }

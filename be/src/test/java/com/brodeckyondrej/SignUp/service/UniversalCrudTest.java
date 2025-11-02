@@ -1,8 +1,8 @@
 package com.brodeckyondrej.SignUp.service;
 
-import com.brodeckyondrej.SignUp.business.dto.classroom.CreateClassroomDto;
-import com.brodeckyondrej.SignUp.business.dto.classroom.GetClassroomDetailDto;
-import com.brodeckyondrej.SignUp.business.dto.classroom.UpdateClassroomDto;
+import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomCreateDto;
+import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomGetDetailDto;
+import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomUpdateDto;
 import com.brodeckyondrej.SignUp.business.service.classroom.ClassroomService;
 import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
@@ -39,8 +39,8 @@ public class UniversalCrudTest {
     @Test
     void create_success(){
         String classroomName = "TestClassroom";
-        CreateClassroomDto createDto = new CreateClassroomDto(classroomName);
-        GetClassroomDetailDto created = service.create(createDto);
+        ClassroomCreateDto createDto = new ClassroomCreateDto(classroomName);
+        ClassroomGetDetailDto created = service.create(createDto);
 
         assertThat(created).isNotNull();
         assertThat(created.getName()).isEqualTo(classroomName);
@@ -50,7 +50,7 @@ public class UniversalCrudTest {
 
     @Test
     void get_success(){
-        GetClassroomDetailDto found = service.getById(CREATED_CLASSROOM.getId());
+        ClassroomGetDetailDto found = service.getById(CREATED_CLASSROOM.getId());
         assertThat(found).isNotNull();
         assertThat(found.getName()).isEqualTo(CREATED_CLASSROOM.getName());
     }
@@ -63,7 +63,7 @@ public class UniversalCrudTest {
 
     @Test
     void update_success(){
-        UpdateClassroomDto updateDto = new UpdateClassroomDto("New amazing name");
+        ClassroomUpdateDto updateDto = new ClassroomUpdateDto("New amazing name");
         service.update(CREATED_CLASSROOM.getId(), updateDto);
 
         Classroom foundClassroom = repository.findByIdOrThrow(CREATED_CLASSROOM.getId());
@@ -72,7 +72,7 @@ public class UniversalCrudTest {
 
     @Test
     void update_notExisting_MissingObjectException(){
-        UpdateClassroomDto updateDto = new UpdateClassroomDto("New amazing name");
+        ClassroomUpdateDto updateDto = new ClassroomUpdateDto("New amazing name");
 
         assertThatThrownBy(() -> service.update(RANDOM_ID, updateDto))
                 .isInstanceOf(MissingObjectException.class);

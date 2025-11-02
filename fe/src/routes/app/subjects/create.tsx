@@ -1,19 +1,24 @@
-import { createFileRoute } from '@tanstack/react-router'
+import {createFileRoute} from '@tanstack/react-router'
 import {NameForm} from "@/components/forms/name-form.tsx";
+import {createCreateSubjectOptions} from "@/api/subject/subject-query-options.ts";
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 
 export const Route = createFileRoute('/app/subjects/create')({
-  component: RouteComponent,
+    component: RouteComponent,
 })
 
 function RouteComponent() {
-  return (
-      <NameForm   header={"Vytvořit předmět"}
+    const queryClient = useQueryClient();
+    const mutation = useMutation(createCreateSubjectOptions(queryClient))
+    return (
+        <NameForm header={"Vytvořit předmět"}
                   onSubmit={
-                        (data) => {
-                            //TODO api call
-                          console.log(data)
-                        }
+                      (data) => {
+                          mutation.mutate(data)
+                      }
                   }
-                  submitButtonText={"Uložit"} />
-  )
+                  submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}
+                  submitButtonDisabled={mutation.isPending}/>
+
+    )
 }

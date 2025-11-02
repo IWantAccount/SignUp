@@ -1,8 +1,9 @@
-import {SignComponentCard, type SignComponentCardProps} from "@/components/cards/sign-component-card.tsx";
+import {SignComponentCard} from "@/components/cards/sign-component-card.tsx";
 import {BaseGrid} from "@/components/grids/base-grid.tsx";
+import type {SignComponentGetListDto} from "@/api/sign-component/sign-component-dtos.ts";
 
 interface Props {
-    list: SignComponentCardProps[];
+    list: SignComponentGetListDto[];
 }
 
 export function SignComponentGrid({list}: Props) {
@@ -10,9 +11,8 @@ export function SignComponentGrid({list}: Props) {
         <BaseGrid>
             {
                 list.map(signComponent => (
-                    <SignComponentCard signComponentId={signComponent.signComponentId}
-                                       description={signComponent.description}
-                                       type={signComponent.type}/>
+                    <SignComponentCard textDescription={signComponent.textDescription} type={signComponent.type}
+                                       id={signComponent.id}/>
                 ))
             }
         </BaseGrid>

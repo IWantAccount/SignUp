@@ -13,6 +13,7 @@ interface Props {
     defaultName?: string;
     header: string;
     onSubmit: SubmitHandler<NameFormData>;
+    submitButtonDisabled?: boolean;
     submitButtonText: string;
 }
 
@@ -52,7 +53,7 @@ export function NameForm(props: Props) {
                                         helperText={fieldState.error?.message}/>
                         )}/>
 
-            <Button variant="contained" type="submit">{props.submitButtonText}</Button>
+            <Button variant="contained" type="submit" disabled={props.submitButtonDisabled}>{props.submitButtonText}</Button>
 
         </Box>
 
