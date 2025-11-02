@@ -1,13 +1,13 @@
-import { Box } from '@mui/material';
-import { createFileRoute } from '@tanstack/react-router'
+import {Box} from '@mui/material';
+import {createFileRoute} from '@tanstack/react-router'
 import {SignCard} from "@/components/cards/sign-card.tsx";
 
 export const Route = createFileRoute('/app/debug/signs')({
-  component: RouteComponent,
+    component: RouteComponent,
 })
 
 function RouteComponent() {
-    const signs = Array.from({ length: 20 }, (_, i) => ({
+    const signs = Array.from({length: 20}, (_, i) => ({
         signId: i,
         fileName: "invalid file name",
         categoryId: i,

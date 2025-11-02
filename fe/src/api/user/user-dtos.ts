@@ -7,7 +7,7 @@ interface UserDto extends NamedDto {
     role: UserRoleEnum;
 }
 
-interface UserDtoWithId extends UserDto, IdDto{
+interface UserDtoWithId extends UserDto, IdDto {
 
 }
 
@@ -16,7 +16,7 @@ export interface StudentClassroomDto {
     classroomId: string;
 }
 
-export interface UserCreateDto extends UserDto{
+export interface UserCreateDto extends UserDto {
     password: string;
 }
 

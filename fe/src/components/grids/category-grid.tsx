@@ -10,12 +10,12 @@ export function CategoryGrid({list}: Props) {
         <BaseGrid>
             {
                 list.map((category) => (
-                <CategoryCard   categoryId={category.categoryId}
-                                categoryName={category.categoryName}
-                                signCount={category.signCount}
-                                subjectId={category.subjectId}
-                                subjectName={category.subjectName}  />
-            ))}
+                    <CategoryCard categoryId={category.categoryId}
+                                  categoryName={category.categoryName}
+                                  signCount={category.signCount}
+                                  subjectId={category.subjectId}
+                                  subjectName={category.subjectName}/>
+                ))}
         </BaseGrid>
     )
 }

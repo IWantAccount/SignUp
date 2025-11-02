@@ -43,34 +43,34 @@ export function CategoryForm(props: Props) {
     });
 
     return (
-        <Box    component="form"
-                onSubmit={handleSubmit(props.onSubmit)}
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 1.5,
-                    px: 5,
-                    py: 2,
-                    maxWidth: 500,
-                    mx: "auto",
-                    width: "100%",
-                    boxSizing: "border-box",
-                }}>
+        <Box component="form"
+             onSubmit={handleSubmit(props.onSubmit)}
+             sx={{
+                 display: "flex",
+                 flexDirection: "column",
+                 gap: 1.5,
+                 px: 5,
+                 py: 2,
+                 maxWidth: 500,
+                 mx: "auto",
+                 width: "100%",
+                 boxSizing: "border-box",
+             }}>
 
             <Controller name="name"
                         control={control}
                         render={({field, fieldState}) => (
                             <TextField {...field}
-                                        label="Název kategorie"
-                                        error={!!fieldState.error}
-                                        helperText={fieldState.error?.message}/>
+                                       label="Název kategorie"
+                                       error={!!fieldState.error}
+                                       helperText={fieldState.error?.message}/>
                         )}
             />
 
             <Controller
                 name="subjectId"
                 control={control}
-                render={({ field, fieldState }) => (
+                render={({field, fieldState}) => (
                     <Autocomplete<SubjectNameId, false, false, false>
                         options={options}
                         getOptionLabel={(o: SubjectNameId) => o.subjectName}

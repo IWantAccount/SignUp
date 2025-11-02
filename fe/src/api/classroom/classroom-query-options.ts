@@ -12,7 +12,7 @@ import type {
     ClassroomGetListDto,
     ClassroomUpdateDto
 } from "@/api/classroom/classroom-dtos.ts";
-import type { Page } from "../universal/dto/spring-boot-page";
+import type {Page} from "../universal/dto/spring-boot-page";
 
 export const classroomQueryKey = "classroom";
 
@@ -58,7 +58,7 @@ export function createDeleteClassroomOptions(id: string, queryClient: QueryClien
     }
 }
 
-export function createClassroomInfiniteQueryOptions(){
+export function createClassroomInfiniteQueryOptions() {
     return infiniteQueryOptions({
         queryKey: [classroomQueryKey, "infinite"],
         queryFn: ({pageParam}) => getClassroomPaged(pageParam),

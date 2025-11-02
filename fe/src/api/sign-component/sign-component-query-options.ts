@@ -1,20 +1,18 @@
+import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {
-    infiniteQueryOptions,
-    type QueryClient,
-    queryOptions,
-    type UseMutationOptions
-} from "@tanstack/react-query";
-import {
-    createSignComponent, deleteSignComponent,
-    getSignComponentById, getSignComponentPaged,
+    createSignComponent,
+    deleteSignComponent,
+    getSignComponentById,
+    getSignComponentPaged,
     updateSignComponent
 } from "@/api/sign-component/sign-component-api.ts";
 import type {
     SignComponentCreateDto,
-    SignComponentGetDetailDto, SignComponentGetListDto,
+    SignComponentGetDetailDto,
+    SignComponentGetListDto,
     SignComponentUpdateDto
 } from "@/api/sign-component/sign-component-dtos.ts";
-import type { Page } from "../universal/dto/spring-boot-page";
+import type {Page} from "../universal/dto/spring-boot-page";
 
 export const signComponentQueryKey = "sign-component";
 

@@ -1,4 +1,4 @@
-import type { AxiosError } from "axios";
+import type {AxiosError} from "axios";
 //Převzato z ChatGPT (OpenAI, model 5)
 type ProblemDetail = {
     type?: string;
@@ -32,14 +32,14 @@ export function formatError(err: unknown): string {
         return "Došlo k neznámé chybě.";
     }
 
-    const { response, request, message } = err;
+    const {response, request, message} = err;
 
     if (!response) {
         if (request) return "Server nereaguje. Zkuste to prosím později.";
         return `Chyba požadavku: ${message}`;
     }
 
-    const { status, data } = response;
+    const {status, data} = response;
     const title = statusCz[status] ?? data?.title ?? "Chyba";
     const detail = data?.detail;
 

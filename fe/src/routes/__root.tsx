@@ -1,7 +1,7 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
-import { TanstackDevtools } from '@tanstack/react-devtools'
-import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
+import {createRootRoute, Outlet} from '@tanstack/react-router'
+import {TanStackRouterDevtoolsPanel} from '@tanstack/react-router-devtools'
+import {TanstackDevtools} from '@tanstack/react-devtools'
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 
 const theme = createTheme({
     //Generováno pomocí https://bareynol.github.io/mui-theme-creator/
@@ -31,14 +31,14 @@ const theme = createTheme({
 export const Route = createRootRoute({
     component: () => (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Outlet />
+            <CssBaseline/>
+            <Outlet/>
             <TanstackDevtools
-                config={{ position: 'bottom-left' }}
+                config={{position: 'bottom-left'}}
                 plugins={[
                     {
                         name: 'Tanstack Router',
-                        render: <TanStackRouterDevtoolsPanel />,
+                        render: <TanStackRouterDevtoolsPanel/>,
                     },
                 ]}
             />

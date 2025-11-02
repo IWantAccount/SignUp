@@ -11,7 +11,7 @@ interface Props {
     onSearch: (newValue: string) => void;
 }
 
-export function SearchableCardSectionTopBarActions({ title, onEditNavigate, onDelete, onSearch }: Props) {
+export function SearchableCardSectionTopBarActions({title, onEditNavigate, onDelete, onSearch}: Props) {
     const [searchValue, setSearchValue] = React.useState("");
 
     const handleSearchClick = () => {
@@ -22,7 +22,14 @@ export function SearchableCardSectionTopBarActions({ title, onEditNavigate, onDe
         setSearchValue(event.target.value);
     }
     return (
-        <Toolbar sx={{display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", gap: 4, width: "100%"}}>
+        <Toolbar sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            gap: 4,
+            width: "100%"
+        }}>
             <Typography variant="h6">{title}</Typography>
             <div>
                 {
@@ -41,7 +48,7 @@ export function SearchableCardSectionTopBarActions({ title, onEditNavigate, onDe
                 }
             </div>
             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "right", flexWrap: "wrap", gap: 1}}>
-                <TextField variant="outlined" label="hledat" onChange={handleInputChange} />
+                <TextField variant="outlined" label="hledat" onChange={handleInputChange}/>
                 <IconButton onClick={handleSearchClick}>
                     <SearchIcon/>
                 </IconButton>

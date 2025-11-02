@@ -1,7 +1,12 @@
 import api from "@/api/universal/axios.ts";
-import type {ClassroomCreateDto, ClassroomGetDetailDto, ClassroomGetListDto, ClassroomUpdateDto} from "@/api/classroom/classroom-dtos.ts";
+import type {
+    ClassroomCreateDto,
+    ClassroomGetDetailDto,
+    ClassroomGetListDto,
+    ClassroomUpdateDto
+} from "@/api/classroom/classroom-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
-import type { Page } from "../universal/dto/spring-boot-page";
+import type {Page} from "../universal/dto/spring-boot-page";
 
 const url = "classroom";
 
@@ -21,11 +26,13 @@ export const updateClassroom = async (id: string, dto: ClassroomUpdateDto): Prom
 }
 
 export const deleteClassroom = async (classroomId: string): Promise<void> => {
-    await new Promise(resolve => {setTimeout(resolve, 3000)})
+    await new Promise(resolve => {
+        setTimeout(resolve, 3000)
+    })
     await api.delete<void>(buildPath([url, classroomId]));
 }
 
-export const getClassroomPaged = async (page: number, pageSize?: number ): Promise<Page<ClassroomGetListDto>> => {
+export const getClassroomPaged = async (page: number, pageSize?: number): Promise<Page<ClassroomGetListDto>> => {
     const size = pageSize ? pageSize : 20;
     const res = await api.get<Page<ClassroomGetListDto>>(buildPath([url], page, size));
     return res.data;

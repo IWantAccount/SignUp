@@ -1,4 +1,4 @@
-import {Button, Card, CardActions, CardContent, Typography, Stack} from "@mui/material";
+import {Button, Card, CardActions, CardContent, Stack, Typography} from "@mui/material";
 import {Link} from "@tanstack/react-router";
 
 export interface CategoryCardProps {

@@ -1,7 +1,6 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
-import {useNavigate} from '@tanstack/react-router'
 import {SignGrid} from "@/components/grids/sign-grid.tsx";
 
 export const Route = createFileRoute('/app/categories/$categoryId/')({
@@ -31,7 +30,8 @@ function RouteComponent() {
                     }
                 }
                 onDelete={
-                    () => {/*TODO api call*/ }
+                    () => {/*TODO api call*/
+                    }
                 }
 
             />

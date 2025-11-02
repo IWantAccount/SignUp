@@ -21,7 +21,9 @@ export const updateUser = async (id: string, user: UserUpdateDto): Promise<UserG
 }
 
 export const deleteUser = async (id: string): Promise<void> => {
-    await new Promise(resolve => {setTimeout(resolve, 3000)})
+    await new Promise(resolve => {
+        setTimeout(resolve, 3000)
+    })
     await api.delete<void>(buildPath([url, id]));
 }
 

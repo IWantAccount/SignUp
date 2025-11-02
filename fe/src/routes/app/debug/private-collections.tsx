@@ -17,7 +17,8 @@ function RouteComponent() {
             <Box sx={{display: "flex", flexDirection: "row", gap: 2, flexWrap: "wrap"}}>
                 {
                     collections.map((collection) => (
-                        <PrivateCollectionCard collectionId={collection.id.toString()} name={collection.name}></PrivateCollectionCard>
+                        <PrivateCollectionCard collectionId={collection.id.toString()}
+                                               name={collection.name}></PrivateCollectionCard>
                     ))
                 }
             </Box>

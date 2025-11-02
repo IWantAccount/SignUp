@@ -1,7 +1,8 @@
 import type {
     ComponentTypeDto,
     SignComponentCreateDto,
-    SignComponentGetDetailDto, SignComponentGetListDto,
+    SignComponentGetDetailDto,
+    SignComponentGetListDto,
     SignComponentUpdateDto
 } from "@/api/sign-component/sign-component-dtos.ts";
 import api from "@/api/universal/axios.ts";

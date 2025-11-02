@@ -1,7 +1,7 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {createUser, deleteUser, getUserById, getUserPaged, updateUser} from "@/api/user/user-api.ts";
 import type {UserCreateDto, UserGetDetailDto, UserUpdateDto} from "@/api/user/user-dtos.ts";
-import type { AxiosError } from "axios";
+import type {AxiosError} from "axios";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
 
 const userQueryKey = "user";
@@ -49,7 +49,7 @@ export function createDeleteUserOptions(id: string, queryClient: QueryClient): U
     }
 }
 
-export function createUserInfiniteQueryOptions(){
+export function createUserInfiniteQueryOptions() {
     return infiniteQueryOptions({
         queryKey: [userQueryKey, "infinite"],
         queryFn: ({pageParam}) => getUserPaged(pageParam),

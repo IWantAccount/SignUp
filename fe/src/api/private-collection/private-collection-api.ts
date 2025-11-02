@@ -1,6 +1,8 @@
 import type {
     PrivateCollectionCreateDto,
-    PrivateCollectionGetDetailDto, PrivateCollectionGetListDto, PrivateCollectionUpdateDto
+    PrivateCollectionGetDetailDto,
+    PrivateCollectionGetListDto,
+    PrivateCollectionUpdateDto
 } from "@/api/private-collection/private-collection-dtos.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
@@ -26,7 +28,9 @@ export const createCollection = async (dto: PrivateCollectionCreateDto): Promise
 }
 
 export const deleteCollectionById = async (id: string): Promise<void> => {
-    await new Promise(resolve => {setTimeout(resolve, 5000)})
+    await new Promise(resolve => {
+        setTimeout(resolve, 5000)
+    })
     await api.delete<PrivateCollectionGetDetailDto>(buildPath([url, id]));
 }
 

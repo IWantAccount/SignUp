@@ -1,11 +1,11 @@
 import {createFileRoute, Outlet} from '@tanstack/react-router'
 
 export const Route = createFileRoute('/app/debug')({
-  component: RouteComponent,
+    component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <>
-      <Outlet></Outlet>
-  </>
+    return <>
+        <Outlet></Outlet>
+    </>
 }

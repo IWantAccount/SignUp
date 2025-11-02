@@ -30,9 +30,9 @@ export function SignCard({signId, fileName, categoryId, categoryName, translatio
                 <CardContent>
                     <Stack>
                         <Button component={Link} to={`/app/categories/${categoryId}`}>{categoryName}</Button>
-                        <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap >
+                        <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
                             {translations.map((t, i) => (
-                                <Chip key={i} label={t} size="small" />
+                                <Chip key={i} label={t} size="small"/>
                             ))}
                         </Stack>
                     </Stack>
