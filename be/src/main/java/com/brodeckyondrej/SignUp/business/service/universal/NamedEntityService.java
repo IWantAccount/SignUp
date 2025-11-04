@@ -3,9 +3,9 @@ import com.brodeckyondrej.SignUp.business.dto.universal.NamedDto;
 import com.brodeckyondrej.SignUp.business.dto.universal.NamedDtoWithId;
 import com.brodeckyondrej.SignUp.persistence.entity.NamedEntity;
 import com.brodeckyondrej.SignUp.persistence.repository.NamedEntityRepository;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 public abstract class NamedEntityService<
         Entity extends NamedEntity,
@@ -26,10 +26,9 @@ public abstract class NamedEntityService<
         this.namedRepository = repository;
     }
 
-    public List<GetListDto> findByName(String name){
-        return namedRepository.findByName(name)
-                .stream()
-                .map(mapper::toListDto)
-                .collect(Collectors.toList());
+    @Transactional
+    public Page<GetListDto>findByName(String name, Pageable pageable){
+        return namedRepository.findByNameContainingIgnoreCase(name, pageable)
+                .map(mapper::toListDto);
     }
 }
