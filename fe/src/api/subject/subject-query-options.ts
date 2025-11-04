@@ -2,11 +2,16 @@ import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOp
 import {
     createSubject,
     deleteSubject,
-    getSubjectById,
+    getSubjectById, getSubjectByNamePaged,
     getSubjectPaged,
     updateSubject
 } from "@/api/subject/subject-api.ts";
-import type {SubjectCreateDto, SubjectGetDetailDto, SubjectUpdateDto} from "@/api/subject/subject-dtos.ts";
+import type {
+    SubjectCreateDto,
+    SubjectGetDetailDto,
+    SubjectGetListDto,
+    SubjectUpdateDto
+} from "@/api/subject/subject-dtos.ts";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
 
 export const subjectQueryKey = "subject";
@@ -62,6 +67,21 @@ export function createSubjectInfiniteQueryOptions() {
         getNextPageParam: (lastPage: Page<SubjectGetDetailDto>) => {
             const next = lastPage.number + 1;
             return next < lastPage.totalPages ? next : undefined;
+        }
+    })
+}
+
+export function createSubjectByNameInfiniteQueryOptions(searchItem: string) {
+    return infiniteQueryOptions({
+        queryKey: [subjectQueryKey, "infinite", searchItem],
+        queryFn: ({pageParam}) => {
+             return searchItem === "" ?
+                getSubjectPaged(pageParam) : getSubjectByNamePaged(pageParam, searchItem)
+        },
+        initialPageParam: 0,
+        getNextPageParam: (lastPage: Page<SubjectGetListDto>) => {
+            const nextPage = lastPage.number + 1;
+            return nextPage < lastPage.totalPages ? nextPage : undefined;
         }
     })
 }

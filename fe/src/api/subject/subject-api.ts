@@ -34,3 +34,9 @@ export const getSubjectPaged = async (page: number, pageSize?: number): Promise<
     const res = await api.get<Page<SubjectGetListDto>>(buildPath([url], page, size));
     return res.data;
 }
+
+export const getSubjectByNamePaged = async (page: number, searchItem: string, pageSize?: number): Promise<Page<SubjectGetListDto>> => {
+    const size = pageSize ? pageSize : 20;
+    const res = await api.get<Page<SubjectGetListDto>>(buildPath([url], page, size), {params: {name: searchItem}});
+    return res.data;
+}

@@ -2,6 +2,12 @@ import {z} from "zod";
 import {Controller, type SubmitHandler, useForm} from "react-hook-form";
 import {Autocomplete, Box, Button, TextField} from "@mui/material";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {useInfiniteQuery} from "@tanstack/react-query";
+import {useState} from "react";
+import { useDebounce } from 'use-debounce';
+import {createSubjectByNameInfiniteQueryOptions} from "@/api/subject/subject-query-options.ts";
+import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
 
 const schema = z.object({
     name: z.string().trim().min(1, "Název kategorie je povinný").max(100, "Název kategorie může mít maximálně 100 znaků"),
@@ -10,28 +16,22 @@ const schema = z.object({
 
 export type CategoryFormData = z.infer<typeof schema>;
 
-interface SubjectNameId {
-    subjectName: string;
-    subjectId: string;
-}
 
 interface Props {
     defaultName?: string;
     defaultSubjectId?: string;
     defaultSubjectName?: string;
-    subjects: SubjectNameId[];
     onSubmit: SubmitHandler<CategoryFormData>;
     submitButtonText: string;
 }
 
 export function CategoryForm(props: Props) {
 
-    const options: SubjectNameId[] = [
-        {subjectName: "ČZJ1", subjectId: "1"},
-        {subjectName: "ČZJ2", subjectId: "2"},
-        {subjectName: "ČZJ konverzace 1", subjectId: "3"},
-        {subjectName: "ČZJ konverzace 2", subjectId: "4"},
-    ]
+    const [searchItem, setSearchItem] = useState<string>("");
+    const [debounced] = useDebounce(searchItem, 300);
+    const subjectsQuery = useInfiniteQuery(createSubjectByNameInfiniteQueryOptions(debounced));
+
+    const subjectItems = subjectsQuery.data?.pages.flatMap((page: Page<SubjectGetListDto>) => page.content) ?? [];
 
     const {control, handleSubmit} = useForm<CategoryFormData>({
         resolver: zodResolver(schema),
@@ -71,12 +71,14 @@ export function CategoryForm(props: Props) {
                 name="subjectId"
                 control={control}
                 render={({field, fieldState}) => (
-                    <Autocomplete<SubjectNameId, false, false, false>
-                        options={options}
-                        getOptionLabel={(o: SubjectNameId) => o.subjectName}
-                        isOptionEqualToValue={(a: SubjectNameId, b: SubjectNameId) => a.subjectId === b.subjectId}
-                        value={options.find(o => o.subjectId === field.value) ?? null}
-                        onChange={(_, newVal) => field.onChange(newVal?.subjectId ?? "")}
+                    <Autocomplete<SubjectGetListDto, false, false, false>
+                        options={subjectItems}
+                        getOptionLabel={(o: SubjectGetListDto) => o.name}
+                        isOptionEqualToValue={(a: SubjectGetListDto, b: SubjectGetListDto) => a.id === b.id}
+                        onChange={(_, newVal) => field.onChange(newVal?.id ?? "")}
+                        onInputChange={(_, newInputValue) => {
+                            setSearchItem(newInputValue);
+                        }}
                         onBlur={field.onBlur}
                         renderInput={(params) => (
                             <TextField
@@ -88,7 +90,21 @@ export function CategoryForm(props: Props) {
                             />
                         )}
                         noOptionsText="Žádné položky"
-                    />
+                        ListboxProps={{
+                            onScroll: (event) => {
+                                const listboxNode = event.currentTarget;
+                                if (
+                                    listboxNode.scrollTop + listboxNode.clientHeight >=
+                                    listboxNode.scrollHeight - 5
+                                ) {
+                                    if (subjectsQuery.hasNextPage && !subjectsQuery.isFetchingNextPage) {
+                                        subjectsQuery.fetchNextPage();
+                                    }
+                                }
+                            }
+                        }}
+                        loading={subjectsQuery.isFetchingNextPage}
+                        loadingText="Načítám"/>
                 )}
             />
 
