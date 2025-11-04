@@ -90,18 +90,16 @@ export function CategoryForm(props: Props) {
                             />
                         )}
                         noOptionsText="Žádné položky"
-                        ListboxProps={{
-                            onScroll: (event) => {
-                                const listboxNode = event.currentTarget;
-                                if (
-                                    listboxNode.scrollTop + listboxNode.clientHeight >=
-                                    listboxNode.scrollHeight - 5
-                                ) {
-                                    if (subjectsQuery.hasNextPage && !subjectsQuery.isFetchingNextPage) {
+                        slotProps={{
+                            listbox: {
+                                onScroll: (e: React.UIEvent<HTMLUListElement>) => {
+                                    const list = e.currentTarget;
+                                    const nearBottom = list.scrollTop + list.clientHeight >= list.scrollHeight - 5;
+                                    if (nearBottom && subjectsQuery.hasNextPage && !subjectsQuery.isFetchingNextPage) {
                                         subjectsQuery.fetchNextPage();
                                     }
-                                }
-                            }
+                                },
+                            },
                         }}
                         loading={subjectsQuery.isFetchingNextPage}
                         loadingText="Načítám"/>
