@@ -2,8 +2,8 @@ package com.brodeckyondrej.SignUp.api.controller;
 
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.category.CreateCategoryDto;
-import com.brodeckyondrej.SignUp.business.dto.category.UpdateCategoryDto;
+import com.brodeckyondrej.SignUp.business.dto.category.CategoryCreateDto;
+import com.brodeckyondrej.SignUp.business.dto.category.CategoryUpdateDto;
 import com.brodeckyondrej.SignUp.business.service.category.CategoryService;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/category")
-public class CategoryController extends NamedEntityController<Category, CreateCategoryDto, UpdateCategoryDto, CategoryGetDetailDto, CategoryGetListDto, FindByNameDto> {
+public class CategoryController extends NamedEntityController<Category, CategoryCreateDto, CategoryUpdateDto, CategoryGetDetailDto, CategoryGetListDto, FindByNameDto> {
 
     private final CategoryService categoryService;
 

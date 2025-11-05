@@ -4,8 +4,8 @@ import com.brodeckyondrej.SignUp.persistence.entity.Category;
 import com.brodeckyondrej.SignUp.persistence.repository.CategoryRepository;
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.category.CreateCategoryDto;
-import com.brodeckyondrej.SignUp.business.dto.category.UpdateCategoryDto;
+import com.brodeckyondrej.SignUp.business.dto.category.CategoryCreateDto;
+import com.brodeckyondrej.SignUp.business.dto.category.CategoryUpdateDto;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Service
 @Transactional
-public class CategoryService extends NamedEntityService<Category, CreateCategoryDto, UpdateCategoryDto, CategoryGetDetailDto, CategoryGetListDto> {
+public class CategoryService extends NamedEntityService<Category, CategoryCreateDto, CategoryUpdateDto, CategoryGetDetailDto, CategoryGetListDto> {
     private final CategoryRepository categoryRepository;
     private final SubjectRepository subjectRepository;
     private final CategoryMapper categoryMapper;

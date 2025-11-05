@@ -6,11 +6,11 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class UpdateCategoryDto extends NamedDto {
+public class CategoryCreateDto extends NamedDto {
 
     private final UUID subjectId;
 
-    public UpdateCategoryDto(String name, UUID subjectId) {
+    public CategoryCreateDto(String name, UUID subjectId){
         super(name);
         this.subjectId = subjectId;
     }
