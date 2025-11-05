@@ -42,7 +42,7 @@ export function createUpdateSubjectOptions(id: string, queryClient: QueryClient)
     return {
         mutationFn: (dto: SubjectUpdateDto) => updateSubject(id, dto),
         onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey, id]});
         }
     }
 }

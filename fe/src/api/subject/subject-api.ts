@@ -26,7 +26,7 @@ export const updateSubject = async (id: string, dto: SubjectUpdateDto): Promise<
 }
 
 export const deleteSubject = async (id: string): Promise<void> => {
-    await api.delete<SubjectGetDetailDto>(buildPath([url, id]));
+    await api.delete<void>(buildPath([url, id]));
 }
 
 export const getSubjectPaged = async (page: number, pageSize?: number): Promise<Page<SubjectGetListDto>> => {

@@ -33,11 +33,15 @@ public class CategoryMapper implements EntityMapper<Category, CategoryCreateDto,
 
     @Override
     public CategoryGetDetailDto toDetailDto(Category entity) {
-        return new CategoryGetDetailDto(entity.getId(), entity.getName());
+        return new CategoryGetDetailDto(
+                entity.getId(),
+                entity.getName(),
+                new NamedDtoWithId(entity.getSubject().getId(), entity.getSubject().getName()));
     }
 
     @Override
     public CategoryGetListDto toListDto(Category entity) {
+        //FIXME: je blby takhle tahat vsechny znaky a pak brat size. Spis nejaky sql count
         return new CategoryGetListDto(
                 entity.getId(),
                 entity.getName(),

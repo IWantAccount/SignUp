@@ -28,7 +28,7 @@ declare module '@tanstack/react-router' {
     }
 }
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
     queryCache: new QueryCache({
         onError: (error) => {
             enqueueSnackbar("Něco se pokazilo querycache:" + formatError(error), {variant: "error"});

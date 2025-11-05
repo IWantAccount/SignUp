@@ -7,8 +7,9 @@ import java.util.UUID;
 
 @Getter
 public class CategoryGetDetailDto extends NamedDtoWithId {
-
-    public CategoryGetDetailDto(UUID id, String name){
+    private final NamedDtoWithId subjectNameId;
+    public CategoryGetDetailDto(UUID id, String name, NamedDtoWithId subjectNameId) {
         super(id, name);
+        this.subjectNameId = subjectNameId;
     }
 }
