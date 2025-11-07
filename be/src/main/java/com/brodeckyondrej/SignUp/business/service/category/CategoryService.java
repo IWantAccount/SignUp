@@ -34,4 +34,9 @@ public class CategoryService extends NamedEntityService<Category, CategoryCreate
         Subject foundSubject = subjectRepository.findByIdOrThrow(subjectId);
         return categoryRepository.findBySubject(foundSubject, pageable).map(categoryMapper::toListDto);
     }
+
+    public Page<CategoryGetListDto> findBySubjectAndName(UUID subjectId, String name, Pageable pageable){
+        Subject foundSubject = subjectRepository.findByIdOrThrow(subjectId);
+        return categoryRepository.findBySubjectAndNameContains(foundSubject, name, pageable).map(categoryMapper::toListDto);
+    }
 }

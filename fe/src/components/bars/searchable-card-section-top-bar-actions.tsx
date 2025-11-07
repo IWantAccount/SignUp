@@ -8,14 +8,17 @@ interface Props {
     title: string;
     onEditNavigate?: () => void;
     onDelete?: () => void;
-    onSearch: (newValue: string) => void;
+    onSearch?: (newValue: string) => void;
 }
 
 export function SearchableCardSectionTopBarActions({title, onEditNavigate, onDelete, onSearch}: Props) {
     const [searchValue, setSearchValue] = React.useState("");
 
     const handleSearchClick = () => {
-        onSearch(searchValue);
+        if(onSearch)
+        {
+            onSearch(searchValue);
+        }
     }
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,12 +50,17 @@ export function SearchableCardSectionTopBarActions({title, onEditNavigate, onDel
                     )
                 }
             </div>
-            <Box sx={{display: "flex", flexDirection: "row", justifyContent: "right", flexWrap: "wrap", gap: 1}}>
-                <TextField variant="outlined" label="hledat" onChange={handleInputChange}/>
-                <IconButton onClick={handleSearchClick}>
-                    <SearchIcon/>
-                </IconButton>
-            </Box>
+            {
+                onSearch && (
+                    <Box sx={{display: "flex", flexDirection: "row", justifyContent: "right", flexWrap: "wrap", gap: 1}}>
+                        <TextField variant="outlined" label="hledat" onChange={handleInputChange}/>
+                        <IconButton onClick={handleSearchClick}>
+                            <SearchIcon/>
+                        </IconButton>
+                    </Box>
+                )
+            }
+
         </Toolbar>
     )
 }

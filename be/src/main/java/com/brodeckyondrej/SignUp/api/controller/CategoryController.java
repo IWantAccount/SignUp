@@ -8,6 +8,7 @@ import com.brodeckyondrej.SignUp.business.service.category.CategoryService;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.persistence.entity.Category;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,12 @@ public class CategoryController extends NamedEntityController<Category, Category
     @GetMapping("/by-subject/{subjectId}")
     public ResponseEntity<Page<CategoryGetListDto>> findBySubject(@PathVariable UUID subjectId, Pageable pageable){
         Page<CategoryGetListDto> result = categoryService.findBySubject(subjectId, pageable);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/subject-search/{subjectId}")
+    public ResponseEntity<Page<CategoryGetListDto>> findBySubjectAndName(@Valid FindByNameDto dto, @PathVariable UUID subjectId, Pageable pageable){
+        Page<CategoryGetListDto> result = categoryService.findBySubjectAndName(subjectId, dto.getName(), pageable);
         return ResponseEntity.ok(result);
     }
 }

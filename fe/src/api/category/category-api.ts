@@ -39,3 +39,9 @@ export const getCategoryByNamePaged = async (page: number, searchItem: string, p
     const res = await api.get<Page<CategoryGetListDto>>(buildPath([url, "by-name"], page, size), {params: {name: searchItem}});
     return res.data;
 }
+
+export const getCategorySubjectSearchPaged = async (page: number, searchItem: string, subjectId: string, pageSize?: number): Promise<Page<CategoryGetListDto>> => {
+    const size = pageSize ? pageSize : 20;
+    const res = await api.get<Page<CategoryGetListDto>>(buildPath([url, "subject-search", subjectId], page, size), {params: {name: searchItem}});
+    return res.data;
+}

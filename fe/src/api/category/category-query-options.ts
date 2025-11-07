@@ -3,7 +3,7 @@ import {
     createCategory,
     deleteCategory,
     getCategoryById, getCategoryByNamePaged,
-    getCategoryPaged,
+    getCategoryPaged, getCategorySubjectSearchPaged,
     updateCategory
 } from "@/api/category/category-api.ts";
 import type {
@@ -52,7 +52,7 @@ export function createDeleteCategoryOptions(id: string): UseMutationOptions<void
     }
 }
 
-export function createCategoryInfiniteQuery(searchItem?: string) {
+export function createCategoryInfiniteQuery(searchItem?: string, subjectId?: string) {
     return infiniteQueryOptions({
         queryKey: [categoryQueryKey, "infinite", searchItem ? searchItem : ""],
         queryFn: ({pageParam}) => {
@@ -60,7 +60,12 @@ export function createCategoryInfiniteQuery(searchItem?: string) {
                 return getCategoryPaged(pageParam);
             }
 
-            return getCategoryByNamePaged(pageParam, searchItem);
+            if(!subjectId){
+                return getCategoryByNamePaged(pageParam, searchItem);
+            }
+
+            return getCategorySubjectSearchPaged(pageParam, searchItem, subjectId);
+
         },
         initialPageParam: 0,
         getNextPageParam: (lastPage: Page<CategoryGetListDto>) => {
