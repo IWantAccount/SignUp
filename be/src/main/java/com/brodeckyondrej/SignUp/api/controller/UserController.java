@@ -46,4 +46,14 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         //TODO možná odfiltrovat nestudenty?
         return ResponseEntity.ok(userService.findByClassroom(id, pageable));
     }
+
+    @GetMapping("/classroom-search/{classroomId}")
+    public ResponseEntity<Page<UserGetListDto>> getByClassroomAndName(@Valid FindByNameDto nameDto,@PathVariable UUID classroomId, Pageable pageable ){
+        return ResponseEntity.ok(userService.findByClassroomAndName(classroomId, nameDto.getName(), pageable));
+    }
+
+    @GetMapping("/subject-search/{subjectId}")
+    public ResponseEntity<Page<UserGetListDto>> getBySubjectAndName(@Valid FindByNameDto nameDto, @PathVariable UUID subjectId, Pageable pageable ){
+        return ResponseEntity.ok(userService.findBySubjectAndName(subjectId, nameDto.getName(), pageable));
+    }
 }

@@ -63,7 +63,6 @@ function RouteComponent() {
                     }
                 }
             />
-            {/*TODO vhodný api call*/}
             <CategoryGrid list={categories}/>
         </TopBarItemsGrid>
     )

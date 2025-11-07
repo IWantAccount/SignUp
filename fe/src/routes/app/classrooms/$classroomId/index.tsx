@@ -1,51 +1,66 @@
-import {createFileRoute} from '@tanstack/react-router'
-import type {UserCardProps} from "@/components/cards/user-card.tsx";
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {UserGrid} from "@/components/grids/user-grid.tsx";
-import {Stack, Typography} from "@mui/material";
-import {useQuery} from "@tanstack/react-query";
-import {createGetClassroomByIdOptions} from "@/api/classroom/classroom-query-options.ts";
-import {ErrorAlert} from "@/components/util/error-alert.tsx";
+import {useInfiniteQuery, useMutation, useQuery} from "@tanstack/react-query";
+import {classroomQueryKey, createGetClassroomByIdOptions} from "@/api/classroom/classroom-query-options.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
+import {useState} from "react";
+import {createGetUserByClassroomInfiniteQueryOptions} from "@/api/user/user-query-options.ts";
+import type {UserGetListDto} from "@/api/user/user-dtos.ts";
+import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
+import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
+import {queryClient} from "@/main.tsx";
+import {deleteClassroom} from "@/api/classroom/classroom-api.ts";
+import { Button } from '@mui/material';
 
 export const Route = createFileRoute('/app/classrooms/$classroomId/')({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    //TODO api call, nějaký tlačítka na přídání a odebrání uživatele
+    //TODO nějaký tlačítka na přídání a odebrání uživatele
+    const navigate = useNavigate();
+    const [searchItem, setSearchItem] = useState<string>("");
     const classroomId = Route.useParams().classroomId;
-    const query = useQuery(createGetClassroomByIdOptions(classroomId))
-    if (query.isPending) return <BackdropLoading/>;
-    if (query.isError) return <ErrorAlert message={"Chyba při načítání třídy"}/>;
-    const classname = query.data.name;
-    const users: UserCardProps[] = [
-        {
-            id: "1",
-            name: "Máňa",
-            email: "mana@neco.com",
-            classname: classname
-        },
-        {
-            id: "2",
-            name: "Honza",
-            email: "jan.nezajimavy@neco.com",
-            classname: classname
-        },
-        {
-            id: "3",
-            name: "Ignác",
-            email: "ignac@blbyjmeno.com",
-            classname: classname
+
+    const deleteMutation = useMutation({
+        mutationFn: () => deleteClassroom(classroomId),
+        onSuccess: () => {
+            navigate({
+                to: "/app/classrooms",
+            });
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey, classroomId]})
         }
-    ]
+    });
+    const classroomQuery = useQuery(createGetClassroomByIdOptions(classroomId));
+    const userQuery = useInfiniteQuery(
+        createGetUserByClassroomInfiniteQueryOptions(classroomId, searchItem)
+    )
+
+    if (classroomQuery.isPending || userQuery.isPending) return <BackdropLoading/>;
+    if (classroomQuery.isError || userQuery.isError) return <></>;
+    const users: UserGetListDto[] = userQuery.data.pages.flatMap(page => page.content);
 
     return (
-        <>
-            <Stack sx={{padding: 2}} spacing={2} alignItems="center">
-                <Typography variant="h4">{classname}</Typography>
-                <UserGrid list={users}/>
-            </Stack>
-        </>
+        <TopBarItemsGrid>
+            <SearchableCardSectionTopBarActions title={classroomQuery.data.name}
+                                                onEditNavigate={() => {
+                                                    navigate({
+                                                        to: '/app/classrooms/$classroomId/edit',
+                                                        params: {classroomId: classroomId}
+                                                    })
+                                                }}
+                                                onSearch={(value: string) => {
+                                                    setSearchItem(value)
+                                                }}
+                                                onDelete={() => {
+                                                    deleteMutation.mutate();
+                                                }}/>
+            <UserGrid list={users}/>
+            <Button disabled={userQuery.isPending || !userQuery.hasNextPage} onClick={() => {userQuery.fetchNextPage()}} sx={{maxWidth: 200}}>
+                {userQuery.isPending ? "Načítání" :
+                userQuery.hasNextPage ? "Načíst další uživatele" : "Vše načteno"}
+            </Button>
+        </TopBarItemsGrid>
 
     )
 }
