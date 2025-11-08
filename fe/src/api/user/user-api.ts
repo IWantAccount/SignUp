@@ -32,3 +32,15 @@ export const getUserPaged = async (page: number, pageSize?: number): Promise<Pag
     const res = await api.get<Page<UserGetListDto>>(buildPath([url], page, size))
     return res.data;
 }
+
+export const getUserByClassroomPaged = async (classroomId: string, page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
+    const size = pageSize ? pageSize : 20;
+    const res = await api.get<Page<UserGetListDto>>(buildPath([url, "by-classroom", classroomId], page, size));
+    return res.data;
+}
+
+export const getUserByClassroomAndNamePaged = async (classroomId: string, name: string, page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
+    const size = pageSize ? pageSize : 20;
+    const res = await api.get<Page<UserGetListDto>>(buildPath([url, "classroom-search", classroomId], page, size), {params: {name: name}});
+    return res.data;
+}

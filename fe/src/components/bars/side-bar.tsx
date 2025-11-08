@@ -28,7 +28,7 @@ export function SideBar(props: Props) {
             list: [
                 {text: "Znaky", Icon: SignLanguageIcon, href: "/app/debug/signs"},
                 {text: "Předměty", Icon: SchoolIcon, href: "/app/subjects"},
-                {text: "Kategorie", Icon: CategoryIcon, href: "/app/debug/categories"},
+                {text: "Kategorie", Icon: CategoryIcon, href: "/app/categories"},
                 {text: "Třídy", Icon: GroupIcon, href: "/app/classrooms"}
             ]
         },

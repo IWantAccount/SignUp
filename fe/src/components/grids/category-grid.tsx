@@ -1,8 +1,9 @@
 import {BaseGrid} from "@/components/grids/base-grid.tsx";
-import {CategoryCard, type CategoryCardProps} from "../cards/category-card";
+import {CategoryCard} from "../cards/category-card";
+import type {CategoryGetListDto} from "@/api/category/category-dtos.ts";
 
 interface Props {
-    list: CategoryCardProps[];
+    list: CategoryGetListDto[];
 }
 
 export function CategoryGrid({list}: Props) {
@@ -10,11 +11,7 @@ export function CategoryGrid({list}: Props) {
         <BaseGrid>
             {
                 list.map((category) => (
-                    <CategoryCard categoryId={category.categoryId}
-                                  categoryName={category.categoryName}
-                                  signCount={category.signCount}
-                                  subjectId={category.subjectId}
-                                  subjectName={category.subjectName}/>
+                    <CategoryCard numberOfSigns={category.numberOfSigns} subjectNameId={category.subjectNameId} name={category.name} id={category.id}/>
                 ))}
         </BaseGrid>
     )

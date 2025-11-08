@@ -10,4 +10,6 @@ import org.springframework.data.domain.Pageable;
 public interface UserRepository extends NamedEntityRepository<User> {
     Page<User> findByClassroom(Classroom classroom, Pageable pageable);
     Page<User> findDistinctBySubjectsContaining(Subject subject, Pageable pageable);
+    Page<User> findDistinctBySubjectsContainingAndNameContainingIgnoreCase(Subject subject, String name, Pageable pageable);
+    Page<User> findByClassroomAndNameContainingIgnoreCase(Classroom classroom, String name, Pageable pageable);
 }
