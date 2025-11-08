@@ -31,3 +31,15 @@ export interface UserGetListDto extends UserDtoWithId {
 export interface UserUpdateDto extends UserDto {
     password: string;
 }
+
+export interface StudentSubjectSearchDto {
+    subjectId: string;
+    studentName: string;
+}
+
+export interface StudentInSubjectDto {
+    studentName: string;
+    studentId: string;
+    subjectId: string;
+    inGivenSubject: boolean;
+}

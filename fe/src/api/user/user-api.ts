@@ -1,4 +1,10 @@
-import type {UserCreateDto, UserGetDetailDto, UserGetListDto, UserUpdateDto} from "@/api/user/user-dtos.ts";
+import type {
+    StudentInSubjectDto,
+    UserCreateDto,
+    UserGetDetailDto,
+    UserGetListDto,
+    UserUpdateDto
+} from "@/api/user/user-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import api from "@/api/universal/axios.ts";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
@@ -42,5 +48,11 @@ export const getUserByClassroomPaged = async (classroomId: string, page: number,
 export const getUserByClassroomAndNamePaged = async (classroomId: string, name: string, page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
     const size = pageSize ? pageSize : 20;
     const res = await api.get<Page<UserGetListDto>>(buildPath([url, "classroom-search", classroomId], page, size), {params: {name: name}});
+    return res.data;
+}
+
+export const getStudentEnrolledInSubject = async (studentName: string, subjectId: string, page: number, pageSize?: number): Promise<Page<StudentInSubjectDto>> => {
+    const size = pageSize ? pageSize : 20;
+    const res = await api.get<Page<StudentInSubjectDto>>(buildPath([url, "present-in-subject"], page, size), {params: {studentName: studentName, subjectId: subjectId}});
     return res.data;
 }

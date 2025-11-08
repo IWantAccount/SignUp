@@ -14,7 +14,6 @@ import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppTestRouteRouteImport } from './routes/app/test-route'
 import { Route as AppOndraJeFrajerRouteImport } from './routes/app/ondra-je-frajer'
-import { Route as AppDebugRouteRouteImport } from './routes/app/debug/route'
 import { Route as AppUsersIndexRouteImport } from './routes/app/users/index'
 import { Route as AppSubjectsIndexRouteImport } from './routes/app/subjects/index'
 import { Route as AppSignsIndexRouteImport } from './routes/app/signs/index'
@@ -27,11 +26,7 @@ import { Route as AppSubjectsCreateRouteImport } from './routes/app/subjects/cre
 import { Route as AppSignsCreateRouteImport } from './routes/app/signs/create'
 import { Route as AppSignComponentsCreateRouteImport } from './routes/app/sign-components/create'
 import { Route as AppPrivateCollectionsCreateRouteImport } from './routes/app/private-collections/create'
-import { Route as AppDebugUsersRouteImport } from './routes/app/debug/users'
-import { Route as AppDebugSubjectsRouteImport } from './routes/app/debug/subjects'
-import { Route as AppDebugSignsRouteImport } from './routes/app/debug/signs'
-import { Route as AppDebugPrivateCollectionsRouteImport } from './routes/app/debug/private-collections'
-import { Route as AppDebugCategoriesRouteImport } from './routes/app/debug/categories'
+import { Route as AppDebugEnrolledRouteImport } from './routes/app/debug/enrolled'
 import { Route as AppClassroomsCreateRouteImport } from './routes/app/classrooms/create'
 import { Route as AppCategoriesCreateRouteImport } from './routes/app/categories/create'
 import { Route as AppUsersUserIdIndexRouteImport } from './routes/app/users/$userId/index'
@@ -72,11 +67,6 @@ const AppTestRouteRoute = AppTestRouteRouteImport.update({
 const AppOndraJeFrajerRoute = AppOndraJeFrajerRouteImport.update({
   id: '/ondra-je-frajer',
   path: '/ondra-je-frajer',
-  getParentRoute: () => AppRouteRoute,
-} as any)
-const AppDebugRouteRoute = AppDebugRouteRouteImport.update({
-  id: '/debug',
-  path: '/debug',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppUsersIndexRoute = AppUsersIndexRouteImport.update({
@@ -141,31 +131,10 @@ const AppPrivateCollectionsCreateRoute =
     path: '/private-collections/create',
     getParentRoute: () => AppRouteRoute,
   } as any)
-const AppDebugUsersRoute = AppDebugUsersRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => AppDebugRouteRoute,
-} as any)
-const AppDebugSubjectsRoute = AppDebugSubjectsRouteImport.update({
-  id: '/subjects',
-  path: '/subjects',
-  getParentRoute: () => AppDebugRouteRoute,
-} as any)
-const AppDebugSignsRoute = AppDebugSignsRouteImport.update({
-  id: '/signs',
-  path: '/signs',
-  getParentRoute: () => AppDebugRouteRoute,
-} as any)
-const AppDebugPrivateCollectionsRoute =
-  AppDebugPrivateCollectionsRouteImport.update({
-    id: '/private-collections',
-    path: '/private-collections',
-    getParentRoute: () => AppDebugRouteRoute,
-  } as any)
-const AppDebugCategoriesRoute = AppDebugCategoriesRouteImport.update({
-  id: '/categories',
-  path: '/categories',
-  getParentRoute: () => AppDebugRouteRoute,
+const AppDebugEnrolledRoute = AppDebugEnrolledRouteImport.update({
+  id: '/debug/enrolled',
+  path: '/debug/enrolled',
+  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppClassroomsCreateRoute = AppClassroomsCreateRouteImport.update({
   id: '/classrooms/create',
@@ -262,16 +231,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
-  '/app/debug/categories': typeof AppDebugCategoriesRoute
-  '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
-  '/app/debug/signs': typeof AppDebugSignsRoute
-  '/app/debug/subjects': typeof AppDebugSubjectsRoute
-  '/app/debug/users': typeof AppDebugUsersRoute
+  '/app/debug/enrolled': typeof AppDebugEnrolledRoute
   '/app/private-collections/create': typeof AppPrivateCollectionsCreateRoute
   '/app/sign-components/create': typeof AppSignComponentsCreateRoute
   '/app/signs/create': typeof AppSignsCreateRoute
@@ -303,16 +267,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
-  '/app/debug/categories': typeof AppDebugCategoriesRoute
-  '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
-  '/app/debug/signs': typeof AppDebugSignsRoute
-  '/app/debug/subjects': typeof AppDebugSubjectsRoute
-  '/app/debug/users': typeof AppDebugUsersRoute
+  '/app/debug/enrolled': typeof AppDebugEnrolledRoute
   '/app/private-collections/create': typeof AppPrivateCollectionsCreateRoute
   '/app/sign-components/create': typeof AppSignComponentsCreateRoute
   '/app/signs/create': typeof AppSignsCreateRoute
@@ -345,16 +304,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/app/debug': typeof AppDebugRouteRouteWithChildren
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
-  '/app/debug/categories': typeof AppDebugCategoriesRoute
-  '/app/debug/private-collections': typeof AppDebugPrivateCollectionsRoute
-  '/app/debug/signs': typeof AppDebugSignsRoute
-  '/app/debug/subjects': typeof AppDebugSubjectsRoute
-  '/app/debug/users': typeof AppDebugUsersRoute
+  '/app/debug/enrolled': typeof AppDebugEnrolledRoute
   '/app/private-collections/create': typeof AppPrivateCollectionsCreateRoute
   '/app/sign-components/create': typeof AppSignComponentsCreateRoute
   '/app/signs/create': typeof AppSignsCreateRoute
@@ -388,16 +342,11 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/app/debug'
     | '/app/ondra-je-frajer'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/classrooms/create'
-    | '/app/debug/categories'
-    | '/app/debug/private-collections'
-    | '/app/debug/signs'
-    | '/app/debug/subjects'
-    | '/app/debug/users'
+    | '/app/debug/enrolled'
     | '/app/private-collections/create'
     | '/app/sign-components/create'
     | '/app/signs/create'
@@ -429,16 +378,11 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/app/debug'
     | '/app/ondra-je-frajer'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/classrooms/create'
-    | '/app/debug/categories'
-    | '/app/debug/private-collections'
-    | '/app/debug/signs'
-    | '/app/debug/subjects'
-    | '/app/debug/users'
+    | '/app/debug/enrolled'
     | '/app/private-collections/create'
     | '/app/sign-components/create'
     | '/app/signs/create'
@@ -470,16 +414,11 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
-    | '/app/debug'
     | '/app/ondra-je-frajer'
     | '/app/test-route'
     | '/app/categories/create'
     | '/app/classrooms/create'
-    | '/app/debug/categories'
-    | '/app/debug/private-collections'
-    | '/app/debug/signs'
-    | '/app/debug/subjects'
-    | '/app/debug/users'
+    | '/app/debug/enrolled'
     | '/app/private-collections/create'
     | '/app/sign-components/create'
     | '/app/signs/create'
@@ -549,13 +488,6 @@ declare module '@tanstack/react-router' {
       path: '/ondra-je-frajer'
       fullPath: '/app/ondra-je-frajer'
       preLoaderRoute: typeof AppOndraJeFrajerRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
-    '/app/debug': {
-      id: '/app/debug'
-      path: '/debug'
-      fullPath: '/app/debug'
-      preLoaderRoute: typeof AppDebugRouteRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/users/': {
@@ -642,40 +574,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPrivateCollectionsCreateRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/app/debug/users': {
-      id: '/app/debug/users'
-      path: '/users'
-      fullPath: '/app/debug/users'
-      preLoaderRoute: typeof AppDebugUsersRouteImport
-      parentRoute: typeof AppDebugRouteRoute
-    }
-    '/app/debug/subjects': {
-      id: '/app/debug/subjects'
-      path: '/subjects'
-      fullPath: '/app/debug/subjects'
-      preLoaderRoute: typeof AppDebugSubjectsRouteImport
-      parentRoute: typeof AppDebugRouteRoute
-    }
-    '/app/debug/signs': {
-      id: '/app/debug/signs'
-      path: '/signs'
-      fullPath: '/app/debug/signs'
-      preLoaderRoute: typeof AppDebugSignsRouteImport
-      parentRoute: typeof AppDebugRouteRoute
-    }
-    '/app/debug/private-collections': {
-      id: '/app/debug/private-collections'
-      path: '/private-collections'
-      fullPath: '/app/debug/private-collections'
-      preLoaderRoute: typeof AppDebugPrivateCollectionsRouteImport
-      parentRoute: typeof AppDebugRouteRoute
-    }
-    '/app/debug/categories': {
-      id: '/app/debug/categories'
-      path: '/categories'
-      fullPath: '/app/debug/categories'
-      preLoaderRoute: typeof AppDebugCategoriesRouteImport
-      parentRoute: typeof AppDebugRouteRoute
+    '/app/debug/enrolled': {
+      id: '/app/debug/enrolled'
+      path: '/debug/enrolled'
+      fullPath: '/app/debug/enrolled'
+      preLoaderRoute: typeof AppDebugEnrolledRouteImport
+      parentRoute: typeof AppRouteRoute
     }
     '/app/classrooms/create': {
       id: '/app/classrooms/create'
@@ -792,32 +696,12 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface AppDebugRouteRouteChildren {
-  AppDebugCategoriesRoute: typeof AppDebugCategoriesRoute
-  AppDebugPrivateCollectionsRoute: typeof AppDebugPrivateCollectionsRoute
-  AppDebugSignsRoute: typeof AppDebugSignsRoute
-  AppDebugSubjectsRoute: typeof AppDebugSubjectsRoute
-  AppDebugUsersRoute: typeof AppDebugUsersRoute
-}
-
-const AppDebugRouteRouteChildren: AppDebugRouteRouteChildren = {
-  AppDebugCategoriesRoute: AppDebugCategoriesRoute,
-  AppDebugPrivateCollectionsRoute: AppDebugPrivateCollectionsRoute,
-  AppDebugSignsRoute: AppDebugSignsRoute,
-  AppDebugSubjectsRoute: AppDebugSubjectsRoute,
-  AppDebugUsersRoute: AppDebugUsersRoute,
-}
-
-const AppDebugRouteRouteWithChildren = AppDebugRouteRoute._addFileChildren(
-  AppDebugRouteRouteChildren,
-)
-
 interface AppRouteRouteChildren {
-  AppDebugRouteRoute: typeof AppDebugRouteRouteWithChildren
   AppOndraJeFrajerRoute: typeof AppOndraJeFrajerRoute
   AppTestRouteRoute: typeof AppTestRouteRoute
   AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
   AppClassroomsCreateRoute: typeof AppClassroomsCreateRoute
+  AppDebugEnrolledRoute: typeof AppDebugEnrolledRoute
   AppPrivateCollectionsCreateRoute: typeof AppPrivateCollectionsCreateRoute
   AppSignComponentsCreateRoute: typeof AppSignComponentsCreateRoute
   AppSignsCreateRoute: typeof AppSignsCreateRoute
@@ -847,11 +731,11 @@ interface AppRouteRouteChildren {
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
-  AppDebugRouteRoute: AppDebugRouteRouteWithChildren,
   AppOndraJeFrajerRoute: AppOndraJeFrajerRoute,
   AppTestRouteRoute: AppTestRouteRoute,
   AppCategoriesCreateRoute: AppCategoriesCreateRoute,
   AppClassroomsCreateRoute: AppClassroomsCreateRoute,
+  AppDebugEnrolledRoute: AppDebugEnrolledRoute,
   AppPrivateCollectionsCreateRoute: AppPrivateCollectionsCreateRoute,
   AppSignComponentsCreateRoute: AppSignComponentsCreateRoute,
   AppSignsCreateRoute: AppSignsCreateRoute,

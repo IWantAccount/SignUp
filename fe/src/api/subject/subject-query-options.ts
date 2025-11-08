@@ -1,18 +1,23 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {
+    addStudentToSubject,
     createSubject,
     deleteSubject,
     getSubjectById, getSubjectByNamePaged,
     getSubjectPaged,
+    removeStudentFromSubject,
     updateSubject
 } from "@/api/subject/subject-api.ts";
 import type {
     SubjectCreateDto,
     SubjectGetDetailDto,
-    SubjectGetListDto,
+    SubjectGetListDto, SubjectStudentDto,
     SubjectUpdateDto
 } from "@/api/subject/subject-dtos.ts";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import type {AxiosError} from "axios";
+import {queryClient} from "@/main.tsx";
+import {userQueryKey} from "@/api/user/user-query-options.ts";
 
 export const subjectQueryKey = "subject";
 
@@ -84,5 +89,28 @@ export function createSubjectByNameInfiniteQueryOptions(searchItem: string) {
             return nextPage < lastPage.totalPages ? nextPage : undefined;
         }
     })
+}
+
+export function createAddStudentToSubjectOptions(dto: SubjectStudentDto): UseMutationOptions<void, AxiosError, void>{
+    return {
+        mutationKey: [subjectQueryKey, dto.subjectId],
+        mutationFn: () => addStudentToSubject(dto),
+        onSuccess: () => {
+
+            queryClient.invalidateQueries({ queryKey: [userQueryKey, "infinite", dto.subjectId] });
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey, dto.subjectId]});
+        }
+    }
+}
+
+export function createRemoveStudentFromSubjectOptions(dto: SubjectStudentDto): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [subjectQueryKey, dto.subjectId],
+        mutationFn: () => removeStudentFromSubject(dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [userQueryKey, "infinite", dto.subjectId] });
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey, dto.subjectId]});
+        }
+    }
 }
 

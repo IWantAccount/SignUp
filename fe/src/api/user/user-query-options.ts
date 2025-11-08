@@ -1,17 +1,23 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {
     createUser,
-    deleteUser, getUserByClassroomAndNamePaged,
+    deleteUser, getStudentEnrolledInSubject, getUserByClassroomAndNamePaged,
     getUserByClassroomPaged,
     getUserById,
     getUserPaged,
     updateUser
 } from "@/api/user/user-api.ts";
-import type {UserCreateDto, UserGetDetailDto, UserGetListDto, UserUpdateDto} from "@/api/user/user-dtos.ts";
+import type {
+    StudentInSubjectDto,
+    UserCreateDto,
+    UserGetDetailDto,
+    UserGetListDto,
+    UserUpdateDto
+} from "@/api/user/user-dtos.ts";
 import type {AxiosError} from "axios";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
 
-const userQueryKey = "user";
+export const userQueryKey = "user";
 
 export function createGetUserByIdOptions(id: string) {
     return queryOptions({
@@ -83,5 +89,20 @@ export function createGetUserByClassroomInfiniteQueryOptions(classroomId: string
             const next = lastPage.number + 1;
             return next < lastPage.totalPages ? next : undefined;
         }
+    })
+}
+
+export function createGetEnrolledByNameInfiniteQueryOptions(subjectId: string, searchItem?: string) {
+    const toSearch = searchItem ? searchItem : "";
+    return infiniteQueryOptions({
+        queryKey: [userQueryKey, "infinite", subjectId, toSearch],
+        queryFn: ({pageParam}) => {
+            return getStudentEnrolledInSubject(toSearch, subjectId, pageParam)
+        },
+        initialPageParam: 0,
+        getNextPageParam: (lastPage: Page<StudentInSubjectDto>) => {
+            const next = lastPage.number + 1;
+            return next < lastPage.totalPages ? next : undefined;
+        },
     })
 }

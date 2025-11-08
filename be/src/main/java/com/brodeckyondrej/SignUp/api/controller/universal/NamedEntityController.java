@@ -1,5 +1,6 @@
 package com.brodeckyondrej.SignUp.api.controller.universal;
 
+import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.business.dto.universal.NamedDto;
 import com.brodeckyondrej.SignUp.business.dto.universal.NamedDtoWithId;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
@@ -19,7 +20,7 @@ public abstract class NamedEntityController<
         UpdateDto extends NamedDto,
         GetDetailDto extends NamedDtoWithId,
         GetListDto extends NamedDtoWithId,
-        DtoWithName extends NamedDto
+        DtoWithName extends FindByNameDto
 
         >  extends EntityController <Entity, CreateDto, UpdateDto, GetDetailDto, GetListDto> {
     private final NamedEntityService<Entity, CreateDto, UpdateDto, GetDetailDto, GetListDto> service;

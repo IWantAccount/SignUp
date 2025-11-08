@@ -53,7 +53,12 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
     }
 
     @GetMapping("/subject-search/{subjectId}")
-    public ResponseEntity<Page<UserGetListDto>> getBySubjectAndName(@Valid FindByNameDto nameDto, @PathVariable UUID subjectId, Pageable pageable ){
-        return ResponseEntity.ok(userService.findBySubjectAndName(subjectId, nameDto.getName(), pageable));
+    public ResponseEntity<Page<UserGetListDto>> getBySubjectAndName(@Valid StudentSubjectSearchDto dto, Pageable pageable ){
+        return ResponseEntity.ok(userService.findBySubjectAndName(dto.getSubjectId(), dto.getStudentName(), pageable));
+    }
+
+    @GetMapping("/present-in-subject")
+    public ResponseEntity<Page<StudentInSubjectDto>> getStudentEnrolledInSubject(@Valid StudentSubjectSearchDto dto, Pageable pageable){
+        return ResponseEntity.ok(userService.findStudentsByNameWithSubject(dto.getStudentName(), dto.getSubjectId(), pageable));
     }
 }

@@ -2,7 +2,7 @@ import api from "@/api/universal/axios.ts";
 import type {
     SubjectCreateDto,
     SubjectGetDetailDto,
-    SubjectGetListDto,
+    SubjectGetListDto, SubjectStudentDto,
     SubjectUpdateDto
 } from "@/api/subject/subject-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
@@ -39,4 +39,12 @@ export const getSubjectByNamePaged = async (page: number, searchItem: string, pa
     const size = pageSize ? pageSize : 20;
     const res = await api.get<Page<SubjectGetListDto>>(buildPath([url], page, size), {params: {name: searchItem}});
     return res.data;
+}
+
+export const addStudentToSubject = async (dto: SubjectStudentDto) : Promise<void> => {
+    await api.post<void>(buildPath([url, "add-student"]), dto);
+}
+
+export const removeStudentFromSubject = async (dto: SubjectStudentDto) : Promise<void> => {
+    await api.post<void>(buildPath([url, "remove-student"]), dto)
 }

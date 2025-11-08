@@ -1,7 +1,12 @@
 package com.brodeckyondrej.SignUp.business.dto.universal;
 
-public class FindByNameDto extends NamedDto {
-    public FindByNameDto(String name){
-        super(name);
-    }
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class FindByNameDto {
+    @NotNull
+    private final String name;
 }

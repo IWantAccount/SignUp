@@ -1,9 +1,7 @@
 package com.brodeckyondrej.SignUp.business.service.user;
 
-import com.brodeckyondrej.SignUp.business.dto.user.UserCreateDto;
-import com.brodeckyondrej.SignUp.business.dto.user.UserGetDetailDto;
-import com.brodeckyondrej.SignUp.business.dto.user.UserGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.user.UserUpdateDto;
+import com.brodeckyondrej.SignUp.business.dto.user.*;
+import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityMapper;
 import org.springframework.stereotype.Service;
@@ -31,5 +29,10 @@ public class UserMapper implements EntityMapper<User, UserCreateDto, UserUpdateD
     @Override
     public UserGetListDto toListDto(User entity) {
         return new UserGetListDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getClassroom() == null ? "" : entity.getClassroom().getName());
+    }
+
+    public StudentInSubjectDto toStudentInSubjectDto(User entity, Subject subject) {
+        boolean inSubject = entity.getSubjects().contains(subject);
+        return new StudentInSubjectDto(entity.getName(), entity.getId(), inSubject, subject.getId());
     }
 }
