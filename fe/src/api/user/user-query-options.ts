@@ -1,13 +1,15 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {
+    addStudentToClassroom,
     createUser,
-    deleteUser, getStudentEnrolledInSubject, getUserByClassroomAndNamePaged,
+    deleteUser, getUserByRoleByName, getStudentEnrolledInSubject, getUserByClassroomAndNamePaged,
     getUserByClassroomPaged,
     getUserById,
-    getUserPaged,
+    getUserPaged, removeStudentFromClassroom,
     updateUser
 } from "@/api/user/user-api.ts";
 import type {
+    StudentClassroomDto,
     StudentInSubjectDto,
     UserCreateDto,
     UserGetDetailDto,
@@ -16,6 +18,9 @@ import type {
 } from "@/api/user/user-dtos.ts";
 import type {AxiosError} from "axios";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import {queryClient} from "@/main.tsx";
+import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
+import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
 
 export const userQueryKey = "user";
 
@@ -105,4 +110,40 @@ export function createGetEnrolledByNameInfiniteQueryOptions(subjectId: string, s
             return next < lastPage.totalPages ? next : undefined;
         },
     })
+}
+
+export function createGetByRoleNameInfiniteQueryOptions(role: UserRoleEnum, name?: string) {
+    return infiniteQueryOptions({
+        queryKey: [userQueryKey, "infinite", role, name ?? ""],
+        queryFn: ({pageParam}) => {
+            return getUserByRoleByName(role, pageParam, name);
+        },
+        initialPageParam: 0,
+        getNextPageParam: (lastPage: Page<UserGetListDto>) => {
+            const next = lastPage.number + 1;
+            return next < lastPage.totalPages ? next : undefined;
+        }
+    })
+}
+
+export function createAddStudentToClassroomOptions(dto: StudentClassroomDto): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [userQueryKey, dto.studentId, dto.classroomId],
+        mutationFn: () => addStudentToClassroom(dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [userQueryKey]});
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey]})
+        }
+    }
+}
+
+export function createRemoveStudentFromClassroomOptions(dto: StudentClassroomDto): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [userQueryKey, dto.studentId, dto.classroomId],
+        mutationFn: () => removeStudentFromClassroom(dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [userQueryKey]});
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey]})
+        }
+    }
 }

@@ -4,7 +4,7 @@ import {useInfiniteQuery, useMutation} from "@tanstack/react-query";
 import {createGetEnrolledByNameInfiniteQueryOptions} from "@/api/user/user-query-options.ts";
 import type {StudentInSubjectDto} from "@/api/user/user-dtos.ts";
 import {
-    Box,
+    Box, CircularProgress,
     IconButton,
     Typography
 } from "@mui/material";
@@ -23,9 +23,8 @@ interface DialogProps {
     onClose: () => void;
 }
 
-//Převzato částečně z dokumentace komponenty Dialog a částečně z ChatGPT (model 5, OpenAI)
-//https://mui.com/material-ui/react-dialog/
-export function AddStudentDialog(props: DialogProps) {
+
+export function AddStudentToSubjectDialog(props: DialogProps) {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedInput] = useDebounce(searchItem, 300);
     const userQuery
@@ -91,22 +90,24 @@ function DialogListItem(props: ListItemProps) {
         >
             <Typography>{props.studentName}</Typography>
             {
-                props.inSubject ? (
+                (addMutation.isPending || removeMutation.isPending) ? (
+                    <CircularProgress color="secondary"/>
+                ) :
+                    props.inSubject ? (
                         <IconButton onClick={() => {
                             removeMutation.mutate();
                         }}>
                             <ClearIcon/>
                         </IconButton>
-                ) :
+                    ) :
                     (
-                    <IconButton onClick={() => {
-                        addMutation.mutate()
-                    }}>
-                        <AddIcon/>
-                    </IconButton>
+                        <IconButton onClick={() => {
+                            addMutation.mutate()
+                        }}>
+                            <AddIcon/>
+                        </IconButton>
 
                     )
-
             }
         </Box>
     )

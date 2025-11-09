@@ -28,11 +28,14 @@ public class UserMapper implements EntityMapper<User, UserCreateDto, UserUpdateD
 
     @Override
     public UserGetListDto toListDto(User entity) {
-        return new UserGetListDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getClassroom() == null ? "" : entity.getClassroom().getName());
+        return new UserGetListDto(entity.getId(), entity.getName(),
+                entity.getEmail(),
+                entity.getClassroom() == null ? "" : entity.getClassroom().getName(),
+                entity.getClassroom() == null ? null : entity.getClassroom().getId());
     }
 
-    public StudentInSubjectDto toStudentInSubjectDto(User entity, Subject subject) {
-        boolean inSubject = entity.getSubjects().contains(subject);
-        return new StudentInSubjectDto(entity.getName(), entity.getId(), inSubject, subject.getId());
+    public StudentInSubjectDto toStudentInSubjectDto(User student, Subject subject) {
+        boolean inSubject = student.getSubjects().contains(subject);
+        return new StudentInSubjectDto(student.getName(), student.getId(), inSubject, subject.getId());
     }
 }

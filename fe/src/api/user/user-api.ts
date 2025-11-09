@@ -1,4 +1,5 @@
 import type {
+    StudentClassroomDto,
     StudentInSubjectDto,
     UserCreateDto,
     UserGetDetailDto,
@@ -8,6 +9,7 @@ import type {
 import {buildPath} from "@/api/util/build-path.ts";
 import api from "@/api/universal/axios.ts";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
 
 const url = "/user";
 
@@ -54,5 +56,20 @@ export const getUserByClassroomAndNamePaged = async (classroomId: string, name: 
 export const getStudentEnrolledInSubject = async (studentName: string, subjectId: string, page: number, pageSize?: number): Promise<Page<StudentInSubjectDto>> => {
     const size = pageSize ? pageSize : 20;
     const res = await api.get<Page<StudentInSubjectDto>>(buildPath([url, "present-in-subject"], page, size), {params: {studentName: studentName, subjectId: subjectId}});
+    return res.data;
+}
+
+export const addStudentToClassroom = async (dto: StudentClassroomDto): Promise<void> => {
+    await api.post<void>(buildPath([url, "add-classroom"]), dto);
+}
+
+export const removeStudentFromClassroom = async (dto: StudentClassroomDto): Promise<void> => {
+    await api.post<void>(buildPath([url, "remove-classroom"]), dto);
+}
+
+export const getUserByRoleByName = async (role: UserRoleEnum, page: number, name?: string, pageSize?: number): Promise<Page<UserGetListDto>> => {
+    const searchName = name ?? "";
+    const size = pageSize ?? 20;
+    const res = await api.get<Page<UserGetListDto>>(buildPath([url, "by-role-name"], page, size), {params: {role: role, name: searchName}});
     return res.data;
 }

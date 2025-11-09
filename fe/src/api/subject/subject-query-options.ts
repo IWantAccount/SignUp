@@ -97,8 +97,8 @@ export function createAddStudentToSubjectOptions(dto: SubjectStudentDto): UseMut
         mutationFn: () => addStudentToSubject(dto),
         onSuccess: () => {
 
-            queryClient.invalidateQueries({ queryKey: [userQueryKey, "infinite", dto.subjectId] });
-            queryClient.invalidateQueries({queryKey: [subjectQueryKey, dto.subjectId]});
+            queryClient.invalidateQueries({ queryKey: [userQueryKey] });
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
         }
     }
 }
@@ -108,8 +108,8 @@ export function createRemoveStudentFromSubjectOptions(dto: SubjectStudentDto): U
         mutationKey: [subjectQueryKey, dto.subjectId],
         mutationFn: () => removeStudentFromSubject(dto),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [userQueryKey, "infinite", dto.subjectId] });
-            queryClient.invalidateQueries({queryKey: [subjectQueryKey, dto.subjectId]});
+            queryClient.invalidateQueries({ queryKey: [userQueryKey] });
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
         }
     }
 }

@@ -8,6 +8,8 @@ import com.brodeckyondrej.SignUp.persistence.entity.NamedEntity;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +33,9 @@ public abstract class NamedEntityController<
     }
 
     @GetMapping("/by-name")
-    public ResponseEntity<Page<GetListDto>> getByName(@Valid DtoWithName dto, Pageable pageable) {
+    public ResponseEntity<Page<GetListDto>> getByName(
+            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
+            @Valid DtoWithName dto, Pageable pageable) {
         return ResponseEntity.ok(service.findByName(dto.getName(), pageable));
     }
 }

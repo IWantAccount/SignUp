@@ -26,6 +26,8 @@ export interface UserGetDetailDto extends UserDtoWithId {
 
 export interface UserGetListDto extends UserDtoWithId {
     classroomName: string;
+    classroomId?: string;
+    email: string;
 }
 
 export interface UserUpdateDto extends UserDto {

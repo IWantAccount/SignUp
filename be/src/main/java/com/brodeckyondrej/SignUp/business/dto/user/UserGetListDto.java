@@ -9,10 +9,12 @@ import java.util.UUID;
 public class UserGetListDto extends NamedDtoWithId {
     private final String email;
     private final String classroomName;
+    private final UUID classroomId;
 
-    public UserGetListDto(UUID id, String name, String email, String classroomName) {
+    public UserGetListDto(UUID id, String name, String email, String classroomName, UUID classroomId) {
         super(id, name);
         this.email = email;
         this.classroomName = classroomName;
+        this.classroomId = classroomId;
     }
 }

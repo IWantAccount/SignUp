@@ -89,6 +89,18 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
 
     }
 
+    public Page<UserGetListDto> findByRoleAndName(String name, UserRole role, Pageable pageable) {
+        Page<User> res;
+        if(name.isEmpty()){
+            res = userRepository.findByRole(role, pageable);
+        }
+        else {
+            res = userRepository.findByNameContainingIgnoreCaseAndRole(name, role, pageable);
+        }
+
+        return res.map(userMapper::toListDto);
+    }
+
     @Override
     public void delete(UUID id){
         Optional<User> user = userRepository.findById(id);

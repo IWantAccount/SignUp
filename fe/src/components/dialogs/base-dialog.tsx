@@ -13,6 +13,8 @@ interface Props {
     children: React.ReactNode;
 }
 
+//Převzato částečně z dokumentace komponenty Dialog a částečně z ChatGPT (model 5, OpenAI)
+//https://mui.com/material-ui/react-dialog/
 export function BaseDialog(props: Props) {
     return (
         <Dialog
