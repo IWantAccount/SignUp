@@ -6,14 +6,11 @@ import {createGetSubjectByIdOptions, subjectQueryKey} from "@/api/subject/subjec
 import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {deleteSubject} from "@/api/subject/subject-api.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
-import {ErrorAlert} from "@/components/util/error-alert.tsx";
 import {createCategoryInfiniteQuery} from "@/api/category/category-query-options.ts";
 import {useState} from "react";
 
 export const Route = createFileRoute('/app/subjects/$subjectId/')({
-    component: RouteComponent,
-    errorComponent: () => <ErrorAlert message={"Chyba při načítání předmětu"}/>,
-    pendingComponent: () => <BackdropLoading/>,
+    component: RouteComponent
 })
 
 function RouteComponent() {
