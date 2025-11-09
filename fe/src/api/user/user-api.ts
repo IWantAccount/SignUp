@@ -1,6 +1,6 @@
 import type {
     StudentClassroomDto,
-    StudentInSubjectDto,
+    StudentInSubjectDto, StudentSubjectSearchDto,
     UserCreateDto,
     UserGetDetailDto,
     UserGetListDto,
@@ -50,6 +50,14 @@ export const getUserByClassroomPaged = async (classroomId: string, page: number,
 export const getUserByClassroomAndNamePaged = async (classroomId: string, name: string, page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
     const size = pageSize ? pageSize : 20;
     const res = await api.get<Page<UserGetListDto>>(buildPath([url, "classroom-search", classroomId], page, size), {params: {name: name}});
+    return res.data;
+}
+
+export const getUserBySubjectAndNamePaged = async (subjectId: string, page: number, name?: string, pageSize?: number): Promise<Page<UserGetListDto>> => {
+    const size = pageSize ?? 20;
+    const search = name ?? "";
+    const dto: StudentSubjectSearchDto = {studentName: search, subjectId: subjectId}
+    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "subject-search"], page, size), dto);
     return res.data;
 }
 

@@ -65,8 +65,14 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
 
     public Page<UserGetListDto> findBySubjectAndName(UUID subjectId, String name, Pageable pageable) {
         Subject subject = subjectRepository.findByIdOrThrow(subjectId);
-        return userRepository.findDistinctBySubjectsContainingAndNameContainingIgnoreCase(subject, name, pageable)
-                .map(userMapper::toListDto);
+        Page<User> res;
+        if(name.isEmpty()) {
+            res = userRepository.findDistinctBySubjectsContaining(subject, pageable);
+        }
+        else {
+            res = userRepository.findDistinctBySubjectsContainingAndNameContainingIgnoreCase(subject, name, pageable);
+        }
+        return res.map(userMapper::toListDto);
     }
 
     public Page<UserGetListDto> findByClassroomAndName(UUID classroomId, String name, Pageable pageable) {

@@ -8,6 +8,15 @@ import {deleteSubject} from "@/api/subject/subject-api.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import {createCategoryInfiniteQuery} from "@/api/category/category-query-options.ts";
 import {useState} from "react";
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import {Box, SpeedDial, SpeedDialAction, SpeedDialIcon, Tab, Tabs} from "@mui/material";
+import {AddClassroomToSubjectDialog} from "@/components/dialogs/add-classroom-to-subject-dialog.tsx";
+import {AddStudentToSubjectDialog} from "@/components/dialogs/add-student-to-subject-dialog.tsx";
+import {
+    createGetUserBySubjectInfiniteQueryOptions
+} from "@/api/user/user-query-options.ts";
+import {UserGrid} from "@/components/grids/user-grid.tsx";
 
 export const Route = createFileRoute('/app/subjects/$subjectId/')({
     component: RouteComponent
@@ -15,10 +24,16 @@ export const Route = createFileRoute('/app/subjects/$subjectId/')({
 
 function RouteComponent() {
     const navigate = useNavigate()
-    const [searchItem, setSearchItem] =  useState<string>("");
-    const {subjectId} = Route.useParams()
-    const subjectQuery = useQuery(createGetSubjectByIdOptions(subjectId))
-    const categoryQuery = useInfiniteQuery(createCategoryInfiniteQuery(searchItem, subjectId));
+    const [categoriesSearch, setCategoriesSearch] =  useState<string>("");
+    const [studentSearch, setStudentSearch] =  useState<string>("");
+    const {subjectId} = Route.useParams();
+
+    const subjectQuery = useQuery(createGetSubjectByIdOptions(subjectId));
+    const categoryQuery = useInfiniteQuery(createCategoryInfiniteQuery(categoriesSearch, subjectId));
+    const studentQuery = useInfiniteQuery(createGetUserBySubjectInfiniteQueryOptions(subjectId, studentSearch));
+    const [addClassroomDialogOpened, setAddClassroomDialogOpened] = useState(false);
+    const [addStudentDialogOpened, setAddStudentDialogOpened] = useState(false);
+    const [selectedTab, setSelectedTab] = useState<"categories" | "students">("categories");
 
     const deleteMutation = useMutation({
         mutationFn: () => deleteSubject(subjectId),
@@ -31,36 +46,93 @@ function RouteComponent() {
 
     const queryClient = useQueryClient();
 
-    if(subjectQuery.isPending || categoryQuery.isPending) return <BackdropLoading/>
-    if(subjectQuery.isError || categoryQuery.isError) return <></>
+    if(subjectQuery.isPending || categoryQuery.isPending || studentQuery.isPending) return <BackdropLoading/>
+    if(subjectQuery.isError || categoryQuery.isError || studentQuery.isError) return <></>
 
-    const categories = categoryQuery.data.pages.flatMap(page => page.content) || [];
+    const categories = categoryQuery.data.pages.flatMap(page => page.content);
+    const students = studentQuery.data?.pages.flatMap(page => page.content);
 
     return (
         <TopBarItemsGrid>
-            <SearchableCardSectionTopBarActions
-                title={subjectQuery.data.name}
-                onSearch={
-                    (value: string) => {
-                        setSearchItem(value);
+            <Box
+            sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 2,
+                px: 2,
+                py: 1,
+            }}>
+
+                <SearchableCardSectionTopBarActions
+                    title={subjectQuery.data.name}
+                    onSearch={
+                        (value: string) => {
+                            if(selectedTab === "categories") {
+                                setCategoriesSearch(value)
+                            }
+                            else if(selectedTab === "students") {
+                                setStudentSearch(value)
+                            }
+                        }
                     }
-                }
-                onDelete={
-                    () => {
-                        deleteMutation.mutate()
-                        queryClient.invalidateQueries({queryKey: [subjectQueryKey, subjectId]})
+                    onDelete={
+                        () => {
+                            deleteMutation.mutate()
+                            queryClient.invalidateQueries({queryKey: [subjectQueryKey, subjectId]})
+                        }
                     }
-                }
-                onEditNavigate={
-                    () => {
-                        navigate({
-                            to: '/app/subjects/$subjectId/edit',
-                            params: {subjectId},
-                        })
+                    onEditNavigate={
+                        () => {
+                            navigate({
+                                to: '/app/subjects/$subjectId/edit',
+                                params: {subjectId},
+                            })
+                        }
                     }
-                }
-            />
-            <CategoryGrid list={categories}/>
+                />
+                <Tabs
+                    textColor="secondary"
+                    indicatorColor="secondary"
+                    value={selectedTab}
+                    onChange={(_, newValue) => setSelectedTab(newValue)}>
+                    <Tab value="categories" label="Kategorie"/>
+                    <Tab value="students" label="Studenti"/>
+                </Tabs>
+            </Box>
+
+            {selectedTab === "categories" && (<CategoryGrid list={categories}/>)}
+            {selectedTab === "students" && (<UserGrid list={students}/>)}
+            <AddSpeedDial openAddStudentDialog={() => setAddStudentDialogOpened(true)} openAddClassroomDialog={() => setAddClassroomDialogOpened(true)}/>
+            <AddClassroomToSubjectDialog subjectId={subjectId} open={addClassroomDialogOpened} onClose={() => setAddClassroomDialogOpened(false)}/>
+            <AddStudentToSubjectDialog subjectId={subjectId} open={addStudentDialogOpened} onClose={() => setAddStudentDialogOpened(false)}/>
         </TopBarItemsGrid>
     )
+}
+interface SpeedDialProps {
+    openAddStudentDialog: () => void;
+    openAddClassroomDialog: () => void;
+}
+function AddSpeedDial(props: SpeedDialProps) {
+    const actions = [
+        {icon: GroupAddIcon, name: "Přidat třídu", action: props.openAddClassroomDialog},
+        {icon: PersonAddIcon, name: "Přidat studenta", action: props.openAddStudentDialog},
+    ]
+    return (
+        <SpeedDial
+            ariaLabel="Přidat studenta"
+            sx={{ position: 'absolute', bottom: 16, right: 16 }}
+            icon={<SpeedDialIcon />}>
+            {
+                actions.map(action => (
+                    <SpeedDialAction
+                    key={action.name}
+                    icon={<action.icon color={"secondary"}/>}
+                    tooltipTitle={action.name}
+                    onClick={action.action}/>
+                ))
+            }
+        </SpeedDial>
+    )
+
 }

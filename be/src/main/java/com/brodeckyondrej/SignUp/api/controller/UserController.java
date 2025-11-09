@@ -60,10 +60,10 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         return ResponseEntity.ok(userService.findByClassroomAndName(classroomId, nameDto.getName(), pageable));
     }
 
-    @GetMapping("/subject-search/{subjectId}")
+    @PostMapping("/subject-search")
     public ResponseEntity<Page<UserGetListDto>> getBySubjectAndName(
             @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @Valid StudentSubjectSearchDto dto, Pageable pageable ){
+            @Valid @RequestBody StudentSubjectSearchDto dto, Pageable pageable){
         return ResponseEntity.ok(userService.findBySubjectAndName(dto.getSubjectId(), dto.getStudentName(), pageable));
     }
 

@@ -6,7 +6,7 @@ import {
     getUserByClassroomPaged,
     getUserById,
     getUserPaged, removeStudentFromClassroom,
-    updateUser
+    updateUser, getUserBySubjectAndNamePaged
 } from "@/api/user/user-api.ts";
 import type {
     StudentClassroomDto,
@@ -88,6 +88,21 @@ export function createGetUserByClassroomInfiniteQueryOptions(classroomId: string
             }
 
             return getUserByClassroomAndNamePaged(classroomId, searchItem, pageParam);
+        },
+        initialPageParam: 0,
+        getNextPageParam: (lastPage: Page<UserGetListDto>) => {
+            const next = lastPage.number + 1;
+            return next < lastPage.totalPages ? next : undefined;
+        }
+    })
+}
+
+export function createGetUserBySubjectInfiniteQueryOptions(subjectId: string, searchItem?: string) {
+    const search = searchItem ? searchItem : "";
+    return infiniteQueryOptions({
+        queryKey: [userQueryKey, subjectId, search, "infinite"],
+        queryFn: ({pageParam}) => {
+            return getUserBySubjectAndNamePaged(subjectId, pageParam, search);
         },
         initialPageParam: 0,
         getNextPageParam: (lastPage: Page<UserGetListDto>) => {
