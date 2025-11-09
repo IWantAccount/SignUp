@@ -2,8 +2,7 @@ import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOp
 import {
     createClassroom,
     deleteClassroom,
-    getClassroomById,
-    getClassroomPaged,
+    getClassroomById, getClassroomByName,
     updateClassroom
 } from "@/api/classroom/classroom-api.ts";
 import type {
@@ -58,10 +57,11 @@ export function createDeleteClassroomOptions(id: string, queryClient: QueryClien
     }
 }
 
-export function createClassroomInfiniteQueryOptions() {
+export function createClassroomInfiniteQueryOptions(searchItem?: string) {
+    const search = searchItem ?? "";
     return infiniteQueryOptions({
-        queryKey: [classroomQueryKey, "infinite"],
-        queryFn: ({pageParam}) => getClassroomPaged(pageParam),
+        queryKey: [classroomQueryKey, "infinite", search],
+        queryFn: ({pageParam}) => getClassroomByName(search, pageParam),
         initialPageParam: 0,
         getNextPageParam: (lastPage: Page<ClassroomGetListDto>) => {
             const next = lastPage.number + 1;

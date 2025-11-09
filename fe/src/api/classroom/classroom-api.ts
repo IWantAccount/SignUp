@@ -26,14 +26,17 @@ export const updateClassroom = async (id: string, dto: ClassroomUpdateDto): Prom
 }
 
 export const deleteClassroom = async (classroomId: string): Promise<void> => {
-    await new Promise(resolve => {
-        setTimeout(resolve, 3000)
-    })
     await api.delete<void>(buildPath([url, classroomId]));
 }
 
 export const getClassroomPaged = async (page: number, pageSize?: number): Promise<Page<ClassroomGetListDto>> => {
     const size = pageSize ? pageSize : 20;
     const res = await api.get<Page<ClassroomGetListDto>>(buildPath([url], page, size));
+    return res.data;
+}
+
+export const getClassroomByName = async (name: string, page: number, pageSize?: number): Promise<Page<ClassroomGetListDto>> => {
+    const size = pageSize ?? 20;
+    const res = await api.get<Page<ClassroomGetListDto>>(buildPath([url, "by-name"], page, size), {params: {name: name}});
     return res.data;
 }

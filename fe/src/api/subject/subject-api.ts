@@ -1,5 +1,6 @@
 import api from "@/api/universal/axios.ts";
 import type {
+    SubjectClassroomDto,
     SubjectCreateDto,
     SubjectGetDetailDto,
     SubjectGetListDto, SubjectStudentDto,
@@ -47,4 +48,8 @@ export const addStudentToSubject = async (dto: SubjectStudentDto) : Promise<void
 
 export const removeStudentFromSubject = async (dto: SubjectStudentDto) : Promise<void> => {
     await api.post<void>(buildPath([url, "remove-student"]), dto)
+}
+
+export const addClassroomToSubject = async (dto: SubjectClassroomDto): Promise<void> => {
+    await api.post<void>(buildPath([url, "add-classroom"]), dto);
 }

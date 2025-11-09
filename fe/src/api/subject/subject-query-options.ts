@@ -1,5 +1,6 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {
+    addClassroomToSubject,
     addStudentToSubject,
     createSubject,
     deleteSubject,
@@ -9,6 +10,7 @@ import {
     updateSubject
 } from "@/api/subject/subject-api.ts";
 import type {
+    SubjectClassroomDto,
     SubjectCreateDto,
     SubjectGetDetailDto,
     SubjectGetListDto, SubjectStudentDto,
@@ -18,6 +20,7 @@ import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
 import type {AxiosError} from "axios";
 import {queryClient} from "@/main.tsx";
 import {userQueryKey} from "@/api/user/user-query-options.ts";
+import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
 
 export const subjectQueryKey = "subject";
 
@@ -97,7 +100,7 @@ export function createAddStudentToSubjectOptions(dto: SubjectStudentDto): UseMut
         mutationFn: () => addStudentToSubject(dto),
         onSuccess: () => {
 
-            queryClient.invalidateQueries({ queryKey: [userQueryKey] });
+            queryClient.invalidateQueries({queryKey: [userQueryKey]});
             queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
         }
     }
@@ -108,8 +111,19 @@ export function createRemoveStudentFromSubjectOptions(dto: SubjectStudentDto): U
         mutationKey: [subjectQueryKey, dto.subjectId],
         mutationFn: () => removeStudentFromSubject(dto),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: [userQueryKey] });
+            queryClient.invalidateQueries({queryKey: [userQueryKey]});
             queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+        }
+    }
+}
+
+export function createAddClassroomToSubjectOptions(dto: SubjectClassroomDto): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [subjectQueryKey, dto.subjectId],
+        mutationFn: () => addClassroomToSubject(dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey, dto.subjectId]});
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey, dto.classroomId]});
         }
     }
 }
