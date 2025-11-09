@@ -5,15 +5,7 @@ import {createGetEnrolledByNameInfiniteQueryOptions} from "@/api/user/user-query
 import type {StudentInSubjectDto} from "@/api/user/user-dtos.ts";
 import {
     Box,
-    Button,
-    CircularProgress,
-    Dialog, DialogActions,
-    DialogContent,
-    DialogTitle,
-    Divider,
     IconButton,
-    List,
-    TextField,
     Typography
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
@@ -23,6 +15,7 @@ import {
     createRemoveStudentFromSubjectOptions
 } from "@/api/subject/subject-query-options.ts";
 import type {SubjectStudentDto} from "@/api/subject/subject-dtos.ts";
+import {BaseDialog} from "@/components/dialogs/base-dialog.tsx";
 
 interface DialogProps {
     subjectId: string;
@@ -44,67 +37,34 @@ export function AddStudentDialog(props: DialogProps) {
 
 
     return (
-        <Dialog
-        open={props.open}
-        onClose={props.onClose}
-        scroll="paper"
-        maxWidth="lg"
-        PaperProps={{ sx: { height: "80vh", display: "flex", width: 900, padding: "50px"} }}
-        >
-            <DialogTitle>
-                {"Přidat studenta do předmětu"}
-            </DialogTitle>
-            <DialogContent dividers
-                           sx={{ p: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}
-            >
-                <TextField
-                fullWidth
-                size="small"
-                variant="outlined"
-                placeholder="Hledat studenta podle jména"
-                onChange={(e) => setSearchItem(e.target.value)}
-                autoFocus/>
-                <Box sx={{ flex: 1, overflowY: "auto" }}>
-                    {userQuery.isLoading ? (
-                        <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
-                            <CircularProgress size={24} />
-                        </Box>
-                    ) : dataToDisplay.length === 0 ? (
-                        <Box sx={{ color: "text.secondary", p: 2 }}>Nic nenalezeno.</Box>
-                    ) : (
-                        <List sx={{ py: 0 }}>
-                            {dataToDisplay.map((s) => (
-                                <div key={s.studentId}>
-                                    <DialogListItem
-                                        studentName={s.studentName}
-                                        studentId={s.studentId}
-                                        subjectId={props.subjectId}
-                                        inSubject={s.inGivenSubject}
-                                    />
-                                    <Divider component="li" />
-                                </div>
-                            ))}
-                        </List>
-                    )}
-                    <Box sx={{ display: "flex", justifyContent: "center", p: 1.5 }}>
-                        <Button
-                            onClick={() => userQuery.fetchNextPage()}
-                            disabled={userQuery.isFetchingNextPage || !userQuery.hasNextPage}
-                            variant="outlined"
-                        >
-                            {userQuery.hasNextPage ?
-                                (userQuery.isFetchingNextPage ? "Čekejte" : "Načíst další")
-                            : "Vše načteno"}
-                        </Button>
-                    </Box>
-                </Box>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={() => props.onClose()}>
-                    {"Zavřít"}
-                </Button>
-            </DialogActions>
-        </Dialog>
+        <BaseDialog
+            onClose={props.onClose}
+            open={props.open}
+            onSearchChange={(search: string) => {setSearchItem(search)}}
+            title={"Přidat studenta do předmětu"}
+            searchPlaceholder={"Hledat studenta podle jména"}
+            queryIsPending={userQuery.isPending}
+            fetchNextPage={userQuery.fetchNextPage}
+            fetchButtonText={
+                userQuery.hasNextPage ?
+                    (userQuery.isPending ? "Čekejte" : "Načíst další") :
+                    "Vše načteno"
+            }
+            fetchButtonDisabled={userQuery.isPending || !userQuery.hasNextPage}>
+
+            {
+                dataToDisplay.map(student => (
+                    <DialogListItem
+                        key={student.studentId}
+                        studentName={student.studentName}
+                        studentId={student.studentId}
+                        subjectId={props.subjectId}
+                        inSubject={student.inGivenSubject}
+                    />
+                ))
+            }
+
+        </BaseDialog>
     )
 
 
