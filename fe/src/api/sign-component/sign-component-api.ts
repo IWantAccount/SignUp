@@ -32,15 +32,13 @@ export const deleteSignComponent = async (id: string): Promise<void> => {
 }
 
 export const getSignComponentPaged = async (page: number, pageSize?: number): Promise<Page<SignComponentGetListDto>> => {
-    const size = pageSize ? pageSize : 20;
-    const res = await api.get<Page<SignComponentGetListDto>>(buildPath([url], page, size));
+    const res = await api.get<Page<SignComponentGetListDto>>(buildPath([url], page, pageSize));
     return res.data;
 }
 
 export const getSignComponentPagedByType = async (type: SignComponentTypeEnum, page: number, pageSize: number):
     Promise<Page<SignComponentGetListDto>> => {
-    const size = pageSize ? pageSize : 20;
     const typeDto: ComponentTypeDto = {type}
-    const res = await api.post<Page<SignComponentGetListDto>>(buildPath([url], page, size), typeDto);
+    const res = await api.post<Page<SignComponentGetListDto>>(buildPath([url], page, pageSize), typeDto);
     return res.data;
 }

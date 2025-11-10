@@ -30,43 +30,35 @@ export const updateUser = async (id: string, user: UserUpdateDto): Promise<UserG
 }
 
 export const deleteUser = async (id: string): Promise<void> => {
-    await new Promise(resolve => {
-        setTimeout(resolve, 3000)
-    })
     await api.delete<void>(buildPath([url, id]));
 }
 
 export const getUserPaged = async (page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
-    const size = pageSize ? pageSize : 20;
-    const res = await api.get<Page<UserGetListDto>>(buildPath([url], page, size))
+    const res = await api.get<Page<UserGetListDto>>(buildPath([url], page, pageSize))
     return res.data;
 }
 
 export const getUserByClassroomPaged = async (classroomId: string, page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
-    const size = pageSize ? pageSize : 20;
-    const res = await api.get<Page<UserGetListDto>>(buildPath([url, "by-classroom", classroomId], page, size));
+    const res = await api.get<Page<UserGetListDto>>(buildPath([url, "by-classroom", classroomId], page, pageSize));
     return res.data;
 }
 
 export const getUserByClassroomAndNamePaged = async (classroomId: string, name: string, page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
-    const size = pageSize ? pageSize : 20;
     const dto: StudentClassroomSearchDto = {classroomId: classroomId, studentName: name};
-    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "classroom-search"], page, size), dto);
+    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "classroom-search"], page, pageSize), dto);
     return res.data;
 }
 
 export const getUserBySubjectAndNamePaged = async (subjectId: string, page: number, name?: string, pageSize?: number): Promise<Page<UserGetListDto>> => {
-    const size = pageSize ?? 20;
     const search = name ?? "";
     const dto: StudentSubjectSearchDto = {studentName: search, subjectId: subjectId}
-    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "subject-search"], page, size), dto);
+    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "subject-search"], page, pageSize), dto);
     return res.data;
 }
 
 export const getStudentEnrolledInSubject = async (studentName: string, subjectId: string, page: number, pageSize?: number): Promise<Page<StudentInSubjectDto>> => {
-    const size = pageSize ? pageSize : 20;
     const dto: StudentSubjectSearchDto = {studentName: studentName, subjectId: subjectId};
-    const res = await api.post<Page<StudentInSubjectDto>>(buildPath([url, "present-in-subject"], page, size), dto);
+    const res = await api.post<Page<StudentInSubjectDto>>(buildPath([url, "present-in-subject"], page, pageSize), dto);
     return res.data;
 }
 
@@ -80,8 +72,7 @@ export const removeStudentFromClassroom = async (dto: StudentClassroomDto): Prom
 
 export const getUserByRoleByName = async (role: UserRoleEnum, page: number, name?: string, pageSize?: number): Promise<Page<UserGetListDto>> => {
     const searchName = name ?? "";
-    const size = pageSize ?? 20;
     const dto: UserRoleNameDto = {name: searchName, role: role};
-    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "by-role-name"], page, size), dto);
+    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "by-role-name"], page, pageSize), dto);
     return res.data;
 }

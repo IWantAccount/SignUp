@@ -12,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
@@ -32,10 +34,10 @@ public abstract class NamedEntityController<
         this.service = namedEntityService;
     }
 
-    @GetMapping("/by-name")
+    @PostMapping("/by-name")
     public ResponseEntity<Page<GetListDto>> getByName(
             @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @Valid DtoWithName dto, Pageable pageable) {
+            @Valid @RequestBody DtoWithName dto, Pageable pageable) {
         return ResponseEntity.ok(service.findByName(dto.getName(), pageable));
     }
 }

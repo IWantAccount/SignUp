@@ -8,6 +8,7 @@ import type {
 } from "@/api/subject/subject-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
 
 const url = "/subject";
 
@@ -31,14 +32,13 @@ export const deleteSubject = async (id: string): Promise<void> => {
 }
 
 export const getSubjectPaged = async (page: number, pageSize?: number): Promise<Page<SubjectGetListDto>> => {
-    const size = pageSize ? pageSize : 20;
-    const res = await api.get<Page<SubjectGetListDto>>(buildPath([url], page, size));
+    const res = await api.get<Page<SubjectGetListDto>>(buildPath([url], page, pageSize));
     return res.data;
 }
 
 export const getSubjectByNamePaged = async (page: number, searchItem: string, pageSize?: number): Promise<Page<SubjectGetListDto>> => {
-    const size = pageSize ? pageSize : 20;
-    const res = await api.get<Page<SubjectGetListDto>>(buildPath([url], page, size), {params: {name: searchItem}});
+    const dto: NamedDto = {name: searchItem};
+    const res = await api.post<Page<SubjectGetListDto>>(buildPath([url, "by-name"], page, pageSize), dto);
     return res.data;
 }
 

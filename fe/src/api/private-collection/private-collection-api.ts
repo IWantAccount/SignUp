@@ -28,14 +28,10 @@ export const createCollection = async (dto: PrivateCollectionCreateDto): Promise
 }
 
 export const deleteCollectionById = async (id: string): Promise<void> => {
-    await new Promise(resolve => {
-        setTimeout(resolve, 5000)
-    })
     await api.delete<PrivateCollectionGetDetailDto>(buildPath([url, id]));
 }
 
 export const getCollectionPaged = async (page: number, pageSize?: number): Promise<Page<PrivateCollectionGetListDto>> => {
-    const size = pageSize ? pageSize : 20;
-    const res = await api.get<Page<PrivateCollectionGetListDto>>(buildPath([url], page, size))
+    const res = await api.get<Page<PrivateCollectionGetListDto>>(buildPath([url], page, pageSize))
     return res.data;
 }
