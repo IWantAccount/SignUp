@@ -12,6 +12,7 @@ import {Box, CircularProgress, IconButton, Typography} from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddIcon from "@mui/icons-material/Add";
 import BlockIcon from '@mui/icons-material/Block';
+import {enqueueSnackbar} from "notistack";
 
 interface DialogProps {
     classroomId: string;
@@ -79,7 +80,9 @@ function DialogListItem({ dto, classroomId }: ListItemProps) {
                         <CircularProgress color="secondary"/>
                     ) :
                     (dto.classroomId !== null && dto.classroomId !== classroomId) ? (
-                        <BlockIcon/>
+                        <IconButton onClick={() => {enqueueSnackbar({variant:"warning", message:"Student už je v jiné třídě"})}}>
+                            <BlockIcon/>
+                        </IconButton>
                     ) :
                         (
                             dto.classroomId === classroomId ? (
