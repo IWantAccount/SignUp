@@ -6,7 +6,7 @@ import type {
 } from "@/api/private-collection/private-collection-dtos.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
-import type {Page} from "../universal/dto/spring-boot-page";
+import type {Page} from "../universal/pagination/spring-boot-page.ts";
 
 
 const url = "/private-collection";

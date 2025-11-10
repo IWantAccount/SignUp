@@ -9,12 +9,11 @@ import {
 import type {
     CategoryCreateDto,
     CategoryGetDetailDto,
-    CategoryGetListDto,
     CategoryUpdateDto
 } from "@/api/category/category-dtos.ts";
 import type {AxiosError} from "axios";
 import {queryClient} from "@/main.tsx";
-import type { Page } from "../universal/dto/spring-boot-page";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const categoryQueryKey = "category";
 
@@ -64,10 +63,6 @@ export function createCategoryInfiniteQuery(searchItem: string, subjectId?: stri
             return getCategorySubjectSearchPaged(pageParam, searchItem, subjectId);
 
         },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<CategoryGetListDto>) => {
-            const nextPage = lastPage.number + 1;
-            return nextPage < lastPage.totalPages ? nextPage : undefined;
-        }
+        ...springInfiniteBase
     })
 }

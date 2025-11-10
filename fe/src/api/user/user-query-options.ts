@@ -10,17 +10,15 @@ import {
 } from "@/api/user/user-api.ts";
 import type {
     StudentClassroomDto,
-    StudentInSubjectDto,
     UserCreateDto,
     UserGetDetailDto,
-    UserGetListDto,
     UserUpdateDto
 } from "@/api/user/user-dtos.ts";
 import type {AxiosError} from "axios";
-import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
 import {queryClient} from "@/main.tsx";
 import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
 import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const userQueryKey = "user";
 
@@ -71,11 +69,7 @@ export function createUserInfiniteQueryOptions() {
     return infiniteQueryOptions({
         queryKey: [userQueryKey, "infinite"],
         queryFn: ({pageParam}) => getUserPaged(pageParam),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<UserGetDetailDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
 }
 
@@ -89,11 +83,7 @@ export function createGetUserByClassroomInfiniteQueryOptions(classroomId: string
 
             return getUserByClassroomAndNamePaged(classroomId, searchItem, pageParam);
         },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<UserGetListDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
 }
 
@@ -104,11 +94,7 @@ export function createGetUserBySubjectInfiniteQueryOptions(subjectId: string, se
         queryFn: ({pageParam}) => {
             return getUserBySubjectAndNamePaged(subjectId, pageParam, search);
         },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<UserGetListDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
 }
 
@@ -119,11 +105,7 @@ export function createGetEnrolledByNameInfiniteQueryOptions(subjectId: string, s
         queryFn: ({pageParam}) => {
             return getStudentEnrolledInSubject(toSearch, subjectId, pageParam)
         },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<StudentInSubjectDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        },
+        ...springInfiniteBase
     })
 }
 
@@ -133,11 +115,7 @@ export function createGetByRoleNameInfiniteQueryOptions(role: UserRoleEnum, name
         queryFn: ({pageParam}) => {
             return getUserByRoleByName(role, pageParam, name);
         },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<UserGetListDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
 }
 

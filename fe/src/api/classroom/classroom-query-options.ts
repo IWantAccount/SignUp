@@ -8,10 +8,9 @@ import {
 import type {
     ClassroomCreateDto,
     ClassroomGetDetailDto,
-    ClassroomGetListDto,
     ClassroomUpdateDto
 } from "@/api/classroom/classroom-dtos.ts";
-import type {Page} from "../universal/dto/spring-boot-page";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const classroomQueryKey = "classroom";
 
@@ -62,10 +61,6 @@ export function createClassroomInfiniteQueryOptions(searchItem?: string) {
     return infiniteQueryOptions({
         queryKey: [classroomQueryKey, "infinite", search],
         queryFn: ({pageParam}) => getClassroomByName(search, pageParam),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<ClassroomGetListDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
 }

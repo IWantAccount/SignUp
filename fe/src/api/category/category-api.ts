@@ -6,7 +6,7 @@ import type {
 } from "@/api/category/category-dtos.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
-import type { Page } from "../universal/dto/spring-boot-page";
+import type { Page } from "../universal/pagination/spring-boot-page.ts";
 import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
 const url = "/category";
 

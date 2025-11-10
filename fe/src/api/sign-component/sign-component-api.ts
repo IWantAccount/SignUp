@@ -7,7 +7,7 @@ import type {
 } from "@/api/sign-component/sign-component-dtos.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
-import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import type {Page} from "@/api/universal/pagination/spring-boot-page.ts";
 import type {SignComponentTypeEnum} from "@/domain/sign-component-type-enum.ts";
 
 const url = "sign-component";

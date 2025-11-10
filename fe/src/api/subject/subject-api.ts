@@ -7,7 +7,7 @@ import type {
     SubjectUpdateDto
 } from "@/api/subject/subject-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
-import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import type {Page} from "@/api/universal/pagination/spring-boot-page.ts";
 import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
 
 const url = "/subject";

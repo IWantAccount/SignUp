@@ -9,7 +9,7 @@ import type {
 } from "@/api/user/user-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import api from "@/api/universal/axios.ts";
-import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import type {Page} from "@/api/universal/pagination/spring-boot-page.ts";
 import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
 
 const url = "/user";

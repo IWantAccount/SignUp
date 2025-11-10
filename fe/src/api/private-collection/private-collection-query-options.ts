@@ -9,10 +9,9 @@ import {
 import type {
     PrivateCollectionCreateDto,
     PrivateCollectionGetDetailDto,
-    PrivateCollectionGetListDto,
     PrivateCollectionUpdateDto
 } from "@/api/private-collection/private-collection-dtos.ts";
-import type {Page} from "../universal/dto/spring-boot-page";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const privateCollectionQueryKey = "private-collection";
 
@@ -54,11 +53,7 @@ export function createCollectionInfiniteQueryOptions() {
     return infiniteQueryOptions({
         queryKey: [privateCollectionQueryKey, "infinite"],
         queryFn: ({pageParam}) => getCollectionPaged(pageParam, 2),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<PrivateCollectionGetListDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined
-        }
+        ...springInfiniteBase
     })
 }
 

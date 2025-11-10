@@ -13,14 +13,14 @@ import type {
     SubjectClassroomDto,
     SubjectCreateDto,
     SubjectGetDetailDto,
-    SubjectGetListDto, SubjectStudentDto,
+    SubjectStudentDto,
     SubjectUpdateDto
 } from "@/api/subject/subject-dtos.ts";
-import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
 import type {AxiosError} from "axios";
 import {queryClient} from "@/main.tsx";
 import {userQueryKey} from "@/api/user/user-query-options.ts";
 import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const subjectQueryKey = "subject";
 
@@ -71,11 +71,7 @@ export function createSubjectInfiniteQueryOptions() {
     return infiniteQueryOptions({
         queryKey: [subjectQueryKey, "infinite"],
         queryFn: ({pageParam}) => getSubjectPaged(pageParam, 20),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<SubjectGetDetailDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
 }
 
@@ -86,11 +82,7 @@ export function createSubjectByNameInfiniteQueryOptions(searchItem: string) {
              return searchItem === "" ?
                 getSubjectPaged(pageParam) : getSubjectByNamePaged(pageParam, searchItem)
         },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<SubjectGetListDto>) => {
-            const nextPage = lastPage.number + 1;
-            return nextPage < lastPage.totalPages ? nextPage : undefined;
-        }
+        ...springInfiniteBase
     })
 }
 
