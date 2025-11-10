@@ -45,3 +45,18 @@ export interface StudentInSubjectDto {
     subjectId: string;
     inGivenSubject: boolean;
 }
+
+export interface UserRoleNameDto {
+    name: string;
+    role: UserRoleEnum;
+}
+
+export interface StudentClassroomSearchDto {
+    studentName: string;
+    classroomId: string;
+}
+
+export interface StudentClassroomDto {
+    classroomId: string;
+    studentId: string;
+}

@@ -53,11 +53,11 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         return ResponseEntity.ok(userService.findByClassroom(id, pageable));
     }
 
-    @GetMapping("/classroom-search/{classroomId}")
+    @PostMapping("/classroom-search")
     public ResponseEntity<Page<UserGetListDto>> getByClassroomAndName(
             @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @Valid FindByNameDto nameDto,@PathVariable UUID classroomId, Pageable pageable ){
-        return ResponseEntity.ok(userService.findByClassroomAndName(classroomId, nameDto.getName(), pageable));
+            @Valid @RequestBody StudentClassroomSearchDto dto, Pageable pageable ){
+        return ResponseEntity.ok(userService.findByClassroomAndName(dto.getClassroomId(), dto.getStudentName(), pageable));
     }
 
     @PostMapping("/subject-search")
@@ -67,17 +67,17 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         return ResponseEntity.ok(userService.findBySubjectAndName(dto.getSubjectId(), dto.getStudentName(), pageable));
     }
 
-    @GetMapping("/present-in-subject")
+    @PostMapping("/present-in-subject")
     public ResponseEntity<Page<StudentInSubjectDto>> getStudentEnrolledInSubject(
             @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @Valid StudentSubjectSearchDto dto, Pageable pageable){
+            @Valid @RequestBody StudentSubjectSearchDto dto, Pageable pageable){
         return ResponseEntity.ok(userService.findStudentsByNameWithSubject(dto.getStudentName(), dto.getSubjectId(), pageable));
     }
 
-    @GetMapping("/by-role-name")
+    @PostMapping("/by-role-name")
     public ResponseEntity<Page<UserGetListDto>> getUserByRoleAndName(
             @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @Valid UserRoleNameDto dto, Pageable pageable){
+            @Valid @RequestBody UserRoleNameDto dto, Pageable pageable){
         return ResponseEntity.ok(userService.findByRoleAndName(dto.getName(), dto.getRole(), pageable));
     }
 }

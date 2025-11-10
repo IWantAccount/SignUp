@@ -1,9 +1,10 @@
 import type {
     StudentClassroomDto,
+    StudentClassroomSearchDto,
     StudentInSubjectDto, StudentSubjectSearchDto,
     UserCreateDto,
     UserGetDetailDto,
-    UserGetListDto,
+    UserGetListDto, UserRoleNameDto,
     UserUpdateDto
 } from "@/api/user/user-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
@@ -49,7 +50,8 @@ export const getUserByClassroomPaged = async (classroomId: string, page: number,
 
 export const getUserByClassroomAndNamePaged = async (classroomId: string, name: string, page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
     const size = pageSize ? pageSize : 20;
-    const res = await api.get<Page<UserGetListDto>>(buildPath([url, "classroom-search", classroomId], page, size), {params: {name: name}});
+    const dto: StudentClassroomSearchDto = {classroomId: classroomId, studentName: name};
+    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "classroom-search"], page, size), dto);
     return res.data;
 }
 
@@ -63,7 +65,8 @@ export const getUserBySubjectAndNamePaged = async (subjectId: string, page: numb
 
 export const getStudentEnrolledInSubject = async (studentName: string, subjectId: string, page: number, pageSize?: number): Promise<Page<StudentInSubjectDto>> => {
     const size = pageSize ? pageSize : 20;
-    const res = await api.get<Page<StudentInSubjectDto>>(buildPath([url, "present-in-subject"], page, size), {params: {studentName: studentName, subjectId: subjectId}});
+    const dto: StudentSubjectSearchDto = {studentName: studentName, subjectId: subjectId};
+    const res = await api.post<Page<StudentInSubjectDto>>(buildPath([url, "present-in-subject"], page, size), dto);
     return res.data;
 }
 
@@ -78,6 +81,7 @@ export const removeStudentFromClassroom = async (dto: StudentClassroomDto): Prom
 export const getUserByRoleByName = async (role: UserRoleEnum, page: number, name?: string, pageSize?: number): Promise<Page<UserGetListDto>> => {
     const searchName = name ?? "";
     const size = pageSize ?? 20;
-    const res = await api.get<Page<UserGetListDto>>(buildPath([url, "by-role-name"], page, size), {params: {role: role, name: searchName}});
+    const dto: UserRoleNameDto = {name: searchName, role: role};
+    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "by-role-name"], page, size), dto);
     return res.data;
 }

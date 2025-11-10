@@ -6,14 +6,11 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-/**
- * Dto used for searching students in given subject
- * */
 @Getter
 @AllArgsConstructor
-public class StudentSubjectSearchDto {
+public class StudentClassroomSearchDto {
     @NotNull
     private final String studentName;
     @NotNull
-    private final UUID subjectId;
+    private final UUID classroomId;
 }
