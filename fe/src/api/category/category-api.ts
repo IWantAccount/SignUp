@@ -7,6 +7,7 @@ import type {
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type { Page } from "../universal/dto/spring-boot-page";
+import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
 const url = "/category";
 
 export const getCategoryById = async (id: string): Promise<CategoryGetDetailDto> => {
@@ -42,6 +43,7 @@ export const getCategoryByNamePaged = async (page: number, searchItem: string, p
 
 export const getCategorySubjectSearchPaged = async (page: number, searchItem: string, subjectId: string, pageSize?: number): Promise<Page<CategoryGetListDto>> => {
     const size = pageSize ? pageSize : 20;
-    const res = await api.get<Page<CategoryGetListDto>>(buildPath([url, "subject-search", subjectId], page, size), {params: {name: searchItem}});
+    const dto: NamedDto = {name: searchItem}
+    const res = await api.post<Page<CategoryGetListDto>>(buildPath([url, "subject-search", subjectId], page, size), dto);
     return res.data;
 }

@@ -12,10 +12,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -36,8 +33,8 @@ public class CategoryController extends NamedEntityController<Category, Category
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/subject-search/{subjectId}")
-    public ResponseEntity<Page<CategoryGetListDto>> findBySubjectAndName(@Valid FindByNameDto dto, @PathVariable UUID subjectId, Pageable pageable){
+    @PostMapping("/subject-search/{subjectId}")
+    public ResponseEntity<Page<CategoryGetListDto>> findBySubjectAndName(@Valid @RequestBody FindByNameDto dto, @PathVariable UUID subjectId, Pageable pageable){
         Page<CategoryGetListDto> result = categoryService.findBySubjectAndName(subjectId, dto.getName(), pageable);
         return ResponseEntity.ok(result);
     }
