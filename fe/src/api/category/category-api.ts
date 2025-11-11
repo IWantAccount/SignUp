@@ -21,7 +21,7 @@ export const createCategory = async (dto: CategoryCreateDto): Promise<CategoryGe
 }
 
 export const updateCategory = async (id: string, dto: CategoryUpdateDto): Promise<CategoryGetDetailDto> => {
-    const res = await api.post<CategoryGetDetailDto>(buildPath([url, id]), dto);
+    const res = await api.put<CategoryGetDetailDto>(buildPath([url, id]), dto);
     return res.data;
 }
 
