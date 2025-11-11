@@ -17,7 +17,6 @@ import type {
     SubjectUpdateDto
 } from "@/api/subject/subject-dtos.ts";
 import type {AxiosError} from "axios";
-import {queryClient} from "@/main.tsx";
 import {userQueryKey} from "@/api/user/user-query-options.ts";
 import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
@@ -58,9 +57,9 @@ export function createUpdateSubjectOptions(id: string, queryClient: QueryClient)
 export function createDeleteSubjectOptions(id: string, queryClient: QueryClient): UseMutationOptions<
     void,
     Error,
-    string> {
+    void> {
     return {
-        mutationFn: (id: string) => deleteSubject(id),
+        mutationFn: () => deleteSubject(id),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
         }
@@ -86,7 +85,7 @@ export function createSubjectByNameInfiniteQueryOptions(searchItem: string) {
     })
 }
 
-export function createAddStudentToSubjectOptions(dto: SubjectStudentDto): UseMutationOptions<void, AxiosError, void>{
+export function createAddStudentToSubjectOptions(dto: SubjectStudentDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void>{
     return {
         mutationKey: [subjectQueryKey, dto.subjectId],
         mutationFn: () => addStudentToSubject(dto),
@@ -98,7 +97,7 @@ export function createAddStudentToSubjectOptions(dto: SubjectStudentDto): UseMut
     }
 }
 
-export function createRemoveStudentFromSubjectOptions(dto: SubjectStudentDto): UseMutationOptions<void, AxiosError, void> {
+export function createRemoveStudentFromSubjectOptions(dto: SubjectStudentDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
     return {
         mutationKey: [subjectQueryKey, dto.subjectId],
         mutationFn: () => removeStudentFromSubject(dto),
@@ -109,7 +108,7 @@ export function createRemoveStudentFromSubjectOptions(dto: SubjectStudentDto): U
     }
 }
 
-export function createAddClassroomToSubjectOptions(dto: SubjectClassroomDto): UseMutationOptions<void, AxiosError, void> {
+export function createAddClassroomToSubjectOptions(dto: SubjectClassroomDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
     return {
         mutationKey: [subjectQueryKey, dto.subjectId],
         mutationFn: () => addClassroomToSubject(dto),

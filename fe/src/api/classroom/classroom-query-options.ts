@@ -47,9 +47,9 @@ export function createUpdateClassroomOptions(id: string, queryClient: QueryClien
     }
 }
 
-export function createDeleteClassroomOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, Error, string> {
+export function createDeleteClassroomOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, Error, void> {
     return {
-        mutationFn: (id: string) => deleteClassroom(id),
+        mutationFn: () => deleteClassroom(id),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
         }

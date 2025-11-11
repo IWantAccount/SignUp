@@ -1,6 +1,6 @@
 import {useState} from "react";
 import { useDebounce } from "use-debounce";
-import {useInfiniteQuery, useMutation} from "@tanstack/react-query";
+import {useInfiniteQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {createGetEnrolledByNameInfiniteQueryOptions} from "@/api/user/user-query-options.ts";
 import type {StudentInSubjectDto} from "@/api/user/user-dtos.ts";
 import {
@@ -77,8 +77,9 @@ interface ListItemProps {
 }
 function DialogListItem(props: ListItemProps) {
     const subjectStudentDto: SubjectStudentDto = {studentId: props.studentId, subjectId: props.subjectId};
-    const addMutation = useMutation(createAddStudentToSubjectOptions(subjectStudentDto));
-    const removeMutation = useMutation(createRemoveStudentFromSubjectOptions(subjectStudentDto));
+    const queryClient = useQueryClient();
+    const addMutation = useMutation(createAddStudentToSubjectOptions(subjectStudentDto, queryClient));
+    const removeMutation = useMutation(createRemoveStudentFromSubjectOptions(subjectStudentDto, queryClient));
 
     return (
         <Box

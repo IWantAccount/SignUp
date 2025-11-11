@@ -1,5 +1,5 @@
 import {createClassroomInfiniteQueryOptions} from "@/api/classroom/classroom-query-options";
-import {useInfiniteQuery, useMutation} from "@tanstack/react-query";
+import {useInfiniteQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
 import {useDebounce} from "use-debounce";
 import type {ClassroomGetListDto} from "@/api/classroom/classroom-dtos.ts";
@@ -60,7 +60,8 @@ interface ListItemProps {
 }
 
 function ListItem(props: ListItemProps) {
-    const addMutation = useMutation(createAddClassroomToSubjectOptions(props.dto));
+    const queryClient = useQueryClient();
+    const addMutation = useMutation(createAddClassroomToSubjectOptions(props.dto, queryClient));
     return (
         <Box
             display="flex"
