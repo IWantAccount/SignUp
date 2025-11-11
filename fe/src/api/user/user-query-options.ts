@@ -15,7 +15,6 @@ import type {
     UserUpdateDto
 } from "@/api/user/user-dtos.ts";
 import type {AxiosError} from "axios";
-import {queryClient} from "@/main.tsx";
 import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
 import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
@@ -119,7 +118,7 @@ export function createGetByRoleNameInfiniteQueryOptions(role: UserRoleEnum, name
     })
 }
 
-export function createAddStudentToClassroomOptions(dto: StudentClassroomDto): UseMutationOptions<void, AxiosError, void> {
+export function createAddStudentToClassroomOptions(dto: StudentClassroomDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
     return {
         mutationKey: [userQueryKey, dto.studentId, dto.classroomId],
         mutationFn: () => addStudentToClassroom(dto),
@@ -130,7 +129,7 @@ export function createAddStudentToClassroomOptions(dto: StudentClassroomDto): Us
     }
 }
 
-export function createRemoveStudentFromClassroomOptions(dto: StudentClassroomDto): UseMutationOptions<void, AxiosError, void> {
+export function createRemoveStudentFromClassroomOptions(dto: StudentClassroomDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
     return {
         mutationKey: [userQueryKey, dto.studentId, dto.classroomId],
         mutationFn: () => removeStudentFromClassroom(dto),

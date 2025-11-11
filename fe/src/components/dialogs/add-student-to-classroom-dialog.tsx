@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useDebounce} from "use-debounce";
-import {useInfiniteQuery, useMutation} from "@tanstack/react-query";
+import {useInfiniteQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {
     createAddStudentToClassroomOptions,
     createGetByRoleNameInfiniteQueryOptions, createRemoveStudentFromClassroomOptions
@@ -62,9 +62,9 @@ interface ListItemProps {
 }
 
 function DialogListItem({ dto, classroomId }: ListItemProps) {
-
-    const addMutation = useMutation(createAddStudentToClassroomOptions({studentId: dto.id, classroomId: classroomId}));
-    const removeMutation = useMutation(createRemoveStudentFromClassroomOptions({studentId: dto.id, classroomId: classroomId}));
+    const queryClient = useQueryClient();
+    const addMutation = useMutation(createAddStudentToClassroomOptions({studentId: dto.id, classroomId: classroomId}, queryClient));
+    const removeMutation = useMutation(createRemoveStudentFromClassroomOptions({studentId: dto.id, classroomId: classroomId}, queryClient));
 
     return (
         <Box

@@ -2,22 +2,22 @@ import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {SignGrid} from "@/components/grids/sign-grid.tsx";
-import {useMutation, useQuery} from "@tanstack/react-query";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
     categoryQueryKey,
     createGetCategoryByIdOptions
 } from "@/api/category/category-query-options.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import { deleteCategory } from '@/api/category/category-api';
-import {queryClient} from "@/main.tsx";
 
 export const Route = createFileRoute('/app/categories/$categoryId/')({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    const navigate = useNavigate()
-    const {categoryId} = Route.useParams()
+    const navigate = useNavigate();
+    const {categoryId} = Route.useParams();
+    const queryClient = useQueryClient();
 
     const categoryQuery = useQuery(createGetCategoryByIdOptions(categoryId));
     const deleteMutation = useMutation(
