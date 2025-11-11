@@ -23,10 +23,13 @@ function RouteComponent() {
     const deleteMutation = useMutation(
         {
             mutationFn: () => deleteCategory(categoryId),
-            onSuccess: () => {
+            onSuccess: async () => {
                 navigate({
                     to: "/app/categories",
                 })
+
+                // Wait for a while. If queries are invalidated too quickly, category query might refetch and cause 404 error
+                await new Promise(resolve => setTimeout(resolve, 1000));
                 queryClient.invalidateQueries({queryKey: [categoryQueryKey]})
             }
         }
