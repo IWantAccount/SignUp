@@ -24,10 +24,10 @@ function RouteComponent() {
         {
             mutationFn: () => deleteCategory(categoryId),
             onSuccess: () => {
-                queryClient.invalidateQueries({queryKey: [categoryQueryKey]})
                 navigate({
                     to: "/app/categories",
                 })
+                queryClient.invalidateQueries({queryKey: [categoryQueryKey]})
             }
         }
     );
