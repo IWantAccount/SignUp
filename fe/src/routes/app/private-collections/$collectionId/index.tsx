@@ -2,12 +2,13 @@ import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {SignGrid} from '@/components/grids/sign-grid';
-import {useMutation, useQuery} from "@tanstack/react-query";
-import {createGetCollectionByIdOptions} from "@/api/private-collection/private-collection-query-options.ts";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {
+    createGetCollectionByIdOptions,
+    privateCollectionQueryKey
+} from "@/api/private-collection/private-collection-query-options.ts";
 import {deleteCollectionById} from '@/api/private-collection/private-collection-api';
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
-import {ErrorAlert} from "@/components/util/error-alert.tsx";
-
 export const Route = createFileRoute('/app/private-collections/$collectionId/')(
     {
         component: RouteComponent
@@ -17,19 +18,23 @@ export const Route = createFileRoute('/app/private-collections/$collectionId/')(
 function RouteComponent() {
     const collectionId = Route.useParams().collectionId;
     const navigate = useNavigate()
-
-    const query = useQuery(createGetCollectionByIdOptions(collectionId))
-    if (query.isPending) return <BackdropLoading/>
-    if(query.isError) return <ErrorAlert message={"Chyba při načítání kolekce"} />
-
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: () => deleteCollectionById(collectionId),
-        onSuccess: () => {
+        onSuccess: async () => {
             navigate({
                 to: "/app/private-collections",
-            })
+            });
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+            queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
         }
     })
+
+    const query = useQuery(createGetCollectionByIdOptions(collectionId))
+    if (query.isPending) return <BackdropLoading/>;
+    if(query.isError) return <></>;
+
+
     return (
         <>
             <TopBarItemsGrid>

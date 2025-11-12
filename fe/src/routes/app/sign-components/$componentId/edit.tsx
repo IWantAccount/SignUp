@@ -5,7 +5,6 @@ import {
 } from "@/api/sign-component/sign-component-query-options.ts";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
-import {ErrorAlert} from "@/components/util/error-alert.tsx";
 
 export const Route = createFileRoute('/app/sign-components/$componentId/edit')({
     component: RouteComponent,
@@ -17,8 +16,8 @@ function RouteComponent() {
     const query = useQuery(createGetSignComponentByIdOptions(componentId))
     const mutation = useMutation(createUpdateSignComponentOptions(componentId, queryClient));
 
-    if (query.isPending) return <BackdropLoading/>
-    if (query.isError) return <ErrorAlert message={"Chyba při načítání komponenty"}/>
+    if (query.isPending) return <BackdropLoading/>;
+    if (query.isError) return <></>;
 
     return (
         <SignComponentForm header={"Upravit komponentu"}

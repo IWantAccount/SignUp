@@ -34,17 +34,18 @@ function RouteComponent() {
     const [addClassroomDialogOpened, setAddClassroomDialogOpened] = useState(false);
     const [addStudentDialogOpened, setAddStudentDialogOpened] = useState(false);
     const [selectedTab, setSelectedTab] = useState<"categories" | "students">("categories");
+    const queryClient = useQueryClient();
 
     const deleteMutation = useMutation({
         mutationFn: () => deleteSubject(subjectId),
-        onSuccess: () => {
+        onSuccess: async () => {
             navigate({
                 to: "/app/subjects",
-            })
+            });
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
         }
     })
-
-    const queryClient = useQueryClient();
 
     if(subjectQuery.isPending || categoryQuery.isPending || studentQuery.isPending) return <BackdropLoading/>
     if(subjectQuery.isError || categoryQuery.isError || studentQuery.isError) return <></>
