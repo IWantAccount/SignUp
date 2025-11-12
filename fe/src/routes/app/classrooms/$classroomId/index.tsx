@@ -24,11 +24,15 @@ function RouteComponent() {
 
     const deleteMutation = useMutation({
         mutationFn: () => deleteClassroom(classroomId),
-        onSuccess: () => {
+        onSuccess: async () => {
             navigate({
                 to: "/app/classrooms",
             });
-            queryClient.invalidateQueries({queryKey: [classroomQueryKey, classroomId]})
+            // Wait for a while. If queries are invalidated too quickly, classroom query might refetch and cause 404 error
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
+            queryClient.invalidateQueries({queryKey: [userQuery]});
+
         }
     });
     const classroomQuery = useQuery(createGetClassroomByIdOptions(classroomId));
