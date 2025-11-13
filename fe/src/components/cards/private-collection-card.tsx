@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createDeleteCollectionByIdOptions} from "@/api/private-collection/private-collection-query-options.ts";
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
     const navigate = useNavigate();
@@ -32,14 +33,18 @@ export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
                         </CardContent>
                     </CardActionArea>
                     <CardActions sx={{justifyContent: "space-around"}}>
-                        <IconButton
-                            onClick={() => navigate({ to: `/app/private-collections/${dto.id}/edit/` })}>
-                            <EditIcon />
-                        </IconButton>
+                        <ZoomTooltip title={"upravit"}>
+                            <IconButton
+                                onClick={() => navigate({ to: `/app/private-collections/${dto.id}/edit/` })}>
+                                <EditIcon />
+                            </IconButton>
+                        </ZoomTooltip>
 
-                        <IconButton onClick={() => mutation.mutate(dto.id)}>
-                            <ClearIcon />
-                        </IconButton>
+                        <ZoomTooltip title={"smazat"}>
+                            <IconButton onClick={() => mutation.mutate(dto.id)}>
+                                <ClearIcon />
+                            </IconButton>
+                        </ZoomTooltip>
                     </CardActions>
                 </>
             )}

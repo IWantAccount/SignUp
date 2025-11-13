@@ -13,6 +13,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import AddIcon from "@mui/icons-material/Add";
 import BlockIcon from '@mui/icons-material/Block';
 import {enqueueSnackbar} from "notistack";
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 interface DialogProps {
     classroomId: string;
@@ -86,18 +87,22 @@ function DialogListItem({ dto, classroomId }: ListItemProps) {
                     ) :
                         (
                             dto.classroomId === classroomId ? (
-                                    <IconButton onClick={() => {
-                                        removeMutation.mutate();
-                                    }}>
-                                        <ClearIcon/>
-                                    </IconButton>
+                                    <ZoomTooltip title={"Odebrat studenta z třídy"}>
+                                        <IconButton onClick={() => {
+                                            removeMutation.mutate();
+                                        }}>
+                                            <ClearIcon/>
+                                        </IconButton>
+                                    </ZoomTooltip>
                                 ) :
                                 (
-                                    <IconButton onClick={() => {
-                                        addMutation.mutate()
-                                    }}>
-                                        <AddIcon/>
-                                    </IconButton>
+                                    <ZoomTooltip title={"Přidat studenta do třídy"}>
+                                        <IconButton onClick={() => {
+                                            addMutation.mutate()
+                                        }}>
+                                            <AddIcon/>
+                                        </IconButton>
+                                    </ZoomTooltip>
 
                                 )
                         )

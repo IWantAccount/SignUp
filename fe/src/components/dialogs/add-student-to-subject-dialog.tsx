@@ -16,6 +16,7 @@ import {
 } from "@/api/subject/subject-query-options.ts";
 import type {SubjectStudentDto} from "@/api/subject/subject-dtos.ts";
 import {BaseDialog} from "@/components/dialogs/base-dialog.tsx";
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 interface DialogProps {
     subjectId: string;
@@ -95,18 +96,22 @@ function DialogListItem(props: ListItemProps) {
                     <CircularProgress color="secondary"/>
                 ) :
                     props.inSubject ? (
-                        <IconButton onClick={() => {
-                            removeMutation.mutate();
-                        }}>
-                            <ClearIcon/>
-                        </IconButton>
+                        <ZoomTooltip title={"Odebrat studenta z předmětu"}>
+                            <IconButton onClick={() => {
+                                removeMutation.mutate();
+                            }}>
+                                <ClearIcon/>
+                            </IconButton>
+                        </ZoomTooltip>
                     ) :
                     (
-                        <IconButton onClick={() => {
-                            addMutation.mutate()
-                        }}>
-                            <AddIcon/>
-                        </IconButton>
+                        <ZoomTooltip title={"Přidat studenta do předmětu"}>
+                            <IconButton onClick={() => {
+                                addMutation.mutate()
+                            }}>
+                                <AddIcon/>
+                            </IconButton>
+                        </ZoomTooltip>
 
                     )
             }

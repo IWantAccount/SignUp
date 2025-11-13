@@ -8,6 +8,7 @@ import type {SubjectClassroomDto} from "@/api/subject/subject-dtos.ts";
 import {Box, CircularProgress, IconButton, Typography} from "@mui/material";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import {createAddClassroomToSubjectOptions} from "@/api/subject/subject-query-options.ts";
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 interface DialogProps {
     subjectId: string;
@@ -75,11 +76,13 @@ function ListItem(props: ListItemProps) {
                         <CircularProgress color="secondary"/>
                     ) :
                     (
-                        <IconButton onClick={() => {
-                            addMutation.mutate()
-                        }}>
-                            <GroupAddIcon/>
-                        </IconButton>
+                        <ZoomTooltip title={"Přidat celou třídu do předmětu"}>
+                            <IconButton onClick={() => {
+                                addMutation.mutate()
+                            }}>
+                                <GroupAddIcon/>
+                            </IconButton>
+                        </ZoomTooltip>
                     )
             }
         </Box>

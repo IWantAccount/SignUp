@@ -3,6 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import React from "react";
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 interface Props {
     title: string;
@@ -37,16 +38,20 @@ export function SearchableCardSectionTopBarActions({title, onEditNavigate, onDel
             <div>
                 {
                     onEditNavigate && (
-                        <IconButton onClick={onEditNavigate}>
-                            <EditIcon/>
-                        </IconButton>
+                        <ZoomTooltip title={"upravit"}>
+                            <IconButton onClick={onEditNavigate}>
+                                <EditIcon/>
+                            </IconButton>
+                        </ZoomTooltip>
                     )
                 }
                 {
                     onDelete && (
-                        <IconButton onClick={onDelete}>
-                            <DeleteForeverIcon/>
-                        </IconButton>
+                        <ZoomTooltip title={"smazat"}>
+                            <IconButton onClick={onDelete}>
+                                <DeleteForeverIcon/>
+                            </IconButton>
+                        </ZoomTooltip>
                     )
                 }
             </div>

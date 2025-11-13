@@ -5,6 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createDeleteClassroomOptions} from "@/api/classroom/classroom-query-options.ts";
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 export function ClassroomCard(dto: ClassroomGetListDto) {
     const navigate = useNavigate();
@@ -38,17 +39,21 @@ export function ClassroomCard(dto: ClassroomGetListDto) {
                                 </CardContent>
                             </CardActionArea>
                             <CardActions sx={{justifyContent: "space-between"}}>
-                                <IconButton
-                                    onClick={() => {
-                                        navigate({to: `/app/classrooms/${dto.id}/edit/`});
-                                    }}>
-                                    <EditIcon/>
-                                </IconButton>
+                                <ZoomTooltip title={"upravit"}>
+                                    <IconButton
+                                        onClick={() => {
+                                            navigate({to: `/app/classrooms/${dto.id}/edit/`});
+                                        }}>
+                                        <EditIcon/>
+                                    </IconButton>
+                                </ZoomTooltip>
 
-                                <IconButton
-                                    onClick={() => mutation.mutate(dto.id)}>
-                                    <ClearIcon/>
-                                </IconButton>
+                                <ZoomTooltip title={"smazat"}>
+                                    <IconButton
+                                        onClick={() => mutation.mutate()}>
+                                        <ClearIcon/>
+                                    </IconButton>
+                                </ZoomTooltip>
                             </CardActions>
                         </Stack>
                     )

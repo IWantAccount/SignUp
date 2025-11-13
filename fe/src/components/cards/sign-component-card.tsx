@@ -17,6 +17,7 @@ import {
 } from "@/api/sign-component/sign-component-query-options.ts";
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 
 export function SignComponentCard(props: SignComponentGetListDto) {
@@ -47,17 +48,21 @@ export function SignComponentCard(props: SignComponentGetListDto) {
                                 </CardContent>
                             </CardActionArea>
                             <CardActions sx={{justifyContent: "space-between"}}>
-                                <IconButton
-                                    onClick={() => {
-                                        navigate({to: `/app/sign-components/${props.id}/edit/`});
-                                    }}>
-                                    <EditIcon/>
-                                </IconButton>
+                                <ZoomTooltip title={"upravit"}>
+                                    <IconButton
+                                        onClick={() => {
+                                            navigate({to: `/app/sign-components/${props.id}/edit/`});
+                                        }}>
+                                        <EditIcon/>
+                                    </IconButton>
+                                </ZoomTooltip>
 
-                                <IconButton
-                                    onClick={() => mutation.mutate(props.id)}>
-                                    <ClearIcon/>
-                                </IconButton>
+                                <ZoomTooltip title={"smazat"}>
+                                    <IconButton
+                                        onClick={() => mutation.mutate(props.id)}>
+                                        <ClearIcon/>
+                                    </IconButton>
+                                </ZoomTooltip>
                             </CardActions>
                         </Stack>
 
