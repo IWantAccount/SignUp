@@ -1,20 +1,9 @@
-import {
-    Card,
-    CardActionArea,
-    CardActions,
-    CardContent,
-    IconButton,
-    Skeleton,
-    Stack,
-    Typography
-} from "@mui/material";
+import {Button, Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
 import {Link, useNavigate} from "@tanstack/react-router";
 import {componentTypeToCzech} from "@/domain/sign-component-type-enum.ts";
 import type {SignComponentGetListDto} from "@/api/sign-component/sign-component-dtos.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {
-    createDeleteSignComponentOptions,
-} from "@/api/sign-component/sign-component-query-options.ts";
+import {createDeleteSignComponentOptions,} from "@/api/sign-component/sign-component-query-options.ts";
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
@@ -38,16 +27,17 @@ export function SignComponentCard(props: SignComponentGetListDto) {
                     ) :
                     (
                         <Stack>
-                            <CardActionArea component={Link} to={`/app/sign-components/${props.id}/`}>
-                                <CardContent>
-                                    <Stack>
-                                        <Typography variant="body2">Popis: {props.textDescription}</Typography>
-                                        <Typography
-                                            variant="body2">Druh: {componentTypeToCzech(props.type)}</Typography>
-                                    </Stack>
-                                </CardContent>
-                            </CardActionArea>
+                            <CardContent>
+                                <Stack>
+                                    <Typography variant="body2">Popis: {props.textDescription}</Typography>
+                                    <Typography
+                                        variant="body2">Druh: {componentTypeToCzech(props.type)}</Typography>
+                                </Stack>
+                            </CardContent>
                             <CardActions sx={{justifyContent: "space-between"}}>
+                                <Button component={Link} to={`/app/sign-components/${props.id}/`}>
+                                    Detail
+                                </Button>
                                 <ZoomTooltip title={"upravit"}>
                                     <IconButton
                                         onClick={() => {

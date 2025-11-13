@@ -15,9 +15,7 @@ export function SignCard({signId, fileName, categoryId, categoryName, translatio
         <Card sx={{
             minWidth: 200,
             maxWidth: 350,
-        }}>
-            <CardActionArea component={Link} to={`/app/signs/${signId}}/`}>
-                <CardMedia
+        }}>                <CardMedia
                     component="video"
                     src={fileName}
                     controls
@@ -37,6 +35,10 @@ export function SignCard({signId, fileName, categoryId, categoryName, translatio
                         </Stack>
                     </Stack>
                 </CardContent>
+            <CardActionArea>
+                <Button component={Link} to={`/app/signs/${signId}/`}>
+                    Detail
+                </Button>
             </CardActionArea>
 
         </Card>

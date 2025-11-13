@@ -1,5 +1,5 @@
-import {Card, CardActionArea, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
-import { Link, useNavigate } from "@tanstack/react-router";
+import {Button, Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
+import {Link} from "@tanstack/react-router";
 import type {ClassroomGetListDto} from "@/api/classroom/classroom-dtos.ts";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -8,7 +8,6 @@ import {createDeleteClassroomOptions} from "@/api/classroom/classroom-query-opti
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 export function ClassroomCard(dto: ClassroomGetListDto) {
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const mutation = useMutation(createDeleteClassroomOptions(dto.id, queryClient))
     return (
@@ -17,37 +16,34 @@ export function ClassroomCard(dto: ClassroomGetListDto) {
         }}>
             {
                 mutation.isPending ? (
-                    <CardContent>
-                        <Stack spacing={2}>
-                            <Skeleton variant="text" width="70%" height={32} />
-                            <Skeleton variant="text" width="50%" height={24} />
-                            <Stack direction="row" justifyContent="space-between" sx={{ mt: 2 }}>
-                                <Skeleton variant="circular" width={36} height={36} />
-                                <Skeleton variant="circular" width={36} height={36} />
+                        <CardContent>
+                            <Stack spacing={2}>
+                                <Skeleton variant="text" width="70%" height={32}/>
+                                <Skeleton variant="text" width="50%" height={24}/>
+                                <Stack direction="row" justifyContent="space-between" sx={{mt: 2}}>
+                                    <Skeleton variant="circular" width={36} height={36}/>
+                                    <Skeleton variant="circular" width={36} height={36}/>
+                                </Stack>
                             </Stack>
-                        </Stack>
-                    </CardContent>
-                ) :
+                        </CardContent>
+                    ) :
                     (
                         <Stack>
-                            <CardActionArea component={Link} to={`/app/classrooms/${dto.id}`}>
-                                <CardContent>
-                                    <Stack>
-                                        <Typography variant="h6">{dto.name}</Typography>
-                                        <Typography variant="body2">Počet studentů: {dto.numberOfStudents}</Typography>
-                                    </Stack>
-                                </CardContent>
-                            </CardActionArea>
+                            <CardContent>
+                                <Stack>
+                                    <Typography variant="h6">{dto.name}</Typography>
+                                    <Typography variant="body2">Počet studentů: {dto.numberOfStudents}</Typography>
+                                </Stack>
+                            </CardContent>
                             <CardActions sx={{justifyContent: "space-between"}}>
+                                <Button component={Link} to={`/app/classrooms/${dto.id}/`}>
+                                    Detail
+                                </Button>
                                 <ZoomTooltip title={"upravit"}>
-                                    <IconButton
-                                        onClick={() => {
-                                            navigate({to: `/app/classrooms/${dto.id}/edit/`});
-                                        }}>
+                                    <IconButton component={Link} to={`/app/classrooms/${dto.id}/edit/`}>
                                         <EditIcon/>
                                     </IconButton>
                                 </ZoomTooltip>
-
                                 <ZoomTooltip title={"smazat"}>
                                     <IconButton
                                         onClick={() => mutation.mutate()}>

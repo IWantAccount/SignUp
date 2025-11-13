@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
 import {createDeleteUserOptions} from "@/api/user/user-query-options.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 export function UserCard({id, name, email, classroomName}: UserGetListDto){
     const navigate = useNavigate();
@@ -40,17 +40,21 @@ export function UserCard({id, name, email, classroomName}: UserGetListDto){
                                 <Typography variant="body2">{classroomName}</Typography>
                             </Stack>
                             <CardActions sx={{justifyContent: "space-around"}}>
-                                <IconButton
-                                    onClick={() => {
-                                        navigate({to: `/app/users/${id}/edit/`});
-                                    }}>
-                                    <EditIcon/>
-                                </IconButton>
+                                <ZoomTooltip title={"upravit"}>
+                                    <IconButton
+                                        onClick={() => {
+                                            navigate({to: `/app/users/${id}/edit/`});
+                                        }}>
+                                        <EditIcon/>
+                                    </IconButton>
+                                </ZoomTooltip>
 
-                                <IconButton
-                                    onClick={() => mutation.mutate(id)}>
-                                    <ClearIcon/>
-                                </IconButton>
+                                <ZoomTooltip title={"smazat"}>
+                                    <IconButton
+                                        onClick={() => mutation.mutate(id)}>
+                                        <ClearIcon/>
+                                    </IconButton>
+                                </ZoomTooltip>
                             </CardActions>
                         </CardContent>
                     )
