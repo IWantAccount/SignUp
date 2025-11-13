@@ -1,17 +1,25 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {
+    addStudentToClassroom,
     createUser,
-    deleteUser, getUserByClassroomAndNamePaged,
+    deleteUser, getUserByRoleByName, getStudentEnrolledInSubject, getUserByClassroomAndNamePaged,
     getUserByClassroomPaged,
     getUserById,
-    getUserPaged,
-    updateUser
+    getUserPaged, removeStudentFromClassroom,
+    updateUser, getUserBySubjectAndNamePaged
 } from "@/api/user/user-api.ts";
-import type {UserCreateDto, UserGetDetailDto, UserGetListDto, UserUpdateDto} from "@/api/user/user-dtos.ts";
+import type {
+    StudentClassroomDto,
+    UserCreateDto,
+    UserGetDetailDto,
+    UserUpdateDto
+} from "@/api/user/user-dtos.ts";
 import type {AxiosError} from "axios";
-import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
+import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
-const userQueryKey = "user";
+export const userQueryKey = "user";
 
 export function createGetUserByIdOptions(id: string) {
     return queryOptions({
@@ -60,11 +68,7 @@ export function createUserInfiniteQueryOptions() {
     return infiniteQueryOptions({
         queryKey: [userQueryKey, "infinite"],
         queryFn: ({pageParam}) => getUserPaged(pageParam),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<UserGetDetailDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
 }
 
@@ -78,10 +82,60 @@ export function createGetUserByClassroomInfiniteQueryOptions(classroomId: string
 
             return getUserByClassroomAndNamePaged(classroomId, searchItem, pageParam);
         },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<UserGetListDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
+}
+
+export function createGetUserBySubjectInfiniteQueryOptions(subjectId: string, searchItem?: string) {
+    const search = searchItem ? searchItem : "";
+    return infiniteQueryOptions({
+        queryKey: [userQueryKey, subjectId, search, "infinite"],
+        queryFn: ({pageParam}) => {
+            return getUserBySubjectAndNamePaged(subjectId, pageParam, search);
+        },
+        ...springInfiniteBase
+    })
+}
+
+export function createGetEnrolledByNameInfiniteQueryOptions(subjectId: string, searchItem?: string) {
+    const toSearch = searchItem ? searchItem : "";
+    return infiniteQueryOptions({
+        queryKey: [userQueryKey, "infinite", subjectId, toSearch],
+        queryFn: ({pageParam}) => {
+            return getStudentEnrolledInSubject(toSearch, subjectId, pageParam)
+        },
+        ...springInfiniteBase
+    })
+}
+
+export function createGetByRoleNameInfiniteQueryOptions(role: UserRoleEnum, name?: string) {
+    return infiniteQueryOptions({
+        queryKey: [userQueryKey, "infinite", role, name ?? ""],
+        queryFn: ({pageParam}) => {
+            return getUserByRoleByName(role, pageParam, name);
+        },
+        ...springInfiniteBase
+    })
+}
+
+export function createAddStudentToClassroomOptions(dto: StudentClassroomDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [userQueryKey, dto.studentId, dto.classroomId],
+        mutationFn: () => addStudentToClassroom(dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [userQueryKey]});
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey]})
+        }
+    }
+}
+
+export function createRemoveStudentFromClassroomOptions(dto: StudentClassroomDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [userQueryKey, dto.studentId, dto.classroomId],
+        mutationFn: () => removeStudentFromClassroom(dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [userQueryKey]});
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey]})
+        }
+    }
 }

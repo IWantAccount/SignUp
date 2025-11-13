@@ -22,3 +22,13 @@ export interface SubjectStudentDto {
     studentId: string;
     subjectId: string;
 }
+
+export interface SubjectStudentDto {
+    studentId: string;
+    subjectId: string;
+}
+
+export interface SubjectClassroomDto {
+    classroomId: string;
+    subjectId: string;
+}

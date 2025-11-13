@@ -1,20 +1,18 @@
-import {infiniteQueryOptions, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
+import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {
     createCategory,
     deleteCategory,
     getCategoryById, getCategoryByNamePaged,
-    getCategoryPaged, getCategorySubjectSearchPaged,
+    getCategorySubjectSearchPaged,
     updateCategory
 } from "@/api/category/category-api.ts";
 import type {
     CategoryCreateDto,
     CategoryGetDetailDto,
-    CategoryGetListDto,
     CategoryUpdateDto
 } from "@/api/category/category-dtos.ts";
 import type {AxiosError} from "axios";
-import {queryClient} from "@/main.tsx";
-import type { Page } from "../universal/dto/spring-boot-page";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const categoryQueryKey = "category";
 
@@ -25,7 +23,7 @@ export function createGetCategoryByIdOptions(id: string) {
     })
 }
 
-export function createCreateCategoryOptions(): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryCreateDto> {
+export function createCreateCategoryOptions(queryClient: QueryClient): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryCreateDto> {
     return {
         mutationFn: (dto: CategoryCreateDto) => createCategory(dto),
         onSuccess: () => {
@@ -34,7 +32,7 @@ export function createCreateCategoryOptions(): UseMutationOptions<CategoryGetDet
     }
 }
 
-export function createUpdateCategoryOptions(id: string): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryUpdateDto> {
+export function createUpdateCategoryOptions(id: string, queryClient: QueryClient): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryUpdateDto> {
     return {
         mutationFn: (dto: CategoryUpdateDto) => updateCategory(id, dto),
         onSuccess: () => {
@@ -43,7 +41,7 @@ export function createUpdateCategoryOptions(id: string): UseMutationOptions<Cate
     }
 }
 
-export function createDeleteCategoryOptions(id: string): UseMutationOptions<void, AxiosError, string> {
+export function createDeleteCategoryOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, AxiosError, string> {
     return {
         mutationFn: (id: string) => deleteCategory(id),
         onSuccess: () => {
@@ -52,13 +50,10 @@ export function createDeleteCategoryOptions(id: string): UseMutationOptions<void
     }
 }
 
-export function createCategoryInfiniteQuery(searchItem?: string, subjectId?: string) {
+export function createCategoryInfiniteQuery(searchItem: string, subjectId?: string) {
     return infiniteQueryOptions({
         queryKey: [categoryQueryKey, "infinite", searchItem ? searchItem : ""],
         queryFn: ({pageParam}) => {
-            if(!searchItem || searchItem === ""){
-                return getCategoryPaged(pageParam);
-            }
 
             if(!subjectId){
                 return getCategoryByNamePaged(pageParam, searchItem);
@@ -67,10 +62,6 @@ export function createCategoryInfiniteQuery(searchItem?: string, subjectId?: str
             return getCategorySubjectSearchPaged(pageParam, searchItem, subjectId);
 
         },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<CategoryGetListDto>) => {
-            const nextPage = lastPage.number + 1;
-            return nextPage < lastPage.totalPages ? nextPage : undefined;
-        }
+        ...springInfiniteBase
     })
 }

@@ -34,4 +34,10 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
         subjectService.removeStudent(dto);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/add-classroom")
+    public ResponseEntity<Void> addClassroomToSubject(@Valid @RequestBody SubjectClassroomDto dto){
+        subjectService.addClassroom(dto);
+        return ResponseEntity.ok().build();
+    }
 }

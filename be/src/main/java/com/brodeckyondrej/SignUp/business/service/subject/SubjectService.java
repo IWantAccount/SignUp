@@ -1,8 +1,10 @@
 package com.brodeckyondrej.SignUp.business.service.subject;
 
 import com.brodeckyondrej.SignUp.business.dto.subject.*;
+import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
+import com.brodeckyondrej.SignUp.persistence.repository.ClassroomRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
 import com.brodeckyondrej.SignUp.persistence.enumerated.UserRole;
 import com.brodeckyondrej.SignUp.exception.ValidationException;
@@ -16,16 +18,15 @@ import org.springframework.stereotype.Service;
 public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto, SubjectUpdateDto, SubjectGetDetailDto, SubjectGetListDto> {
 
     private final SubjectRepository subjectRepository;
-    private final SubjectValidator subjectValidator;
-    private final SubjectMapper subjectMapper;
     private final UserRepository userRepository;
+    private final ClassroomRepository classroomRepository;
 
-    public SubjectService(SubjectRepository repository, SubjectValidator validator, SubjectMapper mapper, UserRepository userRepository) {
+    public SubjectService(SubjectRepository repository, SubjectValidator validator, SubjectMapper mapper,
+                          UserRepository userRepository, ClassroomRepository classroomRepository) {
         super(repository, validator, mapper);
         this.subjectRepository = repository;
-        this.subjectValidator = validator;
-        this.subjectMapper = mapper;
         this.userRepository = userRepository;
+        this.classroomRepository = classroomRepository;
     }
 
     public void addStudent(SubjectStudentDto dto){
@@ -48,5 +49,12 @@ public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto
         }
 
         subject.removeStudent(student);
+    }
+
+    public void addClassroom(SubjectClassroomDto dto){
+        Classroom classroom = classroomRepository.findByIdOrThrow(dto.getClassroomId());
+        Subject subject = subjectRepository.findByIdOrThrow(dto.getSubjectId());
+
+        classroom.getStudents().forEach(subject::addStudent);
     }
 }

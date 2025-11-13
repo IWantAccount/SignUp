@@ -2,17 +2,15 @@ import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOp
 import {
     createClassroom,
     deleteClassroom,
-    getClassroomById,
-    getClassroomPaged,
+    getClassroomById, getClassroomByName,
     updateClassroom
 } from "@/api/classroom/classroom-api.ts";
 import type {
     ClassroomCreateDto,
     ClassroomGetDetailDto,
-    ClassroomGetListDto,
     ClassroomUpdateDto
 } from "@/api/classroom/classroom-dtos.ts";
-import type {Page} from "../universal/dto/spring-boot-page";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const classroomQueryKey = "classroom";
 
@@ -49,23 +47,20 @@ export function createUpdateClassroomOptions(id: string, queryClient: QueryClien
     }
 }
 
-export function createDeleteClassroomOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, Error, string> {
+export function createDeleteClassroomOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, Error, void> {
     return {
-        mutationFn: (id: string) => deleteClassroom(id),
+        mutationFn: () => deleteClassroom(id),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
         }
     }
 }
 
-export function createClassroomInfiniteQueryOptions() {
+export function createClassroomInfiniteQueryOptions(searchItem?: string) {
+    const search = searchItem ?? "";
     return infiniteQueryOptions({
-        queryKey: [classroomQueryKey, "infinite"],
-        queryFn: ({pageParam}) => getClassroomPaged(pageParam),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<ClassroomGetListDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        queryKey: [classroomQueryKey, "infinite", search],
+        queryFn: ({pageParam}) => getClassroomByName(search, pageParam),
+        ...springInfiniteBase
     })
 }

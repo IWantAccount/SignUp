@@ -1,5 +1,6 @@
 package com.brodeckyondrej.SignUp.api.controller.universal;
 
+import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.business.dto.universal.NamedDto;
 import com.brodeckyondrej.SignUp.business.dto.universal.NamedDtoWithId;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
@@ -7,8 +8,12 @@ import com.brodeckyondrej.SignUp.persistence.entity.NamedEntity;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
@@ -19,7 +24,7 @@ public abstract class NamedEntityController<
         UpdateDto extends NamedDto,
         GetDetailDto extends NamedDtoWithId,
         GetListDto extends NamedDtoWithId,
-        DtoWithName extends NamedDto
+        DtoWithName extends FindByNameDto
 
         >  extends EntityController <Entity, CreateDto, UpdateDto, GetDetailDto, GetListDto> {
     private final NamedEntityService<Entity, CreateDto, UpdateDto, GetDetailDto, GetListDto> service;
@@ -29,8 +34,10 @@ public abstract class NamedEntityController<
         this.service = namedEntityService;
     }
 
-    @GetMapping("/by-name")
-    public ResponseEntity<Page<GetListDto>> getByName(@Valid DtoWithName dto, Pageable pageable) {
+    @PostMapping("/by-name")
+    public ResponseEntity<Page<GetListDto>> getByName(
+            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
+            @Valid @RequestBody DtoWithName dto, Pageable pageable) {
         return ResponseEntity.ok(service.findByName(dto.getName(), pageable));
     }
 }

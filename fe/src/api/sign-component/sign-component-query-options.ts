@@ -9,10 +9,9 @@ import {
 import type {
     SignComponentCreateDto,
     SignComponentGetDetailDto,
-    SignComponentGetListDto,
     SignComponentUpdateDto
 } from "@/api/sign-component/sign-component-dtos.ts";
-import type {Page} from "../universal/dto/spring-boot-page";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const signComponentQueryKey = "sign-component";
 
@@ -63,10 +62,6 @@ export function createSignComponentInfiniteQueryOptions() {
     return infiniteQueryOptions({
         queryKey: [signComponentQueryKey, "infinite"],
         queryFn: ({pageParam}) => getSignComponentPaged(pageParam),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<SignComponentGetListDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
 }

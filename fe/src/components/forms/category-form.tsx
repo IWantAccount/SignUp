@@ -6,7 +6,7 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 import {useState} from "react";
 import { useDebounce } from 'use-debounce';
 import {createSubjectByNameInfiniteQueryOptions} from "@/api/subject/subject-query-options.ts";
-import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import type {Page} from "@/api/universal/pagination/spring-boot-page.ts";
 import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
 
 const schema = z.object({

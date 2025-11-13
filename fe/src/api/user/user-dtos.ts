@@ -26,8 +26,37 @@ export interface UserGetDetailDto extends UserDtoWithId {
 
 export interface UserGetListDto extends UserDtoWithId {
     classroomName: string;
+    classroomId?: string;
+    email: string;
 }
 
 export interface UserUpdateDto extends UserDto {
     password: string;
+}
+
+export interface StudentSubjectSearchDto {
+    subjectId: string;
+    studentName: string;
+}
+
+export interface StudentInSubjectDto {
+    studentName: string;
+    studentId: string;
+    subjectId: string;
+    inGivenSubject: boolean;
+}
+
+export interface UserRoleNameDto {
+    name: string;
+    role: UserRoleEnum;
+}
+
+export interface StudentClassroomSearchDto {
+    studentName: string;
+    classroomId: string;
+}
+
+export interface StudentClassroomDto {
+    classroomId: string;
+    studentId: string;
 }

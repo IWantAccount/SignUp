@@ -65,14 +65,46 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
 
     public Page<UserGetListDto> findBySubjectAndName(UUID subjectId, String name, Pageable pageable) {
         Subject subject = subjectRepository.findByIdOrThrow(subjectId);
-        return userRepository.findDistinctBySubjectsContainingAndNameContainingIgnoreCase(subject, name, pageable)
-                .map(userMapper::toListDto);
+        Page<User> res;
+        if(name.isEmpty()) {
+            res = userRepository.findDistinctBySubjectsContaining(subject, pageable);
+        }
+        else {
+            res = userRepository.findDistinctBySubjectsContainingAndNameContainingIgnoreCase(subject, name, pageable);
+        }
+        return res.map(userMapper::toListDto);
     }
 
     public Page<UserGetListDto> findByClassroomAndName(UUID classroomId, String name, Pageable pageable) {
         Classroom classroom = classroomRepository.findByIdOrThrow(classroomId);
         return userRepository.findByClassroomAndNameContainingIgnoreCase(classroom, name, pageable)
                 .map(userMapper::toListDto);
+    }
+
+    public Page<StudentInSubjectDto> findStudentsByNameWithSubject(String studentName, UUID subjectId, Pageable pageable) {
+        Subject subject = subjectRepository.findByIdOrThrow(subjectId);
+        Page<User> res;
+        if(studentName.isEmpty()) {
+            res = userRepository.findByRole(UserRole.STUDENT, pageable);
+        }
+        else {
+            res = userRepository.findByNameContainingIgnoreCaseAndRole(studentName, UserRole.STUDENT, pageable);
+        }
+
+        return res.map(student -> userMapper.toStudentInSubjectDto(student, subject));
+
+    }
+
+    public Page<UserGetListDto> findByRoleAndName(String name, UserRole role, Pageable pageable) {
+        Page<User> res;
+        if(name.isEmpty()){
+            res = userRepository.findByRole(role, pageable);
+        }
+        else {
+            res = userRepository.findByNameContainingIgnoreCaseAndRole(name, role, pageable);
+        }
+
+        return res.map(userMapper::toListDto);
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.brodeckyondrej.SignUp.persistence.entity.User;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,24 +38,46 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
     }
 
     @GetMapping("/by-subject/{id}")
-    public ResponseEntity<Page<UserGetListDto>> getBySubjectId(@PathVariable UUID id, Pageable pageable){
+    public ResponseEntity<Page<UserGetListDto>> getBySubjectId(
+            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
+            @PathVariable UUID id, Pageable pageable){
         //TODO možná odfiltrovat nestudenty?
         return ResponseEntity.ok(userService.findBySubjects(id, pageable));
     }
 
     @GetMapping("/by-classroom/{id}")
-    public ResponseEntity<Page<UserGetListDto>> getByClassroomId(@PathVariable UUID id, Pageable pageable){
+    public ResponseEntity<Page<UserGetListDto>> getByClassroomId(
+            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
+            @PathVariable UUID id, Pageable pageable){
         //TODO možná odfiltrovat nestudenty?
         return ResponseEntity.ok(userService.findByClassroom(id, pageable));
     }
 
-    @GetMapping("/classroom-search/{classroomId}")
-    public ResponseEntity<Page<UserGetListDto>> getByClassroomAndName(@Valid FindByNameDto nameDto,@PathVariable UUID classroomId, Pageable pageable ){
-        return ResponseEntity.ok(userService.findByClassroomAndName(classroomId, nameDto.getName(), pageable));
+    @PostMapping("/classroom-search")
+    public ResponseEntity<Page<UserGetListDto>> getByClassroomAndName(
+            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
+            @Valid @RequestBody StudentClassroomSearchDto dto, Pageable pageable ){
+        return ResponseEntity.ok(userService.findByClassroomAndName(dto.getClassroomId(), dto.getStudentName(), pageable));
     }
 
-    @GetMapping("/subject-search/{subjectId}")
-    public ResponseEntity<Page<UserGetListDto>> getBySubjectAndName(@Valid FindByNameDto nameDto, @PathVariable UUID subjectId, Pageable pageable ){
-        return ResponseEntity.ok(userService.findBySubjectAndName(subjectId, nameDto.getName(), pageable));
+    @PostMapping("/subject-search")
+    public ResponseEntity<Page<UserGetListDto>> getBySubjectAndName(
+            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
+            @Valid @RequestBody StudentSubjectSearchDto dto, Pageable pageable){
+        return ResponseEntity.ok(userService.findBySubjectAndName(dto.getSubjectId(), dto.getStudentName(), pageable));
+    }
+
+    @PostMapping("/present-in-subject")
+    public ResponseEntity<Page<StudentInSubjectDto>> getStudentEnrolledInSubject(
+            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
+            @Valid @RequestBody StudentSubjectSearchDto dto, Pageable pageable){
+        return ResponseEntity.ok(userService.findStudentsByNameWithSubject(dto.getStudentName(), dto.getSubjectId(), pageable));
+    }
+
+    @PostMapping("/by-role-name")
+    public ResponseEntity<Page<UserGetListDto>> getUserByRoleAndName(
+            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
+            @Valid @RequestBody UserRoleNameDto dto, Pageable pageable){
+        return ResponseEntity.ok(userService.findByRoleAndName(dto.getName(), dto.getRole(), pageable));
     }
 }

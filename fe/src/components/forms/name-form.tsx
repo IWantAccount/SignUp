@@ -4,7 +4,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Box, Button, TextField, Typography} from "@mui/material";
 
 const schema = z.object({
-    name: z.string().trim().min(1, "Název je povinný"),
+    name: z.string().trim().min(1, "Název je povinný").max(60, "Jméno může mít maximálně 60 znaků"),
 })
 
 export type NameFormData = z.infer<typeof schema>;

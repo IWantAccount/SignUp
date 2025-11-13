@@ -1,6 +1,6 @@
 import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {UserGrid} from "@/components/grids/user-grid.tsx";
-import {useInfiniteQuery, useMutation, useQuery} from "@tanstack/react-query";
+import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {classroomQueryKey, createGetClassroomByIdOptions} from "@/api/classroom/classroom-query-options.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import {useState} from "react";
@@ -8,7 +8,6 @@ import {createGetUserByClassroomInfiniteQueryOptions} from "@/api/user/user-quer
 import type {UserGetListDto} from "@/api/user/user-dtos.ts";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
-import {queryClient} from "@/main.tsx";
 import {deleteClassroom} from "@/api/classroom/classroom-api.ts";
 import { Button } from '@mui/material';
 
@@ -21,14 +20,19 @@ function RouteComponent() {
     const navigate = useNavigate();
     const [searchItem, setSearchItem] = useState<string>("");
     const classroomId = Route.useParams().classroomId;
+    const queryClient = useQueryClient();
 
     const deleteMutation = useMutation({
         mutationFn: () => deleteClassroom(classroomId),
-        onSuccess: () => {
+        onSuccess: async () => {
             navigate({
                 to: "/app/classrooms",
             });
-            queryClient.invalidateQueries({queryKey: [classroomQueryKey, classroomId]})
+            // Wait for a while. If queries are invalidated too quickly, classroom query might refetch and cause 404 error
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
+            queryClient.invalidateQueries({queryKey: [userQuery]});
+
         }
     });
     const classroomQuery = useQuery(createGetClassroomByIdOptions(classroomId));

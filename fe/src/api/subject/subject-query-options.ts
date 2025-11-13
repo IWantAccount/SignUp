@@ -1,18 +1,25 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import {
+    addClassroomToSubject,
+    addStudentToSubject,
     createSubject,
     deleteSubject,
     getSubjectById, getSubjectByNamePaged,
     getSubjectPaged,
+    removeStudentFromSubject,
     updateSubject
 } from "@/api/subject/subject-api.ts";
 import type {
+    SubjectClassroomDto,
     SubjectCreateDto,
     SubjectGetDetailDto,
-    SubjectGetListDto,
+    SubjectStudentDto,
     SubjectUpdateDto
 } from "@/api/subject/subject-dtos.ts";
-import type {Page} from "@/api/universal/dto/spring-boot-page.ts";
+import type {AxiosError} from "axios";
+import {userQueryKey} from "@/api/user/user-query-options.ts";
+import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const subjectQueryKey = "subject";
 
@@ -50,9 +57,9 @@ export function createUpdateSubjectOptions(id: string, queryClient: QueryClient)
 export function createDeleteSubjectOptions(id: string, queryClient: QueryClient): UseMutationOptions<
     void,
     Error,
-    string> {
+    void> {
     return {
-        mutationFn: (id: string) => deleteSubject(id),
+        mutationFn: () => deleteSubject(id),
         onSuccess: () => {
             queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
         }
@@ -63,11 +70,7 @@ export function createSubjectInfiniteQueryOptions() {
     return infiniteQueryOptions({
         queryKey: [subjectQueryKey, "infinite"],
         queryFn: ({pageParam}) => getSubjectPaged(pageParam, 20),
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<SubjectGetDetailDto>) => {
-            const next = lastPage.number + 1;
-            return next < lastPage.totalPages ? next : undefined;
-        }
+        ...springInfiniteBase
     })
 }
 
@@ -78,11 +81,41 @@ export function createSubjectByNameInfiniteQueryOptions(searchItem: string) {
              return searchItem === "" ?
                 getSubjectPaged(pageParam) : getSubjectByNamePaged(pageParam, searchItem)
         },
-        initialPageParam: 0,
-        getNextPageParam: (lastPage: Page<SubjectGetListDto>) => {
-            const nextPage = lastPage.number + 1;
-            return nextPage < lastPage.totalPages ? nextPage : undefined;
-        }
+        ...springInfiniteBase
     })
+}
+
+export function createAddStudentToSubjectOptions(dto: SubjectStudentDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void>{
+    return {
+        mutationKey: [subjectQueryKey, dto.subjectId],
+        mutationFn: () => addStudentToSubject(dto),
+        onSuccess: () => {
+
+            queryClient.invalidateQueries({queryKey: [userQueryKey]});
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+        }
+    }
+}
+
+export function createRemoveStudentFromSubjectOptions(dto: SubjectStudentDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [subjectQueryKey, dto.subjectId],
+        mutationFn: () => removeStudentFromSubject(dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [userQueryKey]});
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+        }
+    }
+}
+
+export function createAddClassroomToSubjectOptions(dto: SubjectClassroomDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [subjectQueryKey, dto.subjectId],
+        mutationFn: () => addClassroomToSubject(dto),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: [subjectQueryKey, dto.subjectId]});
+            queryClient.invalidateQueries({queryKey: [classroomQueryKey, dto.classroomId]});
+        }
+    }
 }
 
