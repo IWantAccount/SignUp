@@ -3,34 +3,39 @@ import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {SubjectGrid} from '@/components/grids/subject-grid';
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {createSubjectInfiniteQueryOptions} from "@/api/subject/subject-query-options.ts";
+import {
+    createSubjectByNameInfiniteQueryOptions,
+} from "@/api/subject/subject-query-options.ts";
 import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
 import {Button, Stack} from "@mui/material";
-import {ErrorAlert} from "@/components/util/error-alert.tsx";
-import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
+import {useState} from "react";
+import {useDebounce} from "use-debounce";
+import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
 
 export const Route = createFileRoute('/app/subjects/')({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    const infiniteQuery = useInfiniteQuery(createSubjectInfiniteQueryOptions());
+    const [searchItem, setSearchItem] = useState<string>("");
+    const [debouncedSearch] = useDebounce(searchItem, 300)
+    const infiniteQuery = useInfiniteQuery(createSubjectByNameInfiniteQueryOptions(debouncedSearch));
     const buttonText = !infiniteQuery.hasNextPage ?
         "Vše načteno" :
         infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další";
 
     const buttonIsDisabled = !infiniteQuery.hasNextPage || infiniteQuery.isFetchingNextPage;
 
-    if(infiniteQuery.isPending) return <BackdropLoading/>
-    if(infiniteQuery.isError) return <ErrorAlert message={"Chyba při načítání předmětů"}/>
-    const subjects: SubjectGetListDto[] = infiniteQuery.data.pages.flatMap(page => page.content) || [];
+    const subjects: SubjectGetListDto[] = infiniteQuery.data?.pages.flatMap(page => page.content) || [];
 
     return (
         <Stack sx={{padding: 2}} spacing={2} alignItems="center">
             <TopBarItemsGrid>
-                <SearchableCardSectionTopBarActions title={"Předměty"} onSearch={(searchItem: string) => {/*TODO funkční search*/
-                }} />
-                <SubjectGrid list={subjects}></SubjectGrid>
+                <SearchableCardSectionTopBarActions title={"Předměty"} onSearch={(searchItem: string) => {setSearchItem(searchItem)}} />
+                {
+                    infiniteQuery.isPending ? <MultipleCardSkeleton/> :
+                        infiniteQuery.isError ? (<></>) : (<SubjectGrid list={subjects}></SubjectGrid>)
+                }
             </TopBarItemsGrid>
             <Button onClick={() => infiniteQuery.fetchNextPage()}
                     disabled={buttonIsDisabled}

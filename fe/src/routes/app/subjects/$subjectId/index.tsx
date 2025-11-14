@@ -17,6 +17,7 @@ import {
     createGetUserBySubjectInfiniteQueryOptions
 } from "@/api/user/user-query-options.ts";
 import {UserGrid} from "@/components/grids/user-grid.tsx";
+import {useDebounce} from "use-debounce";
 
 export const Route = createFileRoute('/app/subjects/$subjectId/')({
     component: RouteComponent
@@ -28,9 +29,12 @@ function RouteComponent() {
     const [studentSearch, setStudentSearch] =  useState<string>("");
     const {subjectId} = Route.useParams();
 
+    const [debouncedCategorySearch] = useDebounce(categoriesSearch, 300);
+    const [debouncedStudentSearch] = useDebounce(studentSearch, 300);
+
     const subjectQuery = useQuery(createGetSubjectByIdOptions(subjectId));
-    const categoryQuery = useInfiniteQuery(createCategoryInfiniteQuery(categoriesSearch, subjectId));
-    const studentQuery = useInfiniteQuery(createGetUserBySubjectInfiniteQueryOptions(subjectId, studentSearch));
+    const categoryQuery = useInfiniteQuery(createCategoryInfiniteQuery(debouncedCategorySearch, subjectId));
+    const studentQuery = useInfiniteQuery(createGetUserBySubjectInfiniteQueryOptions(subjectId, debouncedStudentSearch));
     const [addClassroomDialogOpened, setAddClassroomDialogOpened] = useState(false);
     const [addStudentDialogOpened, setAddStudentDialogOpened] = useState(false);
     const [selectedTab, setSelectedTab] = useState<"categories" | "students">("categories");
@@ -47,11 +51,11 @@ function RouteComponent() {
         }
     })
 
-    if(subjectQuery.isPending || categoryQuery.isPending || studentQuery.isPending) return <BackdropLoading/>
+    if(subjectQuery.isPending) return <BackdropLoading/>
     if(subjectQuery.isError || categoryQuery.isError || studentQuery.isError) return <></>
 
-    const categories = categoryQuery.data.pages.flatMap(page => page.content);
     const students = studentQuery.data?.pages.flatMap(page => page.content);
+    const categories = categoryQuery.data?.pages.flatMap(page => page.content);
 
     return (
         <TopBarItemsGrid>
@@ -102,8 +106,10 @@ function RouteComponent() {
                 </Tabs>
             </Box>
 
-            {selectedTab === "categories" && (<CategoryGrid list={categories}/>)}
-            {selectedTab === "students" && (<UserGrid list={students}/>)}
+            {selectedTab === "categories" &&
+                (categoryQuery.isPending ? (<></>) : (<CategoryGrid list={categories ?? []}/>))}
+            {selectedTab === "students" &&
+                (studentQuery.isPending ? (<></>) : (<UserGrid list={students ?? []}/>))}
             <AddSpeedDial openAddStudentDialog={() => setAddStudentDialogOpened(true)} openAddClassroomDialog={() => setAddClassroomDialogOpened(true)}/>
             <AddClassroomToSubjectDialog subjectId={subjectId} open={addClassroomDialogOpened} onClose={() => setAddClassroomDialogOpened(false)}/>
             <AddStudentToSubjectDialog subjectId={subjectId} open={addStudentDialogOpened} onClose={() => setAddStudentDialogOpened(false)}/>

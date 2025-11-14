@@ -39,14 +39,13 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         Classroom classroom = classroomRepository.findByIdOrThrow(dto.getClassroomId());
         User student = userRepository.findByIdOrThrow(dto.getStudentId());
         if(!student.getRole().equals(UserRole.STUDENT)){
-            throw new IllegalStateException("Student is not a student");
+            throw new IllegalStateException("User is not a student");
         }
 
         student.setClassroom(classroom);
     }
 
     public void removeStudentFromClassroom(StudentClassroomDto dto){
-        //throws exception if classroom is not present
         classroomRepository.findByIdOrThrow(dto.getClassroomId());
         User student = userRepository.findByIdOrThrow(dto.getStudentId());
 

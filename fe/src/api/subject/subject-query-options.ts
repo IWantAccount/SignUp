@@ -77,10 +77,7 @@ export function createSubjectInfiniteQueryOptions() {
 export function createSubjectByNameInfiniteQueryOptions(searchItem: string) {
     return infiniteQueryOptions({
         queryKey: [subjectQueryKey, "infinite", searchItem],
-        queryFn: ({pageParam}) => {
-             return searchItem === "" ?
-                getSubjectPaged(pageParam) : getSubjectByNamePaged(pageParam, searchItem)
-        },
+        queryFn: ({pageParam}) => getSubjectByNamePaged(pageParam, searchItem),
         ...springInfiniteBase
     })
 }

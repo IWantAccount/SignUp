@@ -63,6 +63,7 @@ export const getStudentEnrolledInSubject = async (studentName: string, subjectId
 }
 
 export const addStudentToClassroom = async (dto: StudentClassroomDto): Promise<void> => {
+    await new Promise(resolve => setTimeout(resolve, 3000))
     await api.post<void>(buildPath([url, "add-classroom"]), dto);
 }
 

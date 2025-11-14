@@ -37,6 +37,7 @@ export const getSubjectPaged = async (page: number, pageSize?: number): Promise<
 }
 
 export const getSubjectByNamePaged = async (page: number, searchItem: string, pageSize?: number): Promise<Page<SubjectGetListDto>> => {
+    //await new Promise(resolve => {setTimeout(resolve, 5000)})
     const dto: NamedDto = {name: searchItem};
     const res = await api.post<Page<SubjectGetListDto>>(buildPath([url, "by-name"], page, pageSize), dto);
     return res.data;

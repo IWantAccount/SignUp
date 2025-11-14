@@ -1,8 +1,6 @@
 import {Box, IconButton, TextField, Toolbar, Typography} from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import React from "react";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 interface Props {
@@ -13,18 +11,7 @@ interface Props {
 }
 
 export function SearchableCardSectionTopBarActions({title, onEditNavigate, onDelete, onSearch}: Props) {
-    const [searchValue, setSearchValue] = React.useState("");
 
-    const handleSearchClick = () => {
-        if(onSearch)
-        {
-            onSearch(searchValue);
-        }
-    }
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchValue(event.target.value);
-    }
     return (
         <Toolbar sx={{
             display: "flex",
@@ -58,10 +45,7 @@ export function SearchableCardSectionTopBarActions({title, onEditNavigate, onDel
             {
                 onSearch && (
                     <Box sx={{display: "flex", flexDirection: "row", justifyContent: "right", flexWrap: "wrap", gap: 1}}>
-                        <TextField variant="outlined" label="hledat" onChange={handleInputChange}/>
-                        <IconButton onClick={handleSearchClick}>
-                            <SearchIcon/>
-                        </IconButton>
+                        <TextField variant="outlined" label="hledat" onChange={(e) => onSearch(e.target.value)} />
                     </Box>
                 )
             }

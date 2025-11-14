@@ -27,7 +27,10 @@ public abstract class NamedEntityService<
     }
 
     @Transactional
-    public Page<GetListDto>findByName(String name, Pageable pageable){
+    public Page<GetListDto> findByName(String name, Pageable pageable){
+        if(name.isEmpty()){
+            return super.getAllPaged(pageable);
+        }
         return namedRepository.findByNameContainingIgnoreCase(name, pageable)
                 .map(mapper::toListDto);
     }
