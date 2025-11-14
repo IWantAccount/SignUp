@@ -64,10 +64,10 @@ export function createDeleteUserOptions(id: string, queryClient: QueryClient): U
     }
 }
 
-export function createUserInfiniteQueryOptions() {
+export function createUserInfiniteQueryOptions(searchItem: string) {
     return infiniteQueryOptions({
-        queryKey: [userQueryKey, "infinite"],
-        queryFn: ({pageParam}) => getUserPaged(pageParam),
+        queryKey: [userQueryKey, "infinite", searchItem],
+        queryFn: ({pageParam}) => getUserPaged(searchItem, pageParam),
         ...springInfiniteBase
     })
 }

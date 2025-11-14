@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppTestRouteRouteImport } from './routes/app/test-route'
 import { Route as AppOndraJeFrajerRouteImport } from './routes/app/ondra-je-frajer'
 import { Route as AppUsersIndexRouteImport } from './routes/app/users/index'
 import { Route as AppSubjectsIndexRouteImport } from './routes/app/subjects/index'
@@ -58,11 +57,6 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AppTestRouteRoute = AppTestRouteRouteImport.update({
-  id: '/test-route',
-  path: '/test-route',
-  getParentRoute: () => AppRouteRoute,
 } as any)
 const AppOndraJeFrajerRoute = AppOndraJeFrajerRouteImport.update({
   id: '/ondra-je-frajer',
@@ -232,7 +226,6 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
-  '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
   '/app/debug/enrolled': typeof AppDebugEnrolledRoute
@@ -268,7 +261,6 @@ export interface FileRoutesByTo {
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
-  '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
   '/app/debug/enrolled': typeof AppDebugEnrolledRoute
@@ -305,7 +297,6 @@ export interface FileRoutesById {
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
-  '/app/test-route': typeof AppTestRouteRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
   '/app/debug/enrolled': typeof AppDebugEnrolledRoute
@@ -343,7 +334,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/app/ondra-je-frajer'
-    | '/app/test-route'
     | '/app/categories/create'
     | '/app/classrooms/create'
     | '/app/debug/enrolled'
@@ -379,7 +369,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/app/ondra-je-frajer'
-    | '/app/test-route'
     | '/app/categories/create'
     | '/app/classrooms/create'
     | '/app/debug/enrolled'
@@ -415,7 +404,6 @@ export interface FileRouteTypes {
     | '/app'
     | '/login'
     | '/app/ondra-je-frajer'
-    | '/app/test-route'
     | '/app/categories/create'
     | '/app/classrooms/create'
     | '/app/debug/enrolled'
@@ -475,13 +463,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/app/test-route': {
-      id: '/app/test-route'
-      path: '/test-route'
-      fullPath: '/app/test-route'
-      preLoaderRoute: typeof AppTestRouteRouteImport
-      parentRoute: typeof AppRouteRoute
     }
     '/app/ondra-je-frajer': {
       id: '/app/ondra-je-frajer'
@@ -698,7 +679,6 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteRouteChildren {
   AppOndraJeFrajerRoute: typeof AppOndraJeFrajerRoute
-  AppTestRouteRoute: typeof AppTestRouteRoute
   AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
   AppClassroomsCreateRoute: typeof AppClassroomsCreateRoute
   AppDebugEnrolledRoute: typeof AppDebugEnrolledRoute
@@ -732,7 +712,6 @@ interface AppRouteRouteChildren {
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppOndraJeFrajerRoute: AppOndraJeFrajerRoute,
-  AppTestRouteRoute: AppTestRouteRoute,
   AppCategoriesCreateRoute: AppCategoriesCreateRoute,
   AppClassroomsCreateRoute: AppClassroomsCreateRoute,
   AppDebugEnrolledRoute: AppDebugEnrolledRoute,

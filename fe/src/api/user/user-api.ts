@@ -11,6 +11,7 @@ import {buildPath} from "@/api/util/build-path.ts";
 import api from "@/api/universal/axios.ts";
 import type {Page} from "@/api/universal/pagination/spring-boot-page.ts";
 import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
+import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
 
 const url = "/user";
 
@@ -33,8 +34,9 @@ export const deleteUser = async (id: string): Promise<void> => {
     await api.delete<void>(buildPath([url, id]));
 }
 
-export const getUserPaged = async (page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
-    const res = await api.get<Page<UserGetListDto>>(buildPath([url], page, pageSize))
+export const getUserPaged = async (searchItem: string, page: number, pageSize?: number): Promise<Page<UserGetListDto>> => {
+    const dto: NamedDto = {name: searchItem};
+    const res = await api.post<Page<UserGetListDto>>(buildPath([url, "by-name"], page, pageSize), dto);
     return res.data;
 }
 
