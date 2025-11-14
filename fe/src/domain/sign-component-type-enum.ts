@@ -6,7 +6,7 @@ export const signComponentTypeEnum = z.enum([
     "MOVEMENT",
     "PALM_ORIENTATION",
     "FINGER_ORIENTATION",
-    "CONTACT_REGION",
+    "CONTACT",
     "HAND_ARRANGEMENT",
 ]);
 
@@ -18,7 +18,7 @@ const SignComponentTypeLabels = {
     MOVEMENT: "pohyb",
     PALM_ORIENTATION: "orientace dlaně",
     FINGER_ORIENTATION: "orientace prstů",
-    CONTACT_REGION: "místo doteku",
+    CONTACT: "místo doteku",
     HAND_ARRANGEMENT: "vzájemná poloha rukou",
 } as const satisfies Record<SignComponentTypeEnum, string>;
 
