@@ -4,9 +4,11 @@ import {CategoryGrid} from "@/components/grids/category-grid.tsx";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {useState} from "react";
 import {createCategoryInfiniteQuery} from "@/api/category/category-query-options.ts";
-import { useInfiniteQuery } from '@tanstack/react-query';
-import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
+import {useInfiniteQuery} from '@tanstack/react-query';
 import type {CategoryGetListDto} from "@/api/category/category-dtos.ts";
+import {useDebounce} from "use-debounce";
+import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
+import {Button} from "@mui/material";
 
 export const Route = createFileRoute('/app/categories/')({
     component: RouteComponent,
@@ -14,11 +16,11 @@ export const Route = createFileRoute('/app/categories/')({
 
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
-    const categoriesQuery = useInfiniteQuery(createCategoryInfiniteQuery(searchItem));
-    if(categoriesQuery.isPending) return <BackdropLoading/>
-    if(categoriesQuery.isError) return <></>
+    const [debouncedSearch] = useDebounce(searchItem, 300);
+    const categoriesQuery = useInfiniteQuery(createCategoryInfiniteQuery(debouncedSearch));
+    if (categoriesQuery.isError) return <></>
 
-    const categories: CategoryGetListDto[] = categoriesQuery.data.pages.flatMap(page => page.content) ?? [];
+    const categories: CategoryGetListDto[] = categoriesQuery.data?.pages.flatMap(page => page.content) ?? [];
     return (
         <TopBarItemsGrid>
             <SearchableCardSectionTopBarActions
@@ -28,7 +30,18 @@ function RouteComponent() {
                         setSearchItem(search)
                     }
                 }/>
-            <CategoryGrid list={categories}/>
+            {categoriesQuery.isPending ? <MultipleCardSkeleton/> : <CategoryGrid list={categories}/>}
+            <Button onClick={() => categoriesQuery.fetchNextPage()}
+                    disabled={!categoriesQuery.hasNextPage || categoriesQuery.isFetchingNextPage}
+                    sx={{maxWidth: 200}}
+                    variant="outlined">
+                {
+
+                    !categoriesQuery.hasNextPage ? "Vše načteno" :
+                        categoriesQuery.isFetchingNextPage ? "Načítání..." : "Načíst další"
+
+                }
+            </Button>
         </TopBarItemsGrid>
     )
 }

@@ -6,7 +6,7 @@ interface Props {
 
 export function TopBarItemsGrid({children}: Props) {
     return (
-        <Box sx={{display: 'flex', flexDirection: 'column', m: 1, gap: 2}}>
+        <Box sx={{display: 'flex', flexDirection: 'column', m: 1, gap: 2, alignItems: 'center'}}>
             {children}
         </Box>
     )

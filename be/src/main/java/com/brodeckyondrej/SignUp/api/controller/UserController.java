@@ -77,7 +77,7 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
     @PostMapping("/by-role-name")
     public ResponseEntity<Page<UserGetListDto>> getUserByRoleAndName(
             @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @Valid @RequestBody UserRoleNameDto dto, Pageable pageable){
+            @Valid @RequestBody UserRoleNameDto dto, Pageable pageable) {
         return ResponseEntity.ok(userService.findByRoleAndName(dto.getName(), dto.getRole(), pageable));
     }
 }

@@ -3,35 +3,36 @@ import {ClassroomGrid} from "@/components/grids/classroom-grid.tsx";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {createClassroomInfiniteQueryOptions} from "@/api/classroom/classroom-query-options.ts";
 import type {ClassroomGetListDto} from "@/api/classroom/classroom-dtos.ts";
-import {Button, Stack, Typography} from "@mui/material";
-import { BackdropLoading } from '@/components/util/backdrop-loading';
-import {ErrorAlert} from "@/components/util/error-alert.tsx";
+import {Button} from "@mui/material";
+import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
+import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
+import {useState} from "react";
+import {useDebounce} from "use-debounce";
+import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
 
 export const Route = createFileRoute('/app/classrooms/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-    const infiniteQuery = useInfiniteQuery(createClassroomInfiniteQueryOptions());
+    const [searchItem, setSearchItem] = useState<string>("");
+    const [debouncedSearch] = useDebounce(searchItem, 300);
+    const infiniteQuery = useInfiniteQuery(createClassroomInfiniteQueryOptions(debouncedSearch));
     const classrooms: ClassroomGetListDto[] = infiniteQuery.data?.pages.flatMap(page => page.content) || [];
-
-    if(infiniteQuery.isPending) return <BackdropLoading/>
-    if(infiniteQuery.isError) return <ErrorAlert message={"Chyba při načítání tříd"}/>
+    if(infiniteQuery.isError) return <></>;
 
   return (
-      <>
-          <Stack sx={{padding: 2}} spacing={2} alignItems="center">
-              <Typography variant="h4">Třídy</Typography>
-              <ClassroomGrid list={classrooms}/>
-              <Button   onClick={() => infiniteQuery.fetchNextPage()}
-                        disabled={!infiniteQuery.hasNextPage || infiniteQuery.isFetchingNextPage}
-                        sx={{maxWidth: 200}}
-                        variant="outlined">
-                  {!infiniteQuery.hasNextPage ?
-                  "Vše načteno" :
-                  infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další"}
-              </Button>
-          </Stack>
-      </>
+    <TopBarItemsGrid>
+        <SearchableCardSectionTopBarActions title={"Všechny třídy"} onSearch={(search: string) => {setSearchItem(search)}}/>
+        {infiniteQuery.isPending ? <MultipleCardSkeleton/> : <ClassroomGrid list={classrooms}/>}
+        <Button   onClick={() => infiniteQuery.fetchNextPage()}
+                  disabled={!infiniteQuery.hasNextPage || infiniteQuery.isFetchingNextPage}
+                  sx={{maxWidth: 200}}
+                  variant="outlined">
+            {!infiniteQuery.hasNextPage ?
+                "Vše načteno" :
+                infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další"}
+        </Button>
+    </TopBarItemsGrid>
   )
 }

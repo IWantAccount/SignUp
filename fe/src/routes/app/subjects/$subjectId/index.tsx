@@ -18,6 +18,7 @@ import {
 } from "@/api/user/user-query-options.ts";
 import {UserGrid} from "@/components/grids/user-grid.tsx";
 import {useDebounce} from "use-debounce";
+import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
 
 export const Route = createFileRoute('/app/subjects/$subjectId/')({
     component: RouteComponent
@@ -107,9 +108,9 @@ function RouteComponent() {
             </Box>
 
             {selectedTab === "categories" &&
-                (categoryQuery.isPending ? (<></>) : (<CategoryGrid list={categories ?? []}/>))}
+                (categoryQuery.isPending ? <MultipleCardSkeleton/> : (<CategoryGrid list={categories ?? []}/>))}
             {selectedTab === "students" &&
-                (studentQuery.isPending ? (<></>) : (<UserGrid list={students ?? []}/>))}
+                (studentQuery.isPending ? <MultipleCardSkeleton/> : (<UserGrid list={students ?? []}/>))}
             <AddSpeedDial openAddStudentDialog={() => setAddStudentDialogOpened(true)} openAddClassroomDialog={() => setAddClassroomDialogOpened(true)}/>
             <AddClassroomToSubjectDialog subjectId={subjectId} open={addClassroomDialogOpened} onClose={() => setAddClassroomDialogOpened(false)}/>
             <AddStudentToSubjectDialog subjectId={subjectId} open={addStudentDialogOpened} onClose={() => setAddStudentDialogOpened(false)}/>
