@@ -1,5 +1,5 @@
 import type {
-    ComponentTypeDto,
+    ComponentTypeDescriptionDto,
     SignComponentCreateDto,
     SignComponentGetDetailDto,
     SignComponentGetListDto,
@@ -31,14 +31,9 @@ export const deleteSignComponent = async (id: string): Promise<void> => {
     await api.delete<void>(buildPath([url, id]));
 }
 
-export const getSignComponentPaged = async (page: number, pageSize?: number): Promise<Page<SignComponentGetListDto>> => {
-    const res = await api.get<Page<SignComponentGetListDto>>(buildPath([url], page, pageSize));
+export const getSignComponentByTypeAndDescriptionPaged = async (searchText: string, page: number, type?: SignComponentTypeEnum, pageSize?: number): Promise<Page<SignComponentGetListDto>> => {
+    const dto: ComponentTypeDescriptionDto = {description: searchText, type: type};
+    const res = await api.post<Page<SignComponentGetListDto>>(buildPath([url, "by-type-description"], page, pageSize), dto);
     return res.data;
-}
 
-export const getSignComponentPagedByType = async (type: SignComponentTypeEnum, page: number, pageSize: number):
-    Promise<Page<SignComponentGetListDto>> => {
-    const typeDto: ComponentTypeDto = {type}
-    const res = await api.post<Page<SignComponentGetListDto>>(buildPath([url], page, pageSize), typeDto);
-    return res.data;
 }

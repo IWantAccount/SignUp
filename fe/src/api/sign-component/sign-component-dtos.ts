@@ -23,3 +23,8 @@ export interface SignComponentGetListDto extends IdDto {
 export interface ComponentTypeDto {
     type: SignComponentTypeEnum;
 }
+
+export interface ComponentTypeDescriptionDto {
+    description: string;
+    type?: SignComponentTypeEnum;
+}

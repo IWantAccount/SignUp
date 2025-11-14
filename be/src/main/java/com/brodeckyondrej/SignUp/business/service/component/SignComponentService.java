@@ -6,6 +6,8 @@ import com.brodeckyondrej.SignUp.persistence.repository.SignComponentRepository;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignComponentType;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityService;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -18,10 +20,21 @@ public class SignComponentService extends EntityService<SignComponent, SignCompo
         this.signComponentRepository = repository;
     }
 
-    public List<SignComponentGetListDto> findByType(SignComponentType type){
-        return signComponentRepository.findByType(type)
-                .stream()
-                .map(mapper::toListDto)
-                .toList();
+    public Page<SignComponentGetListDto> findByTypeAndDescription(SignComponentType type, String description, Pageable pageable){
+        Page<SignComponent> res;
+        if(description.isEmpty() && type != null){
+            res = signComponentRepository.findByType(type, pageable);
+        }
+        else if(description.isEmpty() && type == null) {
+            res = signComponentRepository.findAll(pageable);
+        }
+        else if(!description.isEmpty() && type == null) {
+            res = signComponentRepository.findByTextDescriptionContainingIgnoreCase(description, pageable);
+        }
+        else {
+            res = signComponentRepository.findByTypeAndTextDescriptionContainingIgnoreCase(type, description, pageable);
+        }
+
+        return res.map(mapper::toListDto);
     }
 }
