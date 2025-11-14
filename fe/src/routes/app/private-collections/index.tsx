@@ -5,20 +5,21 @@ import {Button, Stack} from "@mui/material";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {PrivateCollectionGrid} from "@/components/grids/private-collection-grid.tsx";
-import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
-import {ErrorAlert} from "@/components/util/error-alert.tsx";
-
+import { useState } from 'react';
+import {useDebounce} from "use-debounce";
+import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
 export const Route = createFileRoute('/app/private-collections/')({
     component: RouteComponent,
 })
 
 function RouteComponent() {
-    const infiniteQuery = useInfiniteQuery(createCollectionInfiniteQueryOptions());
+    const [searchItem, setSearchItem] = useState<string>("");
+    const [debouncedSearch] = useDebounce(searchItem, 300);
+    const infiniteQuery = useInfiniteQuery(createCollectionInfiniteQueryOptions(debouncedSearch));
 
-    if(infiniteQuery.isPending) return <BackdropLoading/>
-    if(infiniteQuery.isError) return <ErrorAlert message={"Chyba při načítání soukromých kolekcí"}/>
+    if(infiniteQuery.isError) return <></>;
 
-    const collections = infiniteQuery.data.pages.flatMap(page => page.content) || [];
+    const collections = infiniteQuery.data?.pages.flatMap(page => page.content) || [];
     const buttonText = !infiniteQuery.hasNextPage ?
         "Vše načteno" :
         infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další";
@@ -28,9 +29,8 @@ function RouteComponent() {
     return (
         <Stack sx={{padding: 2}} spacing={2} alignItems="center">
             <TopBarItemsGrid>
-                <SearchableCardSectionTopBarActions title={"Soukromé kolekce"} onSearch={(searchItem: string) => {/*TODO funkční search*/
-                }}/>
-                <PrivateCollectionGrid list={collections}/>
+                <SearchableCardSectionTopBarActions title={"Soukromé kolekce"} onSearch={(searchItem: string) => {setSearchItem(searchItem)}}/>
+                {infiniteQuery.isPending ? <MultipleCardSkeleton/> : <PrivateCollectionGrid list={collections}/>}
             </TopBarItemsGrid>
             <Button onClick={() => infiniteQuery.fetchNextPage()}
                     disabled={buttonDisabled}

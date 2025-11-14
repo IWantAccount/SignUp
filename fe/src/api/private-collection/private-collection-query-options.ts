@@ -2,7 +2,7 @@ import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOp
 import {
     createCollection,
     deleteCollectionById,
-    getCollectionById,
+    getCollectionById, getCollectionByNamePaged,
     getCollectionPaged,
     updateCollectionById
 } from "@/api/private-collection/private-collection-api.ts";
@@ -49,10 +49,10 @@ export function createCreateCollectionOptions(queryClient: QueryClient): UseMuta
     }
 }
 
-export function createCollectionInfiniteQueryOptions() {
+export function createCollectionInfiniteQueryOptions(searchItem?: string) {
     return infiniteQueryOptions({
-        queryKey: [privateCollectionQueryKey, "infinite"],
-        queryFn: ({pageParam}) => getCollectionPaged(pageParam, 2),
+        queryKey: [privateCollectionQueryKey, "infinite", searchItem ?? ""],
+        queryFn: ({pageParam}) => searchItem ? getCollectionByNamePaged(searchItem, pageParam) : getCollectionPaged(pageParam),
         ...springInfiniteBase
     })
 }

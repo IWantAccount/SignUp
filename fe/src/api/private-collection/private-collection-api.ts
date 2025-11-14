@@ -7,6 +7,7 @@ import type {
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type {Page} from "../universal/pagination/spring-boot-page.ts";
+import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
 
 
 const url = "/private-collection";
@@ -33,5 +34,11 @@ export const deleteCollectionById = async (id: string): Promise<void> => {
 
 export const getCollectionPaged = async (page: number, pageSize?: number): Promise<Page<PrivateCollectionGetListDto>> => {
     const res = await api.get<Page<PrivateCollectionGetListDto>>(buildPath([url], page, pageSize))
+    return res.data;
+}
+
+export const getCollectionByNamePaged = async (name: string, page: number, pageSize?: number): Promise<Page<PrivateCollectionGetListDto>> => {
+    const dto: NamedDto = {name: name};
+    const res = await api.post<Page<PrivateCollectionGetListDto>>(buildPath([url, "by-name"], page, pageSize), dto);
     return res.data;
 }
