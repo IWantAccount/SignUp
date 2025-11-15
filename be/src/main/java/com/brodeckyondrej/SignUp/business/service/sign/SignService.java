@@ -1,9 +1,9 @@
 package com.brodeckyondrej.SignUp.business.service.sign;
 
-import com.brodeckyondrej.SignUp.business.dto.sign.CreateSignDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.sign.UpdateSignDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignUpdateDto;
 import com.brodeckyondrej.SignUp.business.service.storage.FileSystemVideoStorage;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityService;
 import com.brodeckyondrej.SignUp.persistence.entity.Category;
@@ -22,7 +22,7 @@ import java.util.UUID;
 
 @Service
 @Transactional
-public class SignService extends EntityService<Sign, CreateSignDto, UpdateSignDto, SignGetDetailDto, SignGetListDto> {
+public class SignService extends EntityService<Sign, SignCreateDto, SignUpdateDto, SignGetDetailDto, SignGetListDto> {
 
     private final SignRepository signRepository;
     private final SignMapper signMapper;

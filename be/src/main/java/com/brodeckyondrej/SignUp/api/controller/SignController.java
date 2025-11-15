@@ -1,10 +1,10 @@
 package com.brodeckyondrej.SignUp.api.controller;
 
 import com.brodeckyondrej.SignUp.api.controller.universal.EntityController;
-import com.brodeckyondrej.SignUp.business.dto.sign.CreateSignDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.sign.UpdateSignDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignUpdateDto;
 import com.brodeckyondrej.SignUp.business.service.sign.SignService;
 import com.brodeckyondrej.SignUp.persistence.entity.Sign;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @RestController()
 @RequestMapping("/sign")
-public class SignController extends EntityController<Sign, CreateSignDto, UpdateSignDto, SignGetDetailDto, SignGetListDto> {
+public class SignController extends EntityController<Sign, SignCreateDto, SignUpdateDto, SignGetDetailDto, SignGetListDto> {
 
     private final SignService signService;
 
@@ -30,8 +30,8 @@ public class SignController extends EntityController<Sign, CreateSignDto, Update
 
     @Override
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<SignGetDetailDto> create(@Valid @ModelAttribute CreateSignDto createSignDto) {
-        return super.create(createSignDto);
+    public ResponseEntity<SignGetDetailDto> create(@Valid @ModelAttribute SignCreateDto signCreateDto) {
+        return super.create(signCreateDto);
     }
 
     @GetMapping("/by-category/{categoryId}")

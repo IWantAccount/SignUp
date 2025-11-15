@@ -7,10 +7,10 @@ import com.brodeckyondrej.SignUp.business.dto.sign.notation.HandNotationIdDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.notation.NotationDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.notation.NotationIdDto;
 import com.brodeckyondrej.SignUp.business.service.category.CategoryMapper;
-import com.brodeckyondrej.SignUp.business.dto.sign.CreateSignDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.sign.UpdateSignDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignUpdateDto;
 import com.brodeckyondrej.SignUp.business.service.storage.FileSystemVideoStorage;
 import com.brodeckyondrej.SignUp.exception.ValidationException;
 import com.brodeckyondrej.SignUp.persistence.embeded.HandNotation;
@@ -32,7 +32,7 @@ import java.util.UUID;
 
 @Service
 @Transactional
-public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignDto, SignGetDetailDto, SignGetListDto> {
+public class SignMapper implements EntityMapper<Sign, SignCreateDto, SignUpdateDto, SignGetDetailDto, SignGetListDto> {
 
     private final CategoryMapper categoryMapper;
     private final SignComponentMapper signComponentMapper;
@@ -52,40 +52,40 @@ public class SignMapper implements EntityMapper<Sign, CreateSignDto, UpdateSignD
     }
 
     @Override
-    public Sign fromCreateDto(CreateSignDto createSignDto) {
-        Category category = categoryRepository.findByIdOrThrow(createSignDto.getCategoryId());
+    public Sign fromCreateDto(SignCreateDto signCreateDto) {
+        Category category = categoryRepository.findByIdOrThrow(signCreateDto.getCategoryId());
 
-        SignNotation signNotation = findAndValidateNotation(createSignDto.getNotation());
+        SignNotation signNotation = findAndValidateNotation(signCreateDto.getNotation());
 
-        String fileName = videoStorage.store(createSignDto.getVideo());
+        String fileName = videoStorage.store(signCreateDto.getVideo());
 
         Sign newSign = new Sign();
         newSign.setCategory(category);
-        newSign.setType(createSignDto.getType());
-        newSign.setLanguageLevel(createSignDto.getLanguageLevel());
-        newSign.setRegion(createSignDto.getRegion());
-        newSign.setTranslations(createSignDto.getTranslations());
-        newSign.setExplanation(createSignDto.getExplanation());
+        newSign.setType(signCreateDto.getType());
+        newSign.setLanguageLevel(signCreateDto.getLanguageLevel());
+        newSign.setRegion(signCreateDto.getRegion());
+        newSign.setTranslations(signCreateDto.getTranslations());
+        newSign.setExplanation(signCreateDto.getExplanation());
         newSign.setVideoFileName(fileName);
 
         newSign.setSignNotation(signNotation);
-        newSign.setType(createSignDto.getType());
+        newSign.setType(signCreateDto.getType());
 
         return newSign;
     }
 
     @Override
-    public void updateFromDto(Sign entity, UpdateSignDto updateSignDto) {
-        Category category = categoryRepository.findByIdOrThrow(updateSignDto.getCategoryId());
-        SignNotation notation = findAndValidateNotation(updateSignDto.getNotation());
+    public void updateFromDto(Sign entity, SignUpdateDto signUpdateDto) {
+        Category category = categoryRepository.findByIdOrThrow(signUpdateDto.getCategoryId());
+        SignNotation notation = findAndValidateNotation(signUpdateDto.getNotation());
 
         entity.setCategory(category);
         entity.setSignNotation(notation);
-        entity.setType(updateSignDto.getType());
-        entity.setLanguageLevel(updateSignDto.getLanguageLevel());
-        entity.setRegion(updateSignDto.getRegion());
-        entity.setExplanation(updateSignDto.getExplanation());
-        entity.setTranslations(updateSignDto.getTranslations());
+        entity.setType(signUpdateDto.getType());
+        entity.setLanguageLevel(signUpdateDto.getLanguageLevel());
+        entity.setRegion(signUpdateDto.getRegion());
+        entity.setExplanation(signUpdateDto.getExplanation());
+        entity.setTranslations(signUpdateDto.getTranslations());
     }
 
     @Override

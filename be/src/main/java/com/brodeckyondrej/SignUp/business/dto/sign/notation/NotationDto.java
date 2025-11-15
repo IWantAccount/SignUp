@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class NotationDto {
 
-    private final boolean bothHandUsed;
+    private final boolean bothHandsUsed;
     private final boolean asymmetricSign;
 
     private final HandNotationDto activeHandNotation;
