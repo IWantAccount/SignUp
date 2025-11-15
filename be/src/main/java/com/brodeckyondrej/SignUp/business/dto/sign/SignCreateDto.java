@@ -33,8 +33,5 @@ public class SignCreateDto {
 
     private final String explanation;
 
-    @NotNull
-    private final MultipartFile video;
-
     private final NotationIdDto notation;
 }

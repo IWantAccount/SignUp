@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -28,10 +29,9 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
         this.signService = service;
     }
 
-    @Override
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<SignGetDetailDto> create(@Valid @ModelAttribute SignCreateDto signCreateDto) {
-        return super.create(signCreateDto);
+    public ResponseEntity<SignGetDetailDto> create(@RequestPart("dto") @Valid SignCreateDto dto, @RequestPart("video") MultipartFile videoFile) {
+        return ResponseEntity.ok(signService.create(dto, videoFile));
     }
 
     @GetMapping("/by-category/{categoryId}")

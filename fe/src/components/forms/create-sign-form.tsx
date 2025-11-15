@@ -12,6 +12,7 @@ import {signTypeEnum, signTypeToCzech} from "@/domain/sign-type.ts";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import {CategoryAutocomplete} from "@/components/util/category-autocomplete.tsx";
 import type {SignCreateDto} from "@/api/sign/sign-dtos.ts";
+import {enqueueSnackbar} from "notistack";
 
 const schema = z.object({
     categoryId: z.string().min(1, "Kategorie je povinná"),
@@ -37,7 +38,7 @@ const schema = z.object({
 export type CreateSignFormData = z.infer<typeof schema>
 
 interface Props {
-    onSubmit: SubmitHandler<SignCreateDto>
+    onSubmit: (dto: SignCreateDto, video: File) => void;
     submitButtonText: string;
     disableSubmit: boolean;
 }
@@ -54,6 +55,7 @@ export function CreateSignForm(props: Props) {
     const [selectedTab, setSelectedTab] = useState<"base" | "notation">("base");
     const [twoHandedSign, setTwoHandedSign] = useState<boolean>(false);
     const [newTranslation, setNewTranslation] = useState<string>("");
+    const [videoFile, setVideoFile] = useState<File | null>(null);
 
     const onSubmitRHF: SubmitHandler<CreateSignFormData> = (data) => {
         const resDto: SignCreateDto = {
@@ -84,7 +86,11 @@ export function CreateSignForm(props: Props) {
 
         }
 
-        props.onSubmit(resDto);
+        if(!videoFile) {
+            enqueueSnackbar("Je potřeba nahrát video soubor znaku", {variant: "warning"});
+            return;
+        }
+        props.onSubmit(resDto, videoFile);
     }
 
     return (
@@ -114,6 +120,29 @@ export function CreateSignForm(props: Props) {
             </Tabs>
             {selectedTab === "base" && (
                     <>
+                        {/*Upload videa psal také chatgpt*/}
+                        <Box sx={{ mt: 2 }}>
+                            <Button
+                                variant="outlined"
+                                component="label">
+                                Nahrát video
+                                <input
+                                    type="file"
+                                    accept="video/*"
+                                    hidden
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0] ?? null;
+                                        setVideoFile(file);
+                                    }}
+                                />
+                            </Button>
+
+                            {videoFile && (
+                                <Box sx={{ mt: 1, fontSize: 14 }}>
+                                    Vybrané video: <strong>{videoFile.name}</strong>
+                                </Box>
+                            )}
+                        </Box>
                         <CategoryAutocomplete label={"Kategorie"} name={"categoryId"} control={control} required={true}/>
                         <EnumAutocomplete
                             name={"region"}

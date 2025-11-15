@@ -57,8 +57,6 @@ public class SignMapper implements EntityMapper<Sign, SignCreateDto, SignUpdateD
 
         SignNotation signNotation = findAndValidateNotation(signCreateDto.getNotation());
 
-        String fileName = videoStorage.store(signCreateDto.getVideo());
-
         Sign newSign = new Sign();
         newSign.setCategory(category);
         newSign.setType(signCreateDto.getType());
@@ -66,8 +64,6 @@ public class SignMapper implements EntityMapper<Sign, SignCreateDto, SignUpdateD
         newSign.setRegion(signCreateDto.getRegion());
         newSign.setTranslations(signCreateDto.getTranslations());
         newSign.setExplanation(signCreateDto.getExplanation());
-        newSign.setVideoFileName(fileName);
-
         newSign.setSignNotation(signNotation);
         newSign.setType(signCreateDto.getType());
 
@@ -178,7 +174,7 @@ public class SignMapper implements EntityMapper<Sign, SignCreateDto, SignUpdateD
         ));
         result.setContact(findAndValidateSignComponent(
                 SignComponentType.CONTACT,
-                dto.getMovementId()
+                dto.getContactId()
         ));
         result.setHandArrangement(findAndValidateSignComponent(
                 SignComponentType.HAND_ARRANGEMENT,

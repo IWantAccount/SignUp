@@ -5,6 +5,7 @@ import com.brodeckyondrej.SignUp.business.dto.sign.SignGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetListDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignUpdateDto;
 import com.brodeckyondrej.SignUp.business.service.storage.FileSystemVideoStorage;
+import com.brodeckyondrej.SignUp.business.service.storage.StorageService;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityService;
 import com.brodeckyondrej.SignUp.persistence.entity.Category;
 import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
@@ -12,10 +13,12 @@ import com.brodeckyondrej.SignUp.persistence.entity.Sign;
 import com.brodeckyondrej.SignUp.persistence.repository.CategoryRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.PrivateCollectionRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SignRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -66,5 +69,14 @@ public class SignService extends EntityService<Sign, SignCreateDto, SignUpdateDt
 
         fileSystemVideoStorage.delete(sign.get().getVideoFileName());
         super.delete(id);
+    }
+
+
+    public SignGetDetailDto create(SignCreateDto dto, MultipartFile videoFile) {
+        String fileName = fileSystemVideoStorage.store(videoFile);
+        Sign sign = mapper.fromCreateDto(dto);
+        sign.setVideoFileName(fileName);
+        signRepository.save(sign);
+        return signMapper.toDetailDto(sign);
     }
 }

@@ -9,9 +9,13 @@ export const getSignById = async (id: string): Promise<SignGetDetailDto> => {
     return res.data;
 }
 
-export const createSign = async (dto: SignCreateDto, video: File) => {
-    //TODO + navratovy typ
-    return null;
+export const createSign = async (dto: SignCreateDto, video: File): Promise<SignGetDetailDto> => {
+    const formData = new FormData();
+    formData.append("video", video);
+    formData.append("dto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
+
+    const res = await api.post<SignGetDetailDto>(buildPath([url]), formData, {headers: {"Content-Type": "multipart/form-data"}});
+    return res.data
 }
 
 export const updateSign = async (id: string, dto: SignUpdateDto): Promise<SignGetDetailDto> => {
