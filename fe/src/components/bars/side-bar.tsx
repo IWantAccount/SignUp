@@ -26,7 +26,7 @@ export function SideBar(props: Props) {
             //TODO správný routing, ne debug
             color: "primary",
             list: [
-                {text: "Znaky", Icon: SignLanguageIcon, href: "/app/debug/signs"},
+                {text: "Znaky", Icon: SignLanguageIcon, href: "/app/signs"},
                 {text: "Předměty", Icon: SchoolIcon, href: "/app/subjects"},
                 {text: "Kategorie", Icon: CategoryIcon, href: "/app/categories"},
                 {text: "Třídy", Icon: GroupIcon, href: "/app/classrooms"}
