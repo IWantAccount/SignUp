@@ -31,7 +31,7 @@ export function createGetByIdOptions(id: string) {
     })
 }
 
-export function createTranslationSearchInfiniteOptions(translation: string) {
+export function createSignTranslationSearchInfiniteOptions(translation: string) {
     return infiniteQueryOptions({
         queryKey: [signQueryKey, translation],
         queryFn: ({pageParam}) => getSignByTranslation(translation, pageParam),
@@ -39,7 +39,7 @@ export function createTranslationSearchInfiniteOptions(translation: string) {
     })
 }
 
-export function createCategorySearchInfiniteOptions(categoryId: string, search?: string) {
+export function createSignCategorySearchInfiniteOptions(categoryId: string, search?: string) {
     return infiniteQueryOptions({
         queryKey: [signQueryKey, categoryId, search ?? ""],
         queryFn: ({pageParam}) => getSignByCategorySearch(categoryId, pageParam,  search),
@@ -47,7 +47,7 @@ export function createCategorySearchInfiniteOptions(categoryId: string, search?:
     })
 }
 
-export function createCollectionSearchInfiniteOptions(collectionId: string, search?: string) {
+export function createSignCollectionSearchInfiniteOptions(collectionId: string, search?: string) {
     return infiniteQueryOptions({
         queryKey: [signQueryKey, collectionId, search ?? ""],
         queryFn: ({pageParam}) => getSignByPrivateCollectionSearch(collectionId, pageParam, search),

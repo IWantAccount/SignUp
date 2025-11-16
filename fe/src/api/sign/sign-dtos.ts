@@ -4,6 +4,7 @@ import type {LanguageLevelType} from "@/domain/language-level.ts";
 import type {Region} from "@/domain/region.ts";
 import type {CategoryGetListDto} from "@/api/category/category-dtos.ts";
 import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
+import type {IdDto} from "@/api/universal/dto/id-dto.ts";
 
 export interface SignCreateDto {
     categoryId: string;
@@ -26,7 +27,7 @@ export interface SignUpdateDto {
 
 }
 
-export interface SignGetListDto {
+export interface SignGetListDto extends IdDto {
     videoFileName: string;
     category: CategoryGetListDto;
     translations: string[];
