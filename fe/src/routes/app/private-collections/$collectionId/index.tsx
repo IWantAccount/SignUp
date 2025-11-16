@@ -2,13 +2,17 @@ import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {SignGrid} from '@/components/grids/sign-grid';
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
     createGetCollectionByIdOptions,
     privateCollectionQueryKey
 } from "@/api/private-collection/private-collection-query-options.ts";
 import {deleteCollectionById} from '@/api/private-collection/private-collection-api';
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
+import { useState } from 'react';
+import {useDebounce} from "use-debounce";
+import {createSignCollectionSearchInfiniteOptions} from "@/api/sign/sign-query-options.ts";
+import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
 export const Route = createFileRoute('/app/private-collections/$collectionId/')(
     {
         component: RouteComponent
@@ -30,26 +34,28 @@ function RouteComponent() {
         }
     })
 
-    const query = useQuery(createGetCollectionByIdOptions(collectionId))
-    if (query.isPending) return <BackdropLoading/>;
-    if(query.isError) return <></>;
+    const collectionQuery = useQuery(createGetCollectionByIdOptions(collectionId));
+    const [search, setSearch] = useState<string>("");
+    const [debouncedSearch] = useDebounce(search, 300);
+    const signsQuery = useInfiniteQuery(createSignCollectionSearchInfiniteOptions(collectionId, debouncedSearch));
+    if (collectionQuery.isPending) return <BackdropLoading/>;
+    if(collectionQuery.isError || signsQuery.isError) return <></>;
 
+    const signs: SignGetListDto[] = signsQuery.data?.pages.flatMap(page => page.content) || [];
 
     return (
         <>
             <TopBarItemsGrid>
                 <SearchableCardSectionTopBarActions
                     title={
-                        query.data.name
+                        collectionQuery.data.name
                     }
                     onSearch={
                         (searchData) => {
-                            //TODO funkční search
-                            console.log(searchData)
+                            setSearch(searchData);
                         }
                     }
                     onDelete={
-                        //TODO api call
                         () => {
                             mutation.mutate()
                         }
@@ -62,8 +68,7 @@ function RouteComponent() {
                             })
                         }
                     }/>
-                {/*TODO vhodný api call*/}
-                <SignGrid list={[]}/>
+                <SignGrid list={signs}/>
             </TopBarItemsGrid>
         </>
     )
