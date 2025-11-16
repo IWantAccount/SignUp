@@ -30,9 +30,9 @@ const schema = z.object({
     languageLevel: languageLevelEnum,
     signType: signTypeEnum,
     explanation: z.string().nullable(),
-    translations: z.array(z.string().trim().min(1, "Překled nesmí být prázdný").max(100, "Překlad nesmí být delší než 100 znaků")),
+    translations: z.array(z.string().trim().min(1, "Překled nesmí být prázdný").max(100, "Překlad nesmí být delší než 100 znaků")).min(1, "Je potřeba zadat alespoň jeden překlad"),
     bothHandsUsed: z.boolean(),
-    asymmetricSign: z.boolean(),
+    asymmetricSign: z.boolean()
 })
 
 export type CreateSignFormData = z.infer<typeof schema>
@@ -48,7 +48,19 @@ export function CreateSignForm(props: Props) {
         resolver: zodResolver(schema),
         mode: "all",
         defaultValues: {
-            translations: []
+            translations: [],
+            activeHandShapeId: null,
+            activeHandPalmOrientationId: null,
+            activeHandFingerOrientationId: null,
+            passiveHandShapeId: null,
+            passiveHandPalmOrientationId: null,
+            passiveHandFingerOrientationId: null,
+            locationId: null,
+            movementId: null,
+            contactId: null,
+            handArrangementId: null,
+            bothHandsUsed: false,
+            asymmetricSign: false,
         }
     });
 
@@ -238,40 +250,38 @@ export function CreateSignForm(props: Props) {
                             <Controller
                                 name="bothHandsUsed"
                                 control={control}
-                                render={({ field }) => {
-                                    return (
-                                        <FormControlLabel
-                                            control={
-                                                <Switch
-                                                    checked={twoHandedSign}
-                                                    onChange={(_, checked) => {
-                                                        setTwoHandedSign(checked);
-                                                        field.onChange(checked);
-                                                    }}
-                                                />
-                                            }
-                                            label="Obouruční znak"
-                                        />
-                                    );
-                                }}
+                                render={({ field }) => (
+                                    <FormControlLabel
+                                        control={
+                                            <Switch
+                                                checked={field.value ?? false}
+                                                onChange={(_, checked) => {
+                                                    field.onChange(checked);
+                                                    setTwoHandedSign(checked);
+                                                }}
+
+                                            />
+                                        }
+                                        label="Obouruční znak"
+                                    />
+                                )}
                             />
                             {twoHandedSign && (
                                 <Controller
-                                    name={"asymmetricSign"}
+                                    name="asymmetricSign"
                                     control={control}
-                                    render={({field}) => {
-                                        return (
-                                            <FormControlLabel
-                                                control={
-                                                    <Checkbox
-                                                        checked={field.value}
-                                                        onChange={(_, checked) => field.onChange(checked)}
-                                                    />
-                                                }
-                                                label={"Asymetrický znak"}
-                                            />
-                                        )
-                                    }}/>
+                                    render={({ field }) => (
+                                        <FormControlLabel
+                                            control={
+                                                <Checkbox
+                                                    checked={field.value ?? false}
+                                                    onChange={(_, checked) => field.onChange(checked)}
+                                                />
+                                            }
+                                            label="Asymetrický znak"
+                                        />
+                                    )}
+                                />
                             )}
                         </Box>
                         <SignComponentAutocomplete label={"Tvar dominantní ruky"} signComponentType={signComponentTypeEnum.enum.HAND_SHAPE} name={"activeHandShapeId"} control={control}/>
