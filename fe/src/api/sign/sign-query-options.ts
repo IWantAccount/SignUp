@@ -1,7 +1,14 @@
-import type {QueryClient, UseMutationOptions} from "@tanstack/react-query";
+import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
 import type {SignCreateDto, SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
 import type {AxiosError} from "axios";
-import {createSign} from "@/api/sign/sign-api.ts";
+import {
+    createSign,
+    getSignByCategorySearch,
+    getSignById,
+    getSignByPrivateCollectionSearch,
+    getSignByTranslation
+} from "@/api/sign/sign-api.ts";
+import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const signQueryKey = "sign";
 export function createCreateSignOptions(queryClient: QueryClient): UseMutationOptions<
@@ -15,6 +22,37 @@ export function createCreateSignOptions(queryClient: QueryClient): UseMutationOp
             queryClient.invalidateQueries({queryKey: [signQueryKey]})
         }
     }
+}
+
+export function createGetByIdOptions(id: string) {
+    return queryOptions({
+        queryKey: [signQueryKey, id],
+        queryFn: () => getSignById(id),
+    })
+}
+
+export function createTranslationSearchInfiniteOptions(translation: string) {
+    return infiniteQueryOptions({
+        queryKey: [signQueryKey, translation],
+        queryFn: ({pageParam}) => getSignByTranslation(translation, pageParam),
+        ...springInfiniteBase
+    })
+}
+
+export function createCategorySearchInfiniteOptions(categoryId: string, search?: string) {
+    return infiniteQueryOptions({
+        queryKey: [signQueryKey, categoryId, search ?? ""],
+        queryFn: ({pageParam}) => getSignByCategorySearch(categoryId, pageParam,  search),
+        ...springInfiniteBase
+    })
+}
+
+export function createCollectionSearchInfiniteOptions(collectionId: string, search?: string) {
+    return infiniteQueryOptions({
+        queryKey: [signQueryKey, collectionId, search ?? ""],
+        queryFn: ({pageParam}) => getSignByPrivateCollectionSearch(collectionId, pageParam, search),
+        ...springInfiniteBase
+    })
 }
 
 interface CreateSign {

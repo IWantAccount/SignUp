@@ -1,6 +1,14 @@
-import type {SignCreateDto, SignGetDetailDto, SignUpdateDto} from "@/api/sign/sign-dtos.ts";
+import type {
+    SearchDto,
+    SearchEntityDto,
+    SignCreateDto,
+    SignGetDetailDto,
+    SignGetListDto,
+    SignUpdateDto
+} from "@/api/sign/sign-dtos.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
+import type { Page } from "../universal/pagination/spring-boot-page";
 
 const url = "/sign";
 
@@ -27,4 +35,21 @@ export const deleteSign = async (id: string): Promise<void> => {
     await api.delete(buildPath([url, id]));
 }
 
+export const getSignByTranslation = async (translation: string, page: number, pageSize?: number): Promise<Page<SignGetListDto>> => {
+    const dto: SearchDto = {search: translation};
+    const res = await api.post<Page<SignGetListDto>>(buildPath([url, "by-translation"], page, pageSize), dto);
+    return res.data;
+}
+
+export const getSignByCategorySearch = async (categoryId: string, page: number, search?: string, pageSize?: number): Promise<Page<SignGetListDto>> => {
+    const dto: SearchEntityDto = {entityId: categoryId, search: search};
+    const res = await api.post<Page<SignGetListDto>>(buildPath([url, "category-search"], page, pageSize), dto);
+    return res.data;
+}
+
+export const getSignByPrivateCollectionSearch = async (collectionId: string, page: number, search?: string, pageSize?: number): Promise<Page<SignGetListDto>> => {
+    const dto: SearchEntityDto = {entityId: collectionId, search: search};
+    const res = await api.post<Page<SignGetListDto>>(buildPath([url, "collection-search"], page, pageSize), dto);
+    return res.data;
+}
 //TODO vymena videa

@@ -75,3 +75,12 @@ export interface HandNotationDto {
     palmOrientation?: SignComponentGetListDto;
     fingerOrientation?: SignComponentGetListDto;
 }
+
+export interface SearchDto {
+    search: string;
+}
+
+export interface SearchEntityDto {
+    entityId: string;
+    search?: string;
+}

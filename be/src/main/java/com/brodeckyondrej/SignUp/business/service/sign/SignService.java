@@ -44,28 +44,28 @@ public class SignService extends EntityService<Sign, SignCreateDto, SignUpdateDt
         this.fileSystemVideoStorage = fileSystemVideoStorage;
     }
 
-    public Page<SignGetListDto> getByCategoryId(UUID categoryId, Pageable pageable){
+    public Page<SignGetListDto> getByCategoryId(UUID categoryId, Pageable pageable) {
         Category category = categoryRepository.findByIdOrThrow(categoryId);
         return signRepository.findByCategory(category, pageable)
                 .map(signMapper::toDetailDto);
     }
 
-    public Page<SignGetListDto> getByPrivateCollectionId(UUID privateCollectionId, Pageable pageable){
+    public Page<SignGetListDto> getByPrivateCollectionId(UUID privateCollectionId, Pageable pageable) {
         PrivateCollection collection = collectionRepository.findByIdOrThrow(privateCollectionId);
         return signRepository.findDistinctByInPrivateCollectionsContains(collection, pageable)
                 .map(signMapper::toDetailDto);
     }
 
     @Override
-    public void delete(UUID id){
+    public void delete(UUID id) {
         Optional<Sign> sign = signRepository.findById(id);
-        if(sign.isEmpty()){
+        if (sign.isEmpty()) {
             return;
         }
 
         //This is owned side of many to many relationship. it is necessary to delete relationships
         sign.get().getInPrivateCollections()
-                        .forEach(privateCollection -> privateCollection.removeSign(sign.get()));
+                .forEach(privateCollection -> privateCollection.removeSign(sign.get()));
 
         fileSystemVideoStorage.delete(sign.get().getVideoFileName());
         super.delete(id);
@@ -78,5 +78,45 @@ public class SignService extends EntityService<Sign, SignCreateDto, SignUpdateDt
         sign.setVideoFileName(fileName);
         signRepository.save(sign);
         return signMapper.toDetailDto(sign);
+    }
+
+    public Page<SignGetListDto> getByTranslation(String search, Pageable pageable) {
+        Page<Sign> res;
+        if (search.isEmpty()) {
+            res = signRepository.findAll(pageable);
+        }
+        else {
+            res = signRepository.findByTranslation(search, pageable);
+        }
+
+        return res.map(signMapper::toListDto);
+    }
+
+    public Page<SignGetListDto> getByCategoryAndSearch(UUID categoryId, String search, Pageable pageable) {
+        Category category = categoryRepository.findByIdOrThrow(categoryId);
+        Page<Sign> res;
+
+        if (search == null || search.isEmpty()) {
+            res = signRepository.findByCategory(category, pageable);
+        }
+        else {
+            res = signRepository.findByTranslationAndCategory(search, category, pageable);
+        }
+
+        return res.map(signMapper::toListDto);
+    }
+
+    public Page<SignGetListDto> getByPrivateCollectionAndSearch(UUID privateCollectionId, String search, Pageable pageable) {
+        PrivateCollection privateCollection = collectionRepository.findByIdOrThrow(privateCollectionId);
+
+        Page<Sign> res;
+        if (search == null || search.isEmpty()) {
+            res = signRepository.findDistinctByInPrivateCollectionsContains(privateCollection, pageable);
+        }
+        else {
+            res = signRepository.findByTranslationAndPrivateCollection(search, privateCollection, pageable);
+        }
+
+        return res.map(signMapper::toListDto);
     }
 }

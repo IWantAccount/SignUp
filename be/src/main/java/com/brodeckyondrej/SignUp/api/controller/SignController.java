@@ -5,6 +5,8 @@ import com.brodeckyondrej.SignUp.business.dto.sign.SignCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetListDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignUpdateDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.search.SearchDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.search.SearchEntityDto;
 import com.brodeckyondrej.SignUp.business.service.sign.SignService;
 import com.brodeckyondrej.SignUp.persistence.entity.Sign;
 import jakarta.validation.Valid;
@@ -52,5 +54,20 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
             signService.delete(sign.getId());
         });
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/by-translation")
+    public ResponseEntity<Page<SignGetListDto>> getByTranslation(@RequestBody @Valid SearchDto dto, Pageable pageable) {
+        return ResponseEntity.ok(signService.getByTranslation(dto.getSearch(), pageable));
+    }
+
+    @PostMapping("/category-search")
+    public ResponseEntity<Page<SignGetListDto>> getByCategorySearch(@RequestBody @Valid SearchEntityDto dto, Pageable pageable) {
+        return ResponseEntity.ok(signService.getByCategoryAndSearch(dto.getEntityId(), dto.getSearch(), pageable));
+    }
+
+    @PostMapping("collection-search")
+    public ResponseEntity<Page<SignGetListDto>> getByPrivateCollectionSearch(@RequestBody @Valid SearchEntityDto dto, Pageable pageable) {
+        return ResponseEntity.ok(signService.getByPrivateCollectionAndSearch(dto.getEntityId(), dto.getSearch(), pageable));
     }
 }
