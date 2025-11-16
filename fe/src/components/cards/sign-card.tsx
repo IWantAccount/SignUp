@@ -10,6 +10,7 @@ export function SignCard(props: SignGetListDto) {
         <Card sx={{
             minWidth: 200,
             maxWidth: 350,
+            //padding: 1
         }}>                <CardMedia
                     component="video"
                     src={buildFilePath(props.videoFileName)}

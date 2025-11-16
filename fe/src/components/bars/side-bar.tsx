@@ -22,8 +22,6 @@ export function SideBar(props: Props) {
 
     const itemsWithColor = [
         {
-
-            //TODO správný routing, ne debug
             color: "primary",
             list: [
                 {text: "Znaky", Icon: SignLanguageIcon, href: "/app/signs"},
@@ -61,7 +59,7 @@ export function SideBar(props: Props) {
 
 
     const DrawerList = (
-        <Box sx={{ width: 250 }} role="presentation">
+        <Box sx={{ width: 300, minWidth: 250 }} role="presentation">
             <NavItemList listOfLists={itemsWithColor}></NavItemList>
         </Box>
     );

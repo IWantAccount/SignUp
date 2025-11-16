@@ -24,7 +24,7 @@ export function createCreateSignOptions(queryClient: QueryClient): UseMutationOp
     }
 }
 
-export function createGetByIdOptions(id: string) {
+export function createGetSignByIdOptions(id: string) {
     return queryOptions({
         queryKey: [signQueryKey, id],
         queryFn: () => getSignById(id),

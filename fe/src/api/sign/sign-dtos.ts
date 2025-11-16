@@ -64,7 +64,7 @@ export interface NotationDto {
     bothHandsUsed: boolean;
     asymmetricSign: boolean;
     activeHandNotation: HandNotationDto;
-    passiveHandNotation?: HandNotationIdDto;
+    passiveHandNotation?: HandNotationDto;
     articulationLocation?: SignComponentGetListDto;
     movement?: SignComponentGetListDto;
     contact?: SignComponentGetListDto;
