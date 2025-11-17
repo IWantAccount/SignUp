@@ -9,6 +9,7 @@ import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomGetListDto;
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomCreateDto;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
+import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -33,11 +34,9 @@ public class ClassroomService extends NamedEntityService<Classroom, ClassroomCre
     }
 
     public Page<ClassroomGetListDto> search(FindByNameDto dto, Pageable pageable) {
-        List<Specification<Classroom>> spec = new ArrayList<>();
-        if(dto.getName() != null){
-            spec.add(NameSpecification.hasNameLike(dto.getName()));
-        }
-        Specification<Classroom> specification = Specification.allOf(spec);
+        Specification<Classroom> specification = new SpecificationBuilder<Classroom>()
+                .addSpecIfNotNull(NameSpecification.hasNameLike(dto.getName()), dto.getName())
+                .build();
         return classroomRepository.findAll(specification, pageable).map(classroomMapper::toListDto);
     }
 

@@ -7,6 +7,7 @@ import com.brodeckyondrej.SignUp.persistence.repository.CategoryRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
+import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,18 +33,14 @@ public class CategoryService extends NamedEntityService<Category, CategoryCreate
     }
 
     public Page<CategoryGetListDto> search(CategorySearchDto dto, Pageable pageable) {
-        List<Specification<Category>> spec = new ArrayList<>();
+        SpecificationBuilder<Category> specBuilder = new SpecificationBuilder<>();
+        specBuilder.addSpecIfNotNull(CategorySpecification.hasNameLike(dto.getName()), dto.getName());
+
         if(dto.getSubjectId() != null){
             Subject found = subjectRepository.findByIdOrThrow(dto.getSubjectId());
-            spec.add(CategorySpecification.hasSubject(found));
+            specBuilder.addSpec(CategorySpecification.hasSubject(found));
         }
 
-        if(dto.getName() != null){
-            spec.add(CategorySpecification.hasNameLike(dto.getName()));
-        }
-
-        Specification<Category> finalSpecification = Specification.allOf(spec);
-
-        return categoryRepository.findAll(finalSpecification, pageable).map(categoryMapper::toListDto);
+        return categoryRepository.findAll(specBuilder.build(), pageable).map(categoryMapper::toListDto);
     }
 }

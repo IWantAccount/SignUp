@@ -1,5 +1,4 @@
 import type {
-    ComponentTypeDescriptionDto,
     SignComponentCreateDto,
     SignComponentGetDetailDto,
     SignComponentGetListDto, SignComponentSearchDto,

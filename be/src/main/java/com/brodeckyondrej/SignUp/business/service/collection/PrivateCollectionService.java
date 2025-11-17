@@ -8,6 +8,7 @@ import com.brodeckyondrej.SignUp.persistence.entity.Sign;
 import com.brodeckyondrej.SignUp.persistence.repository.PrivateCollectionRepository;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
 import com.brodeckyondrej.SignUp.persistence.repository.SignRepository;
+import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -50,15 +51,11 @@ public class PrivateCollectionService extends NamedEntityService<
     }
 
     public Page<PrivateCollectionGetListDto> search(FindByNameDto dto, Pageable pageable) {
-        List<Specification<PrivateCollection>> spec = new ArrayList<>();
+        Specification<PrivateCollection> spec = new SpecificationBuilder<PrivateCollection>()
+                .addSpecIfNotNull(NameSpecification.hasNameLike(dto.getName()), dto.getName())
+                .build();
 
-        if(dto.getName() != null){
-            spec.add(NameSpecification.hasNameLike(dto.getName()));
-        }
-
-        Specification<PrivateCollection> specification = Specification.allOf(spec);
-
-        return privateCollectionRepository.findAll(specification, pageable).map(privateCollectionMapper::toListDto);
+        return privateCollectionRepository.findAll(spec, pageable).map(privateCollectionMapper::toListDto);
 
     }
 

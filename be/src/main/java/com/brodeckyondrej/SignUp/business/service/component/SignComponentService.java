@@ -4,7 +4,6 @@ import com.brodeckyondrej.SignUp.business.dto.component.*;
 import com.brodeckyondrej.SignUp.business.specification.SignComponentSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.SignComponent;
 import com.brodeckyondrej.SignUp.persistence.repository.SignComponentRepository;
-import com.brodeckyondrej.SignUp.persistence.enumerated.SignComponentType;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityService;
 import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import jakarta.transaction.Transactional;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 @Transactional
