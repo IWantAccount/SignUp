@@ -1,21 +1,21 @@
 package com.brodeckyondrej.SignUp.business.service.sign;
 
-import com.brodeckyondrej.SignUp.business.dto.sign.CreateSignDto;
-import com.brodeckyondrej.SignUp.business.dto.sign.UpdateSignDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignCreateDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignUpdateDto;
 import com.brodeckyondrej.SignUp.business.service.universal.Validator;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-public class SignValidator implements Validator<CreateSignDto, UpdateSignDto> {
+public class SignValidator implements Validator<SignCreateDto, SignUpdateDto> {
     @Override
-    public void validateCreateOrThrow(CreateSignDto createSignDto) {
+    public void validateCreateOrThrow(SignCreateDto signCreateDto) {
 
     }
 
     @Override
-    public void validateUpdateOrThrow(UUID originalId, UpdateSignDto updateSignDto) {
+    public void validateUpdateOrThrow(UUID originalId, SignUpdateDto signUpdateDto) {
 
     }
 }

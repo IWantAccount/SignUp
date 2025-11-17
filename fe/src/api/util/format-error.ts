@@ -40,8 +40,9 @@ export function formatError(err: unknown): string {
     }
 
     const {status, data} = response;
-    const title = statusCz[status] ?? data?.title ?? "Chyba";
+    const title =  data?.title ?? statusCz[status] ?? "Chyba";
     const detail = data?.detail;
+    console.error(title, detail);
 
-    return detail ? `${title} (${status}): ${detail}` : `${title} (${status}).`;
+    return "kód chyby: " + status + ", chyba: " + title;
 }

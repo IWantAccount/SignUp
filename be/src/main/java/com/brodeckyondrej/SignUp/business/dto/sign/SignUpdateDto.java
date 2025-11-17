@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Getter
 @RequiredArgsConstructor
-public class UpdateSignDto {
+public class SignUpdateDto {
 
     @NotNull
     private final UUID categoryId;

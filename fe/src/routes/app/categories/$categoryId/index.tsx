@@ -2,13 +2,18 @@ import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {SignGrid} from "@/components/grids/sign-grid.tsx";
-import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
+import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
     categoryQueryKey,
     createGetCategoryByIdOptions
 } from "@/api/category/category-query-options.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import { deleteCategory } from '@/api/category/category-api';
+import { useState } from 'react';
+import { useDebounce } from 'use-debounce';
+import {createSignCategorySearchInfiniteOptions} from "@/api/sign/sign-query-options.ts";
+import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
+import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
 
 export const Route = createFileRoute('/app/categories/$categoryId/')({
     component: RouteComponent,
@@ -18,8 +23,11 @@ function RouteComponent() {
     const navigate = useNavigate();
     const {categoryId} = Route.useParams();
     const queryClient = useQueryClient();
+    const [search, setSearch] =  useState<string >("");
+    const [debouncedSearch] = useDebounce(search, 300);
 
     const categoryQuery = useQuery(createGetCategoryByIdOptions(categoryId));
+    const signQuery = useInfiniteQuery(createSignCategorySearchInfiniteOptions(categoryId, debouncedSearch));
     const deleteMutation = useMutation(
         {
             mutationFn: () => deleteCategory(categoryId),
@@ -35,8 +43,10 @@ function RouteComponent() {
         }
     );
 
-    if(categoryQuery.isPending || deleteMutation.isPending) return <BackdropLoading/>
-    if(categoryQuery.isError) return <></>
+    if(categoryQuery.isPending) return <BackdropLoading/>
+    if(categoryQuery.isError || signQuery.isError) return <></>
+
+    const signs: SignGetListDto[] = signQuery.data?.pages.flatMap(page => page.content) ?? [];
 
     return (
         <TopBarItemsGrid>
@@ -44,7 +54,7 @@ function RouteComponent() {
                 title={categoryQuery.data.name}
                 onSearch={
                     (searchItem: string) => {
-                        //TODO funkční search
+                        setSearch(searchItem);
                     }
                 }
                 onEditNavigate={
@@ -62,8 +72,7 @@ function RouteComponent() {
                 }
 
             />
-            {/*TODO vhodný api call*/}
-            <SignGrid list={[]}/>
+            {signQuery.isPending ? <MultipleCardSkeleton/> : <SignGrid list={signs}/>}
         </TopBarItemsGrid>
     )
 }

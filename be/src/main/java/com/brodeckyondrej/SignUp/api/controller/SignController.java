@@ -1,10 +1,12 @@
 package com.brodeckyondrej.SignUp.api.controller;
 
 import com.brodeckyondrej.SignUp.api.controller.universal.EntityController;
-import com.brodeckyondrej.SignUp.business.dto.sign.CreateSignDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.SignGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.sign.UpdateSignDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.SignUpdateDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.search.SearchDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.search.SearchEntityDto;
 import com.brodeckyondrej.SignUp.business.service.sign.SignService;
 import com.brodeckyondrej.SignUp.persistence.entity.Sign;
 import jakarta.validation.Valid;
@@ -13,13 +15,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
 
 @RestController()
 @RequestMapping("/sign")
-public class SignController extends EntityController<Sign, CreateSignDto, UpdateSignDto, SignGetDetailDto, SignGetListDto> {
+public class SignController extends EntityController<Sign, SignCreateDto, SignUpdateDto, SignGetDetailDto, SignGetListDto> {
 
     private final SignService signService;
 
@@ -28,10 +31,9 @@ public class SignController extends EntityController<Sign, CreateSignDto, Update
         this.signService = service;
     }
 
-    @Override
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<SignGetDetailDto> create(@Valid @ModelAttribute CreateSignDto createSignDto) {
-        return super.create(createSignDto);
+    public ResponseEntity<SignGetDetailDto> create(@RequestPart("dto") @Valid SignCreateDto dto, @RequestPart("video") MultipartFile videoFile) {
+        return ResponseEntity.ok(signService.create(dto, videoFile));
     }
 
     @GetMapping("/by-category/{categoryId}")
@@ -52,5 +54,20 @@ public class SignController extends EntityController<Sign, CreateSignDto, Update
             signService.delete(sign.getId());
         });
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/by-translation")
+    public ResponseEntity<Page<SignGetListDto>> getByTranslation(@RequestBody @Valid SearchDto dto, Pageable pageable) {
+        return ResponseEntity.ok(signService.getByTranslation(dto.getSearch(), pageable));
+    }
+
+    @PostMapping("/category-search")
+    public ResponseEntity<Page<SignGetListDto>> getByCategorySearch(@RequestBody @Valid SearchEntityDto dto, Pageable pageable) {
+        return ResponseEntity.ok(signService.getByCategoryAndSearch(dto.getEntityId(), dto.getSearch(), pageable));
+    }
+
+    @PostMapping("collection-search")
+    public ResponseEntity<Page<SignGetListDto>> getByPrivateCollectionSearch(@RequestBody @Valid SearchEntityDto dto, Pageable pageable) {
+        return ResponseEntity.ok(signService.getByPrivateCollectionAndSearch(dto.getEntityId(), dto.getSearch(), pageable));
     }
 }

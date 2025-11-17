@@ -1,7 +1,6 @@
 package com.brodeckyondrej.SignUp.api;
 import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.exception.ValidationException;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -21,12 +20,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pd);
     }
 
-    @ExceptionHandler({ValidationException.class, DataIntegrityViolationException.class})
+    @ExceptionHandler({ValidationException.class})
     public ResponseEntity<ProblemDetail> validation(ValidationException e) {
         ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         pd.setTitle("Chybný vstup");
         pd.setDetail(e.getMessage());
 
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
+    }
+
+    @ExceptionHandler({DataIntegrityViolationException.class})
+    public ResponseEntity<ProblemDetail> integrity(DataIntegrityViolationException e) {
+        ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        pd.setTitle("Nelze smazat. Používáno!");
+        pd.setDetail(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
     }
 
