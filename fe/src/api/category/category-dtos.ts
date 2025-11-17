@@ -17,3 +17,8 @@ export interface CategoryCreateDto extends NamedDto {
 export interface CategoryUpdateDto extends NamedDto {
     subjectId: string;
 }
+
+export interface CategorySearchDto {
+    name?: string;
+    subjectId?: string
+}

@@ -1,13 +1,12 @@
 import type {
     CategoryCreateDto,
     CategoryGetDetailDto,
-    CategoryGetListDto,
+    CategoryGetListDto, CategorySearchDto,
     CategoryUpdateDto
 } from "@/api/category/category-dtos.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type { Page } from "../universal/pagination/spring-boot-page.ts";
-import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
 const url = "/category";
 
 export const getCategoryById = async (id: string): Promise<CategoryGetDetailDto> => {
@@ -29,19 +28,9 @@ export const deleteCategory = async (id: string): Promise<void> => {
     await api.delete<void>(buildPath([url, id]));
 }
 
-export const getCategoryPaged = async (page: number, pageSize?: number): Promise<Page<CategoryGetListDto>> => {
-    const res = await api.get<Page<CategoryGetListDto>>(buildPath([url], page, pageSize));
-    return res.data;
-}
-
-export const getCategoryByNamePaged = async (page: number, searchItem: string, pageSize?: number): Promise<Page<CategoryGetListDto>> => {
-    const dto: NamedDto = {name: searchItem};
-    const res = await api.post<Page<CategoryGetListDto>>(buildPath([url, "by-name"], page, pageSize), dto);
-    return res.data;
-}
-
-export const getCategorySubjectSearchPaged = async (page: number, searchItem: string, subjectId: string, pageSize?: number): Promise<Page<CategoryGetListDto>> => {
-    const dto: NamedDto = {name: searchItem}
-    const res = await api.post<Page<CategoryGetListDto>>(buildPath([url, "subject-search", subjectId], page, pageSize), dto);
+export const getCategorySearch = async (options: {page: number; pageSize?: number, searchName?: string, subjectId?: string}): Promise<Page<CategoryGetListDto>> => {
+    const dto: CategorySearchDto = {name: options.searchName ?? "", subjectId: options.subjectId};
+    console.log("searchdto: " + dto);
+    const res = await api.post<Page<CategoryGetListDto>>(buildPath([url, "search"], options.page, options.pageSize), dto);
     return res.data;
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {type Control, Controller, type FieldValues, type Path} from "react-hook-form";
 import {useDebounce} from "use-debounce";
-import {createCategoryInfiniteQuery} from "@/api/category/category-query-options.ts";
+import {createCategoryInfiniteSearch} from "@/api/category/category-query-options.ts";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {Autocomplete, TextField} from "@mui/material";
 import type {CategoryGetListDto} from "@/api/category/category-dtos.ts";
@@ -18,7 +18,7 @@ export function CategoryAutocomplete<TFieldValues extends FieldValues>(props: Pr
     const [debouncedSearch] = useDebounce(search, 300);
     const [inputValue, setInputValue] = useState("");
 
-    const query = useInfiniteQuery(createCategoryInfiniteQuery(debouncedSearch));
+    const query = useInfiniteQuery(createCategoryInfiniteSearch({searchName: debouncedSearch}));
     const items = query.data?.pages.flatMap(page => page.content) ?? [];
 
     return (

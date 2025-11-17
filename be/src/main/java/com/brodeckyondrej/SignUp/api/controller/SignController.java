@@ -48,14 +48,6 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/debug/all")
-    public ResponseEntity<Void> deleteAll(){
-        signService.getAll().forEach(sign -> {
-            signService.delete(sign.getId());
-        });
-        return ResponseEntity.noContent().build();
-    }
-
     @PostMapping("/by-translation")
     public ResponseEntity<Page<SignGetListDto>> getByTranslation(@RequestBody @Valid SearchDto dto, Pageable pageable) {
         return ResponseEntity.ok(signService.getByTranslation(dto.getSearch(), pageable));

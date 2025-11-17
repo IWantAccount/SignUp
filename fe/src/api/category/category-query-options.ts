@@ -2,8 +2,7 @@ import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOp
 import {
     createCategory,
     deleteCategory,
-    getCategoryById, getCategoryByNamePaged,
-    getCategorySubjectSearchPaged,
+    getCategoryById, getCategorySearch,
     updateCategory
 } from "@/api/category/category-api.ts";
 import type {
@@ -50,18 +49,11 @@ export function createDeleteCategoryOptions(id: string, queryClient: QueryClient
     }
 }
 
-export function createCategoryInfiniteQuery(searchItem: string, subjectId?: string) {
+export function createCategoryInfiniteSearch(options: {searchName?: string, subjectId?: string}) {
     return infiniteQueryOptions({
-        queryKey: [categoryQueryKey, "infinite", searchItem ? searchItem : ""],
-        queryFn: ({pageParam}) => {
-
-            if(!subjectId){
-                return getCategoryByNamePaged(pageParam, searchItem);
-            }
-
-            return getCategorySubjectSearchPaged(pageParam, searchItem, subjectId);
-
-        },
+        queryKey: [categoryQueryKey, "infinite", options.searchName ?? "", options.subjectId ?? ""],
+        queryFn: ({pageParam}) => getCategorySearch({
+            page: pageParam,searchName: options.searchName, subjectId: options.subjectId}),
         ...springInfiniteBase
     })
 }

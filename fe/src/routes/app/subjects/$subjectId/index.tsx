@@ -6,7 +6,7 @@ import {createGetSubjectByIdOptions, subjectQueryKey} from "@/api/subject/subjec
 import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {deleteSubject} from "@/api/subject/subject-api.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
-import {createCategoryInfiniteQuery} from "@/api/category/category-query-options.ts";
+import {createCategoryInfiniteSearch} from "@/api/category/category-query-options.ts";
 import {useState} from "react";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -34,7 +34,7 @@ function RouteComponent() {
     const [debouncedStudentSearch] = useDebounce(studentSearch, 300);
 
     const subjectQuery = useQuery(createGetSubjectByIdOptions(subjectId));
-    const categoryQuery = useInfiniteQuery(createCategoryInfiniteQuery(debouncedCategorySearch, subjectId));
+    const categoryQuery = useInfiniteQuery(createCategoryInfiniteSearch({searchName: debouncedCategorySearch, subjectId: subjectId}));
     const studentQuery = useInfiniteQuery(createGetUserBySubjectInfiniteQueryOptions(subjectId, debouncedStudentSearch));
     const [addClassroomDialogOpened, setAddClassroomDialogOpened] = useState(false);
     const [addStudentDialogOpened, setAddStudentDialogOpened] = useState(false);
