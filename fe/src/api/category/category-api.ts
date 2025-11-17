@@ -30,7 +30,6 @@ export const deleteCategory = async (id: string): Promise<void> => {
 
 export const getCategorySearch = async (options: {page: number; pageSize?: number, searchName?: string, subjectId?: string}): Promise<Page<CategoryGetListDto>> => {
     const dto: CategorySearchDto = {name: options.searchName ?? "", subjectId: options.subjectId};
-    console.log("searchdto: " + dto);
     const res = await api.post<Page<CategoryGetListDto>>(buildPath([url, "search"], options.page, options.pageSize), dto);
     return res.data;
 }

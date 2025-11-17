@@ -7,7 +7,7 @@ import type {
 } from "@/api/classroom/classroom-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type {Page} from "../universal/pagination/spring-boot-page.ts";
-import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
+import type {NameSearchDto} from "@/api/universal/dto/name-search-dto.ts";
 
 const url = "classroom";
 
@@ -30,13 +30,9 @@ export const deleteClassroom = async (classroomId: string): Promise<void> => {
     await api.delete<void>(buildPath([url, classroomId]));
 }
 
-export const getClassroomPaged = async (page: number, pageSize?: number): Promise<Page<ClassroomGetListDto>> => {
-    const res = await api.get<Page<ClassroomGetListDto>>(buildPath([url], page, pageSize));
-    return res.data;
-}
-
-export const getClassroomByName = async (name: string, page: number, pageSize?: number): Promise<Page<ClassroomGetListDto>> => {
-    const dto: NamedDto = {name: name}
-    const res = await api.post<Page<ClassroomGetListDto>>(buildPath([url, "by-name"], page, pageSize), dto);
+export const getClassroomSearch = async (options: {page: number, pageSize?: number, searchName?: string}): Promise<Page<ClassroomGetListDto>> => {
+    const dto: NameSearchDto = {name: options.searchName ?? ""};
+    const res = await api.post<Page<ClassroomGetListDto>>(
+        buildPath([url, "search"], options.page, options.pageSize), dto);
     return res.data;
 }
