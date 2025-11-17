@@ -24,10 +24,10 @@ public class SignComponentController extends EntityController<SignComponent, Sig
         this.signComponentService = service;
     }
 
-    @PostMapping("/by-type-description")
-    public ResponseEntity<Page<SignComponentGetListDto>> typeDescriptionSearch(
+    @PostMapping("/search")
+    public ResponseEntity<Page<SignComponentGetListDto>> search(
             @PageableDefault(sort = "textDescription", direction = Sort.Direction.ASC)
-            @RequestBody @Valid ComponentTypeDescriptionDto dto, Pageable pageable){
-        return ResponseEntity.ok(signComponentService.findByTypeAndDescription(dto.getType(), dto.getDescription(), pageable));
+            @RequestBody @Valid SignComponentSearchDto dto, Pageable pageable) {
+        return ResponseEntity.ok(signComponentService.search(dto, pageable));
     }
 }

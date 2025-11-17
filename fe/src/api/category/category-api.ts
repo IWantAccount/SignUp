@@ -28,8 +28,8 @@ export const deleteCategory = async (id: string): Promise<void> => {
     await api.delete<void>(buildPath([url, id]));
 }
 
-export const getCategorySearch = async (options: {page: number; pageSize?: number, searchName?: string, subjectId?: string}): Promise<Page<CategoryGetListDto>> => {
-    const dto: CategorySearchDto = {name: options.searchName ?? "", subjectId: options.subjectId};
+export const getCategorySearch = async (options: {page: number; pageSize?: number, search?: string, subjectId?: string}): Promise<Page<CategoryGetListDto>> => {
+    const dto: CategorySearchDto = {name: options.search ?? "", subjectId: options.subjectId};
     const res = await api.post<Page<CategoryGetListDto>>(buildPath([url, "search"], options.page, options.pageSize), dto);
     return res.data;
 }

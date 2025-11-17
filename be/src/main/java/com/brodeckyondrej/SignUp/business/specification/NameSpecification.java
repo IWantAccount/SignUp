@@ -10,7 +10,7 @@ public class NameSpecification {
                 return cb.conjunction();
             }
 
-            return cb.like(root.get("name"), "%" + name + "%");
+            return cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%");
         };
     }
 }

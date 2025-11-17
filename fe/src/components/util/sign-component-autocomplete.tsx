@@ -2,9 +2,7 @@ import type { SignComponentTypeEnum } from "@/domain/sign-component-type-enum";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import {
-    createSignComponentByTypeDescriptionInfiniteOptions,
-} from "@/api/sign-component/sign-component-query-options";
+import { createSignComponentSearch} from "@/api/sign-component/sign-component-query-options";
 import { Autocomplete, TextField } from "@mui/material";
 import type { SignComponentGetListDto } from "@/api/sign-component/sign-component-dtos";
 import type { Page } from "@/api/universal/pagination/spring-boot-page";
@@ -34,10 +32,7 @@ export function SignComponentAutocomplete<TFieldValues extends FieldValues>({
     const [inputValue, setInputValue] = useState("");
 
     const query = useInfiniteQuery(
-        createSignComponentByTypeDescriptionInfiniteOptions(
-            debouncedSearch,
-            signComponentType
-        )
+        createSignComponentSearch({description: debouncedSearch, type: signComponentType})
     );
 
     const items: SignComponentGetListDto[] =

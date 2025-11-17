@@ -18,7 +18,7 @@ export function CategoryAutocomplete<TFieldValues extends FieldValues>(props: Pr
     const [debouncedSearch] = useDebounce(search, 300);
     const [inputValue, setInputValue] = useState("");
 
-    const query = useInfiniteQuery(createCategoryInfiniteSearch({searchName: debouncedSearch}));
+    const query = useInfiniteQuery(createCategoryInfiniteSearch({search: debouncedSearch}));
     const items = query.data?.pages.flatMap(page => page.content) ?? [];
 
     return (

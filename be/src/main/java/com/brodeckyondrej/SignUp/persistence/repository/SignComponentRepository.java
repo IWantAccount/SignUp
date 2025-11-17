@@ -8,7 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface SignComponentRepository extends EntityRepository<SignComponent> {
-    Page<SignComponent> findByType(SignComponentType type, Pageable pageable);
-    Page<SignComponent> findByTypeAndTextDescriptionContainingIgnoreCase(SignComponentType type, String textDescription, Pageable pageable);
-    Page<SignComponent> findByTextDescriptionContainingIgnoreCase(String textDescription, Pageable pageable);
+
 }

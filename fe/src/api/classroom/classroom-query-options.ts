@@ -56,10 +56,10 @@ export function createDeleteClassroomOptions(id: string, queryClient: QueryClien
     }
 }
 
-export function createClassroomInfiniteSearch(searchItem?: string) {
+export function createClassroomInfiniteSearch(search?: string, pageSize?: number) {
     return infiniteQueryOptions({
-        queryKey: [classroomQueryKey, "infinite", searchItem ?? ""],
-        queryFn: ({pageParam}) => getClassroomSearch({page: pageParam, searchName: searchItem}),
+        queryKey: [classroomQueryKey, "infinite", search ?? ""],
+        queryFn: ({pageParam}) => getClassroomSearch({page: pageParam, search: search, pageSize: pageSize}),
         ...springInfiniteBase
     })
 }

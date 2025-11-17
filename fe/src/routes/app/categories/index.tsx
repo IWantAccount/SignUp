@@ -17,7 +17,7 @@ export const Route = createFileRoute('/app/categories/')({
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300);
-    const categoriesQuery = useInfiniteQuery(createCategoryInfiniteSearch({searchName: debouncedSearch}));
+    const categoriesQuery = useInfiniteQuery(createCategoryInfiniteSearch({search: debouncedSearch}));
     if (categoriesQuery.isError) return <></>
 
     const categories: CategoryGetListDto[] = categoriesQuery.data?.pages.flatMap(page => page.content) ?? [];

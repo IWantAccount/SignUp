@@ -1,13 +1,16 @@
 package com.brodeckyondrej.SignUp.business.service.component;
 
 import com.brodeckyondrej.SignUp.business.dto.component.*;
+import com.brodeckyondrej.SignUp.business.specification.SignComponentSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.SignComponent;
 import com.brodeckyondrej.SignUp.persistence.repository.SignComponentRepository;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignComponentType;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityService;
+import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -20,21 +23,13 @@ public class SignComponentService extends EntityService<SignComponent, SignCompo
         this.signComponentRepository = repository;
     }
 
-    public Page<SignComponentGetListDto> findByTypeAndDescription(SignComponentType type, String description, Pageable pageable){
-        Page<SignComponent> res;
-        if(description.isEmpty() && type != null){
-            res = signComponentRepository.findByType(type, pageable);
-        }
-        else if(description.isEmpty() && type == null) {
-            res = signComponentRepository.findAll(pageable);
-        }
-        else if(!description.isEmpty() && type == null) {
-            res = signComponentRepository.findByTextDescriptionContainingIgnoreCase(description, pageable);
-        }
-        else {
-            res = signComponentRepository.findByTypeAndTextDescriptionContainingIgnoreCase(type, description, pageable);
-        }
 
-        return res.map(mapper::toListDto);
+    public Page<SignComponentGetListDto> search(SignComponentSearchDto dto, Pageable pageable){
+        Specification<SignComponent> spec = new SpecificationBuilder<SignComponent>()
+                .addSpecIfNotNull(SignComponentSpecification.hasDescriptionLike(dto.getDescription()), dto.getDescription())
+                .addSpecIfNotNull(SignComponentSpecification.hasType(dto.getType()), dto.getType())
+                .build();
+
+        return signComponentRepository.findAll(spec, pageable).map(mapper::toListDto);
     }
 }

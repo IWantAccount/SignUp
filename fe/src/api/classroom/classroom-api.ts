@@ -30,8 +30,8 @@ export const deleteClassroom = async (classroomId: string): Promise<void> => {
     await api.delete<void>(buildPath([url, classroomId]));
 }
 
-export const getClassroomSearch = async (options: {page: number, pageSize?: number, searchName?: string}): Promise<Page<ClassroomGetListDto>> => {
-    const dto: NameSearchDto = {name: options.searchName ?? ""};
+export const getClassroomSearch = async (options: {page: number, pageSize?: number, search?: string}): Promise<Page<ClassroomGetListDto>> => {
+    const dto: NameSearchDto = {name: options.search ?? ""};
     const res = await api.post<Page<ClassroomGetListDto>>(
         buildPath([url, "search"], options.page, options.pageSize), dto);
     return res.data;

@@ -49,11 +49,11 @@ export function createDeleteCategoryOptions(id: string, queryClient: QueryClient
     }
 }
 
-export function createCategoryInfiniteSearch(options: {searchName?: string, subjectId?: string}) {
+export function createCategoryInfiniteSearch(options: {search?: string, subjectId?: string, pageSize?: number}) {
     return infiniteQueryOptions({
-        queryKey: [categoryQueryKey, "infinite", options.searchName ?? "", options.subjectId ?? ""],
+        queryKey: [categoryQueryKey, "infinite", options.search ?? "", options.subjectId ?? ""],
         queryFn: ({pageParam}) => getCategorySearch({
-            page: pageParam,searchName: options.searchName, subjectId: options.subjectId}),
+            page: pageParam,search: options.search, subjectId: options.subjectId, pageSize: options.pageSize}),
         ...springInfiniteBase
     })
 }

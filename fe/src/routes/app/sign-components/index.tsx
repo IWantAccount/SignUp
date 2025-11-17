@@ -1,6 +1,5 @@
 import {createFileRoute} from '@tanstack/react-router'
-import {
-    createSignComponentByTypeDescriptionInfiniteOptions,
+import { createSignComponentSearch,
 } from "@/api/sign-component/sign-component-query-options.ts";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import type {SignComponentGetListDto} from "@/api/sign-component/sign-component-dtos.ts";
@@ -20,7 +19,7 @@ function RouteComponent() {
 
     const [search, setSearch] = useState<string>("");
     const [debouncedSearch] = useDebounce(search, 300);
-    const infiniteQuery = useInfiniteQuery(createSignComponentByTypeDescriptionInfiniteOptions(debouncedSearch));
+    const infiniteQuery = useInfiniteQuery(createSignComponentSearch({description: debouncedSearch}));
 
     if (infiniteQuery.isError) return <></>;
     const components: SignComponentGetListDto[] = infiniteQuery.data?.pages.flatMap(page => page.content) || [];

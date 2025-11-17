@@ -34,7 +34,7 @@ function RouteComponent() {
     const [debouncedStudentSearch] = useDebounce(studentSearch, 300);
 
     const subjectQuery = useQuery(createGetSubjectByIdOptions(subjectId));
-    const categoryQuery = useInfiniteQuery(createCategoryInfiniteSearch({searchName: debouncedCategorySearch, subjectId: subjectId}));
+    const categoryQuery = useInfiniteQuery(createCategoryInfiniteSearch({search: debouncedCategorySearch, subjectId: subjectId}));
     const studentQuery = useInfiniteQuery(createGetUserBySubjectInfiniteQueryOptions(subjectId, debouncedStudentSearch));
     const [addClassroomDialogOpened, setAddClassroomDialogOpened] = useState(false);
     const [addStudentDialogOpened, setAddStudentDialogOpened] = useState(false);
