@@ -6,6 +6,8 @@ import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.business.dto.subject.*;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,5 +41,10 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
     public ResponseEntity<Void> addClassroomToSubject(@Valid @RequestBody SubjectClassroomDto dto){
         subjectService.addClassroom(dto);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<SubjectGetListDto>> search(@Valid @RequestBody FindByNameDto dto, Pageable pageable){
+        return ResponseEntity.ok(subjectService.search(dto, pageable));
     }
 }

@@ -4,8 +4,8 @@ import {
     addStudentToSubject,
     createSubject,
     deleteSubject,
-    getSubjectById, getSubjectByNamePaged,
-    getSubjectPaged,
+    getSubjectById,
+    getSubjectSearch,
     removeStudentFromSubject,
     updateSubject
 } from "@/api/subject/subject-api.ts";
@@ -66,18 +66,10 @@ export function createDeleteSubjectOptions(id: string, queryClient: QueryClient)
     }
 }
 
-export function createSubjectInfiniteQueryOptions() {
+export function createSubjectSearchOptions(searchItem?: string, pageSize?: number)  {
     return infiniteQueryOptions({
-        queryKey: [subjectQueryKey, "infinite"],
-        queryFn: ({pageParam}) => getSubjectPaged(pageParam, 20),
-        ...springInfiniteBase
-    })
-}
-
-export function createSubjectByNameInfiniteQueryOptions(searchItem: string) {
-    return infiniteQueryOptions({
-        queryKey: [subjectQueryKey, "infinite", searchItem],
-        queryFn: ({pageParam}) => getSubjectByNamePaged(pageParam, searchItem),
+        queryKey: [subjectQueryKey, "infinite", searchItem ?? ""],
+        queryFn: ({pageParam}) => getSubjectSearch({page: pageParam, search: searchItem, pageSize: pageSize}),
         ...springInfiniteBase
     })
 }
