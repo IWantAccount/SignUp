@@ -1,6 +1,7 @@
 import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
 import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
 import type {IdDto} from "@/api/universal/dto/id-dto.ts";
+import type {NameSearchDto} from "@/api/universal/dto/name-search-dto.ts";
 
 interface UserDto extends NamedDto {
     email: string;
@@ -46,17 +47,14 @@ export interface StudentInSubjectDto {
     inGivenSubject: boolean;
 }
 
-export interface UserRoleNameDto {
-    name: string;
-    role: UserRoleEnum;
-}
-
-export interface StudentClassroomSearchDto {
-    studentName: string;
-    classroomId: string;
-}
-
 export interface StudentClassroomDto {
     classroomId: string;
     studentId: string;
+}
+
+export interface UserSearchDto extends NameSearchDto{
+    email?: string | null;
+    role?: UserRoleEnum | null;
+    classroomId?: string | null;
+    subjectId?: string | null;
 }

@@ -4,10 +4,10 @@ import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {UserGrid} from "@/components/grids/user-grid.tsx";
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {createUserInfiniteQueryOptions} from "@/api/user/user-query-options.ts";
 import {useState} from 'react';
 import {useDebounce} from 'use-debounce';
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
+import {createUserSearchOptions} from "@/api/user/user-query-options.ts";
 
 export const Route = createFileRoute('/app/users/')({
     component: RouteComponent,
@@ -16,7 +16,7 @@ export const Route = createFileRoute('/app/users/')({
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300);
-    const infiniteQuery = useInfiniteQuery(createUserInfiniteQueryOptions(debouncedSearch));
+    const infiniteQuery = useInfiniteQuery(createUserSearchOptions({dto: {name: debouncedSearch}}));
     if (infiniteQuery.isError) return <></>
 
     const users = infiniteQuery.data?.pages.flatMap(page => page.content) || [];

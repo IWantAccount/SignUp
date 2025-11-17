@@ -37,36 +37,6 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/by-subject/{id}")
-    public ResponseEntity<Page<UserGetListDto>> getBySubjectId(
-            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @PathVariable UUID id, Pageable pageable){
-        //TODO možná odfiltrovat nestudenty?
-        return ResponseEntity.ok(userService.findBySubjects(id, pageable));
-    }
-
-    @GetMapping("/by-classroom/{id}")
-    public ResponseEntity<Page<UserGetListDto>> getByClassroomId(
-            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @PathVariable UUID id, Pageable pageable){
-        //TODO možná odfiltrovat nestudenty?
-        return ResponseEntity.ok(userService.findByClassroom(id, pageable));
-    }
-
-    @PostMapping("/classroom-search")
-    public ResponseEntity<Page<UserGetListDto>> getByClassroomAndName(
-            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @Valid @RequestBody StudentClassroomSearchDto dto, Pageable pageable ){
-        return ResponseEntity.ok(userService.findByClassroomAndName(dto.getClassroomId(), dto.getStudentName(), pageable));
-    }
-
-    @PostMapping("/subject-search")
-    public ResponseEntity<Page<UserGetListDto>> getBySubjectAndName(
-            @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @Valid @RequestBody StudentSubjectSearchDto dto, Pageable pageable){
-        return ResponseEntity.ok(userService.findBySubjectAndName(dto.getSubjectId(), dto.getStudentName(), pageable));
-    }
-
     @PostMapping("/present-in-subject")
     public ResponseEntity<Page<StudentInSubjectDto>> getStudentEnrolledInSubject(
             @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
@@ -74,10 +44,10 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         return ResponseEntity.ok(userService.findStudentsByNameWithSubject(dto.getStudentName(), dto.getSubjectId(), pageable));
     }
 
-    @PostMapping("/by-role-name")
-    public ResponseEntity<Page<UserGetListDto>> getUserByRoleAndName(
+    @PostMapping("/search")
+    public ResponseEntity<Page<UserGetListDto>> search(
             @PageableDefault(sort = "name", direction = Sort.Direction.ASC)
-            @Valid @RequestBody UserRoleNameDto dto, Pageable pageable) {
-        return ResponseEntity.ok(userService.findByRoleAndName(dto.getName(), dto.getRole(), pageable));
+            @Valid @RequestBody UserSearchDto dto, Pageable pageable) {
+        return ResponseEntity.ok(userService.search(dto, pageable));
     }
 }

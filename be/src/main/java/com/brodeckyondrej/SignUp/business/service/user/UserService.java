@@ -1,6 +1,7 @@
 package com.brodeckyondrej.SignUp.business.service.user;
 
 import com.brodeckyondrej.SignUp.business.dto.user.*;
+import com.brodeckyondrej.SignUp.business.specification.UserSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.persistence.repository.ClassroomRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
@@ -9,9 +10,11 @@ import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.persistence.enumerated.UserRole;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
+import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -52,58 +55,36 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         student.setClassroom(null);
     }
 
-    public Page<UserGetListDto> findBySubjects(UUID subjectId, Pageable pageable) {
-        Subject subject = subjectRepository.findByIdOrThrow(subjectId);
-        return userRepository.findDistinctBySubjectsContaining(subject, pageable).map(userMapper::toListDto);
-    }
-
-    public Page<UserGetListDto> findByClassroom(UUID classroomId, Pageable pageable) {
-        Classroom classroom = classroomRepository.findByIdOrThrow(classroomId);
-        return userRepository.findByClassroom(classroom, pageable).map(userMapper::toListDto);
-    }
-
-    public Page<UserGetListDto> findBySubjectAndName(UUID subjectId, String name, Pageable pageable) {
-        Subject subject = subjectRepository.findByIdOrThrow(subjectId);
-        Page<User> res;
-        if(name.isEmpty()) {
-            res = userRepository.findDistinctBySubjectsContaining(subject, pageable);
-        }
-        else {
-            res = userRepository.findDistinctBySubjectsContainingAndNameContainingIgnoreCase(subject, name, pageable);
-        }
-        return res.map(userMapper::toListDto);
-    }
-
-    public Page<UserGetListDto> findByClassroomAndName(UUID classroomId, String name, Pageable pageable) {
-        Classroom classroom = classroomRepository.findByIdOrThrow(classroomId);
-        return userRepository.findByClassroomAndNameContainingIgnoreCase(classroom, name, pageable)
-                .map(userMapper::toListDto);
-    }
-
     public Page<StudentInSubjectDto> findStudentsByNameWithSubject(String studentName, UUID subjectId, Pageable pageable) {
         Subject subject = subjectRepository.findByIdOrThrow(subjectId);
-        Page<User> res;
-        if(studentName.isEmpty()) {
-            res = userRepository.findByRole(UserRole.STUDENT, pageable);
-        }
-        else {
-            res = userRepository.findByNameContainingIgnoreCaseAndRole(studentName, UserRole.STUDENT, pageable);
-        }
 
-        return res.map(student -> userMapper.toStudentInSubjectDto(student, subject));
+        Specification<User> specification = new SpecificationBuilder<User>()
+                .addSpec(UserSpecification.hasRole(UserRole.STUDENT))
+                .addSpecIfNotNull(UserSpecification.hasNameLike(studentName), studentName)
+                .build();
+
+        return userRepository.findAll(specification, pageable).map(user -> userMapper.toStudentInSubjectDto(user, subject));
 
     }
 
-    public Page<UserGetListDto> findByRoleAndName(String name, UserRole role, Pageable pageable) {
-        Page<User> res;
-        if(name.isEmpty()){
-            res = userRepository.findByRole(role, pageable);
-        }
-        else {
-            res = userRepository.findByNameContainingIgnoreCaseAndRole(name, role, pageable);
+    public Page<UserGetListDto> search(UserSearchDto dto, Pageable pageable) {
+        SpecificationBuilder<User> specBuilder = new SpecificationBuilder<>();
+        specBuilder
+                .addSpecIfNotNull(UserSpecification.hasEmailLike(dto.getEmail()), dto.getEmail())
+                .addSpecIfNotNull(UserSpecification.hasRole(dto.getRole()), dto.getRole())
+                .addSpecIfNotNull(UserSpecification.hasNameLike(dto.getName()), dto.getName());
+
+        if(dto.getSubjectId() != null) {
+            Subject subject = subjectRepository.findByIdOrThrow(dto.getSubjectId());
+            specBuilder.addSpec(UserSpecification.isInSubject(subject));
         }
 
-        return res.map(userMapper::toListDto);
+        if(dto.getClassroomId() != null) {
+            Classroom classroom = classroomRepository.findByIdOrThrow(dto.getClassroomId());
+            specBuilder.addSpec(UserSpecification.isInClassroom(classroom));
+        }
+
+        return userRepository.findAll(specBuilder.build(), pageable).map(userMapper::toListDto);
     }
 
     @Override
@@ -118,5 +99,4 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
                 .forEach(subject -> subject.removeStudent(user.get()));
         super.delete(id);
     }
-
 }

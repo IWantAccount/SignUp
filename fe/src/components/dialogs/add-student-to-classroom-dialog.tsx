@@ -3,7 +3,7 @@ import {useDebounce} from "use-debounce";
 import {useInfiniteQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {
     createAddStudentToClassroomOptions,
-    createGetByRoleNameInfiniteQueryOptions, createRemoveStudentFromClassroomOptions
+    createRemoveStudentFromClassroomOptions, createUserSearchOptions
 } from "@/api/user/user-query-options.ts";
 import {userRoleEnum} from "@/domain/user-role-enum.ts";
 import type {UserGetListDto} from "@/api/user/user-dtos.ts";
@@ -25,7 +25,7 @@ export function AddStudentToClassRoomDialog(props: DialogProps) {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedInput] = useDebounce(searchItem, 300);
     const userQuery =
-        useInfiniteQuery(createGetByRoleNameInfiniteQueryOptions(userRoleEnum.enum.STUDENT, debouncedInput));
+        useInfiniteQuery(createUserSearchOptions({dto: {name: debouncedInput, roleName: userRoleEnum.STUDENT}}));
 
     if (userQuery.isError) return <></>;
 
