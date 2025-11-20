@@ -25,7 +25,7 @@ export function AddStudentToClassRoomDialog(props: DialogProps) {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedInput] = useDebounce(searchItem, 300);
     const userQuery =
-        useInfiniteQuery(createUserSearchOptions({dto: {name: debouncedInput, roleName: userRoleEnum.STUDENT}}));
+        useInfiniteQuery(createUserSearchOptions({dto: {name: debouncedInput, role: userRoleEnum.enum.STUDENT}}));
 
     if (userQuery.isError) return <></>;
 

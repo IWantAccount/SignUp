@@ -9,7 +9,7 @@ import {
 import type {
     StudentClassroomDto,
     UserCreateDto,
-    UserGetDetailDto,
+    UserGetDetailDto, UserSearchDto,
     UserUpdateDto
 } from "@/api/user/user-dtos.ts";
 import type {AxiosError} from "axios";
