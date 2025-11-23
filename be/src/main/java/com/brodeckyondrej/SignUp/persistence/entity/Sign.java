@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -19,6 +20,7 @@ import java.util.Set;
 @Table(name = "sign")
 @Getter
 @Setter
+@BatchSize(size = 20)
 public class Sign extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)

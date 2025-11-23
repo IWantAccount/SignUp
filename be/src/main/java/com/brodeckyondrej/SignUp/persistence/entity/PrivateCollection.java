@@ -3,6 +3,7 @@ package com.brodeckyondrej.SignUp.persistence.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "private_collection")
 @Getter
+@BatchSize(size = 20)
 public class PrivateCollection extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)

@@ -28,7 +28,7 @@ public class SignNotation {
     })
     private HandNotation passiveHandNotation;
 
-    @ManyToOne@Getter
+    @ManyToOne
     @JoinColumn(name = "location_component_id")
     private SignComponent articulationLocation;
 

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -17,6 +18,7 @@ import java.util.Set;
 @Setter
 @Table(name = "signup_user")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@BatchSize(size = 100)
 public class User extends NamedEntity {
 
     @NotBlank
@@ -27,6 +29,7 @@ public class User extends NamedEntity {
     private String email;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY,  cascade = CascadeType.ALL, orphanRemoval = true)

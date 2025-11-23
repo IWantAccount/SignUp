@@ -23,13 +23,6 @@ public class FileController {
         this.storageService = storageService;
     }
 
-    @GetMapping()
-    public ResponseEntity<Resource> getFile(@Valid @RequestBody FileNameDto fileNameDto) {
-        return ResponseEntity.ok(storageService.load(fileNameDto.getFileName()));
-    }
-
-
-    //TODO Jen pro debug. Smaž než to dáš ven.
     @GetMapping("/url-req/{name}")
     public ResponseEntity<Resource> getFileTemp(@PathVariable String name) {
         Resource resource = storageService.load(name);
@@ -46,12 +39,5 @@ public class FileController {
                 .ok()
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(resource);
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class FileNameDto{
-        @NotBlank
-        private final String fileName;
     }
 }
