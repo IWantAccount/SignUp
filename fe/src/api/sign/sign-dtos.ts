@@ -44,9 +44,9 @@ export interface SignGetDetailDto extends SignGetListDto{
 }
 
 export interface NotationIdDto {
-    bothHandsUsed: boolean;
-    asymmetricSign: boolean;
-    activeHandNotation: HandNotationIdDto;
+    bothHandsUsed?: boolean;
+    asymmetricSign?: boolean;
+    activeHandNotation?: HandNotationIdDto;
     passiveHandNotation?: HandNotationIdDto;
     articulationLocationId?: string;
     movementId?: string;
@@ -84,4 +84,14 @@ export interface SearchDto {
 export interface SearchEntityDto {
     entityId: string;
     search?: string;
+}
+
+export interface SearchSignDto {
+    translationSearch?: string;
+    categoryId?: string;
+    collectionId?: string;
+    type?: SignType;
+    languageLevel?: LanguageLevelType;
+    region?: Region;
+    notation?: NotationIdDto;
 }

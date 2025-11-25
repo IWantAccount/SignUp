@@ -6,8 +6,11 @@ export const Route = createFileRoute('/app')({
 })
 
 function RouteComponent() {
-    return <>
-        <TopBar/>
-        <Outlet/>
-    </>
+    return (
+        <>
+            <TopBar/>
+            <Outlet/>
+        </>
+        )
+
 }
