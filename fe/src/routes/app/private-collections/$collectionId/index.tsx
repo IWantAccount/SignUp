@@ -11,7 +11,7 @@ import {deleteCollectionById} from '@/api/private-collection/private-collection-
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import { useState } from 'react';
 import {useDebounce} from "use-debounce";
-import {createSignCollectionSearchInfiniteOptions} from "@/api/sign/sign-query-options.ts";
+import {createSignInfiniteSearch} from "@/api/sign/sign-query-options.ts";
 import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
 export const Route = createFileRoute('/app/private-collections/$collectionId/')(
     {
@@ -37,7 +37,7 @@ function RouteComponent() {
     const collectionQuery = useQuery(createGetCollectionByIdOptions(collectionId));
     const [search, setSearch] = useState<string>("");
     const [debouncedSearch] = useDebounce(search, 300);
-    const signsQuery = useInfiniteQuery(createSignCollectionSearchInfiniteOptions(collectionId, debouncedSearch));
+    const signsQuery = useInfiniteQuery(createSignInfiniteSearch({translationSearch: debouncedSearch, collectionId: collectionId}));
     if (collectionQuery.isPending) return <BackdropLoading/>;
     if(collectionQuery.isError || signsQuery.isError) return <></>;
 

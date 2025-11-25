@@ -77,15 +77,6 @@ export interface HandNotationDto {
     fingerOrientation?: SignComponentGetListDto;
 }
 
-export interface SearchDto {
-    search: string;
-}
-
-export interface SearchEntityDto {
-    entityId: string;
-    search?: string;
-}
-
 export interface SearchSignDto {
     translationSearch?: string | null;
     categoryId?: string | null;
