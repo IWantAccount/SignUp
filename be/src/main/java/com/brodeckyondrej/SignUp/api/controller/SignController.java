@@ -1,10 +1,7 @@
 package com.brodeckyondrej.SignUp.api.controller;
 
 import com.brodeckyondrej.SignUp.api.controller.universal.EntityController;
-import com.brodeckyondrej.SignUp.business.dto.sign.SignCreateDto;
-import com.brodeckyondrej.SignUp.business.dto.sign.SignGetDetailDto;
-import com.brodeckyondrej.SignUp.business.dto.sign.SignGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.sign.SignUpdateDto;
+import com.brodeckyondrej.SignUp.business.dto.sign.*;
 import com.brodeckyondrej.SignUp.business.dto.sign.search.SearchDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.search.SearchEntityDto;
 import com.brodeckyondrej.SignUp.business.service.sign.SignService;
@@ -58,8 +55,13 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
         return ResponseEntity.ok(signService.getByCategoryAndSearch(dto.getEntityId(), dto.getSearch(), pageable));
     }
 
-    @PostMapping("collection-search")
+    @PostMapping("/collection-search")
     public ResponseEntity<Page<SignGetListDto>> getByPrivateCollectionSearch(@RequestBody @Valid SearchEntityDto dto, Pageable pageable) {
         return ResponseEntity.ok(signService.getByPrivateCollectionAndSearch(dto.getEntityId(), dto.getSearch(), pageable));
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<SignGetListDto>> search(@RequestBody @Valid SignSearchDto dto, Pageable pageable) {
+        return ResponseEntity.ok(signService.search(dto, pageable));
     }
 }
