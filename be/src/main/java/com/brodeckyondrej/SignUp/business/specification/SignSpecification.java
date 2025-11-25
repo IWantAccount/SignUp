@@ -5,7 +5,7 @@ import com.brodeckyondrej.SignUp.persistence.entity.*;
 import com.brodeckyondrej.SignUp.persistence.enumerated.LanguageLevel;
 import com.brodeckyondrej.SignUp.persistence.enumerated.Region;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignType;
-import com.brodeckyondrej.SignUp.util.HandNotation_;
+import com.brodeckyondrej.SignUp.persistence.embeded.HandNotation_;
 import jakarta.persistence.criteria.Expression;
 import org.springframework.data.jpa.domain.Specification;
 
