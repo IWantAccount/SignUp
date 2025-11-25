@@ -87,11 +87,11 @@ export interface SearchEntityDto {
 }
 
 export interface SearchSignDto {
-    translationSearch?: string;
-    categoryId?: string;
-    collectionId?: string;
-    type?: SignType;
-    languageLevel?: LanguageLevelType;
-    region?: Region;
-    notation?: NotationIdDto;
+    translationSearch?: string | null;
+    categoryId?: string | null;
+    collectionId?: string | null;
+    type?: SignType | null;
+    languageLevel?: LanguageLevelType | null;
+    region?: Region | null;
+    notation?: NotationIdDto | null;
 }

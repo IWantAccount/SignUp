@@ -14,7 +14,7 @@ interface EnumAutocompleteProps<
     required?: boolean;
 }
 //Převzato z ChatGPT (Model 5.1 od OpenAI)
-export function EnumAutocomplete<
+export function EnumFormAutocomplete<
     TFieldValues extends FieldValues,
     TName extends FieldPath<TFieldValues>,
     TOption extends string

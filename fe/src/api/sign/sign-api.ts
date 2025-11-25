@@ -1,6 +1,6 @@
 import type {
     SearchDto,
-    SearchEntityDto,
+    SearchEntityDto, SearchSignDto,
     SignCreateDto,
     SignGetDetailDto,
     SignGetListDto,
@@ -51,5 +51,10 @@ export const getSignByPrivateCollectionSearch = async (collectionId: string, pag
     const dto: SearchEntityDto = {entityId: collectionId, search: search};
     const res = await api.post<Page<SignGetListDto>>(buildPath([url, "collection-search"], page, pageSize), dto);
     return res.data;
+}
+
+export const getSignSearch = async(options: {page: number, pageSize?: number, dto: SearchSignDto}): Promise<Page<SignGetListDto>> => {
+    const res = await api.post<Page<SignGetListDto>>(buildPath([url, "search"], options.page, options.pageSize), options.dto);
+    return res.data
 }
 //TODO vymena videa

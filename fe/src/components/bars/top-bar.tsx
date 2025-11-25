@@ -42,7 +42,7 @@ export function TopBar(props: Props) {
                         </IconButton>
                         <IconButton
                             edge="start"
-                            component={Link} to={"/app"}
+                            component={Link} to={"/app/home"}
                             aria-labe="domů">
                             <Box
                                 component="img"

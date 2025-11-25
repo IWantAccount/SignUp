@@ -154,14 +154,14 @@ public class SignMapper implements EntityMapper<Sign, SignCreateDto, SignUpdateD
         HandNotation activeHand = findAndValidateHandNotation(dto.getActiveHandNotation());
 
         HandNotation passiveHand = null;
-        if(dto.isBothHandsUsed() && dto.isAsymmetricSign()){
+        if(dto.getBothHandsUsed() && dto.getAsymmetricSign()){
             passiveHand = findAndValidateHandNotation(dto.getPassiveHandNotation());
         }
 
         SignNotation result = new SignNotation();
 
-        result.setBothHandsUsed(dto.isBothHandsUsed());
-        result.setAsymmetricSign(dto.isAsymmetricSign());
+        result.setBothHandsUsed(dto.getBothHandsUsed());
+        result.setAsymmetricSign(dto.getAsymmetricSign());
         result.setActiveHandNotation(activeHand);
         result.setPassiveHandNotation(passiveHand);
         result.setArticulationLocation(findAndValidateSignComponent(

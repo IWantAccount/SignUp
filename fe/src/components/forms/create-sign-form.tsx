@@ -5,7 +5,7 @@ import {Box, Button, Checkbox, Chip, FormControlLabel, Switch, Tab, Tabs, TextFi
 import {SignComponentFormAutocomplete} from "@/components/util/sign-component-form-autocomplete.tsx";
 import {signComponentTypeEnum} from "@/domain/sign-component-type-enum.ts";
 import { useState } from "react";
-import {EnumAutocomplete} from "@/components/util/enum-autocomplete.tsx";
+import {EnumFormAutocomplete} from "@/components/util/enum-form-autocomplete.tsx";
 import {regionEnum, regionToCzech} from "@/domain/region.ts";
 import {languageLevelEnum} from "@/domain/language-level.ts";
 import {signTypeEnum, signTypeToCzech} from "@/domain/sign-type.ts";
@@ -156,21 +156,21 @@ export function CreateSignForm(props: Props) {
                             )}
                         </Box>
                         <CategoryFormAutocomplete label={"Kategorie"} name={"categoryId"} control={control} required={true}/>
-                        <EnumAutocomplete
+                        <EnumFormAutocomplete
                             name={"region"}
                             control={control}
                             label="Místo užívání znaku"
                             options={regionEnum.options}
                             getOptionLabel={(value) => regionToCzech(value)}/>
 
-                        <EnumAutocomplete
+                        <EnumFormAutocomplete
                             name={"languageLevel"}
                             control={control}
                             label={"RRZJ"}
                             options={languageLevelEnum.options}
                             getOptionLabel={(value) => value}/>
 
-                        <EnumAutocomplete
+                        <EnumFormAutocomplete
                             name={"signType"}
                             control={control}
                             label={"Typ znaku"}

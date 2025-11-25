@@ -1,12 +1,12 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
-import type {SignCreateDto, SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
+import type {SearchSignDto, SignCreateDto, SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
 import type {AxiosError} from "axios";
 import {
     createSign,
     getSignByCategorySearch,
     getSignById,
     getSignByPrivateCollectionSearch,
-    getSignByTranslation
+    getSignByTranslation, getSignSearch
 } from "@/api/sign/sign-api.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
@@ -51,6 +51,16 @@ export function createSignCollectionSearchInfiniteOptions(collectionId: string, 
     return infiniteQueryOptions({
         queryKey: [signQueryKey, collectionId, search ?? ""],
         queryFn: ({pageParam}) => getSignByPrivateCollectionSearch(collectionId, pageParam, search),
+        ...springInfiniteBase
+    })
+}
+
+export function createSignInfiniteSearch(dto: SearchSignDto, pageSize?: number) {
+    return infiniteQueryOptions({
+        queryKey: [signQueryKey, "infinite", dto],
+        queryFn: ({pageParam}) => getSignSearch(
+            {page: pageParam, dto: dto, pageSize: pageSize}
+        ),
         ...springInfiniteBase
     })
 }

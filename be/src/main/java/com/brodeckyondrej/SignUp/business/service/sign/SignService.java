@@ -106,8 +106,8 @@ public class SignService extends EntityService<Sign, SignCreateDto, SignUpdateDt
                 if(dto.getNotation() != null) {
                     NotationIdDto notation = dto.getNotation();
                     specBuilder
-                            .addSpecIfNotNull(SignSpecification.bothHandsUsed(notation.isBothHandsUsed()), notation.isBothHandsUsed())
-                            .addSpecIfNotNull(SignSpecification.isAsymmetric(notation.isAsymmetricSign()), notation.isAsymmetricSign());
+                            .addSpecIfNotNull(SignSpecification.bothHandsUsed(notation.getBothHandsUsed()), notation.getBothHandsUsed())
+                            .addSpecIfNotNull(SignSpecification.isAsymmetric(notation.getAsymmetricSign()), notation.getAsymmetricSign());
 
                     if(notation.getActiveHandNotation() != null) {
                         HandNotationIdDto handNotation = dto.getNotation().getActiveHandNotation();
@@ -134,7 +134,9 @@ public class SignService extends EntityService<Sign, SignCreateDto, SignUpdateDt
 
                 }
 
-        return signRepository.findAll(specBuilder.build(), pageable).map(signMapper::toListDto);
+                Page<Sign> signs = signRepository.findAll(specBuilder.build(), pageable);
+
+        return signs.map(signMapper::toListDto);
     }
 
     public Page<SignGetListDto> getByTranslation(String search, Pageable pageable) {

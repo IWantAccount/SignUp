@@ -31,6 +31,11 @@ public class SignSpecification {
 
     public static Specification<Sign> isInPrivateCollection(PrivateCollection privateCollection) {
         return (root, query, cb) -> {
+
+            if(privateCollection == null) {
+                return cb.conjunction();
+            }
+
             Expression<Set<PrivateCollection>> inCollections = root.get(Sign_.inPrivateCollections);
             return cb.isMember(privateCollection, inCollections);
         };
@@ -74,13 +79,13 @@ public class SignSpecification {
     }
 
 
-    public static Specification<Sign> bothHandsUsed(boolean bothUsed) {
+    public static Specification<Sign> bothHandsUsed(Boolean bothUsed) {
         return (root, query, cb) -> cb.equal(root
                 .get(Sign_.signNotation)
                 .get(SignNotation_.bothHandsUsed), bothUsed);
     }
 
-    public static Specification<Sign> isAsymmetric(boolean asymmetricSign){
+    public static Specification<Sign> isAsymmetric(Boolean asymmetricSign){
         return (root, query, cb) -> cb.equal(root
                 .get(Sign_.signNotation)
                 .get(SignNotation_.asymmetricSign), asymmetricSign);
