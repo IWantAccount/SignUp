@@ -1,6 +1,6 @@
 import {createFileRoute, Link} from '@tanstack/react-router'
 import {useState} from "react";
-import {Box, Button, Chip, Grid, Stack, Tab, Tabs, Typography} from "@mui/material";
+import {Box, Button, Chip, Grid, Paper, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {createGetSignByIdOptions} from "@/api/sign/sign-query-options.ts";
 import { useQuery } from '@tanstack/react-query';
 import type {SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
@@ -92,6 +92,7 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
                         <video
                             src={buildFilePath(sign.videoFileName)}
                             controls
+                            muted
                             style={{
                                 width: "100%",
                                 aspectRatio: "16 / 9",
@@ -102,45 +103,51 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
                 </Grid>
 
                 <Grid size={4}>
-                    <Stack sx={{alignItems: "center", gap: 4}}>
-                        <TextAssigment label={"Typ znaku"} value={signTypeToCzech(sign.signType)}/>
-                        <SpaceBetweenFlexBox>
-                            <Typography variant="h6">Kategorie:</Typography>
-                            <Button component={Link} to={`/app/categories/${sign.category.id}`}>{sign.category.name}</Button>
-                        </SpaceBetweenFlexBox>
-                        <TextAssigment label={"Region"} value={regionToCzech(sign.region)}/>
-                        <TextAssigment label={"RRZJ"} value={sign.languageLevel}/>
-                    </Stack>
+                    <Paper sx={{ p:3, borderRadius: 2}}>
+                        <Stack sx={{alignItems: "center", gap: 4}}>
+                            <TextAssigment label={"Typ znaku"} value={signTypeToCzech(sign.signType)}/>
+                            <SpaceBetweenFlexBox>
+                                <Typography variant="h6">Kategorie:</Typography>
+                                <Button component={Link} to={`/app/categories/${sign.category.id}`}>{sign.category.name}</Button>
+                            </SpaceBetweenFlexBox>
+                            <TextAssigment label={"Region"} value={regionToCzech(sign.region)}/>
+                            <TextAssigment label={"RRZJ"} value={sign.languageLevel}/>
+                        </Stack>
+                    </Paper>
                 </Grid>
             </Grid>
 
             <Grid container spacing={4} sx={{ width: "100%", maxWidth: 1200 }}>
                 <Grid size={8}>
-                    <Typography variant="h6">Možné překlady:</Typography>
-                    <Box sx={{width: "100%", display: "flex", gap: 1, flexWrap: "wrap"}}>
-                        {
-                            sign.translations.map((translation) => (
-                                <Chip label={translation}/>
-                            ))
-                        }
-                    </Box>
+                    <Paper sx={{ p:3, borderRadius: 2}}>
+                        <Typography variant="h6">Možné překlady:</Typography>
+                        <Box sx={{width: "100%", display: "flex", gap: 1, flexWrap: "wrap"}}>
+                            {
+                                sign.translations.map((translation) => (
+                                    <Chip label={translation}/>
+                                ))
+                            }
+                        </Box>
+                    </Paper>
                 </Grid>
                 <Grid size={4}>
-                    <Box sx={{
-                        width: "100%",
-                        borderRadius: 2,
-                    }}
-                    >
-                        <Stack>
+                    <Paper sx={{ p:3, borderRadius: 2}}>
+                        <Box sx={{
+                            width: "100%",
+                            borderRadius: 2,
+                        }}
+                        >
+                            <Stack>
 
-                            <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
-                                Vysvětlení:
-                            </Typography>
-                            <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
-                                {sign.explanation}
-                            </Typography>
-                        </Stack>
-                    </Box>
+                                <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                                    Vysvětlení:
+                                </Typography>
+                                <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                                    {sign.explanation}
+                                </Typography>
+                            </Stack>
+                        </Box>
+                    </Paper>
                 </Grid>
             </Grid>
         </Stack>

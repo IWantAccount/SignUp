@@ -48,6 +48,7 @@ export function CreateSignForm(props: Props) {
         resolver: zodResolver(schema),
         mode: "all",
         defaultValues: {
+            explanation: null,
             translations: [],
             activeHandShapeId: null,
             activeHandPalmOrientationId: null,

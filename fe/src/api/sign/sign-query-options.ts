@@ -1,11 +1,18 @@
-import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
+import {
+    infiniteQueryOptions,
+    mutationOptions,
+    type QueryClient,
+    queryOptions,
+    type UseMutationOptions
+} from "@tanstack/react-query";
 import type {SearchSignDto, SignCreateDto, SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
 import type {AxiosError} from "axios";
 import {
-    createSign,
+    createSign, deleteSign,
     getSignById, getSignSearch
 } from "@/api/sign/sign-api.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
+import {categoryQueryKey} from "@/api/category/category-query-options.ts";
 
 export const signQueryKey = "sign";
 export function createCreateSignOptions(queryClient: QueryClient): UseMutationOptions<
@@ -35,6 +42,21 @@ export function createSignInfiniteSearch(dto: SearchSignDto, pageSize?: number) 
             {page: pageParam, dto: dto, pageSize: pageSize}
         ),
         ...springInfiniteBase
+    })
+}
+
+export function createDeleteSignOptions(id: string, queryClient: QueryClient) {
+    return mutationOptions({
+        mutationKey: [signQueryKey, id],
+        mutationFn: () => deleteSign(id),
+        onSuccess: async () => {
+            await Promise.all(
+                [
+                    queryClient.invalidateQueries({queryKey: [signQueryKey]}),
+                    queryClient.invalidateQueries({queryKey: [categoryQueryKey]})
+                ]
+            )
+        }
     })
 }
 
