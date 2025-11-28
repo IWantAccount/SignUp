@@ -24,6 +24,13 @@ services:
       SPRING_UPLOADS: /storage
     volumes:
       - ./uploads:/storage
+  fe:
+    build: ./fe
+    container_name: signup-fe
+    ports:
+      - "3000:80"
+    depends_on:
+      - be
 
 volumes:
   pgdata: {}
