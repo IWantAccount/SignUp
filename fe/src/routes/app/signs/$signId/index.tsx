@@ -88,14 +88,19 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
         <Stack sx={{gap: 2, alignItems: "center"}}>
             <Grid container spacing={4} sx={{ width: "100%", maxWidth: 1200 }}>
                 <Grid size={8}>
-                    <Box sx={{ overflow: "hidden" }}>
+                    <Box
+                        sx={{
+                            borderRadius: 3,
+                            overflow: "hidden",
+                            boxShadow: 4,
+                        }}
+                    >
                         <video
                             src={buildFilePath(sign.videoFileName)}
                             controls
                             muted
                             style={{
                                 width: "100%",
-                                aspectRatio: "16 / 9",
                                 display: "block",
                             }}
                         />
@@ -119,35 +124,31 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
 
             <Grid container spacing={4} sx={{ width: "100%", maxWidth: 1200 }}>
                 <Grid size={8}>
-                    <Paper sx={{ p:3, borderRadius: 2}}>
-                        <Typography variant="h6">Možné překlady:</Typography>
-                        <Box sx={{width: "100%", display: "flex", gap: 1, flexWrap: "wrap"}}>
-                            {
-                                sign.translations.map((translation) => (
-                                    <Chip label={translation}/>
-                                ))
-                            }
-                        </Box>
-                    </Paper>
+                    <Typography variant="h6">Možné překlady:</Typography>
+                    <Box sx={{width: "100%", display: "flex", gap: 1, flexWrap: "wrap"}}>
+                        {
+                            sign.translations.map((translation) => (
+                                <Chip label={translation}/>
+                            ))
+                        }
+                    </Box>
                 </Grid>
                 <Grid size={4}>
-                    <Paper sx={{ p:3, borderRadius: 2}}>
-                        <Box sx={{
-                            width: "100%",
-                            borderRadius: 2,
-                        }}
-                        >
-                            <Stack>
+                    <Box sx={{
+                        width: "100%",
+                        borderRadius: 2,
+                    }}
+                    >
+                        <Stack>
 
-                                <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
-                                    Vysvětlení:
-                                </Typography>
-                                <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
-                                    {sign.explanation}
-                                </Typography>
-                            </Stack>
-                        </Box>
-                    </Paper>
+                            <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                                Vysvětlení:
+                            </Typography>
+                            <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                                {sign.explanation}
+                            </Typography>
+                        </Stack>
+                    </Box>
                 </Grid>
             </Grid>
         </Stack>
