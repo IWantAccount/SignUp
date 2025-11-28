@@ -11,30 +11,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SignRepository extends EntityRepository<Sign> {
-    Page<Sign> findByCategory(Category category, Pageable pageable);
-
-    Page<Sign> findDistinctByInPrivateCollectionsContains(PrivateCollection privateCollection, Pageable pageable);
-
-    @Query("""
-                select distinct s
-                from Sign s join s.translations t
-                    where lower(t) like lower((concat('%', :search, '%')))
-            """)
-    Page<Sign> findByTranslation(@Param("search") String search, Pageable pageable);
-
-    @Query("""
-            select distinct s
-            from Sign s join s.translations t
-                where lower(t) like lower((concat('%', :search, '%')))
-                    and s.category = :category
-            """)
-    Page<Sign> findByTranslationAndCategory(@Param("search") String search, @Param("category") Category category, Pageable pageable);
-
-    @Query("""
-           select distinct s
-           from Sign s join s.translations t join s.inPrivateCollections pc
-                where lower(t) like lower((concat('%', :search, '%')))
-                           and pc = :privateCollection
-           """)
-    Page<Sign> findByTranslationAndPrivateCollection(@Param("search") String search, @Param("privateCollection") PrivateCollection privateCollection, Pageable pageable);
 }
