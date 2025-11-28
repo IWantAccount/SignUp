@@ -11,7 +11,7 @@ import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import { deleteCategory } from '@/api/category/category-api';
 import { useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import {createSignCategorySearchInfiniteOptions} from "@/api/sign/sign-query-options.ts";
+import {createSignInfiniteSearch} from "@/api/sign/sign-query-options.ts";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
 import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
 
@@ -27,7 +27,7 @@ function RouteComponent() {
     const [debouncedSearch] = useDebounce(search, 300);
 
     const categoryQuery = useQuery(createGetCategoryByIdOptions(categoryId));
-    const signQuery = useInfiniteQuery(createSignCategorySearchInfiniteOptions(categoryId, debouncedSearch));
+    const signQuery = useInfiniteQuery(createSignInfiniteSearch({categoryId: categoryId, translationSearch: debouncedSearch}));
     const deleteMutation = useMutation(
         {
             mutationFn: () => deleteCategory(categoryId),

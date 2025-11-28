@@ -2,7 +2,7 @@ import {createFileRoute} from '@tanstack/react-router'
 import { useState } from 'react';
 import {useDebounce} from "use-debounce";
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {createSignTranslationSearchInfiniteOptions} from "@/api/sign/sign-query-options.ts";
+import {createSignInfiniteSearch} from "@/api/sign/sign-query-options.ts";
 import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/app/signs/')({
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300);
-    const signsQuery = useInfiniteQuery(createSignTranslationSearchInfiniteOptions(debouncedSearch));
+    const signsQuery = useInfiniteQuery(createSignInfiniteSearch({translationSearch: debouncedSearch}));
 
     if(signsQuery.isError) return <></>;
 

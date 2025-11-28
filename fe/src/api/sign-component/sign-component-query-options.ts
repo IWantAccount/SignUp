@@ -2,7 +2,7 @@ import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOp
 import {
     createSignComponent,
     deleteSignComponent,
-    getSignComponentById, getSignComponentByTypeAndDescriptionPaged,
+    getSignComponentById, getSignComponentSearch,
     updateSignComponent
 } from "@/api/sign-component/sign-component-api.ts";
 import type {
@@ -58,10 +58,10 @@ export function createDeleteSignComponentOptions(id: string, queryClient: QueryC
     }
 }
 
-export function createSignComponentByTypeDescriptionInfiniteOptions(searchItem: string, type?: SignComponentTypeEnum) {
+export function createSignComponentSearch(opt: {description?: string, type?: SignComponentTypeEnum, pageSize?: number}) {
     return infiniteQueryOptions({
-        queryKey: [signComponentQueryKey, "infinite", searchItem, type ?? ""],
-        queryFn: ({pageParam}) => getSignComponentByTypeAndDescriptionPaged(searchItem, pageParam, type),
+        queryKey: [signComponentQueryKey, "infinite", opt.description ?? "", opt.type],
+        queryFn: ({pageParam}) => getSignComponentSearch({page: pageParam, ...opt}),
         ...springInfiniteBase
     })
 }

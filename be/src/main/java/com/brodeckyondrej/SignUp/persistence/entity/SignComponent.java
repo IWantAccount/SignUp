@@ -7,12 +7,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @Entity
 @Table(name = "sign_component")
+@BatchSize(size = 100)
 public class SignComponent extends BaseEntity {
 
     @NotBlank

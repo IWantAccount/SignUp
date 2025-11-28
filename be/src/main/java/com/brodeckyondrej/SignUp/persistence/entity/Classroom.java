@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -17,6 +18,7 @@ import java.util.Set;
 @Table(name = "classroom")
 @Getter
 @AllArgsConstructor
+@BatchSize(size = 20)
 public class Classroom extends NamedEntity {
 
     @NotNull

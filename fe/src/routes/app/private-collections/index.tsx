@@ -1,6 +1,8 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {createCollectionInfiniteQueryOptions} from "@/api/private-collection/private-collection-query-options.ts";
+import {
+    createCollectionSearchOptions
+} from "@/api/private-collection/private-collection-query-options.ts";
 import {Button, Stack} from "@mui/material";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
@@ -15,7 +17,7 @@ export const Route = createFileRoute('/app/private-collections/')({
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300);
-    const infiniteQuery = useInfiniteQuery(createCollectionInfiniteQueryOptions(debouncedSearch));
+    const infiniteQuery = useInfiniteQuery(createCollectionSearchOptions(debouncedSearch));
 
     if(infiniteQuery.isError) return <></>;
 

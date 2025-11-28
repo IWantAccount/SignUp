@@ -10,13 +10,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class NotationIdDto {
 
-    @NotNull
-    private final boolean bothHandsUsed;
+    private final Boolean bothHandsUsed;
 
-    @NotNull
-    private final boolean asymmetricSign;
+    private final Boolean asymmetricSign;
 
-    @NotNull
     private final HandNotationIdDto activeHandNotation;
 
     private final HandNotationIdDto passiveHandNotation;

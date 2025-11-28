@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import {ClassroomGrid} from "@/components/grids/classroom-grid.tsx";
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {createClassroomInfiniteQueryOptions} from "@/api/classroom/classroom-query-options.ts";
+import {
+    createClassroomInfiniteSearch
+} from "@/api/classroom/classroom-query-options.ts";
 import type {ClassroomGetListDto} from "@/api/classroom/classroom-dtos.ts";
 import {Button} from "@mui/material";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
@@ -17,7 +19,7 @@ export const Route = createFileRoute('/app/classrooms/')({
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300);
-    const infiniteQuery = useInfiniteQuery(createClassroomInfiniteQueryOptions(debouncedSearch));
+    const infiniteQuery = useInfiniteQuery(createClassroomInfiniteSearch(debouncedSearch));
     const classrooms: ClassroomGetListDto[] = infiniteQuery.data?.pages.flatMap(page => page.content) || [];
     if(infiniteQuery.isError) return <></>;
 

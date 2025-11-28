@@ -8,7 +8,7 @@ import type {
 } from "@/api/subject/subject-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type {Page} from "@/api/universal/pagination/spring-boot-page.ts";
-import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
+import type {NameSearchDto} from "@/api/universal/dto/name-search-dto.ts";
 
 const url = "/subject";
 
@@ -31,15 +31,9 @@ export const deleteSubject = async (id: string): Promise<void> => {
     await api.delete<void>(buildPath([url, id]));
 }
 
-export const getSubjectPaged = async (page: number, pageSize?: number): Promise<Page<SubjectGetListDto>> => {
-    const res = await api.get<Page<SubjectGetListDto>>(buildPath([url], page, pageSize));
-    return res.data;
-}
-
-export const getSubjectByNamePaged = async (page: number, searchItem: string, pageSize?: number): Promise<Page<SubjectGetListDto>> => {
-    //await new Promise(resolve => {setTimeout(resolve, 5000)})
-    const dto: NamedDto = {name: searchItem};
-    const res = await api.post<Page<SubjectGetListDto>>(buildPath([url, "by-name"], page, pageSize), dto);
+export const getSubjectSearch = async (opt: {page: number, pageSize?: number, search?: string}): Promise<Page<SubjectGetListDto>> => {
+    const dto: NameSearchDto = {name: opt.search};
+    const res = await api.post<Page<SubjectGetListDto>>(buildPath([url, "search"], opt.page, opt.pageSize), dto);
     return res.data;
 }
 

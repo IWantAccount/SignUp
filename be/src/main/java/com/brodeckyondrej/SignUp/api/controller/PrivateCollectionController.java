@@ -8,6 +8,8 @@ import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +41,10 @@ public class PrivateCollectionController extends NamedEntityController<
     public ResponseEntity<Void> removeSignFromCollection(@Valid @RequestBody CollectionSignDto dto){
         privateCollectionService.removeSignFromPrivateCollection(dto);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/search")
+    public ResponseEntity<Page<PrivateCollectionGetListDto>> search(@Valid @RequestBody FindByNameDto dto, Pageable pageable){
+        return ResponseEntity.ok(privateCollectionService.search(dto, pageable));
     }
 }

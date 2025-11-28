@@ -2,7 +2,7 @@ import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOp
 import {
     createClassroom,
     deleteClassroom,
-    getClassroomById, getClassroomByName,
+    getClassroomById, getClassroomSearch,
     updateClassroom
 } from "@/api/classroom/classroom-api.ts";
 import type {
@@ -56,11 +56,10 @@ export function createDeleteClassroomOptions(id: string, queryClient: QueryClien
     }
 }
 
-export function createClassroomInfiniteQueryOptions(searchItem?: string) {
-    const search = searchItem ?? "";
+export function createClassroomInfiniteSearch(search?: string, pageSize?: number) {
     return infiniteQueryOptions({
-        queryKey: [classroomQueryKey, "infinite", search],
-        queryFn: ({pageParam}) => getClassroomByName(search, pageParam),
+        queryKey: [classroomQueryKey, "infinite", search ?? ""],
+        queryFn: ({pageParam}) => getClassroomSearch({page: pageParam, search: search, pageSize: pageSize}),
         ...springInfiniteBase
     })
 }

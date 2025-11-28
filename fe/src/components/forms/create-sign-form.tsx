@@ -2,15 +2,15 @@ import {Controller, type SubmitHandler, useForm} from "react-hook-form";
 import z from "zod";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Box, Button, Checkbox, Chip, FormControlLabel, Switch, Tab, Tabs, TextField} from "@mui/material";
-import {SignComponentAutocomplete} from "@/components/util/sign-component-autocomplete.tsx";
+import {SignComponentFormAutocomplete} from "@/components/util/sign-component-form-autocomplete.tsx";
 import {signComponentTypeEnum} from "@/domain/sign-component-type-enum.ts";
 import { useState } from "react";
-import {EnumAutocomplete} from "@/components/util/enum-autocomplete.tsx";
+import {EnumFormAutocomplete} from "@/components/util/enum-form-autocomplete.tsx";
 import {regionEnum, regionToCzech} from "@/domain/region.ts";
 import {languageLevelEnum} from "@/domain/language-level.ts";
 import {signTypeEnum, signTypeToCzech} from "@/domain/sign-type.ts";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
-import {CategoryAutocomplete} from "@/components/util/category-autocomplete.tsx";
+import {CategoryFormAutocomplete} from "@/components/util/category-form-autocomplete.tsx";
 import type {SignCreateDto} from "@/api/sign/sign-dtos.ts";
 import {enqueueSnackbar} from "notistack";
 
@@ -48,6 +48,7 @@ export function CreateSignForm(props: Props) {
         resolver: zodResolver(schema),
         mode: "all",
         defaultValues: {
+            explanation: null,
             translations: [],
             activeHandShapeId: null,
             activeHandPalmOrientationId: null,
@@ -155,22 +156,22 @@ export function CreateSignForm(props: Props) {
                                 </Box>
                             )}
                         </Box>
-                        <CategoryAutocomplete label={"Kategorie"} name={"categoryId"} control={control} required={true}/>
-                        <EnumAutocomplete
+                        <CategoryFormAutocomplete label={"Kategorie"} name={"categoryId"} control={control} required={true}/>
+                        <EnumFormAutocomplete
                             name={"region"}
                             control={control}
                             label="Místo užívání znaku"
                             options={regionEnum.options}
                             getOptionLabel={(value) => regionToCzech(value)}/>
 
-                        <EnumAutocomplete
+                        <EnumFormAutocomplete
                             name={"languageLevel"}
                             control={control}
                             label={"RRZJ"}
                             options={languageLevelEnum.options}
                             getOptionLabel={(value) => value}/>
 
-                        <EnumAutocomplete
+                        <EnumFormAutocomplete
                             name={"signType"}
                             control={control}
                             label={"Typ znaku"}
@@ -284,22 +285,22 @@ export function CreateSignForm(props: Props) {
                                 />
                             )}
                         </Box>
-                        <SignComponentAutocomplete label={"Tvar dominantní ruky"} signComponentType={signComponentTypeEnum.enum.HAND_SHAPE} name={"activeHandShapeId"} control={control}/>
-                        <SignComponentAutocomplete label={"Orientace dlaně dominantní ruky"} signComponentType={signComponentTypeEnum.enum.PALM_ORIENTATION} name={"activeHandPalmOrientationId"} control={control}/>
-                        <SignComponentAutocomplete label={"Orientace prstů dominantní ruky"} signComponentType={signComponentTypeEnum.enum.FINGER_ORIENTATION} name={"activeHandFingerOrientationId"} control={control}/>
+                        <SignComponentFormAutocomplete label={"Tvar dominantní ruky"} signComponentType={signComponentTypeEnum.enum.HAND_SHAPE} name={"activeHandShapeId"} control={control}/>
+                        <SignComponentFormAutocomplete label={"Orientace dlaně dominantní ruky"} signComponentType={signComponentTypeEnum.enum.PALM_ORIENTATION} name={"activeHandPalmOrientationId"} control={control}/>
+                        <SignComponentFormAutocomplete label={"Orientace prstů dominantní ruky"} signComponentType={signComponentTypeEnum.enum.FINGER_ORIENTATION} name={"activeHandFingerOrientationId"} control={control}/>
                         {
                             twoHandedSign && (
                                 <>
-                                    <SignComponentAutocomplete label={"Tvar nedominantní ruky"} signComponentType={signComponentTypeEnum.enum.HAND_SHAPE} name={"passiveHandShapeId"} control={control}/>
-                                    <SignComponentAutocomplete label={"Orientace dlaně nedominantní ruky"} signComponentType={signComponentTypeEnum.enum.PALM_ORIENTATION} name={"passiveHandPalmOrientationId"} control={control}/>
-                                    <SignComponentAutocomplete label={"Orientace prstů nedominantní ruky"} signComponentType={signComponentTypeEnum.enum.FINGER_ORIENTATION} name={"passiveHandFingerOrientationId"} control={control}/>
-                                    <SignComponentAutocomplete label={"Vzájemná poloha rukou"} signComponentType={signComponentTypeEnum.enum.HAND_ARRANGEMENT} name={"handArrangementId"} control={control}/>
+                                    <SignComponentFormAutocomplete label={"Tvar nedominantní ruky"} signComponentType={signComponentTypeEnum.enum.HAND_SHAPE} name={"passiveHandShapeId"} control={control}/>
+                                    <SignComponentFormAutocomplete label={"Orientace dlaně nedominantní ruky"} signComponentType={signComponentTypeEnum.enum.PALM_ORIENTATION} name={"passiveHandPalmOrientationId"} control={control}/>
+                                    <SignComponentFormAutocomplete label={"Orientace prstů nedominantní ruky"} signComponentType={signComponentTypeEnum.enum.FINGER_ORIENTATION} name={"passiveHandFingerOrientationId"} control={control}/>
+                                    <SignComponentFormAutocomplete label={"Vzájemná poloha rukou"} signComponentType={signComponentTypeEnum.enum.HAND_ARRANGEMENT} name={"handArrangementId"} control={control}/>
                                 </>
                             )
                         }
-                        <SignComponentAutocomplete label={"Místo artikulace"} signComponentType={signComponentTypeEnum.enum.LOCATION} name={"locationId"} control={control}/>
-                        <SignComponentAutocomplete label={"Pohyb"} signComponentType={signComponentTypeEnum.enum.MOVEMENT} name={"movementId"} control={control}/>
-                        <SignComponentAutocomplete label={"Dotek"} signComponentType={signComponentTypeEnum.enum.CONTACT} name={"contactId"} control={control}/>
+                        <SignComponentFormAutocomplete label={"Místo artikulace"} signComponentType={signComponentTypeEnum.enum.LOCATION} name={"locationId"} control={control}/>
+                        <SignComponentFormAutocomplete label={"Pohyb"} signComponentType={signComponentTypeEnum.enum.MOVEMENT} name={"movementId"} control={control}/>
+                        <SignComponentFormAutocomplete label={"Dotek"} signComponentType={signComponentTypeEnum.enum.CONTACT} name={"contactId"} control={control}/>
 
                     </>
                     )

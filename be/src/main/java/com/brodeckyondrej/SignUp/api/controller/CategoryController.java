@@ -1,9 +1,6 @@
 package com.brodeckyondrej.SignUp.api.controller;
 
-import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetDetailDto;
-import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.category.CategoryCreateDto;
-import com.brodeckyondrej.SignUp.business.dto.category.CategoryUpdateDto;
+import com.brodeckyondrej.SignUp.business.dto.category.*;
 import com.brodeckyondrej.SignUp.business.service.category.CategoryService;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
@@ -27,15 +24,8 @@ public class CategoryController extends NamedEntityController<Category, Category
         this.categoryService = service;
     }
 
-    @GetMapping("/by-subject/{subjectId}")
-    public ResponseEntity<Page<CategoryGetListDto>> findBySubject(@PathVariable UUID subjectId, Pageable pageable){
-        Page<CategoryGetListDto> result = categoryService.findBySubject(subjectId, pageable);
-        return ResponseEntity.ok(result);
-    }
-
-    @PostMapping("/subject-search/{subjectId}")
-    public ResponseEntity<Page<CategoryGetListDto>> findBySubjectAndName(@Valid @RequestBody FindByNameDto dto, @PathVariable UUID subjectId, Pageable pageable){
-        Page<CategoryGetListDto> result = categoryService.findBySubjectAndName(subjectId, dto.getName(), pageable);
-        return ResponseEntity.ok(result);
+    @PostMapping("/search")
+    public ResponseEntity<Page<CategoryGetListDto>> search(@RequestBody @Valid CategorySearchDto dto, Pageable pageable) {
+        return ResponseEntity.ok(categoryService.search(dto, pageable));
     }
 }

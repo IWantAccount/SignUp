@@ -1,8 +1,7 @@
 import type {
-    ComponentTypeDescriptionDto,
     SignComponentCreateDto,
     SignComponentGetDetailDto,
-    SignComponentGetListDto,
+    SignComponentGetListDto, SignComponentSearchDto,
     SignComponentUpdateDto
 } from "@/api/sign-component/sign-component-dtos.ts";
 import api from "@/api/universal/axios.ts";
@@ -31,9 +30,8 @@ export const deleteSignComponent = async (id: string): Promise<void> => {
     await api.delete<void>(buildPath([url, id]));
 }
 
-export const getSignComponentByTypeAndDescriptionPaged = async (searchText: string, page: number, type?: SignComponentTypeEnum, pageSize?: number): Promise<Page<SignComponentGetListDto>> => {
-    const dto: ComponentTypeDescriptionDto = {description: searchText, type: type};
-    const res = await api.post<Page<SignComponentGetListDto>>(buildPath([url, "by-type-description"], page, pageSize), dto);
+export const getSignComponentSearch = async (opt: {description?: string, type?: SignComponentTypeEnum, page: number, pageSize?: number}): Promise<Page<SignComponentGetListDto>> => {
+    const dto: SignComponentSearchDto = {description: opt.description, type: opt.type};
+    const res = await api.post<Page<SignComponentGetListDto>>(buildPath([url, "search"], opt.page, opt.pageSize), dto);
     return res.data;
-
 }

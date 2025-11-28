@@ -5,7 +5,9 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {useState} from "react";
 import { useDebounce } from 'use-debounce';
-import {createSubjectByNameInfiniteQueryOptions} from "@/api/subject/subject-query-options.ts";
+import {
+    createSubjectSearchOptions
+} from "@/api/subject/subject-query-options.ts";
 import type {Page} from "@/api/universal/pagination/spring-boot-page.ts";
 import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
 
@@ -30,7 +32,7 @@ export function CategoryForm(props: Props) {
 
     const [searchItem, setSearchItem] = useState<string>("");
     const [debounced] = useDebounce(searchItem, 300);
-    const subjectsQuery = useInfiniteQuery(createSubjectByNameInfiniteQueryOptions(debounced));
+    const subjectsQuery = useInfiniteQuery(createSubjectSearchOptions(debounced));
     const [inputValue, setInputValue] = useState<string>(props.defaultSubjectName || "");
 
     const subjectItems = subjectsQuery.data?.pages.flatMap((page: Page<SubjectGetListDto>) => page.content) ?? [];

@@ -1,6 +1,6 @@
 import {createFileRoute, Link} from '@tanstack/react-router'
 import {useState} from "react";
-import {Box, Button, Chip, Grid, Stack, Tab, Tabs, Typography} from "@mui/material";
+import {Box, Button, Chip, Grid, Paper, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {createGetSignByIdOptions} from "@/api/sign/sign-query-options.ts";
 import { useQuery } from '@tanstack/react-query';
 import type {SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
@@ -88,13 +88,19 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
         <Stack sx={{gap: 2, alignItems: "center"}}>
             <Grid container spacing={4} sx={{ width: "100%", maxWidth: 1200 }}>
                 <Grid size={8}>
-                    <Box sx={{ overflow: "hidden" }}>
+                    <Box
+                        sx={{
+                            borderRadius: 3,
+                            overflow: "hidden",
+                            boxShadow: 4,
+                        }}
+                    >
                         <video
                             src={buildFilePath(sign.videoFileName)}
                             controls
+                            muted
                             style={{
                                 width: "100%",
-                                aspectRatio: "16 / 9",
                                 display: "block",
                             }}
                         />
@@ -102,15 +108,17 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
                 </Grid>
 
                 <Grid size={4}>
-                    <Stack sx={{alignItems: "center", gap: 4}}>
-                        <TextAssigment label={"Typ znaku"} value={signTypeToCzech(sign.signType)}/>
-                        <SpaceBetweenFlexBox>
-                            <Typography variant="h6">Kategorie:</Typography>
-                            <Button component={Link} to={`/app/categories/${sign.category.id}`}>{sign.category.name}</Button>
-                        </SpaceBetweenFlexBox>
-                        <TextAssigment label={"Region"} value={regionToCzech(sign.region)}/>
-                        <TextAssigment label={"RRZJ"} value={sign.languageLevel}/>
-                    </Stack>
+                    <Paper sx={{ p:3, borderRadius: 2}}>
+                        <Stack sx={{alignItems: "center", gap: 4}}>
+                            <TextAssigment label={"Typ znaku"} value={signTypeToCzech(sign.signType)}/>
+                            <SpaceBetweenFlexBox>
+                                <Typography variant="h6">Kategorie:</Typography>
+                                <Button component={Link} to={`/app/categories/${sign.category.id}`}>{sign.category.name}</Button>
+                            </SpaceBetweenFlexBox>
+                            <TextAssigment label={"Region"} value={regionToCzech(sign.region)}/>
+                            <TextAssigment label={"RRZJ"} value={sign.languageLevel}/>
+                        </Stack>
+                    </Paper>
                 </Grid>
             </Grid>
 

@@ -3,8 +3,7 @@ import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {SubjectGrid} from '@/components/grids/subject-grid';
 import {useInfiniteQuery} from "@tanstack/react-query";
-import {
-    createSubjectByNameInfiniteQueryOptions,
+import { createSubjectSearchOptions,
 } from "@/api/subject/subject-query-options.ts";
 import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
 import {Button, Stack} from "@mui/material";
@@ -19,7 +18,7 @@ export const Route = createFileRoute('/app/subjects/')({
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300)
-    const infiniteQuery = useInfiniteQuery(createSubjectByNameInfiniteQueryOptions(debouncedSearch));
+    const infiniteQuery = useInfiniteQuery(createSubjectSearchOptions(debouncedSearch));
     const buttonText = !infiniteQuery.hasNextPage ?
         "Vše načteno" :
         infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další";

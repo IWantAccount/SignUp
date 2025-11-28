@@ -4,7 +4,7 @@ import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack
 import {classroomQueryKey, createGetClassroomByIdOptions} from "@/api/classroom/classroom-query-options.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import {useState} from "react";
-import {createGetUserByClassroomInfiniteQueryOptions} from "@/api/user/user-query-options.ts";
+import {createUserSearchOptions} from "@/api/user/user-query-options.ts";
 import type {UserGetListDto} from "@/api/user/user-dtos.ts";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
@@ -42,7 +42,7 @@ function RouteComponent() {
     });
     const classroomQuery = useQuery(createGetClassroomByIdOptions(classroomId));
     const userQuery = useInfiniteQuery(
-        createGetUserByClassroomInfiniteQueryOptions(classroomId, debouncedSearch)
+        createUserSearchOptions({dto: {name: debouncedSearch, classroomId: classroomId}})
     )
 
     if (classroomQuery.isPending) return <BackdropLoading/>;

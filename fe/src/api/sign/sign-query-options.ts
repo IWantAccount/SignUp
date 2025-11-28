@@ -1,14 +1,18 @@
-import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query";
-import type {SignCreateDto, SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
+import {
+    infiniteQueryOptions,
+    mutationOptions,
+    type QueryClient,
+    queryOptions,
+    type UseMutationOptions
+} from "@tanstack/react-query";
+import type {SearchSignDto, SignCreateDto, SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
 import type {AxiosError} from "axios";
 import {
-    createSign,
-    getSignByCategorySearch,
-    getSignById,
-    getSignByPrivateCollectionSearch,
-    getSignByTranslation
+    createSign, deleteSign,
+    getSignById, getSignSearch
 } from "@/api/sign/sign-api.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
+import {categoryQueryKey} from "@/api/category/category-query-options.ts";
 
 export const signQueryKey = "sign";
 export function createCreateSignOptions(queryClient: QueryClient): UseMutationOptions<
@@ -31,27 +35,28 @@ export function createGetSignByIdOptions(id: string) {
     })
 }
 
-export function createSignTranslationSearchInfiniteOptions(translation: string) {
+export function createSignInfiniteSearch(dto: SearchSignDto, pageSize?: number) {
     return infiniteQueryOptions({
-        queryKey: [signQueryKey, translation],
-        queryFn: ({pageParam}) => getSignByTranslation(translation, pageParam),
+        queryKey: [signQueryKey, "infinite", dto],
+        queryFn: ({pageParam}) => getSignSearch(
+            {page: pageParam, dto: dto, pageSize: pageSize}
+        ),
         ...springInfiniteBase
     })
 }
 
-export function createSignCategorySearchInfiniteOptions(categoryId: string, search?: string) {
-    return infiniteQueryOptions({
-        queryKey: [signQueryKey, categoryId, search ?? ""],
-        queryFn: ({pageParam}) => getSignByCategorySearch(categoryId, pageParam,  search),
-        ...springInfiniteBase
-    })
-}
-
-export function createSignCollectionSearchInfiniteOptions(collectionId: string, search?: string) {
-    return infiniteQueryOptions({
-        queryKey: [signQueryKey, collectionId, search ?? ""],
-        queryFn: ({pageParam}) => getSignByPrivateCollectionSearch(collectionId, pageParam, search),
-        ...springInfiniteBase
+export function createDeleteSignOptions(id: string, queryClient: QueryClient) {
+    return mutationOptions({
+        mutationKey: [signQueryKey, id],
+        mutationFn: () => deleteSign(id),
+        onSuccess: async () => {
+            await Promise.all(
+                [
+                    queryClient.invalidateQueries({queryKey: [signQueryKey]}),
+                    queryClient.invalidateQueries({queryKey: [categoryQueryKey]})
+                ]
+            )
+        }
     })
 }
 

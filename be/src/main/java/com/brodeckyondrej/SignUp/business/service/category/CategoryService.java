@@ -1,20 +1,17 @@
 package com.brodeckyondrej.SignUp.business.service.category;
 
+import com.brodeckyondrej.SignUp.business.dto.category.*;
+import com.brodeckyondrej.SignUp.business.specification.CategorySpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.Category;
 import com.brodeckyondrej.SignUp.persistence.repository.CategoryRepository;
-import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetDetailDto;
-import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.category.CategoryCreateDto;
-import com.brodeckyondrej.SignUp.business.dto.category.CategoryUpdateDto;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
+import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -30,20 +27,15 @@ public class CategoryService extends NamedEntityService<Category, CategoryCreate
         this.categoryMapper = mapper;
     }
 
-    public Page<CategoryGetListDto> findBySubject(UUID subjectId, Pageable pageable){
-        Subject foundSubject = subjectRepository.findByIdOrThrow(subjectId);
-        return categoryRepository.findBySubject(foundSubject, pageable).map(categoryMapper::toListDto);
-    }
+    public Page<CategoryGetListDto> search(CategorySearchDto dto, Pageable pageable) {
+        SpecificationBuilder<Category> specBuilder = new SpecificationBuilder<>();
+        specBuilder.addSpecIfNotNull(CategorySpecification.hasNameLike(dto.getName()), dto.getName());
 
-    public Page<CategoryGetListDto> findBySubjectAndName(UUID subjectId, String name, Pageable pageable){
-        Subject foundSubject = subjectRepository.findByIdOrThrow(subjectId);
-        Page<Category> result;
-        if (name.isEmpty()){
-            result = categoryRepository.findBySubject(foundSubject, pageable);
+        if(dto.getSubjectId() != null){
+            Subject found = subjectRepository.findByIdOrThrow(dto.getSubjectId());
+            specBuilder.addSpec(CategorySpecification.hasSubject(found));
         }
-        else{
-            result = categoryRepository.findBySubjectAndNameContainsIgnoreCase(foundSubject, name, pageable);
-        }
-        return result.map(categoryMapper::toListDto);
+
+        return categoryRepository.findAll(specBuilder.build(), pageable).map(categoryMapper::toListDto);
     }
 }

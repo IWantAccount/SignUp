@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -13,6 +14,7 @@ import java.util.Set;
 @Getter
 @Entity
 @Table(name = "category")
+@BatchSize(size = 20)
 public class Category extends NamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)

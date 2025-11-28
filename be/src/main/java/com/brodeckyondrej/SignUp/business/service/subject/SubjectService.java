@@ -1,6 +1,8 @@
 package com.brodeckyondrej.SignUp.business.service.subject;
 
 import com.brodeckyondrej.SignUp.business.dto.subject.*;
+import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
+import com.brodeckyondrej.SignUp.business.specification.NameSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
@@ -10,7 +12,11 @@ import com.brodeckyondrej.SignUp.persistence.enumerated.UserRole;
 import com.brodeckyondrej.SignUp.exception.ValidationException;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
+import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -56,5 +62,13 @@ public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto
         Subject subject = subjectRepository.findByIdOrThrow(dto.getSubjectId());
 
         classroom.getStudents().forEach(subject::addStudent);
+    }
+
+    public Page<SubjectGetListDto> search(FindByNameDto dto, Pageable pageable) {
+        Specification<Subject> spec = new SpecificationBuilder<Subject>()
+                .addSpecIfNotNull(NameSpecification.hasNameLike(dto.getName()), dto.getName())
+                .build();
+
+        return subjectRepository.findAll(spec, pageable).map(mapper::toListDto);
     }
 }

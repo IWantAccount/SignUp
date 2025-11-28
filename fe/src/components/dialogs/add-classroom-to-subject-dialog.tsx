@@ -1,4 +1,6 @@
-import {createClassroomInfiniteQueryOptions} from "@/api/classroom/classroom-query-options";
+import {
+    createClassroomInfiniteSearch
+} from "@/api/classroom/classroom-query-options";
 import {useInfiniteQuery, useMutation, useQueryClient} from "@tanstack/react-query";
 import {useState} from "react";
 import {useDebounce} from "use-debounce";
@@ -20,7 +22,7 @@ export function AddClassroomToSubjectDialog(props: DialogProps) {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedInput] = useDebounce(searchItem, 300);
     const classroomQuery
-        = useInfiniteQuery(createClassroomInfiniteQueryOptions(debouncedInput));
+        = useInfiniteQuery(createClassroomInfiniteSearch(debouncedInput));
 
     if (classroomQuery.isError) return <></>;
 

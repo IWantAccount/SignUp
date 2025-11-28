@@ -2,21 +2,18 @@ import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOp
 import {
     addStudentToClassroom,
     createUser,
-    deleteUser, getUserByRoleByName, getStudentEnrolledInSubject, getUserByClassroomAndNamePaged,
-    getUserByClassroomPaged,
-    getUserById,
-    getUserPaged, removeStudentFromClassroom,
-    updateUser, getUserBySubjectAndNamePaged
+    deleteUser, getStudentEnrolledInSubject,
+    getUserById, removeStudentFromClassroom,
+    updateUser, getUserSearch
 } from "@/api/user/user-api.ts";
 import type {
     StudentClassroomDto,
     UserCreateDto,
-    UserGetDetailDto,
+    UserGetDetailDto, UserSearchDto,
     UserUpdateDto
 } from "@/api/user/user-dtos.ts";
 import type {AxiosError} from "axios";
 import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
-import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 
 export const userQueryKey = "user";
@@ -64,39 +61,6 @@ export function createDeleteUserOptions(id: string, queryClient: QueryClient): U
     }
 }
 
-export function createUserInfiniteQueryOptions(searchItem: string) {
-    return infiniteQueryOptions({
-        queryKey: [userQueryKey, "infinite", searchItem],
-        queryFn: ({pageParam}) => getUserPaged(searchItem, pageParam),
-        ...springInfiniteBase
-    })
-}
-
-export function createGetUserByClassroomInfiniteQueryOptions(classroomId: string, searchItem?: string) {
-    return infiniteQueryOptions({
-        queryKey: [userQueryKey, "infinite", classroomId, searchItem ? searchItem : ""],
-        queryFn: ({pageParam}) => {
-            if(!searchItem || searchItem === ""){
-                return getUserByClassroomPaged(classroomId, pageParam);
-            }
-
-            return getUserByClassroomAndNamePaged(classroomId, searchItem, pageParam);
-        },
-        ...springInfiniteBase
-    })
-}
-
-export function createGetUserBySubjectInfiniteQueryOptions(subjectId: string, searchItem?: string) {
-    const search = searchItem ? searchItem : "";
-    return infiniteQueryOptions({
-        queryKey: [userQueryKey, subjectId, search, "infinite"],
-        queryFn: ({pageParam}) => {
-            return getUserBySubjectAndNamePaged(subjectId, pageParam, search);
-        },
-        ...springInfiniteBase
-    })
-}
-
 export function createGetEnrolledByNameInfiniteQueryOptions(subjectId: string, searchItem?: string) {
     const toSearch = searchItem ? searchItem : "";
     return infiniteQueryOptions({
@@ -108,12 +72,13 @@ export function createGetEnrolledByNameInfiniteQueryOptions(subjectId: string, s
     })
 }
 
-export function createGetByRoleNameInfiniteQueryOptions(role: UserRoleEnum, name?: string) {
+export function createUserSearchOptions(opt: {
+    pageSize?: number;
+    dto: UserSearchDto;
+}) {
     return infiniteQueryOptions({
-        queryKey: [userQueryKey, "infinite", role, name ?? ""],
-        queryFn: ({pageParam}) => {
-            return getUserByRoleByName(role, pageParam, name);
-        },
+        queryKey: [userQueryKey, "infinite", opt.dto],
+        queryFn: ({pageParam}) => getUserSearch({dto: opt.dto, page: pageParam, pageSize: opt.pageSize}),
         ...springInfiniteBase
     })
 }

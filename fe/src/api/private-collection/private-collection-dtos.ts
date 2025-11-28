@@ -1,6 +1,6 @@
 import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
 import type {NamedDtoWithId} from "@/api/universal/dto/named-dto-with-id.ts";
-import type {UserDtos} from "@/api/user/user-dtos.ts";
+import type {UserGetListDto} from "@/api/user/user-dtos.ts";
 
 export interface CollectionSignDto {
     collectionId: string;
@@ -12,7 +12,7 @@ export interface PrivateCollectionCreateDto extends NamedDto {
 }
 
 export interface PrivateCollectionGetDetailDto extends NamedDtoWithId {
-    owner: UserDtos;
+    owner: UserGetListDto;
 }
 
 export interface PrivateCollectionGetListDto extends NamedDtoWithId {

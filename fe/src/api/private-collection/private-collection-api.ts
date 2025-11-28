@@ -7,7 +7,7 @@ import type {
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type {Page} from "../universal/pagination/spring-boot-page.ts";
-import type {NamedDto} from "@/api/universal/dto/named-dto.ts";
+import type {NameSearchDto} from "@/api/universal/dto/name-search-dto.ts";
 
 
 const url = "/private-collection";
@@ -32,13 +32,8 @@ export const deleteCollectionById = async (id: string): Promise<void> => {
     await api.delete<PrivateCollectionGetDetailDto>(buildPath([url, id]));
 }
 
-export const getCollectionPaged = async (page: number, pageSize?: number): Promise<Page<PrivateCollectionGetListDto>> => {
-    const res = await api.get<Page<PrivateCollectionGetListDto>>(buildPath([url], page, pageSize))
-    return res.data;
-}
-
-export const getCollectionByNamePaged = async (name: string, page: number, pageSize?: number): Promise<Page<PrivateCollectionGetListDto>> => {
-    const dto: NamedDto = {name: name};
-    const res = await api.post<Page<PrivateCollectionGetListDto>>(buildPath([url, "by-name"], page, pageSize), dto);
+export const getCollectionSearch = async (options: {page: number, pageSize?: number, search?: string}): Promise<Page<PrivateCollectionGetListDto>> => {
+    const dto: NameSearchDto = {name: options.search};
+    const res = await api.post<Page<PrivateCollectionGetListDto>>(buildPath([url, "search"], options.page, options.pageSize), dto);
     return res.data;
 }

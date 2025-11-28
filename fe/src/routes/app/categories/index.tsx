@@ -3,7 +3,7 @@ import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-c
 import {CategoryGrid} from "@/components/grids/category-grid.tsx";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {useState} from "react";
-import {createCategoryInfiniteQuery} from "@/api/category/category-query-options.ts";
+import { createCategoryInfiniteSearch} from "@/api/category/category-query-options.ts";
 import {useInfiniteQuery} from '@tanstack/react-query';
 import type {CategoryGetListDto} from "@/api/category/category-dtos.ts";
 import {useDebounce} from "use-debounce";
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/app/categories/')({
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300);
-    const categoriesQuery = useInfiniteQuery(createCategoryInfiniteQuery(debouncedSearch));
+    const categoriesQuery = useInfiniteQuery(createCategoryInfiniteSearch({search: debouncedSearch}));
     if (categoriesQuery.isError) return <></>
 
     const categories: CategoryGetListDto[] = categoriesQuery.data?.pages.flatMap(page => page.content) ?? [];

@@ -6,15 +6,14 @@ import {createGetSubjectByIdOptions, subjectQueryKey} from "@/api/subject/subjec
 import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {deleteSubject} from "@/api/subject/subject-api.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
-import {createCategoryInfiniteQuery} from "@/api/category/category-query-options.ts";
+import {createCategoryInfiniteSearch} from "@/api/category/category-query-options.ts";
 import {useState} from "react";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import {Box, SpeedDial, SpeedDialAction, SpeedDialIcon, Tab, Tabs} from "@mui/material";
 import {AddClassroomToSubjectDialog} from "@/components/dialogs/add-classroom-to-subject-dialog.tsx";
 import {AddStudentToSubjectDialog} from "@/components/dialogs/add-student-to-subject-dialog.tsx";
-import {
-    createGetUserBySubjectInfiniteQueryOptions
+import {createUserSearchOptions
 } from "@/api/user/user-query-options.ts";
 import {UserGrid} from "@/components/grids/user-grid.tsx";
 import {useDebounce} from "use-debounce";
@@ -34,8 +33,8 @@ function RouteComponent() {
     const [debouncedStudentSearch] = useDebounce(studentSearch, 300);
 
     const subjectQuery = useQuery(createGetSubjectByIdOptions(subjectId));
-    const categoryQuery = useInfiniteQuery(createCategoryInfiniteQuery(debouncedCategorySearch, subjectId));
-    const studentQuery = useInfiniteQuery(createGetUserBySubjectInfiniteQueryOptions(subjectId, debouncedStudentSearch));
+    const categoryQuery = useInfiniteQuery(createCategoryInfiniteSearch({search: debouncedCategorySearch, subjectId: subjectId}));
+    const studentQuery = useInfiniteQuery(createUserSearchOptions({dto: {name: debouncedStudentSearch, subjectId: subjectId}}));
     const [addClassroomDialogOpened, setAddClassroomDialogOpened] = useState(false);
     const [addStudentDialogOpened, setAddStudentDialogOpened] = useState(false);
     const [selectedTab, setSelectedTab] = useState<"categories" | "students">("categories");
