@@ -36,8 +36,8 @@ export function createCreateSubjectOptions(queryClient: QueryClient): UseMutatio
     SubjectCreateDto> {
     return {
         mutationFn: (dto: SubjectCreateDto) => createSubject(dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
         }
     }
 }
@@ -48,8 +48,8 @@ export function createUpdateSubjectOptions(id: string, queryClient: QueryClient)
     SubjectUpdateDto> {
     return {
         mutationFn: (dto: SubjectUpdateDto) => updateSubject(id, dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [subjectQueryKey, id]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [subjectQueryKey, id]});
         }
     }
 }
@@ -60,8 +60,8 @@ export function createDeleteSubjectOptions(id: string, queryClient: QueryClient)
     void> {
     return {
         mutationFn: () => deleteSubject(id),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
         }
     }
 }
@@ -78,10 +78,13 @@ export function createAddStudentToSubjectOptions(dto: SubjectStudentDto, queryCl
     return {
         mutationKey: [subjectQueryKey, dto.subjectId],
         mutationFn: () => addStudentToSubject(dto),
-        onSuccess: () => {
-
-            queryClient.invalidateQueries({queryKey: [userQueryKey]});
-            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+        onSuccess: async () => {
+            await Promise.all(
+                [
+                    queryClient.invalidateQueries({queryKey: [userQueryKey]}),
+                    queryClient.invalidateQueries({queryKey: [subjectQueryKey]})
+                ]
+            )
         }
     }
 }
@@ -90,9 +93,13 @@ export function createRemoveStudentFromSubjectOptions(dto: SubjectStudentDto, qu
     return {
         mutationKey: [subjectQueryKey, dto.subjectId],
         mutationFn: () => removeStudentFromSubject(dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [userQueryKey]});
-            queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+        onSuccess: async () => {
+            await Promise.all(
+                [
+                    queryClient.invalidateQueries({queryKey: [userQueryKey]}),
+                    queryClient.invalidateQueries({queryKey: [subjectQueryKey]})
+                ]
+            )
         }
     }
 }
@@ -101,9 +108,13 @@ export function createAddClassroomToSubjectOptions(dto: SubjectClassroomDto, que
     return {
         mutationKey: [subjectQueryKey, dto.subjectId],
         mutationFn: () => addClassroomToSubject(dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [subjectQueryKey, dto.subjectId]});
-            queryClient.invalidateQueries({queryKey: [classroomQueryKey, dto.classroomId]});
+        onSuccess: async () => {
+            await Promise.all(
+                [
+                    queryClient.invalidateQueries({queryKey: [subjectQueryKey, dto.subjectId]}),
+                    queryClient.invalidateQueries({queryKey: [classroomQueryKey, dto.classroomId]})
+                ]
+            )
         }
     }
 }
