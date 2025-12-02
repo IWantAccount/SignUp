@@ -25,8 +25,8 @@ export function createGetCategoryByIdOptions(id: string) {
 export function createCreateCategoryOptions(queryClient: QueryClient): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryCreateDto> {
     return {
         mutationFn: (dto: CategoryCreateDto) => createCategory(dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [categoryQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [categoryQueryKey]});
         }
     }
 }
@@ -34,17 +34,17 @@ export function createCreateCategoryOptions(queryClient: QueryClient): UseMutati
 export function createUpdateCategoryOptions(id: string, queryClient: QueryClient): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryUpdateDto> {
     return {
         mutationFn: (dto: CategoryUpdateDto) => updateCategory(id, dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [categoryQueryKey, id]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [categoryQueryKey]});
         }
     }
 }
 
-export function createDeleteCategoryOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, AxiosError, string> {
+export function createDeleteCategoryOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
     return {
-        mutationFn: (id: string) => deleteCategory(id),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [categoryQueryKey, id]});
+        mutationFn: () => deleteCategory(id),
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [categoryQueryKey]});
         }
     }
 }
