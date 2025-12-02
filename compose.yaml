@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: plsdonthackme
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  be:
+    build: ./be
+    container_name: signup-be
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/appdb
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: plsdonthackme
+      SPRING_UPLOADS: /storage
+    volumes:
+      - ./uploads:/storage
+  fe:
+    build: ./fe
+    container_name: signup-fe
+    ports:
+      - "3000:80"
+    depends_on:
+      - be
+
+volumes:
+  pgdata: {}
