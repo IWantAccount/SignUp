@@ -1,16 +1,20 @@
 import {infiniteQueryOptions, type QueryClient, queryOptions, type UseMutationOptions} from "@tanstack/react-query"
 import {
+    addSignToCollection, collectionSignSearch,
     createCollection,
     deleteCollectionById,
-    getCollectionById, getCollectionSearch,
+    getCollectionById, getCollectionSearch, removeSignFromCollection,
     updateCollectionById
 } from "@/api/private-collection/private-collection-api.ts";
 import type {
+    CollectionSignDto, CollectionSignSearchDto,
     PrivateCollectionCreateDto,
     PrivateCollectionGetDetailDto,
     PrivateCollectionUpdateDto
 } from "@/api/private-collection/private-collection-dtos.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
+import type {AxiosError} from "axios";
+import {signQueryKey} from "@/api/sign/sign-query-options.ts";
 
 export const privateCollectionQueryKey = "private-collection";
 
@@ -28,8 +32,8 @@ export function createUpdateCollectionByIdOptions(id: string, queryClient: Query
     return {
         mutationFn: (dto) => updateCollectionById(id, dto),
         mutationKey: [privateCollectionQueryKey, id],
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
         }
     }
 }
@@ -41,8 +45,8 @@ export function createCreateCollectionOptions(queryClient: QueryClient): UseMuta
     return {
         mutationFn: (dto) => createCollection(dto),
         mutationKey: [privateCollectionQueryKey],
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
         }
 
     }
@@ -60,8 +64,48 @@ export function createDeleteCollectionByIdOptions(id: string, queryClient: Query
     return {
         mutationKey: [privateCollectionQueryKey, id],
         mutationFn: (id: string) => deleteCollectionById(id),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]})
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]})
         }
     }
 }
+
+export function createAddSignToCollectionOptions(dto: CollectionSignDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [privateCollectionQueryKey, dto],
+        mutationFn: () => addSignToCollection(dto),
+        onSuccess: async () => {
+            await Promise.all(
+                [
+                    queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]}),
+                    queryClient.invalidateQueries({queryKey: [signQueryKey, dto.signId]})
+                ]
+            )
+        }
+    }
+}
+
+export function createRemoveSignFromCollectionOptions(dto: CollectionSignDto, queryClient: QueryClient): UseMutationOptions<void, AxiosError, void> {
+    return {
+        mutationKey: [privateCollectionQueryKey, dto],
+        mutationFn: () => removeSignFromCollection(dto),
+        onSuccess: async () => {
+            await Promise.all(
+                [
+                    queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]}),
+                    queryClient.invalidateQueries({queryKey: [signQueryKey, dto.signId]})
+                ]
+            )
+        }
+    }
+}
+
+export function createCollectionSignSearch(dto: CollectionSignSearchDto, pageSize?: number) {
+    return infiniteQueryOptions({
+        queryKey: [privateCollectionQueryKey, dto],
+        queryFn: ({pageParam}) => collectionSignSearch(dto, pageParam, pageSize),
+        ...springInfiniteBase
+    })
+}
+
+

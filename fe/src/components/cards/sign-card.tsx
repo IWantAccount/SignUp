@@ -17,53 +17,68 @@ import {createDeleteSignOptions} from "@/api/sign/sign-query-options.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import ClearIcon from "@mui/icons-material/Clear";
+import {useState} from "react";
+import {AddSignToCollectionDialog} from "@/components/dialogs/add-sign-to-collection-dialog.tsx";
+import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 
 
 export function SignCard(props: SignGetListDto) {
     const queryClient = useQueryClient();
+    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
     const mutation = useMutation(createDeleteSignOptions(props.id, queryClient))
 
     return mutation.isPending ? <CardSkeleton/> : (
-        <Card sx={{
-            minWidth: 200,
-            maxWidth: 350,
-            //padding: 1
-        }}> <CardMedia
-            component="video"
-            muted
-            src={buildFilePath(props.videoFileName)}
-            controls
-            sx={{
-                width: "100%",
-                aspectRatio: "16 / 9"
-            }}
-        >
-        </CardMedia>
-            <CardContent>
-                <Stack>
-                    <Button component={Link} to={`/app/categories/${props.category.id}`}>{props.category.name}</Button>
-                    <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-                        {props.translations.map((t, i) => (
-                            <Chip key={i} label={t} size="small"/>
-                        ))}
+        <>
+            <AddSignToCollectionDialog
+                signId={props.id}
+                open={dialogOpen}
+                onClose={() => setDialogOpen(false)}/>
+            <Card sx={{
+                minWidth: 200,
+                maxWidth: 350,
+                //padding: 1
+            }}> <CardMedia
+                component="video"
+                muted
+                src={buildFilePath(props.videoFileName)}
+                controls
+                sx={{
+                    width: "100%",
+                    aspectRatio: "16 / 9"
+                }}
+            >
+            </CardMedia>
+                <CardContent>
+                    <Stack>
+                        <Button component={Link} to={`/app/categories/${props.category.id}`}>{props.category.name}</Button>
+                        <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+                            {props.translations.map((t, i) => (
+                                <Chip key={i} label={t} size="small"/>
+                            ))}
+                        </Stack>
                     </Stack>
-                </Stack>
-            </CardContent>
-            <CardActionArea>
-                <CardActions sx={{justifyContent: "space-between"}}>
-                    <Button component={Link} to={`/app/signs/${props.id}/`}>
-                        Detail
-                    </Button>
-                    <ZoomTooltip title={"smazat"}>
-                        <IconButton onClick={() => mutation.mutate()}>
-                            <ClearIcon/>
-                        </IconButton>
-                    </ZoomTooltip>
-                </CardActions>
-            </CardActionArea>
+                </CardContent>
+                <CardActionArea>
+                    <CardActions sx={{justifyContent: "space-between"}}>
+                        <Button component={Link} to={`/app/signs/${props.id}/`}>
+                            Detail
+                        </Button>
+                        <ZoomTooltip title={"uložit"}>
+                            <IconButton onClick={() => setDialogOpen(true)}>
+                                <TurnedInNotIcon/>
+                            </IconButton>
+                        </ZoomTooltip>
+                        <ZoomTooltip title={"smazat"}>
+                            <IconButton onClick={() => mutation.mutate()}>
+                                <ClearIcon/>
+                            </IconButton>
+                        </ZoomTooltip>
+                    </CardActions>
+                </CardActionArea>
 
-        </Card>
+            </Card>
+        </>
     )
 }
 

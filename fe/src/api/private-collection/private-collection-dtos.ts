@@ -23,3 +23,16 @@ export interface PrivateCollectionGetListDto extends NamedDtoWithId {
 export interface PrivateCollectionUpdateDto extends NamedDto {
 
 }
+
+export interface SignInCollectionDto {
+    signId: string;
+    collectionName: string;
+    collectionId: string;
+    signPresentInCollection: boolean;
+}
+
+export interface CollectionSignSearchDto {
+    collectionName?: string | null;
+    signId: string;
+    ownerId: string;
+}

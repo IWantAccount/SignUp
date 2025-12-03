@@ -1,6 +1,6 @@
 import {createFileRoute, Link} from '@tanstack/react-router'
 import {useState} from "react";
-import {Box, Button, Chip, Grid, Paper, Stack, Tab, Tabs, Typography} from "@mui/material";
+import {Box, Button, Chip, Grid, IconButton, Paper, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {createGetSignByIdOptions} from "@/api/sign/sign-query-options.ts";
 import { useQuery } from '@tanstack/react-query';
 import type {SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
@@ -8,6 +8,9 @@ import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import {signTypeToCzech} from "@/domain/sign-type.ts";
 import {buildFilePath} from "@/api/util/build-path.ts";
 import {regionToCzech} from "@/domain/region.ts";
+import {AddSignToCollectionDialog} from "@/components/dialogs/add-sign-to-collection-dialog.tsx";
+import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 export const Route = createFileRoute('/app/signs/$signId/')({
     component: RouteComponent,
@@ -18,23 +21,35 @@ function RouteComponent() {
     const [selectedTab, setSelectedTab] = useState<"base" | "notation">("base");
     const signId = Route.useParams().signId;
     const signQuery = useQuery(createGetSignByIdOptions(signId));
+    const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+
     if(signQuery.isPending) return <BackdropLoading/>
     if(signQuery.isError) return <></>;
     const sign: SignGetDetailDto = signQuery.data;
 
+
+
     return (
         <Stack sx={{alignItems: "center", gap: 4}}>
-            <Tabs
-                textColor="secondary"
-                indicatorColor="secondary"
-                value={selectedTab}
-                onChange={(_, newValue) => setSelectedTab(newValue)}>
-                <Tab value="base" label="Základní informace"/>
-                <Tab value="notation" label="Notace"/>
-            </Tabs>
+            <Box sx={{display: "flex", justifyContent: "center", flexWrap: "wrap"}}>
+                <Tabs
+                    textColor="secondary"
+                    indicatorColor="secondary"
+                    value={selectedTab}
+                    onChange={(_, newValue) => setSelectedTab(newValue)}>
+                    <Tab value="base" label="Základní informace"/>
+                    <Tab value="notation" label="Notace"/>
+                </Tabs>
+                <ZoomTooltip title={"uložit"}>
+                    <IconButton onClick={() => setDialogOpen(true)}>
+                        <TurnedInNotIcon fontSize="large"/>
+                    </IconButton>
+                </ZoomTooltip>
+            </Box>
             {selectedTab === "base" && <Base sign={sign}/>}
 
             {selectedTab === "notation" && <Notation sign={sign}/>}
+            <AddSignToCollectionDialog signId={signId} open={dialogOpen} onClose={() => setDialogOpen(false)}/>
         </Stack>
     )
 }
