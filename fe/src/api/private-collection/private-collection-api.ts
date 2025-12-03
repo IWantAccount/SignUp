@@ -1,8 +1,9 @@
 import type {
+    CollectionSignDto, CollectionSignSearchDto,
     PrivateCollectionCreateDto,
     PrivateCollectionGetDetailDto,
     PrivateCollectionGetListDto,
-    PrivateCollectionUpdateDto
+    PrivateCollectionUpdateDto, SignInCollectionDto
 } from "@/api/private-collection/private-collection-dtos.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
@@ -35,5 +36,18 @@ export const deleteCollectionById = async (id: string): Promise<void> => {
 export const getCollectionSearch = async (options: {page: number, pageSize?: number, search?: string}): Promise<Page<PrivateCollectionGetListDto>> => {
     const dto: NameSearchDto = {name: options.search};
     const res = await api.post<Page<PrivateCollectionGetListDto>>(buildPath([url, "search"], options.page, options.pageSize), dto);
+    return res.data;
+}
+
+export const addSignToCollection = async(dto: CollectionSignDto): Promise<void> => {
+    await api.post<void>(buildPath([url, "add-sign"]), dto);
+}
+
+export const removeSignFromCollection = async (dto: CollectionSignDto): Promise<void> => {
+    await api.post<void>(buildPath([url, "remove-sign"]), dto);
+}
+
+export const collectionSignSearch = async (dto: CollectionSignSearchDto, page: number, pageSize?: number): Promise<Page<SignInCollectionDto>> => {
+    const res = await  api.post<Page<SignInCollectionDto>>(buildPath([url, "sign-search"], page, pageSize), dto);
     return res.data;
 }

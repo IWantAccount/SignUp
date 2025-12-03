@@ -6,10 +6,10 @@ import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,5 +46,13 @@ public class PrivateCollectionController extends NamedEntityController<
     @PostMapping("/search")
     public ResponseEntity<Page<PrivateCollectionGetListDto>> search(@Valid @RequestBody FindByNameDto dto, Pageable pageable){
         return ResponseEntity.ok(privateCollectionService.search(dto, pageable));
+    }
+
+    //it is good to have result sorted. It does not have to be by id, but it should be sorted deterministically
+    @PostMapping("/sign-search")
+    public ResponseEntity<Page<SignInCollectionDto>> getSignInCollection(
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
+            @Valid @RequestBody CollectionSignSearchDto dto, Pageable pageable) {
+        return ResponseEntity.ok(privateCollectionService.getSignInCollection(dto, pageable));
     }
 }

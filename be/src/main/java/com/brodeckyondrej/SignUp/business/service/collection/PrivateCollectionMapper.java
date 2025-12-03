@@ -1,11 +1,9 @@
 package com.brodeckyondrej.SignUp.business.service.collection;
 
-import com.brodeckyondrej.SignUp.business.dto.collection.PrivateCollectionCreateDto;
-import com.brodeckyondrej.SignUp.business.dto.collection.PrivateCollectionGetDetailDto;
-import com.brodeckyondrej.SignUp.business.dto.collection.PrivateCollectionGetListDto;
-import com.brodeckyondrej.SignUp.business.dto.collection.PrivateCollectionUpdateDto;
+import com.brodeckyondrej.SignUp.business.dto.collection.*;
 import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
 import com.brodeckyondrej.SignUp.business.service.user.UserMapper;
+import com.brodeckyondrej.SignUp.persistence.entity.Sign;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityMapper;
@@ -55,5 +53,10 @@ public class PrivateCollectionMapper implements EntityMapper<
                 userMapper.toListDto(entity.getOwner()),
                 entity.getName()
         );
+    }
+
+    public SignInCollectionDto toSignInCollectionDto(PrivateCollection collection, Sign sign) {
+        boolean inCollection = collection.getSigns().contains(sign);
+        return new SignInCollectionDto(sign.getId(), collection.getName(), collection.getId(), inCollection);
     }
 }
