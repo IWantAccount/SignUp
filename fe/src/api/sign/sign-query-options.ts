@@ -22,8 +22,8 @@ export function createCreateSignOptions(queryClient: QueryClient): UseMutationOp
     return {
         mutationKey: [signQueryKey],
         mutationFn: (vars: CreateSign) => createSign(vars.dto, vars.video),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [signQueryKey]})
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [signQueryKey]})
         }
     }
 }
