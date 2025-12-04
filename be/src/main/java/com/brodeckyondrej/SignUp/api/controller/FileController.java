@@ -13,8 +13,6 @@ import org.springframework.core.io.Resource;
 
 @RestController
 @RequestMapping("/file")
-//TODO tohle dej pryč až zavedeš spring security
-//@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class FileController {
 
     private final StorageService storageService;

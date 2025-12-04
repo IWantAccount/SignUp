@@ -1,6 +1,7 @@
 package com.brodeckyondrej.SignUp.api.controller.universal;
 
 import com.brodeckyondrej.SignUp.business.service.universal.EntityService;
+import com.brodeckyondrej.SignUp.exception.BadTesterException;
 import com.brodeckyondrej.SignUp.persistence.entity.BaseEntity;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,13 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("")
 @RequiredArgsConstructor
-//TODO tohle dej pryč až zavedeš spring security
-//@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public abstract class EntityController<
         Entity extends BaseEntity,
         CreateDto,
@@ -33,12 +33,10 @@ public abstract class EntityController<
                 GetListDto
                 > entityService;
 
-    //For debug
-    //TODO remove this
-    @GetMapping("/all")
-    public ResponseEntity<List<GetListDto>> getAll(){
-        return ResponseEntity.ok(entityService.getAll());
-    }
+    private final Set<String> notAllowedIds = Set.of(
+            "id",
+            "id2"
+    );
 
     @GetMapping()
     public ResponseEntity<Page<GetListDto>> getAllPaged(Pageable pageable){
@@ -62,6 +60,9 @@ public abstract class EntityController<
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id){
+        if(notAllowedIds.contains(id.toString())){
+            throw new BadTesterException("Tento objekt je nutný pro test. Nemažte to.");
+        }
         entityService.delete(id);
         return ResponseEntity.ok().build();
     }

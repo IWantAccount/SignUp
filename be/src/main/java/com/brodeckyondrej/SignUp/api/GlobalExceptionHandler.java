@@ -1,4 +1,5 @@
 package com.brodeckyondrej.SignUp.api;
+import com.brodeckyondrej.SignUp.exception.BadTesterException;
 import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.exception.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,6 +35,13 @@ public class GlobalExceptionHandler {
         ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         pd.setTitle("Nelze smazat. Objekt není prázdný.");
         pd.setDetail(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
+    }
+
+    @ExceptionHandler({BadTesterException.class})
+    public ResponseEntity<ProblemDetail> badTester(BadTesterException e) {
+        ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        pd.setTitle(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
     }
 
