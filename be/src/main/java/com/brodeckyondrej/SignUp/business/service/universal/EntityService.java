@@ -1,5 +1,6 @@
 package com.brodeckyondrej.SignUp.business.service.universal;
 
+import com.brodeckyondrej.SignUp.exception.BadTesterException;
 import com.brodeckyondrej.SignUp.persistence.entity.BaseEntity;
 import com.brodeckyondrej.SignUp.persistence.repository.EntityRepository;
 import jakarta.transaction.Transactional;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.List;
@@ -34,15 +36,6 @@ public abstract class EntityService<
         return mapper.toDetailDto(res);
     }
 
-    //For debug
-    //TODO remove before publishing
-    public List<GetListDto> getAll(){
-        return repository.findAll()
-                .stream()
-                .map(mapper::toListDto)
-                .collect(Collectors.toList());
-    }
-
     @Transactional()
     public Page<GetListDto> getAllPaged(Pageable pageable){
         return repository.findAll(pageable)
@@ -60,7 +53,15 @@ public abstract class EntityService<
         return mapper.toDetailDto(found);
     }
 
+    private final Set<String> notAllowedIds = Set.of(
+            "id1",
+            "id2"
+    );
+
     public void delete(UUID id){
+        if(notAllowedIds.contains(id.toString())) {
+            throw new BadTesterException("Objekt je nutný pro testování. Nemažte to.");
+        }
         Entity found = repository.findByIdOrThrow(id);
         repository.delete(found);
     }
