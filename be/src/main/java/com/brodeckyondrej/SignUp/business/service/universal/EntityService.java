@@ -47,15 +47,20 @@ public abstract class EntityService<
     }
 
     public GetDetailDto update(UUID id, UpdateDto updateDto) {
-        validator.validateUpdateOrThrow(id, updateDto);
+    
+    	if(notAllowedIds.contains(id.toString())) {
+	    throw new BadTesterException("Objekt je nutný pro testování. Neměnit!");
+	}	    
+	validator.validateUpdateOrThrow(id, updateDto);
         Entity found = repository.findByIdOrThrow(id);
         mapper.updateFromDto(found, updateDto);
         return mapper.toDetailDto(found);
     }
 
     private final Set<String> notAllowedIds = Set.of(
-            "id1",
-            "id2"
+            "eee5a9c3-612f-477f-b883-468192819686",
+            "7dcc2e48-fdd1-4ef4-8afd-8cc508eaf367",
+	    "bb9499ac-2cbb-4c32-9122-e621a46992fd"
     );
 
     public void delete(UUID id){
