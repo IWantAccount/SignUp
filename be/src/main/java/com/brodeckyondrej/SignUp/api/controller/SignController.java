@@ -2,8 +2,6 @@ package com.brodeckyondrej.SignUp.api.controller;
 
 import com.brodeckyondrej.SignUp.api.controller.universal.EntityController;
 import com.brodeckyondrej.SignUp.business.dto.sign.*;
-import com.brodeckyondrej.SignUp.business.dto.sign.search.SearchDto;
-import com.brodeckyondrej.SignUp.business.dto.sign.search.SearchEntityDto;
 import com.brodeckyondrej.SignUp.business.service.sign.SignService;
 import com.brodeckyondrej.SignUp.persistence.entity.Sign;
 import jakarta.validation.Valid;

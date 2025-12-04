@@ -14,6 +14,8 @@ import {CategoryFormAutocomplete} from "@/components/util/category-form-autocomp
 import type {SignCreateDto} from "@/api/sign/sign-dtos.ts";
 import {enqueueSnackbar} from "notistack";
 
+
+
 const schema = z.object({
     categoryId: z.string().min(1, "Kategorie je povinná"),
     activeHandShapeId: z.string().nullable(),
@@ -26,9 +28,9 @@ const schema = z.object({
     movementId: z.string().nullable(),
     contactId: z.string().nullable(),
     handArrangementId: z.string().nullable(),
-    region: regionEnum,
-    languageLevel: languageLevelEnum,
-    signType: signTypeEnum,
+    region: regionEnum.nullable(),
+    languageLevel: languageLevelEnum.nullable(),
+    signType: z.enum(signTypeEnum.options, "Typ znaku je povinný"),
     explanation: z.string().nullable(),
     translations: z.array(z.string().trim().min(1, "Překled nesmí být prázdný").max(100, "Překlad nesmí být delší než 100 znaků")).min(1, "Je potřeba zadat alespoň jeden překlad"),
     bothHandsUsed: z.boolean(),
@@ -62,6 +64,9 @@ export function CreateSignForm(props: Props) {
             handArrangementId: null,
             bothHandsUsed: false,
             asymmetricSign: false,
+            languageLevel: null,
+            region: regionEnum.enum.CZECHIA,
+            signType: signTypeEnum.enum.STANDARD_LEXICAL_SIGN
         }
     });
 
