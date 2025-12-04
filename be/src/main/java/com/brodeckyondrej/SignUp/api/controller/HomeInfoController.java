@@ -1,8 +1,8 @@
 package com.brodeckyondrej.SignUp.api.controller;
 
 import com.brodeckyondrej.SignUp.api.controller.universal.BaseController;
-import com.brodeckyondrej.SignUp.business.dto.HomeInfoDto;
-import com.brodeckyondrej.SignUp.business.service.HomeInfoService;
+import com.brodeckyondrej.SignUp.business.dto.home.HomeInfoDto;
+import com.brodeckyondrej.SignUp.business.service.home.HomeInfoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,6 @@
-package com.brodeckyondrej.SignUp.business.service;
+package com.brodeckyondrej.SignUp.business.service.home;
 
-import com.brodeckyondrej.SignUp.business.dto.HomeInfoDto;
+import com.brodeckyondrej.SignUp.business.dto.home.HomeInfoDto;
 import com.brodeckyondrej.SignUp.persistence.repository.CategoryRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SignRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;

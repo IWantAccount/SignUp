@@ -1,4 +1,4 @@
-package com.brodeckyondrej.SignUp.business.dto;
+package com.brodeckyondrej.SignUp.business.dto.home;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
