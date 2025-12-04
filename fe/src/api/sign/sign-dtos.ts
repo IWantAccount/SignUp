@@ -9,8 +9,8 @@ import type {IdDto} from "@/api/universal/dto/id-dto.ts";
 export interface SignCreateDto {
     categoryId: string;
     type: SignType;
-    languageLevel?: LanguageLevelType;
-    region?: Region;
+    languageLevel?: LanguageLevelType | null;
+    region?: Region | null;
     translations: string[];
     explanation?: string;
     notation: NotationIdDto;

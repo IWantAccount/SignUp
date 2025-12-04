@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({DataIntegrityViolationException.class})
     public ResponseEntity<ProblemDetail> integrity(DataIntegrityViolationException e) {
         ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        pd.setTitle("Nelze smazat. Používáno!");
+        pd.setTitle("Nelze smazat. Objekt není prázdný.");
         pd.setDetail(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
     }
