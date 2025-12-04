@@ -52,8 +52,10 @@ export function TopBar(props: Props) {
 
                             </Box>
                         </IconButton>
-                        <Button color="inherit">Účet</Button>
-                        <Button color="inherit">Nápověda</Button>
+                        <Button color="inherit"
+                                component={Link} to={"/app/ondra-je-frajer"}>Účet</Button>
+                        <Button color="inherit"
+                                component={Link} to={"/app/ondra-je-frajer"}>Nápověda</Button>
                         <Button color="inherit"
                                 component={Link} to={"/app/ondra-je-frajer"}>O systému</Button>
                     </Toolbar>
