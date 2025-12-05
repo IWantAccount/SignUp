@@ -20,7 +20,7 @@ function RouteComponent() {
                   onSubmit={
                       (data) => {
                           //TODO fix. Zatím nemáme "přihlášeného uživatele"
-                          mutation.mutate({name: data.name, ownerId: "dc500556-e5d4-480b-b117-b1a1731ad636"})
+                          mutation.mutate({name: data.name, ownerId: "bb9499ac-2cbb-4c32-9122-e621a46992fd"})
                       }
                   }
                   submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}

@@ -5,5 +5,5 @@ export const Route = createFileRoute('/app/ondra-je-frajer')({
 })
 
 function RouteComponent() {
-    return <div>Je to pravda</div>
+    return <h1>TBD</h1>
 }

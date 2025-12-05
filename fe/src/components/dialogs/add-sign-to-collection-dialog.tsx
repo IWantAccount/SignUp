@@ -23,7 +23,7 @@ export function AddSignToCollectionDialog(props: DialogProps) {
     const [debounded] = useDebounce(searchItem, 300);
     const itemQuery = useInfiniteQuery(createCollectionSignSearch({
         collectionName: debounded,
-        ownerId: "dc500556-e5d4-480b-b117-b1a1731ad636", //TODO nahraď
+        ownerId: "bb9499ac-2cbb-4c32-9122-e621a46992fd", //TODO nahraď
         signId: props.signId
     }))
 
