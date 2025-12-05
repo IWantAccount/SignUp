@@ -27,7 +27,7 @@ public class AnnouncementController extends EntityController<Announcement, Annou
 
     @PostMapping("/search")
     public ResponseEntity<Page<AnnouncementGetListDto>> getLastDays(
-            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC)
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.ASC)
             @Valid @RequestBody AnnouncementSearchDto dto, Pageable pageable) {
         return ResponseEntity.ok(announcementService.getLastDays(dto.getLastDays(), pageable));
     }

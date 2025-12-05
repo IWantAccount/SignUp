@@ -6,6 +6,7 @@ import com.brodeckyondrej.SignUp.business.dto.home.announcement.AnnouncementGetL
 import com.brodeckyondrej.SignUp.business.dto.home.announcement.AnnouncementUpdateDto;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityService;
 import com.brodeckyondrej.SignUp.business.specification.AnnouncementSpecification;
+import com.brodeckyondrej.SignUp.exception.BadTesterException;
 import com.brodeckyondrej.SignUp.persistence.entity.Announcement;
 import com.brodeckyondrej.SignUp.persistence.repository.AnnouncementRepository;
 import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -36,8 +38,21 @@ public class AnnouncementService extends EntityService<Announcement, Announcemen
                         .addSpec(AnnouncementSpecification.isNewerThan(start));
         }
 
-
-
         return repository.findAll(specBuilder.build(), pageable).map(mapper::toListDto);
+    }
+
+    @Override
+    public AnnouncementGetDetailDto update(UUID id, AnnouncementUpdateDto dto) {
+        throw new BadTesterException("Nezkoušej to");
+    }
+
+    @Override
+    public AnnouncementGetDetailDto create(AnnouncementCreateDto dto) {
+        throw new BadTesterException("Nezkoušej to");
+    }
+
+    @Override
+    public void delete(UUID id) {
+        throw new BadTesterException("Nezkoušej to");
     }
 }
