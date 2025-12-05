@@ -9,21 +9,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("")
 @RequiredArgsConstructor
-//TODO tohle dej pryč až zavedeš spring security
-//@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public abstract class EntityController<
         Entity extends BaseEntity,
         CreateDto,
         UpdateDto,
         GetDetailDto,
         GetListDto
-        > {
+        > extends BaseController{
 
     private final EntityService<
                 Entity,
@@ -33,12 +30,6 @@ public abstract class EntityController<
                 GetListDto
                 > entityService;
 
-    //For debug
-    //TODO remove this
-    @GetMapping("/all")
-    public ResponseEntity<List<GetListDto>> getAll(){
-        return ResponseEntity.ok(entityService.getAll());
-    }
 
     @GetMapping()
     public ResponseEntity<Page<GetListDto>> getAllPaged(Pageable pageable){
