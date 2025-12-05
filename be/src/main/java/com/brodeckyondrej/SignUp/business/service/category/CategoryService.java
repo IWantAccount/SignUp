@@ -1,6 +1,7 @@
 package com.brodeckyondrej.SignUp.business.service.category;
 
 import com.brodeckyondrej.SignUp.business.dto.category.*;
+import com.brodeckyondrej.SignUp.business.service.sign.SignService;
 import com.brodeckyondrej.SignUp.business.specification.CategorySpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.Category;
 import com.brodeckyondrej.SignUp.persistence.repository.CategoryRepository;
@@ -13,18 +14,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 public class CategoryService extends NamedEntityService<Category, CategoryCreateDto, CategoryUpdateDto, CategoryGetDetailDto, CategoryGetListDto> {
     private final CategoryRepository categoryRepository;
     private final SubjectRepository subjectRepository;
     private final CategoryMapper categoryMapper;
+    private final SignService signService;
 
-    public CategoryService(CategoryRepository repository, CategoryValidator validator, CategoryMapper mapper, SubjectRepository subjectRepository) {
+    public CategoryService(CategoryRepository repository, CategoryValidator validator, CategoryMapper mapper, SubjectRepository subjectRepository,
+                           SignService signService) {
         super(repository, validator, mapper);
         this.categoryRepository = repository;
         this.subjectRepository = subjectRepository;
         this.categoryMapper = mapper;
+        this.signService = signService;
     }
 
     public Page<CategoryGetListDto> search(CategorySearchDto dto, Pageable pageable) {
@@ -37,5 +43,12 @@ public class CategoryService extends NamedEntityService<Category, CategoryCreate
         }
 
         return categoryRepository.findAll(specBuilder.build(), pageable).map(categoryMapper::toListDto);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        Category category = categoryRepository.findByIdOrThrow(id);
+        category.getSigns().forEach(sign -> signService.delete(sign.getId()));
+        categoryRepository.delete(category);
     }
 }

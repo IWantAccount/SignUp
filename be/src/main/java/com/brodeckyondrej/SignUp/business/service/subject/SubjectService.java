@@ -2,6 +2,7 @@ package com.brodeckyondrej.SignUp.business.service.subject;
 
 import com.brodeckyondrej.SignUp.business.dto.subject.*;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
+import com.brodeckyondrej.SignUp.business.service.category.CategoryService;
 import com.brodeckyondrej.SignUp.business.specification.NameSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
@@ -19,6 +20,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto, SubjectUpdateDto, SubjectGetDetailDto, SubjectGetListDto> {
@@ -26,13 +29,15 @@ public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto
     private final SubjectRepository subjectRepository;
     private final UserRepository userRepository;
     private final ClassroomRepository classroomRepository;
+    private final CategoryService categoryService;
 
     public SubjectService(SubjectRepository repository, SubjectValidator validator, SubjectMapper mapper,
-                          UserRepository userRepository, ClassroomRepository classroomRepository) {
+                          UserRepository userRepository, ClassroomRepository classroomRepository, CategoryService categoryService) {
         super(repository, validator, mapper);
         this.subjectRepository = repository;
         this.userRepository = userRepository;
         this.classroomRepository = classroomRepository;
+        this.categoryService = categoryService;
     }
 
     public void addStudent(SubjectStudentDto dto){
@@ -70,5 +75,14 @@ public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto
                 .build();
 
         return subjectRepository.findAll(spec, pageable).map(mapper::toListDto);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        Subject subject = subjectRepository.findByIdOrThrow(id);
+        subject.getStudents().forEach(subject::removeStudent);
+        subject.getCategories().forEach(category -> categoryService.delete(category.getId()));
+
+        super.delete(id);
     }
 }
