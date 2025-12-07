@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,18 +25,27 @@ import java.util.UUID;
 @Transactional
 public class UserService extends NamedEntityService<User, UserCreateDto, UserUpdateDto, UserGetDetailDto, UserGetListDto> {
     private final UserRepository userRepository;
-    private final UserValidator userValidator;
     private final UserMapper userMapper;
     private final ClassroomRepository classroomRepository;
     private final SubjectRepository subjectRepository;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
-    public UserService(UserRepository repository, UserValidator validator, UserMapper mapper, ClassroomRepository classroomRepository, SubjectRepository subjectRepository) {
+    public UserService(UserRepository repository, UserValidator validator, UserMapper mapper,
+                       ClassroomRepository classroomRepository, SubjectRepository subjectRepository) {
         super(repository, validator, mapper);
         this.userRepository = repository;
-        this.userValidator = validator;
         this.userMapper = mapper;
         this.classroomRepository = classroomRepository;
         this.subjectRepository = subjectRepository;
+    }
+
+    @Override
+    public UserGetDetailDto create(UserCreateDto userCreateDto) {
+        User newUser = userMapper.fromCreateDto(userCreateDto);
+        newUser.setPassword(encoder.encode(userCreateDto.getPassword()));
+        repository.save(newUser);
+
+        return userMapper.toDetailDto(newUser);
     }
 
     public void addStudentToClassroom(StudentClassroomDto dto){
