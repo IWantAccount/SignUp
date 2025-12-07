@@ -5,14 +5,14 @@ import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.business.dto.subject.*;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
+import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacher;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/subject")
@@ -26,18 +26,21 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
     }
 
     @PostMapping("/add-student")
+    @AtLeastTeacher
     public ResponseEntity<Void> addStudentToSubject(@Valid @RequestBody SubjectStudentDto dto){
         subjectService.addStudent(dto);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/remove-student")
+    @AtLeastTeacher
     public ResponseEntity<Void> removeStudentFromSubject(@Valid @RequestBody SubjectStudentDto dto){
         subjectService.removeStudent(dto);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/add-classroom")
+    @AtLeastTeacher
     public ResponseEntity<Void> addClassroomToSubject(@Valid @RequestBody SubjectClassroomDto dto){
         subjectService.addClassroom(dto);
         return ResponseEntity.ok().build();
@@ -46,5 +49,26 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
     @PostMapping("/search")
     public ResponseEntity<Page<SubjectGetListDto>> search(@Valid @RequestBody FindByNameDto dto, Pageable pageable){
         return ResponseEntity.ok(subjectService.search(dto, pageable));
+    }
+
+    @Override
+    @PostMapping
+    @AtLeastTeacher
+    public ResponseEntity<SubjectGetDetailDto> create(@Valid @RequestBody SubjectCreateDto dto) {
+        return super.create(dto);
+    }
+
+    @Override
+    @PutMapping("/{id}")
+    @AtLeastTeacher
+    public ResponseEntity<SubjectGetDetailDto> update(@Valid @RequestBody SubjectUpdateDto dto, @PathVariable UUID id){
+        return super.update(dto, id);
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    @AtLeastTeacher
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        return super.delete(id);
     }
 }
