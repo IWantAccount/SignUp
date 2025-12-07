@@ -7,8 +7,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+//částečně převzato z https://www.youtube.com/watch?v=oeni_9g7too
 @Service
-public class UserDetailService implements UserDetailsService {
+public class UserDetailServiceSpec implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
@@ -20,7 +21,7 @@ public class UserDetailService implements UserDetailsService {
         return new UserDetailExtractor(user);
     }
 
-    public UserDetailService(UserRepository userRepository) {
+    public UserDetailServiceSpec(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 }

@@ -1,0 +1,50 @@
+package com.brodeckyondrej.SignUp.security;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+
+@Component
+//částečně převzato z https://www.youtube.com/watch?v=oeni_9g7too
+public class JWTFilter extends OncePerRequestFilter {
+
+    private final JWTService jwtService;
+    private final UserDetailServiceSpec userDetailService;
+
+    public JWTFilter(JWTService jwtService, UserDetailServiceSpec userDetailService) {
+        this.jwtService = jwtService;
+        this.userDetailService = userDetailService;
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String authHeader = request.getHeader("Authorization");
+        String jwtToken = null;
+        String email = null;
+
+        if(authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwtToken = authHeader.substring(7);
+            email = jwtService.extractEmail(jwtToken);
+        }
+
+        if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            UserDetails userDetails = userDetailService.loadUserByUsername(email);
+            if(jwtService.validateToken(jwtToken, userDetails)){
+                UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(token);
+            }
+        }
+
+        filterChain.doFilter(request, response);
+    }
+}
