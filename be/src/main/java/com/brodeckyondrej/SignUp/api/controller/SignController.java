@@ -28,6 +28,7 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @AtLeastTeacher
     public ResponseEntity<SignGetDetailDto> create(@RequestPart("dto") @Valid SignCreateDto dto, @RequestPart("video") MultipartFile videoFile) {
         return ResponseEntity.ok(signService.create(dto, videoFile));
     }
@@ -35,13 +36,6 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
     @PostMapping("/search")
     public ResponseEntity<Page<SignGetListDto>> search(@RequestBody @Valid SignSearchDto dto, Pageable pageable) {
         return ResponseEntity.ok(signService.search(dto, pageable));
-    }
-
-    @Override
-    @PostMapping
-    @AtLeastTeacher
-    public ResponseEntity<SignGetDetailDto> create(@Valid @RequestBody SignCreateDto dto) {
-        return ResponseEntity.ok(signService.create(dto));
     }
 
     @Override
