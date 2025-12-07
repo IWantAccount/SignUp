@@ -2,6 +2,7 @@ package com.brodeckyondrej.SignUp.business.service.user;
 
 import com.brodeckyondrej.SignUp.business.dto.user.*;
 import com.brodeckyondrej.SignUp.business.specification.UserSpecification;
+import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.persistence.repository.ClassroomRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
@@ -10,11 +11,16 @@ import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.persistence.enumerated.UserRole;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
+import com.brodeckyondrej.SignUp.security.JWTService;
 import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +35,20 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
     private final ClassroomRepository classroomRepository;
     private final SubjectRepository subjectRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private final AuthenticationManager authManager;
+    private final JWTService jwtService;
 
     public UserService(UserRepository repository, UserValidator validator, UserMapper mapper,
-                       ClassroomRepository classroomRepository, SubjectRepository subjectRepository) {
+                       ClassroomRepository classroomRepository, SubjectRepository subjectRepository,
+                       AuthenticationManager authManager, JWTService jwtService) {
         super(repository, validator, mapper);
         this.userRepository = repository;
         this.userMapper = mapper;
         this.classroomRepository = classroomRepository;
         this.subjectRepository = subjectRepository;
+        this.authManager = authManager;
+        this.jwtService = jwtService;
+
     }
 
     @Override
@@ -108,5 +120,21 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         user.get().getSubjects()
                 .forEach(subject -> subject.removeStudent(user.get()));
         super.delete(id);
+    }
+
+    public String verifyLogin(LoginDto loginDto) {
+        Authentication auth = authManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+
+        if(!auth.isAuthenticated()){
+            throw new BadCredentialsException("Špatný email nebo heslo");
+        }
+
+        Optional<User> user = userRepository.findByEmail(loginDto.getEmail());
+        if(user.isEmpty()){
+            throw new MissingObjectException("Uživatel nenalezen");
+        }
+
+        return jwtService.createJWT(user.get());
     }
 }
