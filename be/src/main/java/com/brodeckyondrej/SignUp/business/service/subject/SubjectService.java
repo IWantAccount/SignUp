@@ -80,8 +80,8 @@ public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto
     @Override
     public void delete(UUID id) {
         Subject subject = subjectRepository.findByIdOrThrow(id);
-        subject.getStudents().forEach(subject::removeStudent);
-        subject.getCategories().forEach(category -> categoryService.delete(category.getId()));
+        subject.getStudents().stream().toList().forEach(subject::removeStudent);
+        subject.getCategories().stream().toList().forEach(category -> categoryService.delete(category.getId()));
 
         super.delete(id);
     }
