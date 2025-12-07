@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-
+//částečně převzato z https://www.youtube.com/watch?v=oeni_9g7too
 public class UserDetailExtractor implements UserDetails {
 
     private final User user;
