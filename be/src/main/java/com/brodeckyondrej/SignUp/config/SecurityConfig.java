@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .csrf(c -> c.disable())
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/file/url-req/**").permitAll()
                         .anyRequest().authenticated()
 
                 )
