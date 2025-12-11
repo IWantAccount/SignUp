@@ -21,10 +21,8 @@ public class AuthController extends BaseController {
         this.userService = userService;
     }
 
-    //TODO DTOčko na login
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> login(@Valid @RequestBody LoginDto loginDto) {
         return ResponseEntity.ok(userService.verifyLogin(loginDto));
     }
-
 }
