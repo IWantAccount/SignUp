@@ -1,5 +1,7 @@
 package com.brodeckyondrej.SignUp.business.service.user;
 
+import com.brodeckyondrej.SignUp.business.dto.auth.JwtResponseDto;
+import com.brodeckyondrej.SignUp.business.dto.auth.LoginDto;
 import com.brodeckyondrej.SignUp.business.dto.user.*;
 import com.brodeckyondrej.SignUp.business.specification.UserSpecification;
 import com.brodeckyondrej.SignUp.exception.MissingObjectException;
@@ -122,7 +124,7 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         super.delete(id);
     }
 
-    public String verifyLogin(LoginDto loginDto) {
+    public JwtResponseDto verifyLogin(LoginDto loginDto) {
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
 
@@ -135,6 +137,6 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
             throw new MissingObjectException("Uživatel nenalezen");
         }
 
-        return jwtService.createJWT(user.get());
+        return new JwtResponseDto(jwtService.createJWT(user.get()));
     }
 }
