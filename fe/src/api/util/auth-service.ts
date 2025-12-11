@@ -1,4 +1,4 @@
-import type {UserRoleEnum} from "@/domain/user-role-enum.ts";
+import {userRoleEnum, type UserRoleEnum} from "@/domain/user-role-enum.ts";
 import {enqueueSnackbar} from "notistack";
 //Návrh téhle třídy jsem výrazně konzultoval s ChatGPT (model 5.1, OpenAI)
 export class AuthService {
@@ -15,8 +15,8 @@ export class AuthService {
         try {
             const payload = this.decodeJWT(token);
             this.userId = payload.userId;
-            this.userName = payload.userName;
-            this.userRole = payload.userRole;
+            this.userName = payload.name;
+            this.userRole = payload.role;
         }
         catch (error) {
             enqueueSnackbar("Chyba při přihlášení", {variant: "error"});
@@ -29,7 +29,7 @@ export class AuthService {
         return this.token;
     }
 
-    private static logout(): void {
+    static logout(): void {
         this.token = null;
         this.userName = null;
         this.userRole = null;
@@ -37,8 +37,16 @@ export class AuthService {
         localStorage.removeItem(this.jwtStorageKey);
     }
 
+    static atLeastTeacher(): boolean {
+        return this.isLoggedIn() && (this.userRole === userRoleEnum.enum.TEACHER || this.userRole === userRoleEnum.enum.ADMIN);
+    }
+
+    static atLeastAdmin(): boolean {
+        return this.isLoggedIn() && this.userRole === userRoleEnum.enum.ADMIN;
+    }
+
     static isLoggedIn(): boolean {
-        return this.token === null;
+        return !(this.token === null);
     }
 
     static getUserName(): string {

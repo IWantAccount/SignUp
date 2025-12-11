@@ -20,6 +20,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import {useState} from "react";
 import {AddSignToCollectionDialog} from "@/components/dialogs/add-sign-to-collection-dialog.tsx";
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
+import {AuthService} from "@/api/util/auth-service.ts";
 
 
 export function SignCard(props: SignGetListDto) {
@@ -69,11 +70,15 @@ export function SignCard(props: SignGetListDto) {
                                 <TurnedInNotIcon/>
                             </IconButton>
                         </ZoomTooltip>
-                        <ZoomTooltip title={"smazat"}>
-                            <IconButton onClick={() => mutation.mutate()}>
-                                <ClearIcon/>
-                            </IconButton>
-                        </ZoomTooltip>
+                        {
+                            AuthService.atLeastTeacher() && (
+                                <ZoomTooltip title={"smazat"}>
+                                    <IconButton onClick={() => mutation.mutate()}>
+                                        <ClearIcon/>
+                                    </IconButton>
+                                </ZoomTooltip>
+                            )
+                        }
                     </CardActions>
                 </CardActionArea>
 

@@ -7,9 +7,7 @@ const api = axios.create({
 
 api.interceptors.request.use(config => {
     const token = AuthService.getToken();
-    console.log("interceptor");
     if(token) {
-        console.log("máme token")
         config.headers.Authorization = `Bearer ${token}`;
     }
 

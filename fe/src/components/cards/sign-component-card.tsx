@@ -7,6 +7,7 @@ import {createDeleteSignComponentOptions,} from "@/api/sign-component/sign-compo
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 
 export function SignComponentCard(props: SignComponentGetListDto) {
@@ -38,21 +39,29 @@ export function SignComponentCard(props: SignComponentGetListDto) {
                                 <Button component={Link} to={`/app/sign-components/${props.id}/`}>
                                     Detail
                                 </Button>
-                                <ZoomTooltip title={"upravit"}>
-                                    <IconButton
-                                        onClick={() => {
-                                            navigate({to: `/app/sign-components/${props.id}/edit/`});
-                                        }}>
-                                        <EditIcon/>
-                                    </IconButton>
-                                </ZoomTooltip>
+                                {
+                                    AuthService.atLeastTeacher() && (
+                                        <ZoomTooltip title={"upravit"}>
+                                            <IconButton
+                                                onClick={() => {
+                                                    navigate({to: `/app/sign-components/${props.id}/edit/`});
+                                                }}>
+                                                <EditIcon/>
+                                            </IconButton>
+                                        </ZoomTooltip>
+                                    )
+                                }
 
-                                <ZoomTooltip title={"smazat"}>
-                                    <IconButton
-                                        onClick={() => mutation.mutate(props.id)}>
-                                        <ClearIcon/>
-                                    </IconButton>
-                                </ZoomTooltip>
+                                {
+                                    AuthService.atLeastTeacher() && (
+                                        <ZoomTooltip title={"smazat"}>
+                                            <IconButton
+                                                onClick={() => mutation.mutate(props.id)}>
+                                                <ClearIcon/>
+                                            </IconButton>
+                                        </ZoomTooltip>
+                                    )
+                                }
                             </CardActions>
                         </Stack>
 
