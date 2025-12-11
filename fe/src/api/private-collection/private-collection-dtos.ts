@@ -36,3 +36,7 @@ export interface CollectionSignSearchDto {
     signId: string;
     ownerId: string;
 }
+
+export interface CollectionSearchDto {
+
+}

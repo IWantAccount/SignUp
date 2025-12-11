@@ -52,7 +52,7 @@ export function createCreateCollectionOptions(queryClient: QueryClient): UseMuta
     }
 }
 
-export function createCollectionSearchOptions(search?: string, pageSize?: number){
+export function createCollectionSearchOptions(search?: string,  pageSize?: number){
     return infiniteQueryOptions({
         queryKey: [privateCollectionQueryKey, "infinite", search ?? ""],
         queryFn: ({pageParam}) => getCollectionSearch({page: pageParam, search: search, pageSize: pageSize}),
