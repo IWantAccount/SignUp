@@ -44,7 +44,7 @@ public class PrivateCollectionController extends NamedEntityController<
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Page<PrivateCollectionGetListDto>> search(@Valid @RequestBody FindByNameDto dto, Pageable pageable){
+    public ResponseEntity<Page<PrivateCollectionGetListDto>> search(@Valid @RequestBody CollectionSearchDto dto, Pageable pageable){
         return ResponseEntity.ok(privateCollectionService.search(dto, pageable));
     }
 

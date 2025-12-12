@@ -38,5 +38,6 @@ export interface CollectionSignSearchDto {
 }
 
 export interface CollectionSearchDto {
-
+    ownerId?: string | null;
+    search?: string | null;
 }

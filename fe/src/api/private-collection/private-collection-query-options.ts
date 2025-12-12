@@ -7,6 +7,7 @@ import {
     updateCollectionById
 } from "@/api/private-collection/private-collection-api.ts";
 import type {
+    CollectionSearchDto,
     CollectionSignDto, CollectionSignSearchDto,
     PrivateCollectionCreateDto,
     PrivateCollectionGetDetailDto,
@@ -52,10 +53,10 @@ export function createCreateCollectionOptions(queryClient: QueryClient): UseMuta
     }
 }
 
-export function createCollectionSearchOptions(search?: string,  pageSize?: number){
+export function createCollectionSearchOptions(dto?: CollectionSearchDto, pageSize?: number){
     return infiniteQueryOptions({
-        queryKey: [privateCollectionQueryKey, "infinite", search ?? ""],
-        queryFn: ({pageParam}) => getCollectionSearch({page: pageParam, search: search, pageSize: pageSize}),
+        queryKey: [privateCollectionQueryKey, "infinite", dto],
+        queryFn: ({pageParam}) => getCollectionSearch({dto: dto, page: pageParam, pageSize: pageSize}),
         ...springInfiniteBase
     })
 }
