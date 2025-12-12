@@ -7,6 +7,7 @@ export class AuthService {
     private static userRole: UserRoleEnum | null = null;
     private static userId: string | null = null;
     private static jwtStorageKey: string = "suJWT";
+    private static expiration: number | null = null;
 
     static login(token: string): void {
         this.token = token;
@@ -17,10 +18,36 @@ export class AuthService {
             this.userId = payload.userId;
             this.userName = payload.name;
             this.userRole = payload.role;
+            this.expiration = payload.exp;
         }
         catch (error) {
             enqueueSnackbar("Chyba při přihlášení", {variant: "error"});
             console.error("JWT decode failed. Error:\n" + error);
+            this.logout();
+        }
+    }
+
+    static initFromStorage(): void {
+
+        const loadedToken = localStorage.getItem(this.jwtStorageKey);
+        if (!loadedToken) {
+            this.logout()
+            return;
+        }
+
+        if(this.isExpired(5)) {
+            this.logout();
+        }
+
+        try {
+            const payload = this.decodeJWT(loadedToken);
+            this.userId = payload.userId;
+            this.userName = payload.name;
+            this.userRole = payload.role;
+            this.expiration = payload.exp;
+            this.token = loadedToken;
+        }
+        catch (error) {
             this.logout();
         }
     }
@@ -67,6 +94,15 @@ export class AuthService {
         }
 
         return this.userId;
+    }
+
+    static isExpired(extraMinutes?: number): boolean {
+        if(this.expiration === null) {
+            return false;
+        }
+
+        const nowSeconds = Math.floor(Date.now() / 1000);
+        return this.expiration <= (nowSeconds + (extraMinutes ?? 0) * 60);
     }
 
     private static decodeJWT(token: string) {
