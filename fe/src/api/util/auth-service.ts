@@ -1,5 +1,13 @@
 import {userRoleEnum, type UserRoleEnum} from "@/domain/user-role-enum.ts";
 import {enqueueSnackbar} from "notistack";
+import { jwtDecode, type JwtPayload } from "jwt-decode";
+
+type JwtCustomPayload = JwtPayload &{
+    role: UserRoleEnum;
+    name: string;
+    userId: string;
+};
+
 //Návrh téhle třídy jsem výrazně konzultoval s ChatGPT (model 5.1, OpenAI)
 export class AuthService {
     private static token: string | null = null;
@@ -7,14 +15,14 @@ export class AuthService {
     private static userRole: UserRoleEnum | null = null;
     private static userId: string | null = null;
     private static jwtStorageKey: string = "suJWT";
-    private static expiration: number | null = null;
+    private static expiration: number | undefined = undefined;
 
     static login(token: string): void {
         this.token = token;
         localStorage.setItem(this.jwtStorageKey, token);
 
         try {
-            const payload = this.decodeJWT(token);
+            const payload = jwtDecode<JwtCustomPayload>(token);
             this.userId = payload.userId;
             this.userName = payload.name;
             this.userRole = payload.role;
@@ -22,7 +30,6 @@ export class AuthService {
         }
         catch (error) {
             enqueueSnackbar("Chyba při přihlášení", {variant: "error"});
-            console.error("JWT decode failed. Error:\n" + error);
             this.logout();
         }
     }
@@ -40,14 +47,16 @@ export class AuthService {
         }
 
         try {
-            const payload = this.decodeJWT(loadedToken);
+            const payload = jwtDecode<JwtCustomPayload>(loadedToken);
             this.userId = payload.userId;
             this.userName = payload.name;
             this.userRole = payload.role;
             this.expiration = payload.exp;
             this.token = loadedToken;
+            console.log("login succes. Token: " + this.token);
         }
         catch (error) {
+            console.error("JWT decode failed. Error:\n" + error);
             this.logout();
         }
     }
@@ -102,13 +111,10 @@ export class AuthService {
         }
 
         const nowSeconds = Math.floor(Date.now() / 1000);
-        return this.expiration <= (nowSeconds + (extraMinutes ?? 0) * 60);
-    }
+        if(this.expiration) {
+            return this.expiration <= (nowSeconds + (extraMinutes ?? 0) * 60);
+        }
+        return false;
 
-    private static decodeJWT(token: string) {
-        const payload = token.split('.')[1];
-
-        const payloadJson = atob(payload);
-        return JSON.parse(payloadJson);
     }
 }
