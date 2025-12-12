@@ -36,7 +36,6 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
     private final UserMapper userMapper;
     private final ClassroomRepository classroomRepository;
     private final SubjectRepository subjectRepository;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
     private final AuthenticationManager authManager;
     private final JWTService jwtService;
 
@@ -51,15 +50,6 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         this.authManager = authManager;
         this.jwtService = jwtService;
 
-    }
-
-    @Override
-    public UserGetDetailDto create(UserCreateDto userCreateDto) {
-        User newUser = userMapper.fromCreateDto(userCreateDto);
-        newUser.setPassword(encoder.encode(userCreateDto.getPassword()));
-        repository.save(newUser);
-
-        return userMapper.toDetailDto(newUser);
     }
 
     public void addStudentToClassroom(StudentClassroomDto dto){
