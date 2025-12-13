@@ -4,6 +4,7 @@ import {
     createCreateCollectionOptions,
 } from "@/api/private-collection/private-collection-query-options.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 export const Route = createFileRoute('/app/private-collections/create')({
     component: RouteComponent,
@@ -19,8 +20,7 @@ function RouteComponent() {
         <NameForm header={"Vytvořit soukromou kolekci"}
                   onSubmit={
                       (data) => {
-                          //TODO fix. Zatím nemáme "přihlášeného uživatele"
-                          mutation.mutate({name: data.name, ownerId: "dc500556-e5d4-480b-b117-b1a1731ad636"})
+                          mutation.mutate({name: data.name, ownerId: AuthService.getUserId()})
                       }
                   }
                   submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}

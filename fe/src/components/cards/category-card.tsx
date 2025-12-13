@@ -6,6 +6,7 @@ import {createDeleteCategoryOptions} from "@/api/category/category-query-options
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 export function CategoryCard(props: CategoryGetListDto) {
     const queryClient = useQueryClient();
@@ -40,17 +41,25 @@ export function CategoryCard(props: CategoryGetListDto) {
                             <Button size="small"
                                     component={Link} to={`/app/categories/${props.id}/`}
                             >Detail</Button>
-                            <ZoomTooltip title={"upravit"}>
-                                <IconButton component={Link} to={`/app/categories/${props.id}/edit/`}>
-                                    <EditIcon/>
-                                </IconButton>
-                            </ZoomTooltip>
-                            <ZoomTooltip title={"smazat"}>
-                                <IconButton
-                                    onClick={() => deleteMutation.mutate()}>
-                                    <ClearIcon/>
-                                </IconButton>
-                            </ZoomTooltip>
+                            {
+                                AuthService.atLeastTeacher() && (
+                                    <ZoomTooltip title={"upravit"}>
+                                        <IconButton component={Link} to={`/app/categories/${props.id}/edit/`}>
+                                            <EditIcon/>
+                                        </IconButton>
+                                    </ZoomTooltip>
+                                )
+                            }
+                            {
+                                AuthService.atLeastTeacher() && (
+                                    <ZoomTooltip title={"smazat"}>
+                                        <IconButton
+                                            onClick={() => deleteMutation.mutate()}>
+                                            <ClearIcon/>
+                                        </IconButton>
+                                    </ZoomTooltip>
+                                )
+                            }
                         </CardActions>
                     </>
                 )

@@ -1,4 +1,5 @@
 import type {
+    CollectionSearchDto,
     CollectionSignDto, CollectionSignSearchDto,
     PrivateCollectionCreateDto,
     PrivateCollectionGetDetailDto,
@@ -8,7 +9,6 @@ import type {
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type {Page} from "../universal/pagination/spring-boot-page.ts";
-import type {NameSearchDto} from "@/api/universal/dto/name-search-dto.ts";
 
 
 const url = "/private-collection";
@@ -33,9 +33,8 @@ export const deleteCollectionById = async (id: string): Promise<void> => {
     await api.delete<PrivateCollectionGetDetailDto>(buildPath([url, id]));
 }
 
-export const getCollectionSearch = async (options: {page: number, pageSize?: number, search?: string}): Promise<Page<PrivateCollectionGetListDto>> => {
-    const dto: NameSearchDto = {name: options.search};
-    const res = await api.post<Page<PrivateCollectionGetListDto>>(buildPath([url, "search"], options.page, options.pageSize), dto);
+export const getCollectionSearch = async (options: {dto?: CollectionSearchDto, page: number, pageSize?: number}): Promise<Page<PrivateCollectionGetListDto>> => {
+    const res = await api.post<Page<PrivateCollectionGetListDto>>(buildPath([url, "search"], options.page, options.pageSize), options.dto);
     return res.data;
 }
 

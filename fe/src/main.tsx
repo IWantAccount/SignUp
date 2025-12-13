@@ -10,6 +10,7 @@ import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
 import {MutationCache, QueryCache, QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {formatError} from "@/api/util/format-error.ts";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 // Create a new router instance
 const router = createRouter({
@@ -43,6 +44,8 @@ const queryClient = new QueryClient({
         }
     })
 });
+
+AuthService.initFromStorage()
 
 // Render the app
 const rootElement = document.getElementById('app')

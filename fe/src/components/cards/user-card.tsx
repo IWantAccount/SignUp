@@ -7,6 +7,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import {createDeleteUserOptions} from "@/api/user/user-query-options.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 export function UserCard({id, name, email, classroomName}: UserGetListDto){
     const navigate = useNavigate();
@@ -40,21 +41,29 @@ export function UserCard({id, name, email, classroomName}: UserGetListDto){
                                 <Typography variant="body2">{classroomName}</Typography>
                             </Stack>
                             <CardActions sx={{justifyContent: "space-around"}}>
-                                <ZoomTooltip title={"upravit"}>
-                                    <IconButton
-                                        onClick={() => {
-                                            navigate({to: `/app/users/${id}/edit/`});
-                                        }}>
-                                        <EditIcon/>
-                                    </IconButton>
-                                </ZoomTooltip>
+                                {
+                                    AuthService.atLeastAdmin() && (
+                                        <ZoomTooltip title={"upravit"}>
+                                            <IconButton
+                                                onClick={() => {
+                                                    navigate({to: `/app/users/${id}/edit/`});
+                                                }}>
+                                                <EditIcon/>
+                                            </IconButton>
+                                        </ZoomTooltip>
+                                    )
+                                }
 
-                                <ZoomTooltip title={"smazat"}>
-                                    <IconButton
-                                        onClick={() => mutation.mutate(id)}>
-                                        <ClearIcon/>
-                                    </IconButton>
-                                </ZoomTooltip>
+                                {
+                                    AuthService.atLeastAdmin() && (
+                                        <ZoomTooltip title={"smazat"}>
+                                            <IconButton
+                                                onClick={() => mutation.mutate(id)}>
+                                                <ClearIcon/>
+                                            </IconButton>
+                                        </ZoomTooltip>
+                                    )
+                                }
                             </CardActions>
                         </CardContent>
                     )

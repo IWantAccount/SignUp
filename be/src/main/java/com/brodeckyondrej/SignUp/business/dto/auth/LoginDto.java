@@ -1,4 +1,4 @@
-package com.brodeckyondrej.SignUp.business.dto.user;
+package com.brodeckyondrej.SignUp.business.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

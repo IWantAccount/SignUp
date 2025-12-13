@@ -1,5 +1,7 @@
 package com.brodeckyondrej.SignUp.business.service.user;
 
+import com.brodeckyondrej.SignUp.business.dto.auth.JwtResponseDto;
+import com.brodeckyondrej.SignUp.business.dto.auth.LoginDto;
 import com.brodeckyondrej.SignUp.business.dto.user.*;
 import com.brodeckyondrej.SignUp.business.specification.UserSpecification;
 import com.brodeckyondrej.SignUp.exception.MissingObjectException;
@@ -34,7 +36,6 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
     private final UserMapper userMapper;
     private final ClassroomRepository classroomRepository;
     private final SubjectRepository subjectRepository;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
     private final AuthenticationManager authManager;
     private final JWTService jwtService;
 
@@ -49,15 +50,6 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         this.authManager = authManager;
         this.jwtService = jwtService;
 
-    }
-
-    @Override
-    public UserGetDetailDto create(UserCreateDto userCreateDto) {
-        User newUser = userMapper.fromCreateDto(userCreateDto);
-        newUser.setPassword(encoder.encode(userCreateDto.getPassword()));
-        repository.save(newUser);
-
-        return userMapper.toDetailDto(newUser);
     }
 
     public void addStudentToClassroom(StudentClassroomDto dto){
@@ -122,7 +114,7 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         super.delete(id);
     }
 
-    public String verifyLogin(LoginDto loginDto) {
+    public JwtResponseDto verifyLogin(LoginDto loginDto) {
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
 
@@ -135,6 +127,6 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
             throw new MissingObjectException("Uživatel nenalezen");
         }
 
-        return jwtService.createJWT(user.get());
+        return new JwtResponseDto(jwtService.createJWT(user.get()));
     }
 }
