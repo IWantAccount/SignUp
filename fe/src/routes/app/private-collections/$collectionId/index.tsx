@@ -29,8 +29,7 @@ function RouteComponent() {
             navigate({
                 to: "/app/private-collections",
             });
-            await new Promise((resolve) => setTimeout(resolve, 1000));
-            queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
+            await queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
         }
     })
 

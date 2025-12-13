@@ -4,19 +4,22 @@ import com.brodeckyondrej.SignUp.business.dto.user.*;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityMapper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserMapper implements EntityMapper<User, UserCreateDto, UserUpdateDto, UserGetDetailDto, UserGetListDto> {
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
     @Override
     public User fromCreateDto(UserCreateDto userCreateDto) {
-        return new User(userCreateDto.getName(), userCreateDto.getPassword(), userCreateDto.getEmail(), userCreateDto.getRole());
+        return new User(userCreateDto.getName(), encoder.encode(userCreateDto.getPassword()), userCreateDto.getEmail(), userCreateDto.getRole());
     }
 
     @Override
     public void updateFromDto(User entity, UserUpdateDto userUpdateDto) {
         entity.setName(userUpdateDto.getName());
-        entity.setPassword(userUpdateDto.getPassword());
+        entity.setPassword(encoder.encode(userUpdateDto.getPassword()));
         entity.setEmail(userUpdateDto.getEmail());
         entity.setRole(userUpdateDto.getRole());
     }

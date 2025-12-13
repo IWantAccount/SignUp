@@ -19,6 +19,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @Transactional
 public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto, SubjectUpdateDto, SubjectGetDetailDto, SubjectGetListDto> {
@@ -70,5 +72,12 @@ public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto
                 .build();
 
         return subjectRepository.findAll(spec, pageable).map(mapper::toListDto);
+    }
+
+    @Override
+    public void delete(UUID id) {
+        Subject subject = subjectRepository.findByIdOrThrow(id);
+        subject.getStudents().stream().toList().forEach(subject::removeStudent);
+        super.delete(id);
     }
 }

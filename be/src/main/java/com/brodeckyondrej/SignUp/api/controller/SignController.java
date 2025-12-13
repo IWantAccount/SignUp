@@ -4,6 +4,7 @@ import com.brodeckyondrej.SignUp.api.controller.universal.EntityController;
 import com.brodeckyondrej.SignUp.business.dto.sign.*;
 import com.brodeckyondrej.SignUp.business.service.sign.SignService;
 import com.brodeckyondrej.SignUp.persistence.entity.Sign;
+import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacher;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -27,6 +28,7 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @AtLeastTeacher
     public ResponseEntity<SignGetDetailDto> create(@RequestPart("dto") @Valid SignCreateDto dto, @RequestPart("video") MultipartFile videoFile) {
         return ResponseEntity.ok(signService.create(dto, videoFile));
     }
@@ -34,5 +36,19 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
     @PostMapping("/search")
     public ResponseEntity<Page<SignGetListDto>> search(@RequestBody @Valid SignSearchDto dto, Pageable pageable) {
         return ResponseEntity.ok(signService.search(dto, pageable));
+    }
+
+    @Override
+    @PutMapping("/{id}")
+    @AtLeastTeacher
+    public ResponseEntity<SignGetDetailDto> update(@Valid @RequestBody SignUpdateDto dto, @PathVariable UUID id) {
+        return super.update(dto, id);
+    }
+
+    @Override
+    @DeleteMapping("/{id}")
+    @AtLeastTeacher
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        return super.delete(id);
     }
 }

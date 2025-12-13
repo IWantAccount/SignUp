@@ -10,6 +10,8 @@ import {PrivateCollectionGrid} from "@/components/grids/private-collection-grid.
 import { useState } from 'react';
 import {useDebounce} from "use-debounce";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
+import type {CollectionSearchDto} from "@/api/private-collection/private-collection-dtos.ts";
+import {AuthService} from "@/api/util/auth-service.ts";
 export const Route = createFileRoute('/app/private-collections/')({
     component: RouteComponent,
 })
@@ -17,7 +19,8 @@ export const Route = createFileRoute('/app/private-collections/')({
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300);
-    const infiniteQuery = useInfiniteQuery(createCollectionSearchOptions(debouncedSearch));
+    const searchDto: CollectionSearchDto = {search: debouncedSearch, ownerId: AuthService.getUserId()};
+    const infiniteQuery = useInfiniteQuery(createCollectionSearchOptions(searchDto));
 
     if(infiniteQuery.isError) return <></>;
 

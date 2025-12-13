@@ -11,6 +11,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {useState} from "react";
 import {useDebounce} from "use-debounce";
 import {BaseDialog} from "@/components/dialogs/base-dialog.tsx";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 interface DialogProps {
     signId: string;
@@ -23,7 +24,7 @@ export function AddSignToCollectionDialog(props: DialogProps) {
     const [debounded] = useDebounce(searchItem, 300);
     const itemQuery = useInfiniteQuery(createCollectionSignSearch({
         collectionName: debounded,
-        ownerId: "dc500556-e5d4-480b-b117-b1a1731ad636", //TODO nahraď
+        ownerId: AuthService.getUserId(),
         signId: props.signId
     }))
 

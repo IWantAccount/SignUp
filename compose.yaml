@@ -22,6 +22,9 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: plsdonthackme
       SPRING_UPLOADS: /storage
+      SPRING_PROFILES_ACTIVE: "docker"
+      JWT_SECRET: "secretshhhdonttellanyoneandchangethissecretshhhdonttellanyoneandchangethissecretshhhdonttellanyoneandchangethissecretshhhdonttellanyoneandchangethis"
+      JWT_VALID_MINUTES: "180"
     volumes:
       - ./uploads:/storage
   fe:

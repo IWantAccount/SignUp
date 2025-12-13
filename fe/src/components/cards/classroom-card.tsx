@@ -6,6 +6,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createDeleteClassroomOptions} from "@/api/classroom/classroom-query-options.ts";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 export function ClassroomCard(dto: ClassroomGetListDto) {
     const queryClient = useQueryClient();
@@ -39,17 +40,25 @@ export function ClassroomCard(dto: ClassroomGetListDto) {
                                 <Button component={Link} to={`/app/classrooms/${dto.id}/`}>
                                     Detail
                                 </Button>
-                                <ZoomTooltip title={"upravit"}>
-                                    <IconButton component={Link} to={`/app/classrooms/${dto.id}/edit/`}>
-                                        <EditIcon/>
-                                    </IconButton>
-                                </ZoomTooltip>
-                                <ZoomTooltip title={"smazat"}>
-                                    <IconButton
-                                        onClick={() => mutation.mutate()}>
-                                        <ClearIcon/>
-                                    </IconButton>
-                                </ZoomTooltip>
+                                {
+                                    AuthService.atLeastTeacher() && (
+                                        <ZoomTooltip title={"upravit"}>
+                                            <IconButton component={Link} to={`/app/classrooms/${dto.id}/edit/`}>
+                                                <EditIcon/>
+                                            </IconButton>
+                                        </ZoomTooltip>
+                                    )
+                                }
+                                {
+                                    AuthService.atLeastTeacher() && (
+                                        <ZoomTooltip title={"smazat"}>
+                                            <IconButton
+                                                onClick={() => mutation.mutate()}>
+                                                <ClearIcon/>
+                                            </IconButton>
+                                        </ZoomTooltip>
+                                    )
+                                }
                             </CardActions>
                         </Stack>
                     )

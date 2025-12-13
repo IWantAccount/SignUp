@@ -40,7 +40,7 @@ function RouteComponent() {
         justifyContent: "space-between", gap: 4, margin: "0 auto"}}>
             <Stack spacing={2} width="60%">
                 <Typography variant="h4">Aktuality</Typography>
-                <Box sx={{width:"100%", display: "flex", flexDirection: "column", gap: 1, maxHeight: 600, overflowY: "auto"}}>
+                <Box sx={{width:"100%", display: "flex", flexDirection: "column", gap: 1, maxHeight: 600, overflowY: "auto", paddingRight: 3}}>
                     {
                         announcements.length == 0 ? (
                             <Typography variant="h5">Žádné aktuality</Typography>
@@ -50,6 +50,7 @@ function RouteComponent() {
                                     <ListItem sx={{
                                         display: "block",
                                         border: "1px solid",
+                                        borderRadius: 3,
                                         borderColor: "divider",
                                     }}>
                                         <Typography variant="h4" flexWrap="wrap" color="primary">{a.title}</Typography>
