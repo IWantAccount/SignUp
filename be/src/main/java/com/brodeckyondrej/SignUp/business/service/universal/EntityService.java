@@ -33,7 +33,8 @@ public abstract class EntityService<
     private final Set<String> forbiddenIds = Set.of(
             "eee5a9c3-612f-477f-b883-468192819686",
             "7dcc2e48-fdd1-4ef4-8afd-8cc508eaf367",
-            "bb9499ac-2cbb-4c32-9122-e621a46992fd"
+            "bb9499ac-2cbb-4c32-9122-e621a46992fd",
+	    "8d715d53-a713-4f87-9be7-2b4a4835ce24"
     );
 
     public GetDetailDto create(CreateDto createDto) {

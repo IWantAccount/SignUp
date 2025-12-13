@@ -32,7 +32,7 @@ const schema = z.object({
     languageLevel: languageLevelEnum.nullable(),
     signType: z.enum(signTypeEnum.options, "Typ znaku je povinný"),
     explanation: z.string().nullable(),
-    translations: z.array(z.string().trim().min(1, "Překled nesmí být prázdný").max(100, "Překlad nesmí být delší než 100 znaků")).min(1, "Je potřeba zadat alespoň jeden překlad"),
+    translations: z.array(z.string().trim().min(1, "Překled nesmí být prázdný").max(100, "Překlad nesmí být delší než 100 znaků")).min(1, "Je potřeba zadat alespoň jeden překlad. Potvrďte překlad entrem."),
     bothHandsUsed: z.boolean(),
     asymmetricSign: z.boolean()
 })
