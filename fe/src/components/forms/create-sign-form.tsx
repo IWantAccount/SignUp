@@ -13,6 +13,8 @@ import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import {CategoryFormAutocomplete} from "@/components/util/category-form-autocomplete.tsx";
 import type {SignCreateDto} from "@/api/sign/sign-dtos.ts";
 import {enqueueSnackbar} from "notistack";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {createCreateSignOptions} from "@/api/sign/sign-query-options.ts";
 
 
 
@@ -39,13 +41,7 @@ const schema = z.object({
 
 export type CreateSignFormData = z.infer<typeof schema>
 
-interface Props {
-    onSubmit: (dto: SignCreateDto, video: File) => void;
-    submitButtonText: string;
-    disableSubmit: boolean;
-}
-
-export function CreateSignForm(props: Props) {
+export function CreateSignForm() {
     const {control, handleSubmit} = useForm<CreateSignFormData>({
         resolver: zodResolver(schema),
         mode: "all",
@@ -73,10 +69,12 @@ export function CreateSignForm(props: Props) {
     const [selectedTab, setSelectedTab] = useState<"base" | "notation">("base");
     const [twoHandedSign, setTwoHandedSign] = useState<boolean>(false);
     const [newTranslation, setNewTranslation] = useState<string>("");
-    const [videoFile, setVideoFile] = useState<File | null>(null);
+    const [video, setVideo] = useState<File | null>(null);
+    const queryClient = useQueryClient();
+    const mutation = useMutation(createCreateSignOptions(queryClient));
 
     const onSubmitRHF: SubmitHandler<CreateSignFormData> = (data) => {
-        const resDto: SignCreateDto = {
+        const dto: SignCreateDto = {
             categoryId: data.categoryId,
             type: data.signType,
             languageLevel: data.languageLevel,
@@ -104,11 +102,11 @@ export function CreateSignForm(props: Props) {
 
         }
 
-        if(!videoFile) {
+        if(!video) {
             enqueueSnackbar("Je potřeba nahrát video soubor znaku", {variant: "warning"});
             return;
         }
-        props.onSubmit(resDto, videoFile);
+        mutation.mutate({dto, video});
     }
 
     return (
@@ -150,14 +148,14 @@ export function CreateSignForm(props: Props) {
                                     hidden
                                     onChange={(e) => {
                                         const file = e.target.files?.[0] ?? null;
-                                        setVideoFile(file);
+                                        setVideo(file);
                                     }}
                                 />
                             </Button>
 
-                            {videoFile && (
+                            {video && (
                                 <Box sx={{ mt: 1, fontSize: 14 }}>
-                                    Vybrané video: <strong>{videoFile.name}</strong>
+                                    Vybrané video: <strong>{video.name}</strong>
                                 </Box>
                             )}
                         </Box>
@@ -311,8 +309,8 @@ export function CreateSignForm(props: Props) {
                     )
             }
 
-            <Button variant="contained" type="submit" disabled={props.disableSubmit}>
-                {props.submitButtonText}
+            <Button variant="contained" type="submit" disabled={mutation.isPending}>
+                {mutation.isPending ? "Čekejte" : "Uložit"}
             </Button>
 
         </Box>
