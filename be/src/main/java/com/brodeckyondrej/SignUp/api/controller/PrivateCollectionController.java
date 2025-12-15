@@ -5,6 +5,8 @@ import com.brodeckyondrej.SignUp.business.service.collection.PrivateCollectionSe
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
+import com.brodeckyondrej.SignUp.security.annotations.AdminOrCollectionOwnerByDto;
+import com.brodeckyondrej.SignUp.security.annotations.AdminOrCollectionOwnerById;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/private-collection")
@@ -32,12 +36,14 @@ public class PrivateCollectionController extends NamedEntityController<
     }
 
     @PostMapping("/add-sign")
+    @AdminOrCollectionOwnerByDto
     public ResponseEntity<Void> addSignToCollection(@Valid @RequestBody CollectionSignDto dto){
         privateCollectionService.addSignToPrivateCollection(dto);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/remove-sign")
+    @AdminOrCollectionOwnerByDto
     public ResponseEntity<Void> removeSignFromCollection(@Valid @RequestBody CollectionSignDto dto){
         privateCollectionService.removeSignFromPrivateCollection(dto);
         return ResponseEntity.ok().build();
@@ -54,5 +60,12 @@ public class PrivateCollectionController extends NamedEntityController<
             @PageableDefault(sort = "id", direction = Sort.Direction.ASC)
             @Valid @RequestBody CollectionSignSearchDto dto, Pageable pageable) {
         return ResponseEntity.ok(privateCollectionService.getSignInCollection(dto, pageable));
+    }
+
+    @Override
+    @DeleteMapping("/{collectionId}")
+    @AdminOrCollectionOwnerById
+    public ResponseEntity<Void> delete(@PathVariable UUID collectionId) {
+        return super.delete(collectionId);
     }
 }
