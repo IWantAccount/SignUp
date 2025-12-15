@@ -18,7 +18,7 @@ export interface StudentClassroomDto {
 }
 
 export interface UserCreateDto extends UserDto {
-    password: string;
+    password?: string;
 }
 
 export interface UserGetDetailDto extends UserDtoWithId {
