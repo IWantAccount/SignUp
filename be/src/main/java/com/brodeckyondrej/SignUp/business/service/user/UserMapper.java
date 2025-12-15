@@ -25,7 +25,7 @@ public class UserMapper implements EntityMapper<User, UserCreateDto, UserUpdateD
 
     @Override
     public UserGetDetailDto toDetailDto(User entity) {
-        return new UserGetDetailDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getClassroom() == null ? "" : entity.getClassroom().getName());
+        return new UserGetDetailDto(entity.getId(), entity.getName(), entity.getEmail(), entity.getClassroom() == null ? "" : entity.getClassroom().getName(), entity.getRole());
     }
 
     @Override

@@ -36,6 +36,7 @@ import { Route as AppPrivateCollectionsCollectionIdIndexRouteImport } from './ro
 import { Route as AppClassroomsClassroomIdIndexRouteImport } from './routes/app/classrooms/$classroomId/index'
 import { Route as AppCategoriesCategoryIdIndexRouteImport } from './routes/app/categories/$categoryId/index'
 import { Route as AppUsersUserIdEditRouteImport } from './routes/app/users/$userId/edit'
+import { Route as AppUsersUserIdChangePasswordRouteImport } from './routes/app/users/$userId/change-password'
 import { Route as AppSubjectsSubjectIdEditRouteImport } from './routes/app/subjects/$subjectId/edit'
 import { Route as AppSignsSignIdReplaceVideoRouteImport } from './routes/app/signs/$signId/replace-video'
 import { Route as AppSignsSignIdEditRouteImport } from './routes/app/signs/$signId/edit'
@@ -185,6 +186,12 @@ const AppUsersUserIdEditRoute = AppUsersUserIdEditRouteImport.update({
   path: '/users/$userId/edit',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppUsersUserIdChangePasswordRoute =
+  AppUsersUserIdChangePasswordRouteImport.update({
+    id: '/users/$userId/change-password',
+    path: '/users/$userId/change-password',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 const AppSubjectsSubjectIdEditRoute =
   AppSubjectsSubjectIdEditRouteImport.update({
     id: '/subjects/$subjectId/edit',
@@ -255,6 +262,7 @@ export interface FileRoutesByFullPath {
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
   '/app/signs/$signId/replace-video': typeof AppSignsSignIdReplaceVideoRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
+  '/app/users/$userId/change-password': typeof AppUsersUserIdChangePasswordRoute
   '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
   '/app/classrooms/$classroomId': typeof AppClassroomsClassroomIdIndexRoute
@@ -291,6 +299,7 @@ export interface FileRoutesByTo {
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
   '/app/signs/$signId/replace-video': typeof AppSignsSignIdReplaceVideoRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
+  '/app/users/$userId/change-password': typeof AppUsersUserIdChangePasswordRoute
   '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
   '/app/classrooms/$classroomId': typeof AppClassroomsClassroomIdIndexRoute
@@ -328,6 +337,7 @@ export interface FileRoutesById {
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
   '/app/signs/$signId/replace-video': typeof AppSignsSignIdReplaceVideoRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
+  '/app/users/$userId/change-password': typeof AppUsersUserIdChangePasswordRoute
   '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId/': typeof AppCategoriesCategoryIdIndexRoute
   '/app/classrooms/$classroomId/': typeof AppClassroomsClassroomIdIndexRoute
@@ -366,6 +376,7 @@ export interface FileRouteTypes {
     | '/app/signs/$signId/edit'
     | '/app/signs/$signId/replace-video'
     | '/app/subjects/$subjectId/edit'
+    | '/app/users/$userId/change-password'
     | '/app/users/$userId/edit'
     | '/app/categories/$categoryId'
     | '/app/classrooms/$classroomId'
@@ -402,6 +413,7 @@ export interface FileRouteTypes {
     | '/app/signs/$signId/edit'
     | '/app/signs/$signId/replace-video'
     | '/app/subjects/$subjectId/edit'
+    | '/app/users/$userId/change-password'
     | '/app/users/$userId/edit'
     | '/app/categories/$categoryId'
     | '/app/classrooms/$classroomId'
@@ -438,6 +450,7 @@ export interface FileRouteTypes {
     | '/app/signs/$signId/edit'
     | '/app/signs/$signId/replace-video'
     | '/app/subjects/$subjectId/edit'
+    | '/app/users/$userId/change-password'
     | '/app/users/$userId/edit'
     | '/app/categories/$categoryId/'
     | '/app/classrooms/$classroomId/'
@@ -644,6 +657,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppUsersUserIdEditRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/users/$userId/change-password': {
+      id: '/app/users/$userId/change-password'
+      path: '/users/$userId/change-password'
+      fullPath: '/app/users/$userId/change-password'
+      preLoaderRoute: typeof AppUsersUserIdChangePasswordRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/subjects/$subjectId/edit': {
       id: '/app/subjects/$subjectId/edit'
       path: '/subjects/$subjectId/edit'
@@ -721,6 +741,7 @@ interface AppRouteRouteChildren {
   AppSignsSignIdEditRoute: typeof AppSignsSignIdEditRoute
   AppSignsSignIdReplaceVideoRoute: typeof AppSignsSignIdReplaceVideoRoute
   AppSubjectsSubjectIdEditRoute: typeof AppSubjectsSubjectIdEditRoute
+  AppUsersUserIdChangePasswordRoute: typeof AppUsersUserIdChangePasswordRoute
   AppUsersUserIdEditRoute: typeof AppUsersUserIdEditRoute
   AppCategoriesCategoryIdIndexRoute: typeof AppCategoriesCategoryIdIndexRoute
   AppClassroomsClassroomIdIndexRoute: typeof AppClassroomsClassroomIdIndexRoute
@@ -756,6 +777,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppSignsSignIdEditRoute: AppSignsSignIdEditRoute,
   AppSignsSignIdReplaceVideoRoute: AppSignsSignIdReplaceVideoRoute,
   AppSubjectsSubjectIdEditRoute: AppSubjectsSubjectIdEditRoute,
+  AppUsersUserIdChangePasswordRoute: AppUsersUserIdChangePasswordRoute,
   AppUsersUserIdEditRoute: AppUsersUserIdEditRoute,
   AppCategoriesCategoryIdIndexRoute: AppCategoriesCategoryIdIndexRoute,
   AppClassroomsClassroomIdIndexRoute: AppClassroomsClassroomIdIndexRoute,

@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
+
 //částečně převzato z https://www.youtube.com/watch?v=oeni_9g7too
 public class UserDetailExtractor implements UserDetails {
 
@@ -29,6 +31,10 @@ public class UserDetailExtractor implements UserDetails {
     @Override
     public String getUsername() {
         return user.getEmail();
+    }
+
+    public UUID getId() {
+        return user.getId();
     }
 
     @Override
