@@ -32,7 +32,6 @@ export interface UserGetListDto extends UserDtoWithId {
 }
 
 export interface UserUpdateDto extends UserDto {
-    password: string;
 }
 
 export interface StudentSubjectSearchDto {

@@ -19,7 +19,6 @@ public class UserMapper implements EntityMapper<User, UserCreateDto, UserUpdateD
     @Override
     public void updateFromDto(User entity, UserUpdateDto userUpdateDto) {
         entity.setName(userUpdateDto.getName());
-        entity.setPassword(encoder.encode(userUpdateDto.getPassword()));
         entity.setEmail(userUpdateDto.getEmail());
         entity.setRole(userUpdateDto.getRole());
     }

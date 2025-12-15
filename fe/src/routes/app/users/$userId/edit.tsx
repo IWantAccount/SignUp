@@ -28,6 +28,7 @@ function RouteComponent() {
                   header={"Upravit uživatele"}
                   submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}
                   submitButtonDisabled={mutation.isPending}
+                  renderPassword={false}
                     defaultName={user.name}
                     defaultEmail={user.email}
                     defaultRole={user.role}/>

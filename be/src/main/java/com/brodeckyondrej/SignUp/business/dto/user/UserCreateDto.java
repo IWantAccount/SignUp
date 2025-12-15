@@ -4,11 +4,13 @@ import com.brodeckyondrej.SignUp.persistence.enumerated.UserRole;
 import com.brodeckyondrej.SignUp.business.dto.universal.NamedDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 @Getter
 public class UserCreateDto extends NamedDto {
-    @NotBlank
+    @NotBlank(message = "Heslo je povinné")
+    @Size(min = 6, message = "Heslo musí mít alespoň 6 znaků")
     private final String password;
     @NotBlank
     private final String email;

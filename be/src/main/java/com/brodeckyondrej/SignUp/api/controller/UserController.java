@@ -65,7 +65,6 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
     @Override
     @PutMapping("/{id}")
     @AtLeastAdmin
-    //Tohle je endpoint jen pro admina, může měnit heslo roli
     public ResponseEntity<UserGetDetailDto> update(@Valid @RequestBody UserUpdateDto dto, @PathVariable UUID id) {
         return super.update(dto, id);
     }
