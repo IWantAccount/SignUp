@@ -68,4 +68,18 @@ public class PrivateCollectionController extends NamedEntityController<
     public ResponseEntity<Void> delete(@PathVariable UUID collectionId) {
         return super.delete(collectionId);
     }
+
+    @Override
+    @PutMapping("/{collectionId}")
+    @AdminOrCollectionOwnerById
+    public ResponseEntity<PrivateCollectionGetDetailDto> update(@RequestBody @Valid PrivateCollectionUpdateDto updateDto, @PathVariable UUID collectionId) {
+        return super.update(updateDto, collectionId);
+    }
+
+    @Override
+    @GetMapping("/{collectionId}")
+    @AdminOrCollectionOwnerById
+    public ResponseEntity<PrivateCollectionGetDetailDto> getById(@PathVariable UUID collectionId) {
+        return super.getById(collectionId);
+    }
 }
