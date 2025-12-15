@@ -7,7 +7,12 @@ import {Autocomplete, Box, Button, TextField, Typography} from "@mui/material";
 const schema = z.object({
     name: z.string().trim().min(1, "Jméno je povinné").max(40, "Jméno může mít maximálně 40 znaků"),
     email: z.email("Neplatný formát emailu"),
-    password: z.string().trim().min(6, "Heslo musí mít alespoň 6 znaků"),
+    password: z
+        .string()
+        .trim()
+        .optional()
+        .or(z.literal(""))
+        .refine((v) => !v || v.length >= 6, "Heslo musí mít alespoň 6 znaků"),
     role: userRoleEnum
         .refine((role) => role !== null, {
             message: "Role je povinná",
@@ -21,9 +26,9 @@ interface Props {
     header: string;
     submitButtonText: string;
     submitButtonDisabled: boolean;
+    renderPassword: boolean;
     defaultName?: string;
     defaultEmail?: string;
-    defaultPassword?: string;
     defaultRole?: UserRoleEnum;
 }
 
@@ -36,8 +41,8 @@ export function UserForm(props: Props) {
         defaultValues: {
             name: props.defaultName ? props.defaultName : "",
             email: props.defaultEmail ? props.defaultEmail : "",
-            password: props.defaultPassword? props.defaultPassword : "",
-            role: props.defaultRole ? props.defaultRole : "STUDENT",
+            password: undefined,
+            role: props.defaultRole //? props.defaultRole : "STUDENT",
         }
     });
 
@@ -76,14 +81,18 @@ export function UserForm(props: Props) {
                                         helperText={fieldState.error?.message}/>
                         )}/>
 
-            <Controller name="password"
-                        control={control}
-                        render={({field, fieldState}) => (
-                            <TextField  {...field}
-                                        label="Heslo"
-                                        error={!!fieldState.error}
-                                        helperText={fieldState.error?.message}/>
-                        )}/>
+            {
+                props.renderPassword && (
+                    <Controller name="password"
+                                control={control}
+                                render={({field, fieldState}) => (
+                                    <TextField  {...field}
+                                                label="Heslo"
+                                                error={!!fieldState.error}
+                                                helperText={fieldState.error?.message}/>
+                                )}/>
+                )
+            }
 
             <Controller name="role"
                         control={control}

@@ -38,6 +38,7 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
     private final SubjectRepository subjectRepository;
     private final AuthenticationManager authManager;
     private final JWTService jwtService;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     public UserService(UserRepository repository, UserValidator validator, UserMapper mapper,
                        ClassroomRepository classroomRepository, SubjectRepository subjectRepository,
@@ -128,5 +129,13 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         }
 
         return new JwtResponseDto(jwtService.createJWT(user.get()));
+    }
+
+    public Void changePassword(UUID userId, ChangePasswordDto changePasswordDto) {
+        User user = userRepository.findByIdOrThrow(userId);
+
+        String encodedNew = encoder.encode(changePasswordDto.getNewPassword());
+        user.setPassword(encodedNew);
+        return null;
     }
 }

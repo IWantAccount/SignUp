@@ -6,6 +6,7 @@ import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.business.dto.user.*;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastAdmin;
+import com.brodeckyondrej.SignUp.security.annotations.AtLeastAdminOrSelf;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacher;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -65,7 +67,6 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
     @Override
     @PutMapping("/{id}")
     @AtLeastAdmin
-    //Tohle je endpoint jen pro admina, může měnit heslo roli
     public ResponseEntity<UserGetDetailDto> update(@Valid @RequestBody UserUpdateDto dto, @PathVariable UUID id) {
         return super.update(dto, id);
     }
@@ -77,5 +78,9 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         return super.delete(id);
     }
 
-    //TODO endpoint pro update z pohledu uživatele (bez hesla a role) a změnu hesla z pohledu uživatele
+    @PostMapping("/change-password/{id}")
+    @AtLeastAdminOrSelf
+    public ResponseEntity<Void> updatePassword(@PathVariable UUID id, @Valid @RequestBody ChangePasswordDto dto) {
+        return ResponseEntity.ok(userService.changePassword(id, dto));
+    }
 }

@@ -16,8 +16,9 @@ function RouteComponent() {
                 mutation.mutate(data);
             }
         }
-                  header={"Vytvořit uživatele"}
-                  submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}
-                  submitButtonDisabled={mutation.isPending}/>
+                    header={"Vytvořit uživatele"}
+                    submitButtonText={mutation.isPending ? "Čekejte" : "Uložit"}
+                    submitButtonDisabled={mutation.isPending}
+                    renderPassword={true}/>
     )
 }
