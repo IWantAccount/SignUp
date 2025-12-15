@@ -126,4 +126,11 @@ public class SignService extends EntityService<Sign, SignCreateDto, SignUpdateDt
 
         return signs.map(signMapper::toListDto);
     }
+
+    public Void replaceSignVideo(UUID signId, MultipartFile newVideoFile) {
+        Sign sign = signRepository.findByIdOrThrow(signId);
+        fileSystemVideoStorage.replace(sign.getVideoFileName(), newVideoFile);
+
+        return null;
+    }
 }

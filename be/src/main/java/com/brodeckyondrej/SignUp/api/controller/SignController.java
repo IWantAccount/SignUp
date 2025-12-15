@@ -33,6 +33,15 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
         return ResponseEntity.ok(signService.create(dto, videoFile));
     }
 
+    @PostMapping(
+            value = "/replace-video/{signId}",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    )
+    @AtLeastTeacher
+    public ResponseEntity<Void> replaceVideo(@PathVariable UUID signId, @RequestPart("video") MultipartFile video) {
+        return ResponseEntity.ok(signService.replaceSignVideo(signId, video));
+    }
+
     @PostMapping("/search")
     public ResponseEntity<Page<SignGetListDto>> search(@RequestBody @Valid SignSearchDto dto, Pageable pageable) {
         return ResponseEntity.ok(signService.search(dto, pageable));
