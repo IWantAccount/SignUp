@@ -33,15 +33,17 @@ export const Route = createRootRoute({
         <ThemeProvider theme={theme}>
             <CssBaseline/>
             <Outlet/>
-            <TanstackDevtools
-                config={{position: 'bottom-left'}}
-                plugins={[
-                    {
-                        name: 'Tanstack Router',
-                        render: <TanStackRouterDevtoolsPanel/>,
-                    },
-                ]}
-            />
+            {import.meta.env.DEV && (
+                <TanstackDevtools
+                    config={{position: 'bottom-left'}}
+                    plugins={[
+                        {
+                            name: 'Tanstack Router',
+                            render: <TanStackRouterDevtoolsPanel/>,
+                        },
+                    ]}
+                />
+            )}
         </ThemeProvider>
     ),
 })
