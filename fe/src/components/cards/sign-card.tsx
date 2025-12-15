@@ -10,7 +10,7 @@ import {
     Skeleton,
     Stack
 } from "@mui/material";
-import {Link} from "@tanstack/react-router";
+import {Link, useNavigate} from "@tanstack/react-router";
 import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
 import {buildFilePath} from "@/api/util/build-path.ts";
 import {createDeleteSignOptions} from "@/api/sign/sign-query-options.ts";
@@ -21,10 +21,12 @@ import {useState} from "react";
 import {AddSignToCollectionDialog} from "@/components/dialogs/add-sign-to-collection-dialog.tsx";
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import {AuthService} from "@/api/util/auth-service.ts";
+import EditIcon from "@mui/icons-material/Edit";
 
 
 export function SignCard(props: SignGetListDto) {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
     const mutation = useMutation(createDeleteSignOptions(props.id, queryClient))
@@ -70,6 +72,19 @@ export function SignCard(props: SignGetListDto) {
                                 <TurnedInNotIcon/>
                             </IconButton>
                         </ZoomTooltip>
+                        {
+                            AuthService.atLeastTeacher() && (
+                                <ZoomTooltip title={"upravit"}>
+                                    <IconButton onClick={() => {
+                                        navigate({
+                                            to: `/app/signs/${props.id}/edit/`
+                                        })
+                                    }}>
+                                        <EditIcon />
+                                    </IconButton>
+                                </ZoomTooltip>
+                            )
+                        }
                         {
                             AuthService.atLeastTeacher() && (
                                 <ZoomTooltip title={"smazat"}>
