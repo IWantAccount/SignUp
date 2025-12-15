@@ -1,5 +1,5 @@
-import {Button, Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
-import {Link, useNavigate} from "@tanstack/react-router";
+import {Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
+import {useNavigate} from "@tanstack/react-router";
 import {componentTypeToCzech} from "@/domain/sign-component-type-enum.ts";
 import type {SignComponentGetListDto} from "@/api/sign-component/sign-component-dtos.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
@@ -36,9 +36,6 @@ export function SignComponentCard(props: SignComponentGetListDto) {
                                 </Stack>
                             </CardContent>
                             <CardActions sx={{justifyContent: "space-between"}}>
-                                <Button component={Link} to={`/app/sign-components/${props.id}/`}>
-                                    Detail
-                                </Button>
                                 {
                                     AuthService.atLeastTeacher() && (
                                         <ZoomTooltip title={"upravit"}>

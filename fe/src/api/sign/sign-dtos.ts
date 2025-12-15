@@ -19,8 +19,8 @@ export interface SignCreateDto {
 export interface SignUpdateDto {
     categoryId: string;
     type: SignType;
-    languageLevel?: LanguageLevelType;
-    region?: Region;
+    languageLevel?: LanguageLevelType | null;
+    region?: Region | null;
     translations: string[];
     explanation?: string;
     notation: NotationIdDto;

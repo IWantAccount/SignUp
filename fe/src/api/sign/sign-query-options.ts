@@ -5,11 +5,11 @@ import {
     queryOptions,
     type UseMutationOptions
 } from "@tanstack/react-query";
-import type {SearchSignDto, SignCreateDto, SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
+import type {SearchSignDto, SignCreateDto, SignGetDetailDto, SignUpdateDto} from "@/api/sign/sign-dtos.ts";
 import type {AxiosError} from "axios";
 import {
     createSign, deleteSign,
-    getSignById, getSignSearch
+    getSignById, getSignSearch, updateSign
 } from "@/api/sign/sign-api.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 import {categoryQueryKey} from "@/api/category/category-query-options.ts";
@@ -20,8 +20,21 @@ export function createCreateSignOptions(queryClient: QueryClient): UseMutationOp
     AxiosError,
     CreateSign> {
     return {
-        mutationKey: [signQueryKey],
+        mutationKey: [signQueryKey, "create"],
         mutationFn: (vars: CreateSign) => createSign(vars.dto, vars.video),
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [signQueryKey]})
+        }
+    }
+}
+
+export function createUpdateSignOptions(id: string, queryClient: QueryClient): UseMutationOptions<
+    SignGetDetailDto,
+    AxiosError,
+    SignUpdateDto> {
+    return {
+        mutationKey: [signQueryKey, "update"],
+        mutationFn: (dto: SignUpdateDto)=> updateSign(id, dto),
         onSuccess: async () => {
             await queryClient.invalidateQueries({queryKey: [signQueryKey]})
         }

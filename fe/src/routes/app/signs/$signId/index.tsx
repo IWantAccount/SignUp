@@ -1,4 +1,4 @@
-import {createFileRoute, Link} from '@tanstack/react-router'
+import {createFileRoute, Link, useNavigate} from '@tanstack/react-router'
 import {useState} from "react";
 import {Box, Button, Chip, Grid, IconButton, Paper, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {createGetSignByIdOptions} from "@/api/sign/sign-query-options.ts";
@@ -11,6 +11,8 @@ import {regionToCzech} from "@/domain/region.ts";
 import {AddSignToCollectionDialog} from "@/components/dialogs/add-sign-to-collection-dialog.tsx";
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
+import {AuthService} from "@/api/util/auth-service.ts";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const Route = createFileRoute('/app/signs/$signId/')({
     component: RouteComponent,
@@ -22,6 +24,7 @@ function RouteComponent() {
     const signId = Route.useParams().signId;
     const signQuery = useQuery(createGetSignByIdOptions(signId));
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     if(signQuery.isPending) return <BackdropLoading/>
     if(signQuery.isError) return <></>;
@@ -45,6 +48,19 @@ function RouteComponent() {
                         <TurnedInNotIcon fontSize="large"/>
                     </IconButton>
                 </ZoomTooltip>
+                {
+                    AuthService.atLeastTeacher() && (
+                        <ZoomTooltip title={"upravit"}>
+                            <IconButton onClick={() => {
+                                navigate({
+                                    to:`/app/signs/${signId}/edit`,
+                                })
+                            }}>
+                                <EditIcon/>
+                            </IconButton>
+                        </ZoomTooltip>
+                    )
+                }
             </Box>
             {selectedTab === "base" && <Base sign={sign}/>}
 

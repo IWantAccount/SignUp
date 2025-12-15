@@ -21,7 +21,7 @@ export const createSign = async (dto: SignCreateDto, video: File): Promise<SignG
     formData.append("video", video);
     formData.append("dto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
 
-    const res = await api.post<SignGetDetailDto>(buildPath([url]), formData, {headers: {"Content-Type": "multipart/form-data"}});
+    const res = await api.post<SignGetDetailDto>(buildPath([url]), );
     return res.data
 }
 
@@ -38,4 +38,3 @@ export const getSignSearch = async(options: {page: number, pageSize?: number, dt
     const res = await api.post<Page<SignGetListDto>>(buildPath([url, "search"], options.page, options.pageSize), options.dto);
     return res.data
 }
-//TODO vymena videa

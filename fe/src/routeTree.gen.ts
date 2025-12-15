@@ -32,12 +32,12 @@ import { Route as AppCategoriesCreateRouteImport } from './routes/app/categories
 import { Route as AppUsersUserIdIndexRouteImport } from './routes/app/users/$userId/index'
 import { Route as AppSubjectsSubjectIdIndexRouteImport } from './routes/app/subjects/$subjectId/index'
 import { Route as AppSignsSignIdIndexRouteImport } from './routes/app/signs/$signId/index'
-import { Route as AppSignComponentsComponentIdIndexRouteImport } from './routes/app/sign-components/$componentId/index'
 import { Route as AppPrivateCollectionsCollectionIdIndexRouteImport } from './routes/app/private-collections/$collectionId/index'
 import { Route as AppClassroomsClassroomIdIndexRouteImport } from './routes/app/classrooms/$classroomId/index'
 import { Route as AppCategoriesCategoryIdIndexRouteImport } from './routes/app/categories/$categoryId/index'
 import { Route as AppUsersUserIdEditRouteImport } from './routes/app/users/$userId/edit'
 import { Route as AppSubjectsSubjectIdEditRouteImport } from './routes/app/subjects/$subjectId/edit'
+import { Route as AppSignsSignIdReplaceVideoRouteImport } from './routes/app/signs/$signId/replace-video'
 import { Route as AppSignsSignIdEditRouteImport } from './routes/app/signs/$signId/edit'
 import { Route as AppSignComponentsComponentIdEditRouteImport } from './routes/app/sign-components/$componentId/edit'
 import { Route as AppPrivateCollectionsCollectionIdEditRouteImport } from './routes/app/private-collections/$collectionId/edit'
@@ -162,12 +162,6 @@ const AppSignsSignIdIndexRoute = AppSignsSignIdIndexRouteImport.update({
   path: '/signs/$signId/',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppSignComponentsComponentIdIndexRoute =
-  AppSignComponentsComponentIdIndexRouteImport.update({
-    id: '/sign-components/$componentId/',
-    path: '/sign-components/$componentId/',
-    getParentRoute: () => AppRouteRoute,
-  } as any)
 const AppPrivateCollectionsCollectionIdIndexRoute =
   AppPrivateCollectionsCollectionIdIndexRouteImport.update({
     id: '/private-collections/$collectionId/',
@@ -195,6 +189,12 @@ const AppSubjectsSubjectIdEditRoute =
   AppSubjectsSubjectIdEditRouteImport.update({
     id: '/subjects/$subjectId/edit',
     path: '/subjects/$subjectId/edit',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppSignsSignIdReplaceVideoRoute =
+  AppSignsSignIdReplaceVideoRouteImport.update({
+    id: '/signs/$signId/replace-video',
+    path: '/signs/$signId/replace-video',
     getParentRoute: () => AppRouteRoute,
   } as any)
 const AppSignsSignIdEditRoute = AppSignsSignIdEditRouteImport.update({
@@ -253,12 +253,12 @@ export interface FileRoutesByFullPath {
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
+  '/app/signs/$signId/replace-video': typeof AppSignsSignIdReplaceVideoRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
   '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
   '/app/classrooms/$classroomId': typeof AppClassroomsClassroomIdIndexRoute
   '/app/private-collections/$collectionId': typeof AppPrivateCollectionsCollectionIdIndexRoute
-  '/app/sign-components/$componentId': typeof AppSignComponentsComponentIdIndexRoute
   '/app/signs/$signId': typeof AppSignsSignIdIndexRoute
   '/app/subjects/$subjectId': typeof AppSubjectsSubjectIdIndexRoute
   '/app/users/$userId': typeof AppUsersUserIdIndexRoute
@@ -289,12 +289,12 @@ export interface FileRoutesByTo {
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
+  '/app/signs/$signId/replace-video': typeof AppSignsSignIdReplaceVideoRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
   '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
   '/app/classrooms/$classroomId': typeof AppClassroomsClassroomIdIndexRoute
   '/app/private-collections/$collectionId': typeof AppPrivateCollectionsCollectionIdIndexRoute
-  '/app/sign-components/$componentId': typeof AppSignComponentsComponentIdIndexRoute
   '/app/signs/$signId': typeof AppSignsSignIdIndexRoute
   '/app/subjects/$subjectId': typeof AppSubjectsSubjectIdIndexRoute
   '/app/users/$userId': typeof AppUsersUserIdIndexRoute
@@ -326,12 +326,12 @@ export interface FileRoutesById {
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
+  '/app/signs/$signId/replace-video': typeof AppSignsSignIdReplaceVideoRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
   '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId/': typeof AppCategoriesCategoryIdIndexRoute
   '/app/classrooms/$classroomId/': typeof AppClassroomsClassroomIdIndexRoute
   '/app/private-collections/$collectionId/': typeof AppPrivateCollectionsCollectionIdIndexRoute
-  '/app/sign-components/$componentId/': typeof AppSignComponentsComponentIdIndexRoute
   '/app/signs/$signId/': typeof AppSignsSignIdIndexRoute
   '/app/subjects/$subjectId/': typeof AppSubjectsSubjectIdIndexRoute
   '/app/users/$userId/': typeof AppUsersUserIdIndexRoute
@@ -364,12 +364,12 @@ export interface FileRouteTypes {
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
+    | '/app/signs/$signId/replace-video'
     | '/app/subjects/$subjectId/edit'
     | '/app/users/$userId/edit'
     | '/app/categories/$categoryId'
     | '/app/classrooms/$classroomId'
     | '/app/private-collections/$collectionId'
-    | '/app/sign-components/$componentId'
     | '/app/signs/$signId'
     | '/app/subjects/$subjectId'
     | '/app/users/$userId'
@@ -400,12 +400,12 @@ export interface FileRouteTypes {
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
+    | '/app/signs/$signId/replace-video'
     | '/app/subjects/$subjectId/edit'
     | '/app/users/$userId/edit'
     | '/app/categories/$categoryId'
     | '/app/classrooms/$classroomId'
     | '/app/private-collections/$collectionId'
-    | '/app/sign-components/$componentId'
     | '/app/signs/$signId'
     | '/app/subjects/$subjectId'
     | '/app/users/$userId'
@@ -436,12 +436,12 @@ export interface FileRouteTypes {
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
+    | '/app/signs/$signId/replace-video'
     | '/app/subjects/$subjectId/edit'
     | '/app/users/$userId/edit'
     | '/app/categories/$categoryId/'
     | '/app/classrooms/$classroomId/'
     | '/app/private-collections/$collectionId/'
-    | '/app/sign-components/$componentId/'
     | '/app/signs/$signId/'
     | '/app/subjects/$subjectId/'
     | '/app/users/$userId/'
@@ -616,13 +616,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSignsSignIdIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/app/sign-components/$componentId/': {
-      id: '/app/sign-components/$componentId/'
-      path: '/sign-components/$componentId'
-      fullPath: '/app/sign-components/$componentId'
-      preLoaderRoute: typeof AppSignComponentsComponentIdIndexRouteImport
-      parentRoute: typeof AppRouteRoute
-    }
     '/app/private-collections/$collectionId/': {
       id: '/app/private-collections/$collectionId/'
       path: '/private-collections/$collectionId'
@@ -656,6 +649,13 @@ declare module '@tanstack/react-router' {
       path: '/subjects/$subjectId/edit'
       fullPath: '/app/subjects/$subjectId/edit'
       preLoaderRoute: typeof AppSubjectsSubjectIdEditRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/signs/$signId/replace-video': {
+      id: '/app/signs/$signId/replace-video'
+      path: '/signs/$signId/replace-video'
+      fullPath: '/app/signs/$signId/replace-video'
+      preLoaderRoute: typeof AppSignsSignIdReplaceVideoRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/signs/$signId/edit': {
@@ -719,12 +719,12 @@ interface AppRouteRouteChildren {
   AppPrivateCollectionsCollectionIdEditRoute: typeof AppPrivateCollectionsCollectionIdEditRoute
   AppSignComponentsComponentIdEditRoute: typeof AppSignComponentsComponentIdEditRoute
   AppSignsSignIdEditRoute: typeof AppSignsSignIdEditRoute
+  AppSignsSignIdReplaceVideoRoute: typeof AppSignsSignIdReplaceVideoRoute
   AppSubjectsSubjectIdEditRoute: typeof AppSubjectsSubjectIdEditRoute
   AppUsersUserIdEditRoute: typeof AppUsersUserIdEditRoute
   AppCategoriesCategoryIdIndexRoute: typeof AppCategoriesCategoryIdIndexRoute
   AppClassroomsClassroomIdIndexRoute: typeof AppClassroomsClassroomIdIndexRoute
   AppPrivateCollectionsCollectionIdIndexRoute: typeof AppPrivateCollectionsCollectionIdIndexRoute
-  AppSignComponentsComponentIdIndexRoute: typeof AppSignComponentsComponentIdIndexRoute
   AppSignsSignIdIndexRoute: typeof AppSignsSignIdIndexRoute
   AppSubjectsSubjectIdIndexRoute: typeof AppSubjectsSubjectIdIndexRoute
   AppUsersUserIdIndexRoute: typeof AppUsersUserIdIndexRoute
@@ -754,14 +754,13 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
     AppPrivateCollectionsCollectionIdEditRoute,
   AppSignComponentsComponentIdEditRoute: AppSignComponentsComponentIdEditRoute,
   AppSignsSignIdEditRoute: AppSignsSignIdEditRoute,
+  AppSignsSignIdReplaceVideoRoute: AppSignsSignIdReplaceVideoRoute,
   AppSubjectsSubjectIdEditRoute: AppSubjectsSubjectIdEditRoute,
   AppUsersUserIdEditRoute: AppUsersUserIdEditRoute,
   AppCategoriesCategoryIdIndexRoute: AppCategoriesCategoryIdIndexRoute,
   AppClassroomsClassroomIdIndexRoute: AppClassroomsClassroomIdIndexRoute,
   AppPrivateCollectionsCollectionIdIndexRoute:
     AppPrivateCollectionsCollectionIdIndexRoute,
-  AppSignComponentsComponentIdIndexRoute:
-    AppSignComponentsComponentIdIndexRoute,
   AppSignsSignIdIndexRoute: AppSignsSignIdIndexRoute,
   AppSubjectsSubjectIdIndexRoute: AppSubjectsSubjectIdIndexRoute,
   AppUsersUserIdIndexRoute: AppUsersUserIdIndexRoute,
