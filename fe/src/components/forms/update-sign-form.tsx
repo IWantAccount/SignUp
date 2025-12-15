@@ -16,6 +16,7 @@ import {EnumFormAutocomplete} from "@/components/util/enum-form-autocomplete.tsx
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import {SignComponentFormAutocomplete} from "@/components/util/sign-component-form-autocomplete.tsx";
 import {signComponentTypeEnum} from "@/domain/sign-component-type-enum.ts";
+import { Link } from "@tanstack/react-router";
 
 const schema = z.object({
     categoryId: z.string().min(1, "Kategorie je povinná"),
@@ -133,8 +134,14 @@ export function UpdateSignForm({signId, defaultDto}: Props)  {
                 <Tab value="base" label="Základní informace"/>
                 <Tab value="notation" label="Notace znaku"/>
             </Tabs>
+
             {selectedTab === "base" && (
                 <>
+                    <Button
+                        component={Link}
+                        to={`/app/signs/${signId}/replace-video`}>
+                        Nahrát nové video
+                    </Button>
                     <CategoryFormAutocomplete label={"Kategorie"} name={"categoryId"} control={control} required={true}/>
                     <EnumFormAutocomplete
                         name={"region"}

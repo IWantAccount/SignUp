@@ -37,6 +37,7 @@ import { Route as AppClassroomsClassroomIdIndexRouteImport } from './routes/app/
 import { Route as AppCategoriesCategoryIdIndexRouteImport } from './routes/app/categories/$categoryId/index'
 import { Route as AppUsersUserIdEditRouteImport } from './routes/app/users/$userId/edit'
 import { Route as AppSubjectsSubjectIdEditRouteImport } from './routes/app/subjects/$subjectId/edit'
+import { Route as AppSignsSignIdReplaceVideoRouteImport } from './routes/app/signs/$signId/replace-video'
 import { Route as AppSignsSignIdEditRouteImport } from './routes/app/signs/$signId/edit'
 import { Route as AppSignComponentsComponentIdEditRouteImport } from './routes/app/sign-components/$componentId/edit'
 import { Route as AppPrivateCollectionsCollectionIdEditRouteImport } from './routes/app/private-collections/$collectionId/edit'
@@ -190,6 +191,12 @@ const AppSubjectsSubjectIdEditRoute =
     path: '/subjects/$subjectId/edit',
     getParentRoute: () => AppRouteRoute,
   } as any)
+const AppSignsSignIdReplaceVideoRoute =
+  AppSignsSignIdReplaceVideoRouteImport.update({
+    id: '/signs/$signId/replace-video',
+    path: '/signs/$signId/replace-video',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 const AppSignsSignIdEditRoute = AppSignsSignIdEditRouteImport.update({
   id: '/signs/$signId/edit',
   path: '/signs/$signId/edit',
@@ -246,6 +253,7 @@ export interface FileRoutesByFullPath {
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
+  '/app/signs/$signId/replace-video': typeof AppSignsSignIdReplaceVideoRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
   '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
@@ -281,6 +289,7 @@ export interface FileRoutesByTo {
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
+  '/app/signs/$signId/replace-video': typeof AppSignsSignIdReplaceVideoRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
   '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId': typeof AppCategoriesCategoryIdIndexRoute
@@ -317,6 +326,7 @@ export interface FileRoutesById {
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
+  '/app/signs/$signId/replace-video': typeof AppSignsSignIdReplaceVideoRoute
   '/app/subjects/$subjectId/edit': typeof AppSubjectsSubjectIdEditRoute
   '/app/users/$userId/edit': typeof AppUsersUserIdEditRoute
   '/app/categories/$categoryId/': typeof AppCategoriesCategoryIdIndexRoute
@@ -354,6 +364,7 @@ export interface FileRouteTypes {
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
+    | '/app/signs/$signId/replace-video'
     | '/app/subjects/$subjectId/edit'
     | '/app/users/$userId/edit'
     | '/app/categories/$categoryId'
@@ -389,6 +400,7 @@ export interface FileRouteTypes {
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
+    | '/app/signs/$signId/replace-video'
     | '/app/subjects/$subjectId/edit'
     | '/app/users/$userId/edit'
     | '/app/categories/$categoryId'
@@ -424,6 +436,7 @@ export interface FileRouteTypes {
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
+    | '/app/signs/$signId/replace-video'
     | '/app/subjects/$subjectId/edit'
     | '/app/users/$userId/edit'
     | '/app/categories/$categoryId/'
@@ -638,6 +651,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSubjectsSubjectIdEditRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/signs/$signId/replace-video': {
+      id: '/app/signs/$signId/replace-video'
+      path: '/signs/$signId/replace-video'
+      fullPath: '/app/signs/$signId/replace-video'
+      preLoaderRoute: typeof AppSignsSignIdReplaceVideoRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/signs/$signId/edit': {
       id: '/app/signs/$signId/edit'
       path: '/signs/$signId/edit'
@@ -699,6 +719,7 @@ interface AppRouteRouteChildren {
   AppPrivateCollectionsCollectionIdEditRoute: typeof AppPrivateCollectionsCollectionIdEditRoute
   AppSignComponentsComponentIdEditRoute: typeof AppSignComponentsComponentIdEditRoute
   AppSignsSignIdEditRoute: typeof AppSignsSignIdEditRoute
+  AppSignsSignIdReplaceVideoRoute: typeof AppSignsSignIdReplaceVideoRoute
   AppSubjectsSubjectIdEditRoute: typeof AppSubjectsSubjectIdEditRoute
   AppUsersUserIdEditRoute: typeof AppUsersUserIdEditRoute
   AppCategoriesCategoryIdIndexRoute: typeof AppCategoriesCategoryIdIndexRoute
@@ -733,6 +754,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
     AppPrivateCollectionsCollectionIdEditRoute,
   AppSignComponentsComponentIdEditRoute: AppSignComponentsComponentIdEditRoute,
   AppSignsSignIdEditRoute: AppSignsSignIdEditRoute,
+  AppSignsSignIdReplaceVideoRoute: AppSignsSignIdReplaceVideoRoute,
   AppSubjectsSubjectIdEditRoute: AppSubjectsSubjectIdEditRoute,
   AppUsersUserIdEditRoute: AppUsersUserIdEditRoute,
   AppCategoriesCategoryIdIndexRoute: AppCategoriesCategoryIdIndexRoute,
