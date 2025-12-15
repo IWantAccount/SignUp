@@ -6,6 +6,7 @@ export const Route = createFileRoute('/')({
     beforeLoad: () => {
         //If token is expired or about to expire in 5 minutes, redirect to login
         if(AuthService.isExpired(5) || !AuthService.isLoggedIn()) {
+            AuthService.logout();
             throw redirect({
                 to: '/login',
             })
