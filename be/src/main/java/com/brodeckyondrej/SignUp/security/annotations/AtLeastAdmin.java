@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 //Převzato z https://www.baeldung.com/spring-security-method-security
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAnyRole('TEACHER', 'ADMIN')")
+@PreAuthorize("hasAnyRole('ADMIN')")
 public @interface AtLeastAdmin {
 }

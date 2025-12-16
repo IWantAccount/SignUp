@@ -32,7 +32,6 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        //TODO open closed mode
         return http
                 .cors(Customizer.withDefaults())
                 .csrf(c -> c.disable())
