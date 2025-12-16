@@ -1,4 +1,4 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {NameForm} from "@/components/forms/name-form.tsx";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
@@ -16,7 +16,8 @@ function RouteComponent() {
     const subjectId = Route.useParams().subjectId;
     const queryClient = useQueryClient();
     const query = useQuery(createGetSubjectByIdOptions(subjectId));
-    const mutation = useMutation(createUpdateSubjectOptions(subjectId, queryClient))
+    const navigate = useNavigate();
+    const mutation = useMutation(createUpdateSubjectOptions(subjectId, queryClient, navigate))
 
     if (query.isPending) return <BackdropLoading/>
     if (query.isError) return <ErrorAlert message={"Chyba při načítání předmětu"}/>

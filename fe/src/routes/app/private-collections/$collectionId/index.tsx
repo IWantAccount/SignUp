@@ -26,7 +26,7 @@ function RouteComponent() {
     const mutation = useMutation({
         mutationFn: () => deleteCollectionById(collectionId),
         onSuccess: async () => {
-            navigate({
+            await navigate({
                 to: "/app/private-collections",
             });
             await queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});

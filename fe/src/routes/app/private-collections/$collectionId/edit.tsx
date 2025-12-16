@@ -1,4 +1,4 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {NameForm} from "@/components/forms/name-form.tsx";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {
@@ -20,8 +20,8 @@ function RouteComponent() {
     const queryClient = useQueryClient();
 
     const query = useQuery(createGetCollectionByIdOptions(collectionId))
-
-    const mutation = useMutation(createUpdateCollectionByIdOptions(collectionId, queryClient))
+    const navigate = useNavigate();
+    const mutation = useMutation(createUpdateCollectionByIdOptions(collectionId, queryClient, navigate))
 
     if(query.isPending) return <BackdropLoading/>
     if(query.isError) return <ErrorAlert message={"Chyba při načítání kolekce"}/>

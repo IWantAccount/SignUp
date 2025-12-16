@@ -1,5 +1,5 @@
 import {NameForm} from '@/components/forms/name-form'
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {
     createCreateCollectionOptions,
 } from "@/api/private-collection/private-collection-query-options.ts";
@@ -12,8 +12,8 @@ export const Route = createFileRoute('/app/private-collections/create')({
 
 function RouteComponent() {
     const queryClient = useQueryClient();
-
-    const mutation = useMutation(createCreateCollectionOptions(queryClient));
+    const navigate = useNavigate();
+    const mutation = useMutation(createCreateCollectionOptions(queryClient, navigate));
 
 
     return (

@@ -40,7 +40,10 @@ const queryClient = new QueryClient({
             enqueueSnackbar("Něco se pokazilo:" + formatError(error), {variant: "error"});
         },
         onSuccess: () => {
-            enqueueSnackbar("Povedlo se", {variant: "success"});
+            enqueueSnackbar("Povedlo se", {
+                variant: "success",
+                autoHideDuration: 1500
+            });
         }
     })
 });
@@ -54,7 +57,7 @@ if (rootElement && !rootElement.innerHTML) {
     root.render(
         <StrictMode>
             <QueryClientProvider client={queryClient}>
-                <SnackbarProvider maxSnack={5} anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                <SnackbarProvider maxSnack={3} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
                                   autoHideDuration={5000}>
                     <RouterProvider router={router}/>
                 </SnackbarProvider>

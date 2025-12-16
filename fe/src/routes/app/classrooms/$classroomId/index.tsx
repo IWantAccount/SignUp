@@ -9,7 +9,7 @@ import type {StudentClassroomDto, UserGetListDto} from "@/api/user/user-dtos.ts"
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {deleteClassroom} from "@/api/classroom/classroom-api.ts";
-import {Box, Button, CircularProgress, IconButton, SpeedDial, SpeedDialAction, SpeedDialIcon} from '@mui/material';
+import {Box, Button, CircularProgress, IconButton} from '@mui/material';
 import {useDebounce} from "use-debounce";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import {AddStudentToClassRoomDialog} from "@/components/dialogs/add-student-to-classroom-dialog.tsx";
@@ -19,6 +19,7 @@ import {AuthService} from "@/api/util/auth-service.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
+import {CustomSpeedDial} from "@/components/util/custom-speed-dial.tsx";
 
 export const Route = createFileRoute('/app/classrooms/$classroomId/')({
     component: RouteComponent,
@@ -60,7 +61,7 @@ function RouteComponent() {
     const deleteMutation = useMutation({
         mutationFn: () => deleteClassroom(classroomId),
         onSuccess: async () => {
-            navigate({
+            await navigate({
                 to: "/app/classrooms",
             });
 
@@ -136,23 +137,9 @@ interface SpeedDialProps {
 
 function AddSpeedDial(props: SpeedDialProps) {
     const actions = [
-        {icon: PersonAddIcon, name: "Přidat studenta", action: props.openAddStudentDialog},
+        {icon: <PersonAddIcon color="secondary"/>, name: "Přidat studenta", action: props.openAddStudentDialog},
     ];
     return (
-        <SpeedDial
-            ariaLabel="Přidat studenta"
-            sx={{position: 'absolute', bottom: 16, right: 16}}
-            icon={<SpeedDialIcon/>}>
-            {
-                actions.map(action => (
-                    <SpeedDialAction
-                        key={action.name}
-                        icon={<action.icon color={"secondary"}/>}
-                        tooltipTitle={action.name}
-                        onClick={action.action}/>
-                ))
-            }
-
-        </SpeedDial>
+        <CustomSpeedDial actions={actions}/>
     )
 }

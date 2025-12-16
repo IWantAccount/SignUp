@@ -1,5 +1,5 @@
 import {SignComponentForm} from '@/components/forms/sign-component-form';
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {
     createGetSignComponentByIdOptions, createUpdateSignComponentOptions,
 } from "@/api/sign-component/sign-component-query-options.ts";
@@ -14,7 +14,8 @@ function RouteComponent() {
     const queryClient = useQueryClient()
     const componentId = Route.useParams().componentId;
     const query = useQuery(createGetSignComponentByIdOptions(componentId))
-    const mutation = useMutation(createUpdateSignComponentOptions(componentId, queryClient));
+    const navigate = useNavigate();
+    const mutation = useMutation(createUpdateSignComponentOptions(componentId, queryClient, navigate));
 
     if (query.isPending) return <BackdropLoading/>;
     if (query.isError) return <></>;

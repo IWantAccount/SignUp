@@ -12,6 +12,7 @@ import type {
 } from "@/api/sign-component/sign-component-dtos.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 import type {SignComponentTypeEnum} from "@/domain/sign-component-type-enum.ts";
+import type {useNavigate} from "@tanstack/react-router";
 
 export const signComponentQueryKey = "sign-component";
 
@@ -29,21 +30,26 @@ export function createCreateSignComponentOptions(queryClient: QueryClient): UseM
     return {
         mutationKey: [signComponentQueryKey],
         mutationFn: (dto: SignComponentCreateDto) => createSignComponent(dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [signComponentQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [signComponentQueryKey]});
         }
     }
 }
 
-export function createUpdateSignComponentOptions(id: string, queryClient: QueryClient): UseMutationOptions<
+export function createUpdateSignComponentOptions(id: string, queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     SignComponentGetDetailDto,
     Error,
     SignComponentUpdateDto> {
     return {
         mutationKey: [signComponentQueryKey, id],
         mutationFn: (dto: SignComponentUpdateDto) => updateSignComponent(id, dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [signComponentQueryKey, id]});
+        onSuccess: async () => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [signComponentQueryKey, id]}),
+                navigate({
+                    to: `/app/sign-components`
+                })
+            ])
         }
     }
 }
@@ -52,8 +58,8 @@ export function createDeleteSignComponentOptions(id: string, queryClient: QueryC
     return {
         mutationKey: [signComponentQueryKey, id],
         mutationFn: (id: string) => deleteSignComponent(id),
-        onSuccess: (_data, id: string) => {
-            queryClient.invalidateQueries({queryKey: [signComponentQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [signComponentQueryKey]});
         }
     }
 }

@@ -1,4 +1,4 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {CategoryForm} from "@/components/forms/category-form.tsx";
 import {Box, Typography} from "@mui/material";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
@@ -11,7 +11,8 @@ export const Route = createFileRoute('/app/categories/create')({
 
 function RouteComponent() {
     const queryClient = useQueryClient();
-    const mutation = useMutation(createCreateCategoryOptions(queryClient))
+    const navigate = useNavigate();
+    const mutation = useMutation(createCreateCategoryOptions(queryClient, navigate))
     return (
         <Box sx={{display: "flex", flexDirection: "column", gap: 2, p: 2, alignItems: "center"}}>
             <Typography variant="h5">Vytvořit novou kategorii</Typography>

@@ -1,4 +1,4 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {createGetUserByIdOptions, createUpdateUserOptions} from '@/api/user/user-query-options';
 import {UserForm} from "@/components/forms/user-form.tsx";
@@ -12,7 +12,8 @@ export const Route = createFileRoute('/app/users/$userId/edit')({
 function RouteComponent() {
     const queryClient = useQueryClient();
     const userId = Route.useParams().userId;
-    const mutation = useMutation(createUpdateUserOptions(userId, queryClient));
+    const navigate = useNavigate();
+    const mutation = useMutation(createUpdateUserOptions(userId, queryClient, navigate));
     const query = useQuery(createGetUserByIdOptions(userId))
 
     if(query.isPending) return <BackdropLoading/>
