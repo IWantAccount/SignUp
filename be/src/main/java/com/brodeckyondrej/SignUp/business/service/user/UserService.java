@@ -117,13 +117,13 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
 
     public JwtResponseDto verifyLogin(LoginDto loginDto) {
         Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginDto.getName(), loginDto.getPassword()));
 
         if(!auth.isAuthenticated()){
             throw new BadCredentialsException("Špatný email nebo heslo");
         }
 
-        Optional<User> user = userRepository.findByEmail(loginDto.getEmail());
+        Optional<User> user = userRepository.findByName(loginDto.getName());
         if(user.isEmpty()){
             throw new MissingObjectException("Uživatel nenalezen");
         }

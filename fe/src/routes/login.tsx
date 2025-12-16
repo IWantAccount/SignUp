@@ -10,7 +10,7 @@ export const Route = createFileRoute('/login')({
 })
 
 interface LoginDto {
-    email: string;
+    name: string;
     password: string;
 }
 
@@ -26,16 +26,16 @@ function RouteComponent() {
             const res = await api.post<JwtResponseDto>(buildPath(["auth", "login"]), dto);
             return res.data;
         },
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
             AuthService.login(data.token);
-            navigate({
+            await navigate({
                 to: "/app/home"
             })
         }
     })
     return (
         <LoginForm
-            onSubmit={({email, password}) => mutation.mutate({email, password})}
+            onSubmit={({name, password}) => mutation.mutate({name, password})}
             submitButtonText={
                 mutation.isPending ? "Čekejte": "Přihlásit se"
             }

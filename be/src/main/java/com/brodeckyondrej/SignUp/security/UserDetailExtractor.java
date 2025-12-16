@@ -30,7 +30,7 @@ public class UserDetailExtractor implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getName();
     }
 
     public UUID getId() {
