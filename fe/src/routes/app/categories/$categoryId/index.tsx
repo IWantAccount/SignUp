@@ -14,6 +14,9 @@ import { useDebounce } from 'use-debounce';
 import {createSignInfiniteSearch} from "@/api/sign/sign-query-options.ts";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
 import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
+import {SpeedDial, SpeedDialAction, SpeedDialIcon} from "@mui/material";
+import SignLanguageIcon from '@mui/icons-material/SignLanguage';
+import {AuthService} from "@/api/util/auth-service.ts";
 
 export const Route = createFileRoute('/app/categories/$categoryId/')({
     component: RouteComponent,
@@ -32,13 +35,11 @@ function RouteComponent() {
         {
             mutationFn: () => deleteCategory(categoryId),
             onSuccess: async () => {
-                navigate({
+                await navigate({
                     to: "/app/categories",
                 })
 
-                // Wait for a while. If queries are invalidated too quickly, category query might refetch and cause 404 error
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                queryClient.invalidateQueries({queryKey: [categoryQueryKey]})
+                await queryClient.invalidateQueries({queryKey: [categoryQueryKey]})
             }
         }
     );
@@ -72,7 +73,41 @@ function RouteComponent() {
                 }
 
             />
-            {signQuery.isPending ? <MultipleCardSkeleton/> : <SignGrid list={signs}/>}
+            {signQuery.isPending ? <MultipleCardSkeleton/> : (
+                <>
+                    <SignGrid list={signs}/>
+                    {AuthService.atLeastTeacher() && <CategorySpeedDial/>}
+                </>
+            )}
         </TopBarItemsGrid>
     )
+}
+
+function CategorySpeedDial() {
+    const navigate = useNavigate();
+    const actions = [
+        {icon: SignLanguageIcon, name: "Přidat znak", action: async () => {
+                navigate({
+                    to: '/app/signs/create'
+                })
+            }
+        }
+    ]
+    return (
+        <SpeedDial
+            ariaLabel="Přidat studenta"
+            sx={{position: 'absolute', bottom: 16, right: 16}}
+            icon={<SpeedDialIcon/>}>
+            {
+                actions.map(action => (
+                    <SpeedDialAction
+                        key={action.name}
+                        icon={<action.icon color={"secondary"}/>}
+                        tooltipTitle={action.name}
+                        onClick={action.action}/>
+                ))
+            }
+        </SpeedDial>
+    )
+
 }

@@ -25,6 +25,7 @@ import {buildPath} from "@/api/util/build-path.ts";
 import type {SubjectStudentDto} from "@/api/subject/subject-dtos.ts";
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
+import CategoryIcon from '@mui/icons-material/Category';
 
 export const Route = createFileRoute('/app/subjects/$subjectId/')({
     component: RouteComponent
@@ -182,9 +183,16 @@ interface SpeedDialProps {
 }
 
 function AddSpeedDial(props: SpeedDialProps) {
+    const navigate = useNavigate();
     const actions = [
         {icon: GroupAddIcon, name: "Přidat třídu", action: props.openAddClassroomDialog},
         {icon: PersonAddIcon, name: "Přidat studenta", action: props.openAddStudentDialog},
+        {icon: CategoryIcon, name: "Přidat kategorii", action: async () => {
+                navigate({
+                    to: '/app/categories/create'
+                })
+            }
+        }
     ]
     return (
         <SpeedDial
