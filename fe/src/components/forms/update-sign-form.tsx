@@ -16,7 +16,7 @@ import {EnumFormAutocomplete} from "@/components/util/enum-form-autocomplete.tsx
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import {SignComponentFormAutocomplete} from "@/components/util/sign-component-form-autocomplete.tsx";
 import {signComponentTypeEnum} from "@/domain/sign-component-type-enum.ts";
-import { Link } from "@tanstack/react-router";
+import {Link, useNavigate} from "@tanstack/react-router";
 
 const schema = z.object({
     categoryId: z.string().min(1, "Kategorie je povinná"),
@@ -72,7 +72,8 @@ export function UpdateSignForm({signId, defaultDto}: Props)  {
         }
     });
     const queryClient = useQueryClient();
-    const mutation = useMutation(createUpdateSignOptions(signId, queryClient));
+    const navigate = useNavigate();
+    const mutation = useMutation(createUpdateSignOptions(signId, queryClient, navigate));
 
     const [selectedTab, setSelectedTab] = useState<"base" | "notation">("base");
     const [twoHandedSign, setTwoHandedSign] = useState<boolean>(false);

@@ -15,6 +15,7 @@ import type {SignCreateDto} from "@/api/sign/sign-dtos.ts";
 import {enqueueSnackbar} from "notistack";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createCreateSignOptions} from "@/api/sign/sign-query-options.ts";
+import {useNavigate} from "@tanstack/react-router";
 
 
 
@@ -71,7 +72,8 @@ export function CreateSignForm() {
     const [newTranslation, setNewTranslation] = useState<string>("");
     const [video, setVideo] = useState<File | null>(null);
     const queryClient = useQueryClient();
-    const mutation = useMutation(createCreateSignOptions(queryClient));
+    const navigate = useNavigate();
+    const mutation = useMutation(createCreateSignOptions(queryClient, navigate));
 
     const onSubmitRHF: SubmitHandler<CreateSignFormData> = (data) => {
         const dto: SignCreateDto = {

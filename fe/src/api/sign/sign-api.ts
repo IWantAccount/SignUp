@@ -21,7 +21,7 @@ export const createSign = async (dto: SignCreateDto, video: File): Promise<SignG
     formData.append("video", video);
     formData.append("dto", new Blob([JSON.stringify(dto)], { type: "application/json" }));
 
-    const res = await api.post<SignGetDetailDto>(buildPath([url]), );
+    const res = await api.post<SignGetDetailDto>(buildPath([url]), formData);
     return res.data
 }
 

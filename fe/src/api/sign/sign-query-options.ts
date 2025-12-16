@@ -13,30 +13,41 @@ import {
 } from "@/api/sign/sign-api.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 import {categoryQueryKey} from "@/api/category/category-query-options.ts";
+import type {useNavigate} from "@tanstack/react-router";
 
 export const signQueryKey = "sign";
-export function createCreateSignOptions(queryClient: QueryClient): UseMutationOptions<
+export function createCreateSignOptions(queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     SignGetDetailDto,
     AxiosError,
     CreateSign> {
     return {
         mutationKey: [signQueryKey, "create"],
         mutationFn: (vars: CreateSign) => createSign(vars.dto, vars.video),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [signQueryKey]})
+        onSuccess: async (data: SignGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [signQueryKey]}),
+                navigate({
+                    to: `/app/signs/${data.id}`
+                })
+            ])
         }
     }
 }
 
-export function createUpdateSignOptions(id: string, queryClient: QueryClient): UseMutationOptions<
+export function createUpdateSignOptions(id: string, queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     SignGetDetailDto,
     AxiosError,
     SignUpdateDto> {
     return {
         mutationKey: [signQueryKey, "update"],
         mutationFn: (dto: SignUpdateDto)=> updateSign(id, dto),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [signQueryKey]})
+        onSuccess: async (data: SignGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [signQueryKey]}),
+                navigate({
+                    to: `/app/signs/${data.id}`
+                })
+            ])
         }
     }
 }
