@@ -14,9 +14,9 @@ import { useDebounce } from 'use-debounce';
 import {createSignInfiniteSearch} from "@/api/sign/sign-query-options.ts";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
 import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
-import {SpeedDial, SpeedDialAction, SpeedDialIcon} from "@mui/material";
 import SignLanguageIcon from '@mui/icons-material/SignLanguage';
 import {AuthService} from "@/api/util/auth-service.ts";
+import {CustomSpeedDial} from "@/components/util/custom-speed-dial.tsx";
 
 export const Route = createFileRoute('/app/categories/$categoryId/')({
     component: RouteComponent,
@@ -86,7 +86,7 @@ function RouteComponent() {
 function CategorySpeedDial() {
     const navigate = useNavigate();
     const actions = [
-        {icon: SignLanguageIcon, name: "Přidat znak", action: async () => {
+        {icon: <SignLanguageIcon color="secondary"/>, name: "Přidat znak", action: async () => {
                 navigate({
                     to: '/app/signs/create'
                 })
@@ -94,20 +94,7 @@ function CategorySpeedDial() {
         }
     ]
     return (
-        <SpeedDial
-            ariaLabel="Přidat studenta"
-            sx={{position: 'absolute', bottom: 16, right: 16}}
-            icon={<SpeedDialIcon/>}>
-            {
-                actions.map(action => (
-                    <SpeedDialAction
-                        key={action.name}
-                        icon={<action.icon color={"secondary"}/>}
-                        tooltipTitle={action.name}
-                        onClick={action.action}/>
-                ))
-            }
-        </SpeedDial>
+        <CustomSpeedDial actions={actions}/>
     )
 
 }

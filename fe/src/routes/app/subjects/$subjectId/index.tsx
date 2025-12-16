@@ -10,7 +10,7 @@ import {createCategoryInfiniteSearch} from "@/api/category/category-query-option
 import {useState} from "react";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import {Box, CircularProgress, IconButton, SpeedDial, SpeedDialAction, SpeedDialIcon, Tab, Tabs} from "@mui/material";
+import {Box, CircularProgress, IconButton, Tab, Tabs} from "@mui/material";
 import {AddClassroomToSubjectDialog} from "@/components/dialogs/add-classroom-to-subject-dialog.tsx";
 import {AddStudentToSubjectDialog} from "@/components/dialogs/add-student-to-subject-dialog.tsx";
 import {
@@ -26,6 +26,7 @@ import type {SubjectStudentDto} from "@/api/subject/subject-dtos.ts";
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import CategoryIcon from '@mui/icons-material/Category';
+import {CustomSpeedDial} from "@/components/util/custom-speed-dial.tsx";
 
 export const Route = createFileRoute('/app/subjects/$subjectId/')({
     component: RouteComponent
@@ -185,9 +186,9 @@ interface SpeedDialProps {
 function AddSpeedDial(props: SpeedDialProps) {
     const navigate = useNavigate();
     const actions = [
-        {icon: GroupAddIcon, name: "Přidat třídu", action: props.openAddClassroomDialog},
-        {icon: PersonAddIcon, name: "Přidat studenta", action: props.openAddStudentDialog},
-        {icon: CategoryIcon, name: "Přidat kategorii", action: async () => {
+        {icon: <GroupAddIcon color="secondary"/>, name: "Přidat třídu", action: props.openAddClassroomDialog},
+        {icon: <PersonAddIcon color="secondary"/>, name: "Přidat studenta", action: props.openAddStudentDialog},
+        {icon: <CategoryIcon color="secondary"/>, name: "Přidat kategorii", action: async () => {
                 navigate({
                     to: '/app/categories/create'
                 })
@@ -195,20 +196,7 @@ function AddSpeedDial(props: SpeedDialProps) {
         }
     ]
     return (
-        <SpeedDial
-            ariaLabel="Přidat studenta"
-            sx={{position: 'fixed', bottom: 16, right: 16}}
-            icon={<SpeedDialIcon/>}>
-            {
-                actions.map(action => (
-                    <SpeedDialAction
-                        key={action.name}
-                        icon={<action.icon color={"secondary"}/>}
-                        tooltipTitle={action.name}
-                        onClick={action.action}/>
-                ))
-            }
-        </SpeedDial>
+        <CustomSpeedDial actions={actions}/>
     )
 
 }
