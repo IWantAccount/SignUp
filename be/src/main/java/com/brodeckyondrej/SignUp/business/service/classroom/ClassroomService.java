@@ -2,13 +2,17 @@ package com.brodeckyondrej.SignUp.business.service.classroom;
 
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomUpdateDto;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
+import com.brodeckyondrej.SignUp.business.dto.user.StudentClassroomDto;
+import com.brodeckyondrej.SignUp.business.specification.ClassroomSpecification;
 import com.brodeckyondrej.SignUp.business.specification.NameSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
+import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.persistence.repository.ClassroomRepository;
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomGetListDto;
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomCreateDto;
 import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityService;
+import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
 import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,11 +28,13 @@ public class ClassroomService extends NamedEntityService<Classroom, ClassroomCre
 
     private final ClassroomRepository classroomRepository;
     private final ClassroomMapper classroomMapper;
+    private final UserRepository userRepository;
 
-    public ClassroomService(ClassroomRepository repository, ClassroomValidator validator, ClassroomMapper classroomMapper) {
+    public ClassroomService(ClassroomRepository repository, ClassroomValidator validator, ClassroomMapper classroomMapper, UserRepository userRepository) {
         super(repository, validator, classroomMapper);
         this.classroomRepository = repository;
         this.classroomMapper = classroomMapper;
+        this.userRepository = userRepository;
     }
 
     public Page<ClassroomGetListDto> search(FindByNameDto dto, Pageable pageable) {
@@ -48,5 +54,14 @@ public class ClassroomService extends NamedEntityService<Classroom, ClassroomCre
         super.delete(id);
     }
 
+    public Boolean presentInClassroom(StudentClassroomDto dto) {
+        User user = userRepository.findByIdOrThrow(dto.getStudentId());
 
+        Specification<Classroom> specs = new SpecificationBuilder<Classroom>()
+                .addSpec(ClassroomSpecification.hasId(dto.getClassroomId()))
+                .addSpec(ClassroomSpecification.hasStudent(user))
+                .build();
+
+        return classroomRepository.exists(specs);
+    }
 }

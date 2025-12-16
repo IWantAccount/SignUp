@@ -72,4 +72,10 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         return super.delete(id);
     }
+
+    @PostMapping("/student-present")
+    @AtLeastTeacherOrSelf
+    public ResponseEntity<Boolean> presentInSubject(@Valid @RequestBody SubjectStudentDto dto) {
+        return ResponseEntity.ok(subjectService.presentInSubject(dto));
+    }
 }
