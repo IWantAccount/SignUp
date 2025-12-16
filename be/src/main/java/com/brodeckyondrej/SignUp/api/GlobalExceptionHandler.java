@@ -1,5 +1,6 @@
 package com.brodeckyondrej.SignUp.api;
 import com.brodeckyondrej.SignUp.exception.MissingObjectException;
+import com.brodeckyondrej.SignUp.exception.NameNotUniqueException;
 import com.brodeckyondrej.SignUp.exception.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -51,6 +52,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ProblemDetail> methodArgNotValid(MethodArgumentNotValidException e) {
         ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         pd.setTitle("Chybně vyplněno");
+        pd.setDetail(e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
+    }
+
+    @ExceptionHandler({NameNotUniqueException.class})
+    public ResponseEntity<ProblemDetail> notUniqueName(NameNotUniqueException e) {
+        ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        pd.setTitle("Jméno už je použité");
         pd.setDetail(e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pd);
     }

@@ -4,13 +4,11 @@ import com.brodeckyondrej.SignUp.business.dto.universal.NamedDto;
 import com.brodeckyondrej.SignUp.exception.NameNotUniqueException;
 import com.brodeckyondrej.SignUp.persistence.entity.NamedEntity;
 import com.brodeckyondrej.SignUp.persistence.repository.NamedEntityRepository;
-import lombok.AllArgsConstructor;
 
 import java.util.UUID;
 
-@AllArgsConstructor
 public class NamedEntityValidator<E extends NamedEntity, CreateDto extends NamedDto, UpdateDto extends NamedDto> implements Validator<CreateDto, UpdateDto>{
-    private NamedEntityRepository<E> repository;
+    private final NamedEntityRepository<E> repository;
 
     @Override
     public void validateCreateOrThrow(CreateDto createDto) {
@@ -26,7 +24,7 @@ public class NamedEntityValidator<E extends NamedEntity, CreateDto extends Named
         }
     }
 
-    protected NamedEntityValidator(){
-
+    public NamedEntityValidator(NamedEntityRepository<E> repository) {
+        this.repository = repository;
     }
 }

@@ -25,6 +25,10 @@ services:
       SPRING_PROFILES_ACTIVE: "docker"
       JWT_SECRET: "15619653dfsdfsf89165fsd56f89fakthodnebezpecne,tocumite,ze?chachachacahfaktdobryklics51f6sd5f1sd6f1sd68f1af861sdf891asd89fsd89f4f89ertyuikmnbvcxcfghj"
       JWT_VALID_MINUTES: "180"
+      INIT_EMAIL: fake@fake.com
+      INIT_NAME: admin
+      INIT_PASSWORD: changeit
+      INIT_ENABLED: false
     volumes:
       - ./uploads:/storage
   fe:
