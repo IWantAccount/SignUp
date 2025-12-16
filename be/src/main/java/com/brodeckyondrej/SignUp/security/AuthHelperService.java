@@ -1,8 +1,11 @@
 package com.brodeckyondrej.SignUp.security;
 
+import com.brodeckyondrej.SignUp.business.specification.PrivateCollectionSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
 import com.brodeckyondrej.SignUp.persistence.repository.PrivateCollectionRepository;
+import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -28,9 +31,12 @@ public class AuthHelperService {
             return true;
         }
 
-        PrivateCollection foundCollection = collectionRepository.findByIdOrThrow(collectionId);
+        Specification<PrivateCollection> specs = new SpecificationBuilder<PrivateCollection>()
+                .addSpec(PrivateCollectionSpecification.hasId(collectionId))
+                .addSpec(PrivateCollectionSpecification.hasOwner(userDetailExtractor.getId()))
+                .build();
 
-        return foundCollection.getOwner().getId().equals(userDetailExtractor.getId());
+        return collectionRepository.exists(specs);
 
     }
 
