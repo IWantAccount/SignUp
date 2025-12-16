@@ -14,6 +14,7 @@ import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppOndraJeFrajerRouteImport } from './routes/app/ondra-je-frajer'
 import { Route as AppHomeRouteImport } from './routes/app/home'
+import { Route as AppHelpMeRouteImport } from './routes/app/help-me'
 import { Route as AppUsersIndexRouteImport } from './routes/app/users/index'
 import { Route as AppSubjectsIndexRouteImport } from './routes/app/subjects/index'
 import { Route as AppSignsIndexRouteImport } from './routes/app/signs/index'
@@ -67,6 +68,11 @@ const AppOndraJeFrajerRoute = AppOndraJeFrajerRouteImport.update({
 const AppHomeRoute = AppHomeRouteImport.update({
   id: '/home',
   path: '/home',
+  getParentRoute: () => AppRouteRoute,
+} as any)
+const AppHelpMeRoute = AppHelpMeRouteImport.update({
+  id: '/help-me',
+  path: '/help-me',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppUsersIndexRoute = AppUsersIndexRouteImport.update({
@@ -232,6 +238,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/app/help-me': typeof AppHelpMeRoute
   '/app/home': typeof AppHomeRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
@@ -268,6 +275,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/app/help-me': typeof AppHelpMeRoute
   '/app/home': typeof AppHomeRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
@@ -305,6 +313,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/app/help-me': typeof AppHelpMeRoute
   '/app/home': typeof AppHomeRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
@@ -343,6 +352,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
+    | '/app/help-me'
     | '/app/home'
     | '/app/ondra-je-frajer'
     | '/app/categories/create'
@@ -379,6 +389,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
+    | '/app/help-me'
     | '/app/home'
     | '/app/ondra-je-frajer'
     | '/app/categories/create'
@@ -415,6 +426,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/login'
+    | '/app/help-me'
     | '/app/home'
     | '/app/ondra-je-frajer'
     | '/app/categories/create'
@@ -489,6 +501,13 @@ declare module '@tanstack/react-router' {
       path: '/home'
       fullPath: '/app/home'
       preLoaderRoute: typeof AppHomeRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/app/help-me': {
+      id: '/app/help-me'
+      path: '/help-me'
+      fullPath: '/app/help-me'
+      preLoaderRoute: typeof AppHelpMeRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/users/': {
@@ -698,6 +717,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteRouteChildren {
+  AppHelpMeRoute: typeof AppHelpMeRoute
   AppHomeRoute: typeof AppHomeRoute
   AppOndraJeFrajerRoute: typeof AppOndraJeFrajerRoute
   AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
@@ -732,6 +752,7 @@ interface AppRouteRouteChildren {
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
+  AppHelpMeRoute: AppHelpMeRoute,
   AppHomeRoute: AppHomeRoute,
   AppOndraJeFrajerRoute: AppOndraJeFrajerRoute,
   AppCategoriesCreateRoute: AppCategoriesCreateRoute,
