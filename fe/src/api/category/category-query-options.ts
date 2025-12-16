@@ -12,6 +12,7 @@ import type {
 } from "@/api/category/category-dtos.ts";
 import type {AxiosError} from "axios";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
+import type {useNavigate} from "@tanstack/react-router";
 
 export const categoryQueryKey = "category";
 
@@ -22,20 +23,30 @@ export function createGetCategoryByIdOptions(id: string) {
     })
 }
 
-export function createCreateCategoryOptions(queryClient: QueryClient): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryCreateDto> {
+export function createCreateCategoryOptions(queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryCreateDto> {
     return {
         mutationFn: (dto: CategoryCreateDto) => createCategory(dto),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [categoryQueryKey]});
+        onSuccess: async (data:CategoryGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [categoryQueryKey]}),
+                navigate({
+                    to: `/app/categories/${data.id}`
+                })
+            ])
         }
     }
 }
 
-export function createUpdateCategoryOptions(id: string, queryClient: QueryClient): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryUpdateDto> {
+export function createUpdateCategoryOptions(id: string, queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<CategoryGetDetailDto, AxiosError, CategoryUpdateDto> {
     return {
         mutationFn: (dto: CategoryUpdateDto) => updateCategory(id, dto),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [categoryQueryKey]});
+        onSuccess: async (data: CategoryGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [categoryQueryKey]}),
+                navigate({
+                    to: `/app/categories/${data.id}`
+                })
+            ])
         }
     }
 }

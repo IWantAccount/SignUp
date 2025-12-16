@@ -11,6 +11,7 @@ import type {
     ClassroomUpdateDto
 } from "@/api/classroom/classroom-dtos.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
+import type {useNavigate} from "@tanstack/react-router";
 
 export const classroomQueryKey = "classroom";
 
@@ -21,28 +22,38 @@ export function createGetClassroomByIdOptions(id: string) {
     })
 }
 
-export function createCreateClassroomOptions(queryClient: QueryClient): UseMutationOptions<
+export function createCreateClassroomOptions(queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     ClassroomGetDetailDto,
     Error,
     ClassroomCreateDto> {
     return {
         mutationFn: (dto: ClassroomCreateDto) => createClassroom(dto),
         mutationKey: [classroomQueryKey],
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
+        onSuccess: async (data: ClassroomGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [classroomQueryKey]}),
+                navigate({
+                    to: `/app/classrooms/${data.id}`
+                })
+            ])
         }
     }
 }
 
-export function createUpdateClassroomOptions(id: string, queryClient: QueryClient): UseMutationOptions<
+export function createUpdateClassroomOptions(id: string, queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     ClassroomGetDetailDto,
     Error,
     ClassroomUpdateDto> {
     return {
         mutationFn: (dto: ClassroomUpdateDto) => updateClassroom(id, dto),
         mutationKey: [classroomQueryKey, id],
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
+        onSuccess: async (data: ClassroomGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [classroomQueryKey]}),
+                navigate({
+                    to: `/app/classrooms/${data.id}`
+                })
+            ])
         }
     }
 }
@@ -50,8 +61,8 @@ export function createUpdateClassroomOptions(id: string, queryClient: QueryClien
 export function createDeleteClassroomOptions(id: string, queryClient: QueryClient): UseMutationOptions<void, Error, void> {
     return {
         mutationFn: () => deleteClassroom(id),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
         }
     }
 }

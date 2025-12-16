@@ -7,15 +7,21 @@ import type {
 import type {AxiosError} from "axios";
 import {createAnnouncement, getAnnouncementSearch} from "@/api/announcement/announcement-api.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
+import type {useNavigate} from "@tanstack/react-router";
 
 export const announcementQueryKey = "announcement";
 
-export function createCreateAnnouncementOptions(queryClient: QueryClient): UseMutationOptions<AnnouncementGetDetailDto, AxiosError, AnnouncementCreateDto> {
+export function createCreateAnnouncementOptions(queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<AnnouncementGetDetailDto, AxiosError, AnnouncementCreateDto> {
     return {
         mutationKey: [announcementQueryKey],
         mutationFn: (dto: AnnouncementCreateDto) => createAnnouncement(dto),
         onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [announcementQueryKey]})
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [announcementQueryKey]}),
+                navigate({
+                    to: "/app/home"
+                })
+            ])
         }
     }
 }

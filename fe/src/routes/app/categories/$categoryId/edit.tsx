@@ -1,4 +1,4 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {Box, Typography} from "@mui/material";
 import {CategoryForm} from "@/components/forms/category-form.tsx";
 import {createGetCategoryByIdOptions, createUpdateCategoryOptions} from "@/api/category/category-query-options.ts";
@@ -12,9 +12,10 @@ export const Route = createFileRoute('/app/categories/$categoryId/edit')({
 
 function RouteComponent() {
     const categoryId = Route.useParams().categoryId;
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const categoryQuery = useQuery(createGetCategoryByIdOptions(categoryId));
-    const updateMutation = useMutation(createUpdateCategoryOptions(categoryId, queryClient));
+    const updateMutation = useMutation(createUpdateCategoryOptions(categoryId, queryClient, navigate));
     if (categoryQuery.isPending) return <BackdropLoading/>;
     if (categoryQuery.isError) return <></>;
     const category = categoryQuery.data;
