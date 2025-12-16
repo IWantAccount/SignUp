@@ -1,4 +1,4 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import { useState } from 'react';
 import {useDebounce} from "use-debounce";
 import {useInfiniteQuery} from "@tanstack/react-query";
@@ -14,6 +14,9 @@ import {CategoryAutocomplete} from "@/components/util/category-autocomplete.tsx"
 import {EnumAutocomplete} from "@/components/util/enum-autocomplete.tsx";
 import {SignComponentAutocomplete} from "@/components/util/sign-component-autocomplete.tsx";
 import {signComponentTypeEnum} from "@/domain/sign-component-type-enum.ts";
+import {AuthService} from "@/api/util/auth-service.ts";
+import {CustomSpeedDial, type SpeedDialActionItem} from "@/components/util/custom-speed-dial.tsx";
+import SignLanguageIcon from "@mui/icons-material/SignLanguage";
 
 export const Route = createFileRoute('/app/signs/')({
     component: RouteComponent,
@@ -197,7 +200,13 @@ function RouteComponent() {
                     </Stack>
                 </Box>
             )}
-            {query.isPending ? <MultipleCardSkeleton/> : <SignGrid list={signs}/>}
+            {query.isPending ? <MultipleCardSkeleton/> : (
+                <>
+                    <SignGrid list={signs}/>
+                    {AuthService.atLeastTeacher() && (<AddSignSpeedDial/>)}
+                </>
+            )}
+
             <Button
                 variant="outlined"
                 onClick={() => query.fetchNextPage()}
@@ -210,6 +219,24 @@ function RouteComponent() {
                 }
             </Button>
         </Stack>
+    )
+}
+
+function AddSignSpeedDial() {
+    const navigate = useNavigate();
+    const actions: SpeedDialActionItem[] = [
+        {
+            icon: <SignLanguageIcon color="secondary"/>,
+            name: "Přidat znak",
+            action: async () => {
+                await navigate({
+                    to: '/app/signs/create'
+                })
+            }
+        }
+    ]
+    return (
+        <CustomSpeedDial actions={actions}/>
     )
 }
 

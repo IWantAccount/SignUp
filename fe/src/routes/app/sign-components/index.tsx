@@ -1,4 +1,4 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import { createSignComponentSearch,
 } from "@/api/sign-component/sign-component-query-options.ts";
 import {useInfiniteQuery} from "@tanstack/react-query";
@@ -10,6 +10,9 @@ import {SignComponentGrid} from "@/components/grids/sign-component-grid.tsx";
 import {useState} from "react";
 import {useDebounce} from "use-debounce";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
+import {CustomSpeedDial, type SpeedDialActionItem} from "@/components/util/custom-speed-dial.tsx";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 export const Route = createFileRoute('/app/sign-components/')({
     component: RouteComponent,
@@ -27,7 +30,12 @@ function RouteComponent() {
         <Stack sx={{padding: 2}} spacing={2} alignItems="center">
             <TopBarItemsGrid>
                 <SearchableCardSectionTopBarActions title={"Komponenty znaku"} onSearch={(searchItem: string) => {setSearch(searchItem)}}/>
-                {infiniteQuery.isPending ? <MultipleCardSkeleton/> : <SignComponentGrid list={components}/>}
+                {infiniteQuery.isPending ? <MultipleCardSkeleton/> : (
+                    <>
+                        <SignComponentGrid list={components}/>
+                        {AuthService.atLeastTeacher() && <SignComponentSpeedDial/>}
+                    </>
+                )}
             </TopBarItemsGrid>
             <Button onClick={() => infiniteQuery.fetchNextPage()}
                     disabled={infiniteQuery.isPending || !infiniteQuery.hasNextPage}
@@ -38,5 +46,24 @@ function RouteComponent() {
                         !infiniteQuery.hasNextPage ? "Vše načteno" : "Načíst další"
                 }</Button>
         </Stack>
+    )
+}
+
+function SignComponentSpeedDial() {
+    const navigate = useNavigate();
+    const actions: SpeedDialActionItem[] = [
+        {
+            icon: <AddBoxIcon color="secondary"/>,
+            name: "Přidat komponentu znaku",
+            action: async () => {
+                await navigate({
+                    to: '/app/sign-components/create'
+                })
+            }
+        }
+    ]
+
+    return (
+        <CustomSpeedDial actions={actions}/>
     )
 }

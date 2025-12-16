@@ -1,4 +1,4 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {SubjectGrid} from '@/components/grids/subject-grid';
@@ -11,6 +11,8 @@ import {useState} from "react";
 import {useDebounce} from "use-debounce";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
 import {AuthService} from "@/api/util/auth-service.ts";
+import {CustomSpeedDial, type SpeedDialActionItem} from "@/components/util/custom-speed-dial.tsx";
+import SchoolIcon from "@mui/icons-material/School";
 
 export const Route = createFileRoute('/app/subjects/')({
     component: RouteComponent,
@@ -38,7 +40,12 @@ function RouteComponent() {
                 <SearchableCardSectionTopBarActions title={"Předměty"} onSearch={(searchItem: string) => {setSearchItem(searchItem)}} />
                 {
                     infiniteQuery.isPending ? <MultipleCardSkeleton/> :
-                        infiniteQuery.isError ? (<></>) : (<SubjectGrid list={subjects}></SubjectGrid>)
+                        infiniteQuery.isError ? (<></>) : (
+                            <>
+                                <SubjectGrid list={subjects}/>
+                                {AuthService.atLeastTeacher() && <SubjectSpeedDial/>}
+                            </>
+                        )
                 }
             </TopBarItemsGrid>
             <Button onClick={() => infiniteQuery.fetchNextPage()}
@@ -49,5 +56,24 @@ function RouteComponent() {
             </Button>
         </Stack>
 
+    )
+}
+
+function SubjectSpeedDial() {
+    const navigate = useNavigate();
+    const actions: SpeedDialActionItem[] = [
+        {
+            icon: <SchoolIcon color="secondary"/>,
+            name: "Přidat předmět",
+            action: async () => {
+                navigate({
+                    to: '/app/subjects/create',
+                })
+            }
+        }
+    ]
+
+    return (
+        <CustomSpeedDial actions={actions}/>
     )
 }

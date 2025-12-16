@@ -1,4 +1,4 @@
-import {createFileRoute} from '@tanstack/react-router'
+import {createFileRoute, useNavigate} from '@tanstack/react-router'
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {
     createCollectionSearchOptions
@@ -12,6 +12,8 @@ import {useDebounce} from "use-debounce";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
 import type {CollectionSearchDto} from "@/api/private-collection/private-collection-dtos.ts";
 import {AuthService} from "@/api/util/auth-service.ts";
+import {CustomSpeedDial, type SpeedDialActionItem} from "@/components/util/custom-speed-dial.tsx";
+import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 export const Route = createFileRoute('/app/private-collections/')({
     component: RouteComponent,
 })
@@ -37,6 +39,7 @@ function RouteComponent() {
                 <SearchableCardSectionTopBarActions title={"Soukromé kolekce"} onSearch={(searchItem: string) => {setSearchItem(searchItem)}}/>
                 {infiniteQuery.isPending ? <MultipleCardSkeleton/> : <PrivateCollectionGrid list={collections}/>}
             </TopBarItemsGrid>
+            <PrivateCollectionSpeedDial/>
             <Button onClick={() => infiniteQuery.fetchNextPage()}
                     disabled={buttonDisabled}
                     sx={{maxWidth: 200}}
@@ -44,5 +47,24 @@ function RouteComponent() {
                 {buttonText}
             </Button>
         </Stack>
+    )
+}
+
+function PrivateCollectionSpeedDial() {
+    const navigate = useNavigate();
+    const actions: SpeedDialActionItem[] = [
+        {
+            icon: <BookmarkAddIcon color="primary"/>,
+            name: "Přidat soukromou kolekci",
+            action: async () => {
+                await navigate({
+                    to: "/app/private-collections/create"
+                })
+            }
+        }
+    ]
+
+    return (
+        <CustomSpeedDial actions={actions}/>
     )
 }

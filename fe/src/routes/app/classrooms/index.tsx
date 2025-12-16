@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import {ClassroomGrid} from "@/components/grids/classroom-grid.tsx";
 import {useInfiniteQuery} from "@tanstack/react-query";
 import {
@@ -11,6 +11,9 @@ import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-c
 import {useState} from "react";
 import {useDebounce} from "use-debounce";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
+import {CustomSpeedDial, type SpeedDialActionItem} from "@/components/util/custom-speed-dial.tsx";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 export const Route = createFileRoute('/app/classrooms/')({
   component: RouteComponent,
@@ -26,7 +29,12 @@ function RouteComponent() {
   return (
     <TopBarItemsGrid>
         <SearchableCardSectionTopBarActions title={"Všechny třídy"} onSearch={(search: string) => {setSearchItem(search)}}/>
-        {infiniteQuery.isPending ? <MultipleCardSkeleton/> : <ClassroomGrid list={classrooms}/>}
+        {infiniteQuery.isPending ? <MultipleCardSkeleton/> : (
+            <>
+                <ClassroomGrid list={classrooms}/>
+                {AuthService.atLeastTeacher() && <ClassroomSpeedDial/>}
+            </>
+        )}
         <Button   onClick={() => infiniteQuery.fetchNextPage()}
                   disabled={!infiniteQuery.hasNextPage || infiniteQuery.isFetchingNextPage}
                   sx={{maxWidth: 200}}
@@ -37,4 +45,23 @@ function RouteComponent() {
         </Button>
     </TopBarItemsGrid>
   )
+}
+
+function ClassroomSpeedDial() {
+    const navigate = useNavigate();
+    const actions: SpeedDialActionItem[] = [
+        {
+            icon: <GroupAddIcon color="secondary"/>,
+            name: "Přidat třídu",
+            action: async() => {
+                await navigate({
+                    to: '/app/classrooms/create'
+                })
+            }
+        }
+    ]
+
+    return (
+        <CustomSpeedDial actions={actions}/>
+    )
 }
