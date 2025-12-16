@@ -59,17 +59,21 @@ function RouteComponent() {
                     }
                 }
                 onEditNavigate={
-                    () => {
-                        navigate({
-                            to: '/app/categories/$categoryId/edit',
-                            params: {categoryId},
-                        })
-                    }
+                    AuthService.atLeastTeacher() ?
+                        async () => {
+                            await navigate({
+                                to: '/app/categories/$categoryId/edit',
+                                params: {categoryId},
+                            })
+                        }
+                        : undefined
                 }
                 onDelete={
-                    () => {
-                        deleteMutation.mutate();
-                    }
+                    AuthService.atLeastTeacher() ?
+                        () => {
+                            deleteMutation.mutate();
+                        }
+                        : undefined
                 }
 
             />

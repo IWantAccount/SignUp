@@ -86,22 +86,30 @@ function RouteComponent() {
             <TopBarItemsGrid>
                 <Box sx={{width: "100%", display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
                     <SearchableCardSectionTopBarActions title={classroomQuery.data.name}
-                                                        onEditNavigate={() => {
-                                                            navigate({
-                                                                to: '/app/classrooms/$classroomId/edit',
-                                                                params: {classroomId: classroomId}
-                                                            })
-                                                        }}
+                                                        onEditNavigate={
+                                                            AuthService.atLeastTeacher() ?
+                                                                async () => {
+                                                                    await navigate({
+                                                                        to: '/app/classrooms/$classroomId/edit',
+                                                                        params: {classroomId: classroomId}
+                                                                    })
+                                                                }
+                                                                : undefined
+                                                        }
                                                         onSearch={(value: string) => {
                                                             setSearchItem(value)
                                                         }}
-                                                        onDelete={() => {
-                                                            deleteMutation.mutate();
-                                                        }}/>
+                                                        onDelete={
+                                                            AuthService.atLeastTeacher() ?
+                                                                () => {
+                                                                    deleteMutation.mutate();
+                                                                }
+                                                                : undefined
+                                                        }/>
                     {AuthService.isStudent() && isPresentQuery.data && (
                         removeYourselfMutation.isPending ? (
-                            <CircularProgress color="secondary"/>
-                        ):
+                                <CircularProgress color="secondary"/>
+                            ) :
                             (
                                 <ZoomTooltip title={"Odejít ze třídy"}>
                                     <IconButton onClick={() => removeYourselfMutation.mutate()}>

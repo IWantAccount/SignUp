@@ -123,18 +123,19 @@ function RouteComponent() {
                             }
                         }
                         onDelete={
-                            () => {
+                            AuthService.atLeastTeacher() ?
+                                () => {
                                 deleteMutation.mutate()
-                                queryClient.invalidateQueries({queryKey: [subjectQueryKey, subjectId]})
-                            }
+                                } : undefined
                         }
                         onEditNavigate={
-                            () => {
-                                navigate({
-                                    to: '/app/subjects/$subjectId/edit',
-                                    params: {subjectId},
-                                })
-                            }
+                            AuthService.atLeastTeacher() ?
+                                async () => {
+                                    await navigate({
+                                        to: '/app/subjects/$subjectId/edit',
+                                        params: {subjectId},
+                                    })
+                            } : undefined
                         }
                     />
                     {AuthService.isStudent() && isPresentQuery.data && (
