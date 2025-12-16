@@ -32,3 +32,8 @@ export interface SubjectClassroomDto {
     classroomId: string;
     subjectId: string;
 }
+
+export interface SubjectSearchDto {
+    studentId?: string | null;
+    search?: string | null;
+}

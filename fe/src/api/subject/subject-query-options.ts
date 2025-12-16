@@ -12,7 +12,7 @@ import {
 import type {
     SubjectClassroomDto,
     SubjectCreateDto,
-    SubjectGetDetailDto,
+    SubjectGetDetailDto, SubjectSearchDto,
     SubjectStudentDto,
     SubjectUpdateDto
 } from "@/api/subject/subject-dtos.ts";
@@ -66,10 +66,10 @@ export function createDeleteSubjectOptions(id: string, queryClient: QueryClient)
     }
 }
 
-export function createSubjectSearchOptions(searchItem?: string, pageSize?: number)  {
+export function createSubjectSearchOptions(dto: SubjectSearchDto, pageSize?: number)  {
     return infiniteQueryOptions({
-        queryKey: [subjectQueryKey, "infinite", searchItem ?? ""],
-        queryFn: ({pageParam}) => getSubjectSearch({page: pageParam, search: searchItem, pageSize: pageSize}),
+        queryKey: [subjectQueryKey, "infinite", dto],
+        queryFn: ({pageParam}) => getSubjectSearch({page: pageParam, dto: dto, pageSize: pageSize}),
         ...springInfiniteBase
     })
 }
