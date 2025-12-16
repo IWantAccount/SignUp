@@ -4,7 +4,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Box, Button, TextField} from "@mui/material"
 
 const schema = z.object({
-    email: z.email("Neplatný email"),
+    name: z.string().min(1, "Zadejte jméno"),
     password: z.string().trim().min(1, "Zadejte heslo")
 })
 
@@ -22,7 +22,7 @@ export function LoginForm(props: Props) {
         resolver: zodResolver(schema),
         mode: "all",
         defaultValues: {
-            email: "",
+            name: "",
             password: ""
         }
     })
@@ -42,11 +42,11 @@ export function LoginForm(props: Props) {
             width: "100%",
             boxSizing: "border-box",
         }}>
-            <Controller name="email"
+            <Controller name="name"
                         control={control}
                         render={({field, fieldState}) => (
                             <TextField  {...field}
-                                        label="E-mail"
+                                        label="Jméno"
                                         error={!!fieldState.error}
                                         helperText={fieldState.error?.message}/>
                         )}/>
@@ -56,6 +56,7 @@ export function LoginForm(props: Props) {
                         render={({field, fieldState}) => (
                             <TextField  {...field}
                                         label="Heslo"
+                                        type="password"
                                         error={!!fieldState.error}
                                         helperText={fieldState.error?.message}/>
                         )}/>

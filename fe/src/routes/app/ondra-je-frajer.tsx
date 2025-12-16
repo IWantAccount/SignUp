@@ -5,5 +5,5 @@ export const Route = createFileRoute('/app/ondra-je-frajer')({
 })
 
 function RouteComponent() {
-    return <div>Je to pravda</div>
+    return <p>Tady bude budoucnu bude sepsané info o tomhle systému, proč vznikl, že vznikl jako součást BP, že má otevřený zdrojový kód a tak dále</p>
 }

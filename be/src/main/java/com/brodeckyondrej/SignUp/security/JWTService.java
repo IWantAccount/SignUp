@@ -32,7 +32,7 @@ public class JWTService {
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(user.getEmail())
+                .subject(user.getName())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + config.validInMinutes() * 1000 * 60))
                 .and()
@@ -40,13 +40,13 @@ public class JWTService {
                 .compact();
     }
 
-    public String extractEmail(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        String emailInJwt = extractEmail(token);
-        return emailInJwt.equals(userDetails.getUsername()) && !isExpired(token);
+        String nameInJwt = extractUsername(token);
+        return nameInJwt.equals(userDetails.getUsername()) && !isExpired(token);
     }
 
     private SecretKey getPrivateKey() {
