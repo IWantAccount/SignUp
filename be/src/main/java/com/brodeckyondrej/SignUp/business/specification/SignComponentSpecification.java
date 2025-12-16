@@ -4,7 +4,7 @@ import com.brodeckyondrej.SignUp.persistence.entity.SignComponent;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignComponentType;
 import org.springframework.data.jpa.domain.Specification;
 
-public class SignComponentSpecification {
+public class SignComponentSpecification extends IdSpecification {
     public static Specification<SignComponent> hasType(SignComponentType type) {
         return (root, query, cb )-> cb.equal(root.get("type"), type);
     }

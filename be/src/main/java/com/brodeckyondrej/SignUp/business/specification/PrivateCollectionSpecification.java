@@ -1,13 +1,11 @@
 package com.brodeckyondrej.SignUp.business.specification;
 
-import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
-import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection_;
-import com.brodeckyondrej.SignUp.persistence.entity.Sign;
-import com.brodeckyondrej.SignUp.persistence.entity.User;
+import com.brodeckyondrej.SignUp.persistence.entity.*;
 import jakarta.persistence.criteria.Expression;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Set;
+import java.util.UUID;
 
 public class PrivateCollectionSpecification extends NameSpecification {
     public static Specification<PrivateCollection> containsSign(Sign sign) {
@@ -28,6 +26,18 @@ public class PrivateCollectionSpecification extends NameSpecification {
             }
 
             return cb.equal(root.get(PrivateCollection_.owner), user);
+        };
+    }
+
+    public static Specification<PrivateCollection> hasOwner(UUID ownerId) {
+        return (root, query, cb) -> {
+            if(ownerId == null) {
+                return cb.disjunction();
+            }
+
+            return cb.equal(root
+                    .get(PrivateCollection_.owner)
+                    .get(User_.id), ownerId);
         };
     }
 }

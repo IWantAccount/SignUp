@@ -8,13 +8,13 @@ import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastAdmin;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastAdminOrSelf;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacher;
+import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacherOrSelf;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -37,7 +37,7 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
     }
 
     @PostMapping("/remove-classroom")
-    @AtLeastTeacher
+    @AtLeastTeacherOrSelf
     public ResponseEntity<Void> removeStudentFromClassroom(@Valid @RequestBody StudentClassroomDto dto){
         userService.removeStudentFromClassroom(dto);
         return ResponseEntity.noContent().build();

@@ -77,6 +77,10 @@ export class AuthService {
         return this.isLoggedIn() && (this.userRole === userRoleEnum.enum.TEACHER || this.userRole === userRoleEnum.enum.ADMIN);
     }
 
+    static isStudent(): boolean {
+        return this.isLoggedIn() && (this.userRole === userRoleEnum.enum.STUDENT);
+    }
+
     static atLeastAdmin(): boolean {
         return this.isLoggedIn() && this.userRole === userRoleEnum.enum.ADMIN;
     }

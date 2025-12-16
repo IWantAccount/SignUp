@@ -6,6 +6,7 @@ import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.business.dto.subject.*;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacher;
+import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacherOrSelf;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
     }
 
     @PostMapping("/remove-student")
-    @AtLeastTeacher
+    @AtLeastTeacherOrSelf
     public ResponseEntity<Void> removeStudentFromSubject(@Valid @RequestBody SubjectStudentDto dto){
         subjectService.removeStudent(dto);
         return ResponseEntity.ok().build();
@@ -70,5 +71,11 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
     @AtLeastTeacher
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         return super.delete(id);
+    }
+
+    @PostMapping("/student-present")
+    @AtLeastTeacherOrSelf
+    public ResponseEntity<Boolean> presentInSubject(@Valid @RequestBody SubjectStudentDto dto) {
+        return ResponseEntity.ok(subjectService.presentInSubject(dto));
     }
 }

@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.UUID;
 
 
-public class SignSpecification {
+public class SignSpecification extends IdSpecification{
 
     public static Specification<Sign> hasTranslationLike(String translation) {
 

@@ -4,11 +4,13 @@ import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomGetListDto;
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomUpdateDto;
+import com.brodeckyondrej.SignUp.business.dto.user.StudentClassroomDto;
 import com.brodeckyondrej.SignUp.business.service.classroom.ClassroomService;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacher;
+import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacherOrSelf;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,5 +54,12 @@ public class ClassroomController extends NamedEntityController<Classroom, Classr
     @AtLeastTeacher
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
         return super.delete(id);
+    }
+
+
+    @PostMapping("/student-present")
+    @AtLeastTeacherOrSelf
+    public ResponseEntity<Boolean> presentInClassroom(@Valid @RequestBody StudentClassroomDto dto) {
+        return ResponseEntity.ok(classroomService.presentInClassroom(dto));
     }
 }

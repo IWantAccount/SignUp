@@ -3,6 +3,7 @@ package com.brodeckyondrej.SignUp.business.service.subject;
 import com.brodeckyondrej.SignUp.business.dto.subject.*;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.business.specification.NameSpecification;
+import com.brodeckyondrej.SignUp.business.specification.SubjectSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
@@ -79,5 +80,15 @@ public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto
         Subject subject = subjectRepository.findByIdOrThrow(id);
         subject.getStudents().stream().toList().forEach(subject::removeStudent);
         super.delete(id);
+    }
+
+    public Boolean presentInSubject(SubjectStudentDto dto) {
+        User user = userRepository.findByIdOrThrow(dto.getStudentId());
+        Specification<Subject> specs = new SpecificationBuilder<Subject>()
+                .addSpec(SubjectSpecification.hasId(dto.getSubjectId()))
+                .addSpec(SubjectSpecification.hasStudent(user))
+                .build();
+
+        return subjectRepository.exists(specs);
     }
 }

@@ -1,8 +1,16 @@
 package com.brodeckyondrej.SignUp.security;
 
+import com.brodeckyondrej.SignUp.business.specification.PrivateCollectionSpecification;
+import com.brodeckyondrej.SignUp.business.specification.SubjectSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
+import com.brodeckyondrej.SignUp.persistence.entity.Subject;
+import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.persistence.repository.PrivateCollectionRepository;
+import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
+import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
+import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -15,6 +23,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthHelperService {
     private final PrivateCollectionRepository collectionRepository;
+    private final UserRepository userRepository;
+    private final SubjectRepository subjectRepository;
 
     public boolean isAdminOrCollectionOwner(UUID collectionId) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -28,10 +38,28 @@ public class AuthHelperService {
             return true;
         }
 
-        PrivateCollection foundCollection = collectionRepository.findByIdOrThrow(collectionId);
+        Specification<PrivateCollection> specs = new SpecificationBuilder<PrivateCollection>()
+                .addSpec(PrivateCollectionSpecification.hasId(collectionId))
+                .addSpec(PrivateCollectionSpecification.hasOwner(userDetailExtractor.getId()))
+                .build();
 
-        return foundCollection.getOwner().getId().equals(userDetailExtractor.getId());
+        return collectionRepository.exists(specs);
 
+    }
+
+    public boolean atLeastTeacherOrSelf(UUID studentId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth == null || !auth.isAuthenticated() || !(auth.getPrincipal() instanceof UserDetailExtractor)) {
+            return false;
+        }
+
+        UserDetailExtractor userDetailExtractor = (UserDetailExtractor) auth.getPrincipal();
+
+        if(atLeastTeacher(userDetailExtractor)) {
+            return true;
+        }
+
+        return userDetailExtractor.getId().equals(studentId);
     }
 
     private boolean isAdmin(UserDetailExtractor userDetailExtractor) {
