@@ -16,6 +16,7 @@ import type {
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
 import type {AxiosError} from "axios";
 import {signQueryKey} from "@/api/sign/sign-query-options.ts";
+import type {useNavigate} from "@tanstack/react-router";
 
 export const privateCollectionQueryKey = "private-collection";
 
@@ -26,30 +27,39 @@ export function createGetCollectionByIdOptions(id: string) {
     })
 }
 
-export function createUpdateCollectionByIdOptions(id: string, queryClient: QueryClient): UseMutationOptions<
+export function createUpdateCollectionByIdOptions(id: string, queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     PrivateCollectionGetDetailDto,
-    Error,
+    AxiosError,
     PrivateCollectionUpdateDto> {
     return {
         mutationFn: (dto) => updateCollectionById(id, dto),
         mutationKey: [privateCollectionQueryKey, id],
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
+        onSuccess: async (data: PrivateCollectionGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]}),
+                navigate({
+                    to: `/app/private-collections/${data.id}`
+                })
+            ])
         }
     }
 }
 
-export function createCreateCollectionOptions(queryClient: QueryClient): UseMutationOptions<
+export function createCreateCollectionOptions(queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     PrivateCollectionGetDetailDto,
-    Error,
+    AxiosError,
     PrivateCollectionCreateDto> {
     return {
         mutationFn: (dto) => createCollection(dto),
         mutationKey: [privateCollectionQueryKey],
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]});
+        onSuccess: async (data: PrivateCollectionGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]}),
+                navigate({
+                    to: `/app/private-collections/${data.id}`
+                })
+            ])
         }
-
     }
 }
 
@@ -79,7 +89,7 @@ export function createAddSignToCollectionOptions(dto: CollectionSignDto, queryCl
             await Promise.all(
                 [
                     queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]}),
-                    queryClient.invalidateQueries({queryKey: [signQueryKey, dto.signId]})
+                    queryClient.invalidateQueries({queryKey: [signQueryKey]})
                 ]
             )
         }
@@ -94,7 +104,7 @@ export function createRemoveSignFromCollectionOptions(dto: CollectionSignDto, qu
             await Promise.all(
                 [
                     queryClient.invalidateQueries({queryKey: [privateCollectionQueryKey]}),
-                    queryClient.invalidateQueries({queryKey: [signQueryKey, dto.signId]})
+                    queryClient.invalidateQueries({queryKey: [signQueryKey]})
                 ]
             )
         }
