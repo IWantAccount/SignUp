@@ -4,16 +4,21 @@ import {useInfiniteQuery, useMutation, useQuery, useQueryClient} from "@tanstack
 import {classroomQueryKey, createGetClassroomByIdOptions} from "@/api/classroom/classroom-query-options.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import {useState} from "react";
-import {createUserSearchOptions} from "@/api/user/user-query-options.ts";
-import type {UserGetListDto} from "@/api/user/user-dtos.ts";
+import {createUserSearchOptions, userQueryKey} from "@/api/user/user-query-options.ts";
+import type {StudentClassroomDto, UserGetListDto} from "@/api/user/user-dtos.ts";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {deleteClassroom} from "@/api/classroom/classroom-api.ts";
-import {Button, SpeedDial, SpeedDialAction, SpeedDialIcon} from '@mui/material';
+import {Box, Button, CircularProgress, IconButton, SpeedDial, SpeedDialAction, SpeedDialIcon} from '@mui/material';
 import {useDebounce} from "use-debounce";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import {AddStudentToClassRoomDialog} from "@/components/dialogs/add-student-to-classroom-dialog.tsx";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
+import {AuthService} from "@/api/util/auth-service.ts";
+import api from "@/api/universal/axios.ts";
+import {buildPath} from "@/api/util/build-path.ts";
+import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 
 export const Route = createFileRoute('/app/classrooms/$classroomId/')({
     component: RouteComponent,
@@ -21,10 +26,35 @@ export const Route = createFileRoute('/app/classrooms/$classroomId/')({
 
 function RouteComponent() {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    const classroomId = Route.useParams().classroomId;
+
+    const isPresentQuery = useQuery({
+        queryKey: [userQueryKey, classroomQueryKey, AuthService.getUserId(), "present"],
+        queryFn: async () => {
+            const dto: StudentClassroomDto = {studentId: AuthService.getUserId(), classroomId}
+            const res = await api.post<boolean>(buildPath(["classroom", "student-present"]), dto);
+            return res.data;
+        }
+    })
+    const removeYourselfMutation = useMutation({
+        mutationKey: [userQueryKey, classroomQueryKey, AuthService.getUserId(), "present"],
+        mutationFn: async () => {
+            const dto: StudentClassroomDto = {studentId: AuthService.getUserId(), classroomId}
+            await api.post(buildPath(["user", "remove-classroom"]), dto);
+        },
+        onSuccess: async () => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [classroomQueryKey]}),
+                queryClient.invalidateQueries({queryKey: [userQueryKey]}),
+                navigate({
+                    to: "/app/home"
+                })
+            ])
+        }
+    })
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300);
-    const classroomId = Route.useParams().classroomId;
-    const queryClient = useQueryClient();
     const [addStudentDialogOpened, setAddStudentDialogOpened] = useState(false);
 
     const deleteMutation = useMutation({
@@ -33,10 +63,11 @@ function RouteComponent() {
             navigate({
                 to: "/app/classrooms",
             });
-            // Wait for a while. If queries are invalidated too quickly, classroom query might refetch and cause 404 error
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            queryClient.invalidateQueries({queryKey: [classroomQueryKey]});
-            queryClient.invalidateQueries({queryKey: [userQuery]});
+
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [classroomQueryKey]}),
+                queryClient.invalidateQueries({queryKey: [userQuery]})
+            ]);
 
         }
     });
@@ -45,34 +76,55 @@ function RouteComponent() {
         createUserSearchOptions({dto: {name: debouncedSearch, classroomId: classroomId}})
     )
 
-    if (classroomQuery.isPending) return <BackdropLoading/>;
-    if (classroomQuery.isError || userQuery.isError) return <></>;
+    if (classroomQuery.isPending || isPresentQuery.isPending) return <BackdropLoading/>;
+    if (classroomQuery.isError || userQuery.isError || isPresentQuery.isError) return <></>;
     const users: UserGetListDto[] = userQuery.data?.pages.flatMap(page => page.content) || [];
 
     return (
         <>
             <TopBarItemsGrid>
-                <SearchableCardSectionTopBarActions title={classroomQuery.data.name}
-                                                    onEditNavigate={() => {
-                                                        navigate({
-                                                            to: '/app/classrooms/$classroomId/edit',
-                                                            params: {classroomId: classroomId}
-                                                        })
-                                                    }}
-                                                    onSearch={(value: string) => {
-                                                        setSearchItem(value)
-                                                    }}
-                                                    onDelete={() => {
-                                                        deleteMutation.mutate();
-                                                    }}/>
+                <Box sx={{width: "100%", display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
+                    <SearchableCardSectionTopBarActions title={classroomQuery.data.name}
+                                                        onEditNavigate={() => {
+                                                            navigate({
+                                                                to: '/app/classrooms/$classroomId/edit',
+                                                                params: {classroomId: classroomId}
+                                                            })
+                                                        }}
+                                                        onSearch={(value: string) => {
+                                                            setSearchItem(value)
+                                                        }}
+                                                        onDelete={() => {
+                                                            deleteMutation.mutate();
+                                                        }}/>
+                    {AuthService.isStudent() && isPresentQuery.data && (
+                        removeYourselfMutation.isPending ? (
+                            <CircularProgress color="secondary"/>
+                        ):
+                            (
+                                <ZoomTooltip title={"Odejít ze třídy"}>
+                                    <IconButton onClick={() => removeYourselfMutation.mutate()}>
+                                        <DirectionsRunIcon/>
+                                    </IconButton>
+                                </ZoomTooltip>
+                            )
+                    )}
+                </Box>
                 {userQuery.isPending ? <MultipleCardSkeleton/> : <UserGrid list={users}/>}
-                <Button variant="outlined" disabled={userQuery.isPending || !userQuery.hasNextPage} onClick={() => {userQuery.fetchNextPage()}} sx={{maxWidth: 200}}>
+                <Button variant="outlined" disabled={userQuery.isPending || !userQuery.hasNextPage} onClick={() => {
+                    userQuery.fetchNextPage()
+                }} sx={{maxWidth: 200}}>
                     {userQuery.isPending ? "Načítání" :
                         userQuery.hasNextPage ? "Načíst další uživatele" : "Vše načteno"}
                 </Button>
             </TopBarItemsGrid>
-            <AddStudentToClassRoomDialog classroomId={classroomId} open={addStudentDialogOpened} onClose={() => setAddStudentDialogOpened(false)}/>
-            <AddSpeedDial openAddStudentDialog={() => setAddStudentDialogOpened(true)}/>
+            {AuthService.atLeastTeacher() && (
+                <>
+                    <AddStudentToClassRoomDialog classroomId={classroomId} open={addStudentDialogOpened}
+                                                 onClose={() => setAddStudentDialogOpened(false)}/>
+                    <AddSpeedDial openAddStudentDialog={() => setAddStudentDialogOpened(true)}/>
+                </>
+            )}
         </>
 
     )
@@ -81,15 +133,16 @@ function RouteComponent() {
 interface SpeedDialProps {
     openAddStudentDialog: () => void;
 }
+
 function AddSpeedDial(props: SpeedDialProps) {
     const actions = [
-        {icon: PersonAddIcon, name: "Přidat studenta", action: props.openAddStudentDialog },
+        {icon: PersonAddIcon, name: "Přidat studenta", action: props.openAddStudentDialog},
     ];
     return (
         <SpeedDial
             ariaLabel="Přidat studenta"
-            sx={{ position: 'absolute', bottom: 16, right: 16 }}
-            icon={<SpeedDialIcon />}>
+            sx={{position: 'absolute', bottom: 16, right: 16}}
+            icon={<SpeedDialIcon/>}>
             {
                 actions.map(action => (
                     <SpeedDialAction
