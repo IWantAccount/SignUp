@@ -105,19 +105,20 @@ function RouteComponent() {
                                                                     deleteMutation.mutate();
                                                                 }
                                                                 : undefined
-                                                        }/>
-                    {AuthService.isStudent() && isPresentQuery.data && (
-                        removeYourselfMutation.isPending ? (
-                                <CircularProgress color="secondary"/>
-                            ) :
-                            (
-                                <ZoomTooltip title={"Odejít ze třídy"}>
-                                    <IconButton onClick={() => removeYourselfMutation.mutate()}>
-                                        <DirectionsRunIcon/>
-                                    </IconButton>
-                                </ZoomTooltip>
-                            )
-                    )}
+                                                        }
+                                                        extraElement={
+                                                            AuthService.isStudent() && isPresentQuery.data ? (
+                                                            removeYourselfMutation.isPending ? (
+                                                                    <CircularProgress color="secondary"/>
+                                                                ) :
+                                                                (
+                                                                    <ZoomTooltip title={"Odejít ze třídy"}>
+                                                                        <IconButton onClick={() => removeYourselfMutation.mutate()}>
+                                                                            <DirectionsRunIcon/>
+                                                                        </IconButton>
+                                                                    </ZoomTooltip>
+                                                                )
+                                                        ): undefined}/>
                 </Box>
                 {userQuery.isPending ? <MultipleCardSkeleton/> : <UserGrid list={users}/>}
                 <Button variant="outlined" disabled={userQuery.isPending || !userQuery.hasNextPage} onClick={() => {

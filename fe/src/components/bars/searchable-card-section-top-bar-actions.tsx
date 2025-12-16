@@ -8,9 +8,10 @@ interface Props {
     onEditNavigate?: () => void;
     onDelete?: () => void;
     onSearch?: (newValue: string) => void;
+    extraElement?: React.ReactNode;
 }
 
-export function SearchableCardSectionTopBarActions({title, onEditNavigate, onDelete, onSearch}: Props) {
+export function SearchableCardSectionTopBarActions({title, onEditNavigate, onDelete, onSearch, extraElement}: Props) {
 
     return (
         <Toolbar sx={{
@@ -40,6 +41,9 @@ export function SearchableCardSectionTopBarActions({title, onEditNavigate, onDel
                             </IconButton>
                         </ZoomTooltip>
                     )
+                }
+                {
+                    extraElement
                 }
             </div>
             {
