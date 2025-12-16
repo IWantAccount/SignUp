@@ -7,4 +7,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface NamedEntityRepository<Entity extends NamedEntity> extends EntityRepository<Entity> {
     Page<Entity> findByNameContainingIgnoreCase(String name, Pageable pageable);
+    boolean existsByName(String name);
 }
