@@ -56,6 +56,7 @@ export function LoginForm(props: Props) {
                         render={({field, fieldState}) => (
                             <TextField  {...field}
                                         label="Heslo"
+                                        type="password"
                                         error={!!fieldState.error}
                                         helperText={fieldState.error?.message}/>
                         )}/>

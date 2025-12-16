@@ -74,6 +74,7 @@ function RouteComponent() {
                       render={({field, fieldState}) => (
                           <TextField {...field}
                                      label="Nové heslo"
+                                     type="password"
                                      error={!!fieldState.error}
                                      helperText={fieldState.error?.message}/>
                       )}
@@ -84,6 +85,7 @@ function RouteComponent() {
                       render={({field, fieldState}) => (
                           <TextField {...field}
                                      label="Potvrďte nové heslo"
+                                     type="password"
                                      error={!!fieldState.error}
                                      helperText={fieldState.error?.message}/>
                       )}

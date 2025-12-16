@@ -46,7 +46,7 @@ function RouteComponent() {
         }}>
             <Box
             component="img"
-            src={"public/neslhk_logo.png"}
+            src={"neslhk_logo.png"}
             alt="Logo neslhk"
             sx={{
                 width: 250,
