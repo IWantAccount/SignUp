@@ -4,6 +4,7 @@ import {useMutation} from "@tanstack/react-query";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import {AuthService} from "@/api/util/auth-service.ts";
+import { Box } from '@mui/material';
 
 export const Route = createFileRoute('/login')({
     component: RouteComponent,
@@ -34,13 +35,33 @@ function RouteComponent() {
         }
     })
     return (
-        <LoginForm
-            onSubmit={({name, password}) => mutation.mutate({name, password})}
-            submitButtonText={
-                mutation.isPending ? "Čekejte": "Přihlásit se"
-            }
-            submitButtonDisabled={
-                mutation.isPending
-            }/>
+        <Box
+        sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            height: "100vh",
+            gap: 3,
+        }}>
+            <Box
+            component="img"
+            src={"public/neslhk_logo.png"}
+            alt="Logo neslhk"
+            sx={{
+                width: 250,
+                maxWidth: "80%",
+                height: "auto",
+            }}/>
+            <LoginForm
+                onSubmit={({name, password}) => mutation.mutate({name, password})}
+                submitButtonText={
+                    mutation.isPending ? "Čekejte": "Přihlásit se"
+                }
+                submitButtonDisabled={
+                    mutation.isPending
+                }/>
+        </Box>
+
     )
 }
