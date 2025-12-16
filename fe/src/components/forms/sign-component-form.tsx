@@ -25,7 +25,7 @@ interface Props {
 }
 
 export function SignComponentForm(props: Props) {
-    const {control, handleSubmit} = useForm<SignComponentFormData>({
+    const {control, handleSubmit, setValue} = useForm<SignComponentFormData>({
         resolver: zodResolver(schema),
         mode: "all",
         defaultValues: {
@@ -34,9 +34,14 @@ export function SignComponentForm(props: Props) {
         }
     });
 
+    const sendAndClear: SubmitHandler<SignComponentFormData> = async (data) => {
+        await props.onSubmit(data);
+        setValue("textDescription", "");
+    }
+
     return (
         <Box    component="form"
-                onSubmit={handleSubmit(props.onSubmit)}
+                onSubmit={handleSubmit(sendAndClear)}
                 sx={{
                     display: "flex",
                     flexDirection: "column",
