@@ -122,8 +122,9 @@ export function createAddClassroomToSubjectOptions(dto: SubjectClassroomDto, que
         onSuccess: async () => {
             await Promise.all(
                 [
-                    queryClient.invalidateQueries({queryKey: [subjectQueryKey, dto.subjectId]}),
-                    queryClient.invalidateQueries({queryKey: [classroomQueryKey, dto.classroomId]})
+                    queryClient.invalidateQueries({queryKey: [subjectQueryKey]}),
+                    queryClient.invalidateQueries({queryKey: [classroomQueryKey]}),
+                    queryClient.invalidateQueries({queryKey: [userQueryKey]})
                 ]
             )
         }

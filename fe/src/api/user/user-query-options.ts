@@ -31,8 +31,8 @@ export function createCreateUserOptions(queryClient: QueryClient): UseMutationOp
     UserCreateDto> {
     return {
         mutationFn: (dto: UserCreateDto) => createUser(dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [userQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [userQueryKey]});
         }
     }
 }
@@ -43,8 +43,8 @@ export function createUpdateUserOptions(id: string, queryClient: QueryClient): U
     UserUpdateDto> {
     return {
         mutationFn: (dto: UserUpdateDto) => updateUser(id, dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [userQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [userQueryKey]});
         }
     }
 }
@@ -55,8 +55,8 @@ export function createDeleteUserOptions(id: string, queryClient: QueryClient): U
     string> {
     return {
         mutationFn: (id: string) => deleteUser(id),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [userQueryKey]});
+        onSuccess: async () => {
+            await queryClient.invalidateQueries({queryKey: [userQueryKey]});
         }
     }
 }
@@ -87,9 +87,11 @@ export function createAddStudentToClassroomOptions(dto: StudentClassroomDto, que
     return {
         mutationKey: [userQueryKey, dto.studentId, dto.classroomId],
         mutationFn: () => addStudentToClassroom(dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [userQueryKey]});
-            queryClient.invalidateQueries({queryKey: [classroomQueryKey]})
+        onSuccess: async () => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [userQueryKey]}),
+                queryClient.invalidateQueries({queryKey: [classroomQueryKey]})
+            ])
         }
     }
 }
@@ -98,9 +100,11 @@ export function createRemoveStudentFromClassroomOptions(dto: StudentClassroomDto
     return {
         mutationKey: [userQueryKey, dto.studentId, dto.classroomId],
         mutationFn: () => removeStudentFromClassroom(dto),
-        onSuccess: () => {
-            queryClient.invalidateQueries({queryKey: [userQueryKey]});
-            queryClient.invalidateQueries({queryKey: [classroomQueryKey]})
+        onSuccess: async () => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [userQueryKey]}),
+                queryClient.invalidateQueries({queryKey: [classroomQueryKey]})
+            ])
         }
     }
 }
