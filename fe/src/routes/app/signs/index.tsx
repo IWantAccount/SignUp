@@ -11,7 +11,7 @@ import {type SignType, signTypeEnum, signTypeToCzech} from "@/domain/sign-type.t
 import {languageLevelEnum, type LanguageLevelType} from "@/domain/language-level.ts";
 import {type Region, regionEnum, regionToCzech} from "@/domain/region.ts";
 import {CategoryAutocomplete} from "@/components/util/category-autocomplete.tsx";
-import {EnumAutocomplete} from "@/components/util/EnumAutocomplete.tsx";
+import {EnumAutocomplete} from "@/components/util/enum-autocomplete.tsx";
 import {SignComponentAutocomplete} from "@/components/util/sign-component-autocomplete.tsx";
 import {signComponentTypeEnum} from "@/domain/sign-component-type-enum.ts";
 
