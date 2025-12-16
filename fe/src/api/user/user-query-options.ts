@@ -15,6 +15,7 @@ import type {
 import type {AxiosError} from "axios";
 import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
+import type {useNavigate} from "@tanstack/react-router";
 
 export const userQueryKey = "user";
 
@@ -25,26 +26,36 @@ export function createGetUserByIdOptions(id: string) {
     })
 }
 
-export function createCreateUserOptions(queryClient: QueryClient): UseMutationOptions<
+export function createCreateUserOptions(queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     UserGetDetailDto,
     AxiosError,
     UserCreateDto> {
     return {
         mutationFn: (dto: UserCreateDto) => createUser(dto),
         onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [userQueryKey]});
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [userQueryKey]}),
+                navigate({
+                    to: `/app/users`
+                })
+            ])
         }
     }
 }
 
-export function createUpdateUserOptions(id: string, queryClient: QueryClient): UseMutationOptions<
+export function createUpdateUserOptions(id: string, queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     UserGetDetailDto,
     AxiosError,
     UserUpdateDto> {
     return {
         mutationFn: (dto: UserUpdateDto) => updateUser(id, dto),
         onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [userQueryKey]});
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [userQueryKey]}),
+                navigate({
+                    to: `/app/users`
+                })
+            ])
         }
     }
 }

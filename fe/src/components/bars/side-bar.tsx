@@ -11,6 +11,7 @@ import {NavItemList} from "@/components/util/nav-item-list.tsx";
 import GroupIcon from '@mui/icons-material/Group';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import {AuthService} from "@/api/util/auth-service.ts";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 //Část kódu jsem převzal z oficiální dokumentace MUI: https://mui.com/material-ui/react-drawer/
 
@@ -57,7 +58,15 @@ export function SideBar(props: Props) {
                 ]
             }
         ] : []
-        )
+        ),
+        ...(AuthService.atLeastAdmin() ? [
+            {
+                color: "secondary",
+                list: [
+                    {text: "Přidat uživatele", Icon: PersonAddIcon, href: "/app/users/create"},
+                ]
+            }
+        ]: [])
     ]
 
 
