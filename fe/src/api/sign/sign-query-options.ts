@@ -16,7 +16,7 @@ import {categoryQueryKey} from "@/api/category/category-query-options.ts";
 import type {useNavigate} from "@tanstack/react-router";
 
 export const signQueryKey = "sign";
-export function createCreateSignOptions(queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
+export function createCreateSignOptions(queryClient: QueryClient): UseMutationOptions<
     SignGetDetailDto,
     AxiosError,
     CreateSign> {
@@ -26,9 +26,6 @@ export function createCreateSignOptions(queryClient: QueryClient, navigate: Retu
         onSuccess: async (data: SignGetDetailDto) => {
             await Promise.all([
                 queryClient.invalidateQueries({queryKey: [signQueryKey]}),
-                navigate({
-                    to: `/app/signs/${data.id}`
-                })
             ])
         }
     }

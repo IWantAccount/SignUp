@@ -15,7 +15,6 @@ import type {SignCreateDto} from "@/api/sign/sign-dtos.ts";
 import {enqueueSnackbar} from "notistack";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createCreateSignOptions} from "@/api/sign/sign-query-options.ts";
-import {useNavigate} from "@tanstack/react-router";
 
 
 
@@ -43,7 +42,7 @@ const schema = z.object({
 export type CreateSignFormData = z.infer<typeof schema>
 
 export function CreateSignForm() {
-    const {control, handleSubmit} = useForm<CreateSignFormData>({
+    const {control, handleSubmit, setValue} = useForm<CreateSignFormData>({
         resolver: zodResolver(schema),
         mode: "all",
         defaultValues: {
@@ -72,8 +71,7 @@ export function CreateSignForm() {
     const [newTranslation, setNewTranslation] = useState<string>("");
     const [video, setVideo] = useState<File | null>(null);
     const queryClient = useQueryClient();
-    const navigate = useNavigate();
-    const mutation = useMutation(createCreateSignOptions(queryClient, navigate));
+    const mutation = useMutation(createCreateSignOptions(queryClient));
 
     const onSubmitRHF: SubmitHandler<CreateSignFormData> = (data) => {
         const dto: SignCreateDto = {
@@ -109,6 +107,22 @@ export function CreateSignForm() {
             return;
         }
         mutation.mutate({dto, video});
+        setValue("translations", []);
+        setValue("explanation", "");
+        setValue("asymmetricSign", false);
+        setValue("bothHandsUsed", false);
+        setTwoHandedSign(false);
+        setValue("activeHandShapeId", null);
+        setValue("activeHandFingerOrientationId", null);
+        setValue("activeHandPalmOrientationId", null);
+        setValue("passiveHandShapeId", null);
+        setValue("passiveHandFingerOrientationId", null);
+        setValue("passiveHandPalmOrientationId", null);
+        setValue("locationId", null);
+        setValue("movementId", null);
+        setValue("contactId", null);
+        setValue("handArrangementId", null);
+        setVideo(null);
     }
 
     return (
