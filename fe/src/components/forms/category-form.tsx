@@ -9,7 +9,7 @@ import {
     createSubjectSearchOptions
 } from "@/api/subject/subject-query-options.ts";
 import type {Page} from "@/api/universal/pagination/spring-boot-page.ts";
-import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
+import type {SubjectGetListDto, SubjectSearchDto} from "@/api/subject/subject-dtos.ts";
 
 const schema = z.object({
     name: z.string().trim().min(1, "Název kategorie je povinný").max(100, "Název kategorie může mít maximálně 100 znaků"),
@@ -32,7 +32,10 @@ export function CategoryForm(props: Props) {
 
     const [searchItem, setSearchItem] = useState<string>("");
     const [debounced] = useDebounce(searchItem, 300);
-    const subjectsQuery = useInfiniteQuery(createSubjectSearchOptions(debounced));
+    const searchDto: SubjectSearchDto = {
+        search: debounced
+    }
+    const subjectsQuery = useInfiniteQuery(createSubjectSearchOptions(searchDto));
     const [inputValue, setInputValue] = useState<string>(props.defaultSubjectName || "");
 
     const subjectItems = subjectsQuery.data?.pages.flatMap((page: Page<SubjectGetListDto>) => page.content) ?? [];
