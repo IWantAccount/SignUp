@@ -1,7 +1,6 @@
 package com.brodeckyondrej.SignUp.business.service.collection;
 
 import com.brodeckyondrej.SignUp.business.dto.collection.*;
-import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.business.specification.NameSpecification;
 import com.brodeckyondrej.SignUp.business.specification.PrivateCollectionSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;

@@ -1,6 +1,7 @@
 package com.brodeckyondrej.SignUp.business.specification;
 
 import com.brodeckyondrej.SignUp.persistence.entity.SignComponent;
+import com.brodeckyondrej.SignUp.persistence.entity.SignComponent_;
 import com.brodeckyondrej.SignUp.persistence.enumerated.SignComponentType;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -15,7 +16,7 @@ public class SignComponentSpecification extends IdSpecification {
                 return cb.conjunction();
             }
 
-            return cb.like(cb.lower(root.get("textDescription")), "%"+description.toLowerCase()+"%");
+            return cb.like(cb.lower(root.get(SignComponent_.textDescription)), "%"+description.toLowerCase()+"%");
         };
     }
 }

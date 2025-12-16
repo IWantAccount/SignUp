@@ -14,6 +14,6 @@ import lombok.Setter;
 @MappedSuperclass
 public abstract class NamedEntity extends BaseEntity {
     //TODO odstranit unique. Netuším, proč to tady je...
-    @Column(unique = true, nullable = false)
+    @Column(unique = false, nullable = false)
     private String name;
 }

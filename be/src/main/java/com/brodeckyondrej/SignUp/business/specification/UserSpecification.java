@@ -3,6 +3,7 @@ package com.brodeckyondrej.SignUp.business.specification;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
+import com.brodeckyondrej.SignUp.persistence.entity.User_;
 import com.brodeckyondrej.SignUp.persistence.enumerated.UserRole;
 import jakarta.persistence.criteria.Expression;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,21 +20,21 @@ public class UserSpecification extends NameSpecification {
                 return cb.conjunction();
             }
 
-            return cb.like(cb.lower(root.get("email")), "%" + email.toLowerCase() + "%");
+            return cb.like(cb.lower(root.get(User_.email)), "%" + email.toLowerCase() + "%");
         };
     }
 
     public static Specification<User> hasRole(UserRole role) {
-        return (root, query, cb) -> cb.equal(root.get("role"), role);
+        return (root, query, cb) -> cb.equal(root.get(User_.role), role);
     }
 
     public static Specification<User> isInClassroom(Classroom classroom) {
-        return (root, query, cb) -> cb.equal(root.get("classroom"), classroom);
+        return (root, query, cb) -> cb.equal(root.get(User_.classroom), classroom);
     }
 
     public static Specification<User> isInSubject(Subject subject) {
         return (root, query, cb) -> {
-            Expression<Set<Subject>> subjects = root.get("subjects");
+            Expression<Set<Subject>> subjects = root.get(User_.subjects);
             return cb.isMember(subject, subjects);
         };
     }

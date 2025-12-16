@@ -20,7 +20,7 @@ public abstract class NamedEntityService<
     NamedEntityRepository<Entity> namedRepository;
 
     protected NamedEntityService(NamedEntityRepository<Entity> repository,
-                                 Validator<CreateDto, UpdateDto> validator,
+                                 NamedEntityValidator<Entity, CreateDto, UpdateDto> validator,
                                  EntityMapper<Entity, CreateDto, UpdateDto, GetDetailDto, GetListDto> mapper) {
         super(repository, validator, mapper);
         this.namedRepository = repository;

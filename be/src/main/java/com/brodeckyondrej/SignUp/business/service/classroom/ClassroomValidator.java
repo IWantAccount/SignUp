@@ -1,29 +1,15 @@
 package com.brodeckyondrej.SignUp.business.service.classroom;
 
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomUpdateDto;
-import com.brodeckyondrej.SignUp.persistence.repository.ClassroomRepository;
+import com.brodeckyondrej.SignUp.business.service.universal.NamedEntityValidator;
+import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.business.dto.classroom.ClassroomCreateDto;
-import com.brodeckyondrej.SignUp.business.service.universal.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.brodeckyondrej.SignUp.persistence.repository.ClassroomRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
-public class ClassroomValidator implements Validator<ClassroomCreateDto, ClassroomUpdateDto> {
-
-    @Autowired
-    ClassroomRepository classroomRepository;
-
-    @Override
-    public void validateCreateOrThrow(ClassroomCreateDto inputClassroomDto) {
-        // no extra validation
+public class ClassroomValidator extends NamedEntityValidator<Classroom, ClassroomCreateDto, ClassroomUpdateDto> {
+    public ClassroomValidator(ClassroomRepository repository) {
+        super(repository);
     }
-
-    @Override
-    public void validateUpdateOrThrow(UUID originalId, ClassroomUpdateDto inputClassroomDto) {
-        //throws missing object exception if classroom is not presented
-        classroomRepository.findByIdOrThrow(originalId);
-    }
-
 }
