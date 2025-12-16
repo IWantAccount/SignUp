@@ -20,6 +20,7 @@ import type {AxiosError} from "axios";
 import {userQueryKey} from "@/api/user/user-query-options.ts";
 import {classroomQueryKey} from "@/api/classroom/classroom-query-options.ts";
 import {springInfiniteBase} from "@/api/universal/pagination/spring-infinite-base.ts";
+import type {useNavigate} from "@tanstack/react-router";
 
 export const subjectQueryKey = "subject";
 
@@ -30,26 +31,36 @@ export function createGetSubjectByIdOptions(id: string) {
     })
 }
 
-export function createCreateSubjectOptions(queryClient: QueryClient): UseMutationOptions<
+export function createCreateSubjectOptions(queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     SubjectGetDetailDto,
     Error,
     SubjectCreateDto> {
     return {
         mutationFn: (dto: SubjectCreateDto) => createSubject(dto),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
+        onSuccess: async (data: SubjectGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [subjectQueryKey]}),
+                navigate({
+                    to: `/app/subjects/${data.id}`
+                })
+            ])
         }
     }
 }
 
-export function createUpdateSubjectOptions(id: string, queryClient: QueryClient): UseMutationOptions<
+export function createUpdateSubjectOptions(id: string, queryClient: QueryClient, navigate: ReturnType<typeof useNavigate>): UseMutationOptions<
     SubjectGetDetailDto,
     Error,
     SubjectUpdateDto> {
     return {
         mutationFn: (dto: SubjectUpdateDto) => updateSubject(id, dto),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({queryKey: [subjectQueryKey, id]});
+        onSuccess: async (data: SubjectGetDetailDto) => {
+            await Promise.all([
+                queryClient.invalidateQueries({queryKey: [subjectQueryKey]}),
+                navigate({
+                    to: `/app/subjects/${data.id}`
+                })
+            ])
         }
     }
 }

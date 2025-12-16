@@ -83,7 +83,7 @@ function RouteComponent() {
     const deleteMutation = useMutation({
         mutationFn: () => deleteSubject(subjectId),
         onSuccess: async () => {
-            navigate({
+            await navigate({
                 to: "/app/subjects",
             });
             await queryClient.invalidateQueries({queryKey: [subjectQueryKey]});
