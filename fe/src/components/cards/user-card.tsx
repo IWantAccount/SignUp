@@ -1,5 +1,4 @@
-import {Avatar, Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
-import {AccountCircle} from "@mui/icons-material";
+import {Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
 import {useNavigate} from "@tanstack/react-router";
 import type {UserGetListDto} from "@/api/user/user-dtos.ts";
 import EditIcon from "@mui/icons-material/Edit";
