@@ -67,9 +67,14 @@ public class SubjectService extends NamedEntityService<Subject, SubjectCreateDto
         classroom.getStudents().forEach(subject::addStudent);
     }
 
-    public Page<SubjectGetListDto> search(FindByNameDto dto, Pageable pageable) {
+    public Page<SubjectGetListDto> search(SubjectSearchDto dto, Pageable pageable) {
+        User student = null;
+        if(dto.getStudentId() != null){
+            student = userRepository.findByIdOrThrow(dto.getStudentId());
+        }
         Specification<Subject> spec = new SpecificationBuilder<Subject>()
-                .addSpecIfNotNull(NameSpecification.hasNameLike(dto.getName()), dto.getName())
+                .addSpecIfNotNull(NameSpecification.hasNameLike(dto.getSearch()), dto.getSearch())
+                .addSpecIfNotNull(SubjectSpecification.hasStudent(student), student)
                 .build();
 
         return subjectRepository.findAll(spec, pageable).map(mapper::toListDto);

@@ -3,12 +3,11 @@ import type {
     SubjectClassroomDto,
     SubjectCreateDto,
     SubjectGetDetailDto,
-    SubjectGetListDto, SubjectStudentDto,
+    SubjectGetListDto, SubjectSearchDto, SubjectStudentDto,
     SubjectUpdateDto
 } from "@/api/subject/subject-dtos.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type {Page} from "@/api/universal/pagination/spring-boot-page.ts";
-import type {NameSearchDto} from "@/api/universal/dto/name-search-dto.ts";
 
 const url = "/subject";
 
@@ -31,9 +30,8 @@ export const deleteSubject = async (id: string): Promise<void> => {
     await api.delete<void>(buildPath([url, id]));
 }
 
-export const getSubjectSearch = async (opt: {page: number, pageSize?: number, search?: string}): Promise<Page<SubjectGetListDto>> => {
-    const dto: NameSearchDto = {name: opt.search};
-    const res = await api.post<Page<SubjectGetListDto>>(buildPath([url, "search"], opt.page, opt.pageSize), dto);
+export const getSubjectSearch = async (opt: {page: number, pageSize?: number, dto: SubjectSearchDto}): Promise<Page<SubjectGetListDto>> => {
+    const res = await api.post<Page<SubjectGetListDto>>(buildPath([url, "search"], opt.page, opt.pageSize), opt.dto);
     return res.data;
 }
 

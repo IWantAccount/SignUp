@@ -5,11 +5,12 @@ import {SubjectGrid} from '@/components/grids/subject-grid';
 import {useInfiniteQuery} from "@tanstack/react-query";
 import { createSubjectSearchOptions,
 } from "@/api/subject/subject-query-options.ts";
-import type {SubjectGetListDto} from "@/api/subject/subject-dtos.ts";
+import type {SubjectGetListDto, SubjectSearchDto} from "@/api/subject/subject-dtos.ts";
 import {Button, Stack} from "@mui/material";
 import {useState} from "react";
 import {useDebounce} from "use-debounce";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
+import {AuthService} from "@/api/util/auth-service.ts";
 
 export const Route = createFileRoute('/app/subjects/')({
     component: RouteComponent,
@@ -18,7 +19,11 @@ export const Route = createFileRoute('/app/subjects/')({
 function RouteComponent() {
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300)
-    const infiniteQuery = useInfiniteQuery(createSubjectSearchOptions(debouncedSearch));
+    const dto: SubjectSearchDto = {
+        search: debouncedSearch,
+        studentId: AuthService.isStudent() ? AuthService.getUserId() : undefined,
+    }
+    const infiniteQuery = useInfiniteQuery(createSubjectSearchOptions(dto));
     const buttonText = !infiniteQuery.hasNextPage ?
         "Vše načteno" :
         infiniteQuery.isFetchingNextPage ? "Načítání..." : "Načíst další";

@@ -48,7 +48,7 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
     }
 
     @PostMapping("/search")
-    public ResponseEntity<Page<SubjectGetListDto>> search(@Valid @RequestBody FindByNameDto dto, Pageable pageable){
+    public ResponseEntity<Page<SubjectGetListDto>> search(@Valid @RequestBody SubjectSearchDto dto, Pageable pageable){
         return ResponseEntity.ok(subjectService.search(dto, pageable));
     }
 
