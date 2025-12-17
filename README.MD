@@ -1,6 +1,6 @@
 # SignUp
 
-## Spouštění
+## Spuštění
 
 ### Docker
 Pro spuštění aplikace v podobě docker kontejnerů je potřeba Docker Compose a mít vyplněnou konfiguraci v compose.yaml.
