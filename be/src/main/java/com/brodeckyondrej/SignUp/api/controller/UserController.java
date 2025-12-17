@@ -4,6 +4,7 @@ import com.brodeckyondrej.SignUp.business.service.user.UserService;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.business.dto.user.*;
+import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastAdmin;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastAdminOrSelf;
@@ -29,6 +30,10 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         this.userService = service;
     }
 
+    /**
+     * Adds student to given classroom. If student is already present, nothing happens.
+     * @throws MissingObjectException if student or classroom is not found.
+     * */
     @PostMapping("/add-classroom")
     @AtLeastTeacher
     public ResponseEntity<Void> addStudentToClassroom(@Valid @RequestBody StudentClassroomDto dto){
@@ -36,6 +41,10 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Removes student from given classroom. If student is not present, nothing happens.
+     * @throws MissingObjectException if student or classroom is not found.
+     * */
     @PostMapping("/remove-classroom")
     @AtLeastTeacherOrSelf
     public ResponseEntity<Void> removeStudentFromClassroom(@Valid @RequestBody StudentClassroomDto dto){
@@ -78,6 +87,9 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
         return super.delete(id);
     }
 
+    /**
+     * Changes password of given user. Can be called only by admin or given user.
+     * */
     @PostMapping("/change-password/{id}")
     @AtLeastAdminOrSelf
     public ResponseEntity<Void> updatePassword(@PathVariable UUID id, @Valid @RequestBody ChangePasswordDto dto) {

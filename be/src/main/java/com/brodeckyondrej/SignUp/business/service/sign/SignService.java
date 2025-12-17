@@ -4,10 +4,9 @@ import com.brodeckyondrej.SignUp.business.dto.sign.*;
 import com.brodeckyondrej.SignUp.business.dto.sign.notation.HandNotationIdDto;
 import com.brodeckyondrej.SignUp.business.dto.sign.notation.NotationIdDto;
 import com.brodeckyondrej.SignUp.business.service.storage.FileSystemVideoStorage;
-import com.brodeckyondrej.SignUp.business.service.storage.StorageService;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityService;
 import com.brodeckyondrej.SignUp.business.specification.SignSpecification;
-import com.brodeckyondrej.SignUp.persistence.embeded.SignNotation_;
+import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.persistence.entity.Category;
 import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
 import com.brodeckyondrej.SignUp.persistence.entity.Sign;
@@ -15,7 +14,6 @@ import com.brodeckyondrej.SignUp.persistence.repository.CategoryRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.PrivateCollectionRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SignRepository;
 import com.brodeckyondrej.SignUp.util.SpecificationBuilder;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -46,6 +44,10 @@ public class SignService extends EntityService<Sign, SignCreateDto, SignUpdateDt
         this.fileSystemVideoStorage = fileSystemVideoStorage;
     }
 
+    /**
+     * Deletes given sign. If sign is present in private collection, this method cancels that relationship.
+     * @throws MissingObjectException if given sign is missing
+     * */
     @Override
     public void delete(UUID id) {
         Optional<Sign> sign = signRepository.findById(id);
@@ -70,6 +72,10 @@ public class SignService extends EntityService<Sign, SignCreateDto, SignUpdateDt
         return signMapper.toDetailDto(sign);
     }
 
+    /**
+     * Performs criteria based search. Takes all parameters in SignSearchDto and logically joins them with AND operation.
+     * Paging and sorting can be specified in pageable
+     * */
     public Page<SignGetListDto> search(SignSearchDto dto, Pageable pageable) {
         SpecificationBuilder<Sign> specBuilder = new SpecificationBuilder<Sign>();
         Category foundCategory = null;

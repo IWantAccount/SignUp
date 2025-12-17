@@ -5,6 +5,7 @@ import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.business.dto.user.StudentClassroomDto;
 import com.brodeckyondrej.SignUp.business.specification.ClassroomSpecification;
 import com.brodeckyondrej.SignUp.business.specification.NameSpecification;
+import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.persistence.repository.ClassroomRepository;
@@ -54,6 +55,10 @@ public class ClassroomService extends NamedEntityService<Classroom, ClassroomCre
         super.delete(id);
     }
 
+    /**
+     * @return true if student is present in given classroom, false otherwise
+     * @throws MissingObjectException if any present ID is not found.
+     * */
     public Boolean presentInClassroom(StudentClassroomDto dto) {
         User user = userRepository.findByIdOrThrow(dto.getStudentId());
 

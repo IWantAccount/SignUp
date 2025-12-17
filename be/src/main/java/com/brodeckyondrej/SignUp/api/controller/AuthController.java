@@ -20,7 +20,11 @@ public class AuthController extends BaseController {
     public AuthController(UserService userService) {
         this.userService = userService;
     }
-
+    /**
+     * @param loginDto login credentials
+     * @return JWT if login credential matches
+     * @throws org.springframework.security.authentication.BadCredentialsException in case credentials dont match
+     * */
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDto> login(@Valid @RequestBody LoginDto loginDto) {
         return ResponseEntity.ok(userService.verifyLogin(loginDto));

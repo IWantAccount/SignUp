@@ -4,6 +4,8 @@ import com.brodeckyondrej.SignUp.business.service.subject.SubjectService;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
 import com.brodeckyondrej.SignUp.business.dto.subject.*;
+import com.brodeckyondrej.SignUp.exception.MissingObjectException;
+import com.brodeckyondrej.SignUp.exception.ValidationException;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacher;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacherOrSelf;
@@ -26,6 +28,11 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
         this.subjectService = service;
     }
 
+    /**
+     * Adds student to given classroom
+     * @throws MissingObjectException if student or subject is not found.
+     * @throws ValidationException if given user is not student.
+     * */
     @PostMapping("/add-student")
     @AtLeastTeacher
     public ResponseEntity<Void> addStudentToSubject(@Valid @RequestBody SubjectStudentDto dto){
@@ -33,6 +40,11 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Adds student to given classroom
+     * @throws MissingObjectException if student or subject is not found
+     * @throws ValidationException if given user is not student.
+     * */
     @PostMapping("/remove-student")
     @AtLeastTeacherOrSelf
     public ResponseEntity<Void> removeStudentFromSubject(@Valid @RequestBody SubjectStudentDto dto){
@@ -40,6 +52,10 @@ public class SubjectController extends NamedEntityController<Subject, SubjectCre
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Adds every student in given classroom to subject
+     * @throws MissingObjectException if classroom or subject is not found
+     * */
     @PostMapping("/add-classroom")
     @AtLeastTeacher
     public ResponseEntity<Void> addClassroomToSubject(@Valid @RequestBody SubjectClassroomDto dto){

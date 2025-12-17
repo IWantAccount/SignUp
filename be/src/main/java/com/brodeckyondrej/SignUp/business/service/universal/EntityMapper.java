@@ -3,6 +3,9 @@ package com.brodeckyondrej.SignUp.business.service.universal;
 import com.brodeckyondrej.SignUp.persistence.entity.BaseEntity;
 import org.springframework.stereotype.Service;
 
+/**
+ * Purpose of class that implements this is to map entities between each other
+ * */
 @Service
 public interface EntityMapper<
         Entity extends BaseEntity,

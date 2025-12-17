@@ -77,6 +77,9 @@ export function createDeleteSubjectOptions(id: string, queryClient: QueryClient)
     }
 }
 
+/**
+ * Create options for infiniteQuery. You can specify SubjectSearchDto to filter. Undefined in dto params is interpreted as any
+ * */
 export function createSubjectSearchOptions(dto: SubjectSearchDto, pageSize?: number)  {
     return infiniteQueryOptions({
         queryKey: [subjectQueryKey, "infinite", dto],

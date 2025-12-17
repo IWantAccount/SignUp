@@ -72,6 +72,9 @@ export function createDeleteUserOptions(id: string, queryClient: QueryClient): U
     }
 }
 
+/**
+ * Create options for infiniteQuery for users present in given subject. search item is used to filter, undefined is interpreted as any
+ * */
 export function createGetEnrolledByNameInfiniteQueryOptions(subjectId: string, searchItem?: string) {
     const toSearch = searchItem ? searchItem : "";
     return infiniteQueryOptions({

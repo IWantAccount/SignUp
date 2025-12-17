@@ -40,7 +40,7 @@ export function SubjectCard(props: SubjectGetListDto) {
                                         component={Link} to={`/app/subjects/${props.id}`}
                                 >Detail</Button>
                                 {
-                                    AuthService.atLeastAdmin() && (
+                                    AuthService.atLeastTeacher() && (
                                         <ZoomTooltip title={"upravit"}>
                                             <IconButton component={Link} to={`/app/subjects/${props.id}/edit/`}>
                                                 <EditIcon/>

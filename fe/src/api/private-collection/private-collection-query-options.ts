@@ -63,6 +63,9 @@ export function createCreateCollectionOptions(queryClient: QueryClient, navigate
     }
 }
 
+/**
+ * Create options for infiniteQuery. You can specify CollectionSearchDto to filter. Undefined is interpreted as any
+ * */
 export function createCollectionSearchOptions(dto?: CollectionSearchDto, pageSize?: number){
     return infiniteQueryOptions({
         queryKey: [privateCollectionQueryKey, "infinite", dto],
@@ -111,6 +114,9 @@ export function createRemoveSignFromCollectionOptions(dto: CollectionSignDto, qu
     }
 }
 
+/**
+ * Create options for infiniteQuery. You can pass CollectionSignSearch dto to filter. Undefined parameters of dto are interpreted as any
+ * */
 export function createCollectionSignSearch(dto: CollectionSignSearchDto, pageSize?: number) {
     return infiniteQueryOptions({
         queryKey: [privateCollectionQueryKey, dto],

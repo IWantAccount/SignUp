@@ -60,6 +60,9 @@ export function createDeleteCategoryOptions(id: string, queryClient: QueryClient
     }
 }
 
+/**
+ * Create options for infiniteQuery. You can specify search and subjectId to filter. Undefined is interpreted as any
+ * */
 export function createCategoryInfiniteSearch(options: {search?: string, subjectId?: string, pageSize?: number}) {
     return infiniteQueryOptions({
         queryKey: [categoryQueryKey, "infinite", options.search ?? "", options.subjectId ?? ""],

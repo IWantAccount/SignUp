@@ -64,6 +64,9 @@ export function createDeleteSignComponentOptions(id: string, queryClient: QueryC
     }
 }
 
+/**
+ * Create options for infiniteQuery. You can specify description and type to filter. Undefined is interpreted as any
+ * */
 export function createSignComponentSearch(opt: {description?: string, type?: SignComponentTypeEnum, pageSize?: number}) {
     return infiniteQueryOptions({
         queryKey: [signComponentQueryKey, "infinite", opt.description ?? "", opt.type],
