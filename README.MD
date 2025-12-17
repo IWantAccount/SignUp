@@ -11,7 +11,7 @@ Pro spuštění pak stačí příkaz
 ```
 docker compose up -d --build
 ```
-Frontend v tomto případě běží na portu 80.
+Frontend v tomto případě běží na portu 80. Je potřeba mít tento port volný.
 
 Systém je pak možné vypnout pomocí
 ```
@@ -34,7 +34,7 @@ cd be
 ./gradlew clean build
 ./gradlew bootRun
 ```
-Backend se v takovém případě spustí na portu 8080.
+Backend se v takovém případě spustí na portu 8080. Je potřeba mít tento port volný.
 
 Pro spuštění dev frontend serveru je potřeba Node ve verzi 22 nebo vyšší.
 Dev server lze spustit na UNIXovém systému následující posloupností příkazů.
