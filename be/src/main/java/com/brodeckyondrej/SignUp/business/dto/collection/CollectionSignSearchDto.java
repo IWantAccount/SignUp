@@ -11,7 +11,6 @@ import java.util.UUID;
 public class CollectionSignSearchDto {
     private final String collectionName;
 
-    @NotNull
     private final UUID ownerId;
 
     @NotNull

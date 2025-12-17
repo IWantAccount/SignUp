@@ -123,31 +123,32 @@ function RouteComponent() {
                             }
                         }
                         onDelete={
-                            () => {
+                            AuthService.atLeastTeacher() ?
+                                () => {
                                 deleteMutation.mutate()
-                                queryClient.invalidateQueries({queryKey: [subjectQueryKey, subjectId]})
-                            }
+                                } : undefined
                         }
                         onEditNavigate={
-                            () => {
-                                navigate({
-                                    to: '/app/subjects/$subjectId/edit',
-                                    params: {subjectId},
-                                })
-                            }
+                            AuthService.atLeastTeacher() ?
+                                async () => {
+                                    await navigate({
+                                        to: '/app/subjects/$subjectId/edit',
+                                        params: {subjectId},
+                                    })
+                            } : undefined
                         }
-                    />
-                    {AuthService.isStudent() && isPresentQuery.data && (
-                        removeYourselfMutation.isPending ? (
-                            <CircularProgress color="secondary"/>
-                        ) : (
-                            <ZoomTooltip title={"Odejít z předmětu"}>
-                                <IconButton onClick={() => removeYourselfMutation.mutate()}>
-                                    <DirectionsRunIcon/>
-                                </IconButton>
-                            </ZoomTooltip>
-                        ))
-                    }
+                        extraElement={
+                            AuthService.isStudent() && isPresentQuery.data ?
+                                (removeYourselfMutation.isPending ? (
+                                    <CircularProgress color="secondary"/>
+                                ) : (
+                                    <ZoomTooltip title={"Odejít z předmětu"}>
+                                        <IconButton onClick={() => removeYourselfMutation.mutate()}>
+                                            <DirectionsRunIcon/>
+                                        </IconButton>
+                                    </ZoomTooltip>
+                                )) : undefined
+                        }/>
                 </Box>
                 <Tabs
                     textColor="secondary"

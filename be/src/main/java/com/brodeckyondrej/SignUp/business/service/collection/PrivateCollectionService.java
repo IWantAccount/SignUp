@@ -54,10 +54,13 @@ public class PrivateCollectionService extends NamedEntityService<
     }
 
     public Page<PrivateCollectionGetListDto> search(CollectionSearchDto dto, Pageable pageable) {
-        User user = userRepository.findByIdOrThrow(dto.getOwnerId());
+        User user = null;
+        if(dto.getOwnerId() != null){
+            user = userRepository.findByIdOrThrow(dto.getOwnerId());
+        }
         Specification<PrivateCollection> spec = new SpecificationBuilder<PrivateCollection>()
                 .addSpecIfNotNull(NameSpecification.hasNameLike(dto.getSearch()), dto.getSearch())
-                .addSpec(PrivateCollectionSpecification.hasOwner(user))
+                .addSpecIfNotNull(PrivateCollectionSpecification.hasOwner(user), user)
                 .build();
 
         return privateCollectionRepository.findAll(spec, pageable).map(privateCollectionMapper::toListDto);
@@ -66,10 +69,13 @@ public class PrivateCollectionService extends NamedEntityService<
 
     public Page<SignInCollectionDto> getSignInCollection(CollectionSignSearchDto dto, Pageable pageable) {
         Sign sign = signRepository.findByIdOrThrow(dto.getSignId());
-        User owner = userRepository.findByIdOrThrow(dto.getOwnerId());
+        User owner = null;
+        if(dto.getOwnerId() != null){
+            owner = userRepository.findByIdOrThrow(dto.getOwnerId());
+        }
         Specification<PrivateCollection> specs = new SpecificationBuilder<PrivateCollection>()
                 .addSpecIfNotNull(NameSpecification.hasNameLike(dto.getCollectionName()), dto.getCollectionName())
-                .addSpec(PrivateCollectionSpecification.hasOwner(owner))
+                .addSpecIfNotNull(PrivateCollectionSpecification.hasOwner(owner), owner)
                 .build();
 
         return privateCollectionRepository.findAll(specs, pageable).map(collection ->

@@ -86,30 +86,39 @@ function RouteComponent() {
             <TopBarItemsGrid>
                 <Box sx={{width: "100%", display: "flex", flexWrap: "nowrap", alignItems: "center"}}>
                     <SearchableCardSectionTopBarActions title={classroomQuery.data.name}
-                                                        onEditNavigate={() => {
-                                                            navigate({
-                                                                to: '/app/classrooms/$classroomId/edit',
-                                                                params: {classroomId: classroomId}
-                                                            })
-                                                        }}
+                                                        onEditNavigate={
+                                                            AuthService.atLeastTeacher() ?
+                                                                async () => {
+                                                                    await navigate({
+                                                                        to: '/app/classrooms/$classroomId/edit',
+                                                                        params: {classroomId: classroomId}
+                                                                    })
+                                                                }
+                                                                : undefined
+                                                        }
                                                         onSearch={(value: string) => {
                                                             setSearchItem(value)
                                                         }}
-                                                        onDelete={() => {
-                                                            deleteMutation.mutate();
-                                                        }}/>
-                    {AuthService.isStudent() && isPresentQuery.data && (
-                        removeYourselfMutation.isPending ? (
-                            <CircularProgress color="secondary"/>
-                        ):
-                            (
-                                <ZoomTooltip title={"Odejít ze třídy"}>
-                                    <IconButton onClick={() => removeYourselfMutation.mutate()}>
-                                        <DirectionsRunIcon/>
-                                    </IconButton>
-                                </ZoomTooltip>
-                            )
-                    )}
+                                                        onDelete={
+                                                            AuthService.atLeastTeacher() ?
+                                                                () => {
+                                                                    deleteMutation.mutate();
+                                                                }
+                                                                : undefined
+                                                        }
+                                                        extraElement={
+                                                            AuthService.isStudent() && isPresentQuery.data ? (
+                                                            removeYourselfMutation.isPending ? (
+                                                                    <CircularProgress color="secondary"/>
+                                                                ) :
+                                                                (
+                                                                    <ZoomTooltip title={"Odejít ze třídy"}>
+                                                                        <IconButton onClick={() => removeYourselfMutation.mutate()}>
+                                                                            <DirectionsRunIcon/>
+                                                                        </IconButton>
+                                                                    </ZoomTooltip>
+                                                                )
+                                                        ): undefined}/>
                 </Box>
                 {userQuery.isPending ? <MultipleCardSkeleton/> : <UserGrid list={users}/>}
                 <Button variant="outlined" disabled={userQuery.isPending || !userQuery.hasNextPage} onClick={() => {

@@ -20,11 +20,13 @@ interface DialogProps {
 }
 
 export function AddSignToCollectionDialog(props: DialogProps) {
+    const [seeOthersCollections, setSeeOthersCollections] = useState<boolean>(false);
+    const ownerId: string | undefined = seeOthersCollections ? undefined : AuthService.getUserId();
     const [searchItem, setSearchItem] = useState<string>("");
     const [debounded] = useDebounce(searchItem, 300);
     const itemQuery = useInfiniteQuery(createCollectionSignSearch({
         collectionName: debounded,
-        ownerId: AuthService.getUserId(),
+        ownerId: ownerId,
         signId: props.signId
     }))
 
@@ -41,6 +43,17 @@ export function AddSignToCollectionDialog(props: DialogProps) {
             searchPlaceholder={"Hledat kolekci podle názvu"}
             queryIsPending={itemQuery.isPending}
             fetchNextPage={itemQuery.fetchNextPage}
+            checkboxLabel={
+                AuthService.atLeastAdmin() ? "Zobrazit cizí kolekce" : undefined
+            }
+            checkboxChecked={
+                seeOthersCollections
+            }
+            checkboxActions={
+                AuthService.atLeastAdmin() ? () => {
+                    setSeeOthersCollections(!seeOthersCollections)
+                } : undefined
+            }
             fetchButtonText={
                 itemQuery.hasNextPage ?
                     (itemQuery.isPending ? "Čekejte" : "Načíst další") :

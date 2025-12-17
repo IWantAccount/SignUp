@@ -42,9 +42,7 @@ export class AuthService {
             return;
         }
 
-        if(this.isExpired(5)) {
-            this.logout();
-        }
+
 
         try {
             const payload = jwtDecode<JwtCustomPayload>(loadedToken);
@@ -54,6 +52,10 @@ export class AuthService {
             this.expiration = payload.exp;
             this.token = loadedToken;
             console.log("login succes. Token: " + this.token);
+
+            if(this.isExpired(5)) {
+                this.logout();
+            }
         }
         catch (error) {
             console.error("JWT decode failed. Error:\n" + error);
@@ -70,6 +72,7 @@ export class AuthService {
         this.userName = null;
         this.userRole = null;
         this.userId = null;
+        this.expiration = undefined
         localStorage.removeItem(this.jwtStorageKey);
     }
 
@@ -110,7 +113,7 @@ export class AuthService {
     }
 
     static isExpired(extraMinutes?: number): boolean {
-        if(this.expiration === null) {
+        if(!this.expiration) {
             return false;
         }
 

@@ -116,9 +116,9 @@ function Notation({ sign }: { sign: SignGetDetailDto }) {
 
 function Base({ sign }: { sign: SignGetDetailDto }) {
     return (
-        <Stack sx={{gap: 2, alignItems: "center"}}>
+        <Stack sx={{gap: 2, alignItems: "center", padding: 2}}>
             <Grid container spacing={4} sx={{ width: "100%", maxWidth: 1200 }}>
-                <Grid size={8}>
+                <Grid size={{xs: 12, md: 8}}>
                     <Box
                         sx={{
                             borderRadius: 3,
@@ -138,7 +138,7 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
                     </Box>
                 </Grid>
 
-                <Grid size={4}>
+                <Grid size={{xs: 12, md: 4}}>
                     <Paper sx={{ p:3, borderRadius: 2}}>
                         <Stack sx={{alignItems: "center", gap: 4}}>
                             <TextAssigment label={"Typ znaku"} value={signTypeToCzech(sign.signType)}/>
@@ -154,7 +154,7 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
             </Grid>
 
             <Grid container spacing={4} sx={{ width: "100%", maxWidth: 1200 }}>
-                <Grid size={8}>
+                <Grid size={{xs: 12, md: 8}}>
                     <Typography variant="h6">Možné překlady:</Typography>
                     <Box sx={{width: "100%", display: "flex", gap: 1, flexWrap: "wrap"}}>
                         {
@@ -164,7 +164,7 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
                         }
                     </Box>
                 </Grid>
-                <Grid size={4}>
+                <Grid size={{xs: 12, md: 8}}>
                     <Box sx={{
                         width: "100%",
                         borderRadius: 2,

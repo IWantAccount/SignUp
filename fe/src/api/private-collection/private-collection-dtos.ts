@@ -34,7 +34,7 @@ export interface SignInCollectionDto {
 export interface CollectionSignSearchDto {
     collectionName?: string | null;
     signId: string;
-    ownerId: string;
+    ownerId?: string;
 }
 
 export interface CollectionSearchDto {

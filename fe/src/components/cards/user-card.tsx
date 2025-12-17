@@ -1,5 +1,4 @@
-import {Avatar, Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
-import {AccountCircle} from "@mui/icons-material";
+import {Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
 import {useNavigate} from "@tanstack/react-router";
 import type {UserGetListDto} from "@/api/user/user-dtos.ts";
 import EditIcon from "@mui/icons-material/Edit";
@@ -8,6 +7,7 @@ import {createDeleteUserOptions} from "@/api/user/user-query-options.ts";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import {AuthService} from "@/api/util/auth-service.ts";
+import {StringAvatar} from "@/components/util/string-avatar.tsx";
 
 export function UserCard({id, name, email, classroomName}: UserGetListDto){
     const navigate = useNavigate();
@@ -33,9 +33,7 @@ export function UserCard({id, name, email, classroomName}: UserGetListDto){
                     (
                         <CardContent>
                             <Stack spacing={2} alignItems="center">
-                                <Avatar>
-                                    <AccountCircle sx={{fontSize: 60}}/>
-                                </Avatar>
+                                <StringAvatar name={name}/>
                                 <Typography variant="subtitle1">{name}</Typography>
                                 <Typography variant="body2">{email}</Typography>
                                 <Typography variant="body2">{classroomName}</Typography>

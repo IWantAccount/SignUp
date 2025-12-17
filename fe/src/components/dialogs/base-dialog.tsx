@@ -1,4 +1,16 @@
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, List, Stack, TextField} from "@mui/material";
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControlLabel,
+    List,
+    Stack,
+    TextField
+} from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
 
 interface Props {
     onClose: () => void;
@@ -11,6 +23,9 @@ interface Props {
     fetchButtonText: string;
     fetchButtonDisabled: boolean;
     children: React.ReactNode;
+    checkboxActions?: () => void;
+    checkboxLabel?: string;
+    checkboxChecked?: boolean;
 }
 
 //Převzato částečně z dokumentace komponenty Dialog a částečně z ChatGPT (model 5, OpenAI)
@@ -24,9 +39,21 @@ export function BaseDialog(props: Props) {
         maxWidth="lg"
         PaperProps={{ sx: { height: "80vh", display: "flex", width: 900, padding: "50px"} }}>
 
-            <DialogTitle>
-                {props.title}
-            </DialogTitle>
+            <Box sx={{display: "flex", justifyContent: "center", gap: 2}}>
+                <DialogTitle>
+                    {props.title}
+                </DialogTitle>
+                {
+                    props.checkboxActions && (
+                        <FormControlLabel
+                            control={
+                                <Checkbox   checked={props.checkboxChecked ?? false}
+                                            onChange={props.checkboxActions}/>
+                            }
+                            label={props.checkboxLabel ?? ""}/>
+                    )
+                }
+            </Box>
             <TextField
                 fullWidth
                 size="small"
