@@ -8,9 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.List;
-
 
 @Transactional
 @RequiredArgsConstructor
@@ -32,15 +29,6 @@ public abstract class EntityService<
         validator.validateCreateOrThrow(createDto);
         Entity res = repository.save(mapper.fromCreateDto(createDto));
         return mapper.toDetailDto(res);
-    }
-
-    //For debug
-    //TODO remove before publishing
-    public List<GetListDto> getAll(){
-        return repository.findAll()
-                .stream()
-                .map(mapper::toListDto)
-                .collect(Collectors.toList());
     }
 
     @Transactional()

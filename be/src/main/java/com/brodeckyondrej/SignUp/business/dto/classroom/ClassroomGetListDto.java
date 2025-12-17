@@ -8,9 +8,9 @@ import java.util.UUID;
 @Getter
 public class ClassroomGetListDto extends NamedDtoWithId {
 
-    private int numberOfStudents;
+    private final long numberOfStudents;
 
-    public ClassroomGetListDto(UUID id, String name, int numberOfStudents){
+    public ClassroomGetListDto(UUID id, String name, long numberOfStudents){
         super(id, name);
         this.numberOfStudents = numberOfStudents;
     }
