@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+
 @RequestMapping("/announcement")
 @RestController
 public class AnnouncementController extends EntityController<Announcement, AnnouncementCreateDto, AnnouncementUpdateDto, AnnouncementGetDetailDto, AnnouncementGetListDto> {

@@ -43,6 +43,11 @@ public class FileSystemStorageService implements StorageService{
         }
     }
 
+    /**
+     * Saves file
+     * @return name of saved file (its going to be UUID)
+     * @throws StorageException
+     * */
     @Override
     public String store(@NotNull MultipartFile file) {
 
@@ -55,7 +60,7 @@ public class FileSystemStorageService implements StorageService{
         String key = UUID.randomUUID() + extension;
         Path destination = resolveInsideRoot(key) ;
 
-        //Já vím, že se tohle se asi nikdy nestane, ale tak proč ne ...
+        //Conflict on UUID should not happen
         while(Files.exists(destination)){
             key = UUID.randomUUID() + extension;
             destination = resolveInsideRoot(key) ;
@@ -72,6 +77,10 @@ public class FileSystemStorageService implements StorageService{
         }
     }
 
+    /**
+     * Loads file as resource
+     * @throws StorageException
+     * */
     @Override
     public Resource load(String filename) {
         try{
@@ -130,6 +139,7 @@ public class FileSystemStorageService implements StorageService{
         return candidate;
     }
 
+    //written by chap gpt
     protected static String extractExtension(String name) {
         int i = name.lastIndexOf('.');
         if (i < 0 || i == name.length() - 1) return "";

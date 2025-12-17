@@ -4,6 +4,7 @@ import com.brodeckyondrej.SignUp.business.dto.collection.*;
 import com.brodeckyondrej.SignUp.business.service.collection.PrivateCollectionService;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
+import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.persistence.entity.PrivateCollection;
 import com.brodeckyondrej.SignUp.security.annotations.AdminOrCollectionOwnerByDto;
 import com.brodeckyondrej.SignUp.security.annotations.AdminOrCollectionOwnerById;
@@ -35,6 +36,10 @@ public class PrivateCollectionController extends NamedEntityController<
         this.privateCollectionService = service;
     }
 
+    /**
+     * Adds given sign to collection. If sign is already present, nothing happens.
+     * @throws MissingObjectException if any present ID is not found.
+     * */
     @PostMapping("/add-sign")
     @AdminOrCollectionOwnerByDto
     public ResponseEntity<Void> addSignToCollection(@Valid @RequestBody CollectionSignDto dto){
@@ -42,6 +47,10 @@ public class PrivateCollectionController extends NamedEntityController<
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Removes sign from collection. If sign is not present in collection, nothing happens.
+     * @throws MissingObjectException if any present ID is not found.
+     * */
     @PostMapping("/remove-sign")
     @AdminOrCollectionOwnerByDto
     public ResponseEntity<Void> removeSignFromCollection(@Valid @RequestBody CollectionSignDto dto){
@@ -54,6 +63,9 @@ public class PrivateCollectionController extends NamedEntityController<
         return ResponseEntity.ok(privateCollectionService.search(dto, pageable));
     }
 
+    /**
+     * For checking if given sign is present in collections
+     * */
     //it is good to have result sorted. It does not have to be by id, but it should be sorted deterministically
     @PostMapping("/sign-search")
     public ResponseEntity<Page<SignInCollectionDto>> getSignInCollection(

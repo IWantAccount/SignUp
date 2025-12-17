@@ -3,6 +3,7 @@ package com.brodeckyondrej.SignUp.api.controller;
 import com.brodeckyondrej.SignUp.api.controller.universal.EntityController;
 import com.brodeckyondrej.SignUp.business.dto.sign.*;
 import com.brodeckyondrej.SignUp.business.service.sign.SignService;
+import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.persistence.entity.Sign;
 import com.brodeckyondrej.SignUp.security.annotations.AtLeastTeacher;
 import jakarta.validation.Valid;
@@ -33,6 +34,11 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
         return ResponseEntity.ok(signService.create(dto, videoFile));
     }
 
+
+    /**
+     * replaces existing video of given sign. Does not change video name saved in sign
+     * @throws MissingObjectException if given sign is not found.
+     * */
     @PostMapping(
             value = "/replace-video/{signId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
@@ -42,6 +48,10 @@ public class SignController extends EntityController<Sign, SignCreateDto, SignUp
         return ResponseEntity.ok(signService.replaceSignVideo(signId, video));
     }
 
+    /**
+     * Does search with parameters given in SignSearchDto. SignSearchDto parameters are interpreted in AND operation
+     * @return Page of signs mapped to SignGetListDto based on search parameters and pageable parameters
+     * */
     @PostMapping("/search")
     public ResponseEntity<Page<SignGetListDto>> search(@RequestBody @Valid SignSearchDto dto, Pageable pageable) {
         return ResponseEntity.ok(signService.search(dto, pageable));

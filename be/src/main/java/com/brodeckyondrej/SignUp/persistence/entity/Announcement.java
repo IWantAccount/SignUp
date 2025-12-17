@@ -10,6 +10,9 @@ import org.hibernate.annotations.BatchSize;
 
 import java.time.Instant;
 
+/**
+ * Utility class used to communicate with user on main page
+ */
 @BatchSize(size = 20)
 @Entity
 @Table(name = "announcement")
