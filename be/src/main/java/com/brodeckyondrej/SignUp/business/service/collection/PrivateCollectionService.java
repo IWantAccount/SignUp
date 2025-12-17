@@ -54,10 +54,13 @@ public class PrivateCollectionService extends NamedEntityService<
     }
 
     public Page<PrivateCollectionGetListDto> search(CollectionSearchDto dto, Pageable pageable) {
-        User user = userRepository.findByIdOrThrow(dto.getOwnerId());
+        User user = null;
+        if(dto.getOwnerId() != null){
+            user = userRepository.findByIdOrThrow(dto.getOwnerId());
+        }
         Specification<PrivateCollection> spec = new SpecificationBuilder<PrivateCollection>()
                 .addSpecIfNotNull(NameSpecification.hasNameLike(dto.getSearch()), dto.getSearch())
-                .addSpec(PrivateCollectionSpecification.hasOwner(user))
+                .addSpecIfNotNull(PrivateCollectionSpecification.hasOwner(user), user)
                 .build();
 
         return privateCollectionRepository.findAll(spec, pageable).map(privateCollectionMapper::toListDto);

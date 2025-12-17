@@ -3,7 +3,7 @@ import {useInfiniteQuery} from "@tanstack/react-query";
 import {
     createCollectionSearchOptions
 } from "@/api/private-collection/private-collection-query-options.ts";
-import {Button, Stack} from "@mui/material";
+import {Button, FormControlLabel, Stack} from "@mui/material";
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {PrivateCollectionGrid} from "@/components/grids/private-collection-grid.tsx";
@@ -17,11 +17,14 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 export const Route = createFileRoute('/app/private-collections/')({
     component: RouteComponent,
 })
+import Checkbox from '@mui/material/Checkbox';
 
 function RouteComponent() {
+    const [seeOthersCollections, setSeeOthersCollections] = useState<boolean>(false);
     const [searchItem, setSearchItem] = useState<string>("");
     const [debouncedSearch] = useDebounce(searchItem, 300);
-    const searchDto: CollectionSearchDto = {search: debouncedSearch, ownerId: AuthService.getUserId()};
+    const ownerId: string | undefined = seeOthersCollections ? undefined : AuthService.getUserId();
+    const searchDto: CollectionSearchDto = {search: debouncedSearch, ownerId: ownerId};
     const infiniteQuery = useInfiniteQuery(createCollectionSearchOptions(searchDto));
 
     if(infiniteQuery.isError) return <></>;
@@ -36,7 +39,18 @@ function RouteComponent() {
     return (
         <Stack sx={{padding: 2}} spacing={2} alignItems="center">
             <TopBarItemsGrid>
-                <SearchableCardSectionTopBarActions title={"Soukromé kolekce"} onSearch={(searchItem: string) => {setSearchItem(searchItem)}}/>
+                <SearchableCardSectionTopBarActions
+                    title={"Soukromé kolekce"}
+                    onSearch={(searchItem: string) => {setSearchItem(searchItem)}}
+                    extraElement={
+                        AuthService.atLeastAdmin() ? (
+                            <FormControlLabel control={
+                                <Checkbox
+                                    checked={seeOthersCollections}
+                                    onChange={(e) => setSeeOthersCollections(e.target.checked)}/>
+                            } label={"Cizí kolekce"}/>
+                        ) : undefined
+                    }/>
                 {infiniteQuery.isPending ? <MultipleCardSkeleton/> : <PrivateCollectionGrid list={collections}/>}
             </TopBarItemsGrid>
             <PrivateCollectionSpeedDial/>
