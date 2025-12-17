@@ -18,7 +18,7 @@ const SignComponentTypeLabels = {
     MOVEMENT: "pohyb",
     PALM_ORIENTATION: "orientace dlaně",
     FINGER_ORIENTATION: "orientace prstů",
-    CONTACT: "místo doteku",
+    CONTACT: "dotek",
     HAND_ARRANGEMENT: "vzájemná poloha rukou",
 } as const satisfies Record<SignComponentTypeEnum, string>;
 
