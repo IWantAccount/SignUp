@@ -56,6 +56,9 @@ export function createGetSignByIdOptions(id: string) {
     })
 }
 
+/**
+ * Create options for infiniteQuery. You can specify SearchSignDto to filter. Undefined is interpreted as any
+ * */
 export function createSignInfiniteSearch(dto: SearchSignDto, pageSize?: number) {
     return infiniteQueryOptions({
         queryKey: [signQueryKey, "infinite", dto],

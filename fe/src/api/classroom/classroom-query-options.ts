@@ -67,6 +67,9 @@ export function createDeleteClassroomOptions(id: string, queryClient: QueryClien
     }
 }
 
+/**
+ * Create options for infiniteQuery. You can specify search to filter based on name. Undefined is interpreted as any
+ * */
 export function createClassroomInfiniteSearch(search?: string, pageSize?: number) {
     return infiniteQueryOptions({
         queryKey: [classroomQueryKey, "infinite", search ?? ""],

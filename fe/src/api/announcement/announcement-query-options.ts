@@ -26,6 +26,10 @@ export function createCreateAnnouncementOptions(queryClient: QueryClient, naviga
     }
 }
 
+/**
+ * You can specify pageSize
+ * @returns options for infiniteQuery.
+ * */
 export function createAnnouncementSearchOptions(dto: AnnouncementSearchDto, pageSize?: number) {
     return infiniteQueryOptions({
         queryKey: [announcementQueryKey, "infinite", dto],

@@ -8,6 +8,7 @@ import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type { Page } from "../universal/pagination/spring-boot-page.ts";
 const url = "/category";
+//Axios calls for category
 
 export const getCategoryById = async (id: string): Promise<CategoryGetDetailDto> => {
     const res = await api.get<CategoryGetDetailDto>(buildPath([url, id]));
