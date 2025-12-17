@@ -1,5 +1,5 @@
-import {Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
-import {useNavigate} from "@tanstack/react-router";
+import {Button, Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
+import {Link, useNavigate} from "@tanstack/react-router";
 import type {UserGetListDto} from "@/api/user/user-dtos.ts";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -39,6 +39,7 @@ export function UserCard({id, name, email, classroomName}: UserGetListDto){
                                 <Typography variant="body2">{classroomName}</Typography>
                             </Stack>
                             <CardActions sx={{justifyContent: "space-around"}}>
+                                <Button component={Link} to={`/app/users/${id}`}>Detail</Button>
                                 {
                                     AuthService.atLeastAdmin() && (
                                         <ZoomTooltip title={"upravit"}>
