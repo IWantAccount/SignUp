@@ -31,7 +31,7 @@ export function SideBar(props: Props) {
                 {text: "Kategorie", Icon: CategoryIcon, href: "/app/categories"},
                 {text: "Třídy", Icon: GroupIcon, href: "/app/classrooms"},
                 {text: "Komponenty znaku", Icon: ExtensionIcon, href: "/app/sign-components"},
-
+                {text: "Uživatelé", Icon: AccountCircleIcon, href: "/app/users"},
             ]
         },
 
@@ -54,7 +54,6 @@ export function SideBar(props: Props) {
                     {text: "Přidat kategorii", Icon: CategoryIcon, href: "/app/categories/create"},
                     {text: "Přidat třídu", Icon: GroupAddIcon, href: "/app/classrooms/create"},
                     {text: "Přidat komponentu znaku", Icon: AddBoxIcon, href: "/app/sign-components/create"},
-                    {text: "Uživatelé", Icon: AccountCircleIcon, href: "/app/users"},
                 ]
             }
         ] : []
