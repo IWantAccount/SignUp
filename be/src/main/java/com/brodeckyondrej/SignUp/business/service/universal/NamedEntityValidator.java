@@ -5,6 +5,7 @@ import com.brodeckyondrej.SignUp.exception.NameNotUniqueException;
 import com.brodeckyondrej.SignUp.persistence.entity.NamedEntity;
 import com.brodeckyondrej.SignUp.persistence.repository.NamedEntityRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class NamedEntityValidator<E extends NamedEntity, CreateDto extends NamedDto, UpdateDto extends NamedDto> implements Validator<CreateDto, UpdateDto>{
@@ -19,7 +20,8 @@ public class NamedEntityValidator<E extends NamedEntity, CreateDto extends Named
 
     @Override
     public void validateUpdateOrThrow(UUID originalId, UpdateDto updateDto) {
-        if(repository.existsByName(updateDto.getName())) {
+        Optional<E> entity = repository.findByName(updateDto.getName());
+        if(entity.isPresent() && !entity.get().getId().equals(originalId)) {
             throw new NameNotUniqueException("Jméno musí být unikátní");
         }
     }

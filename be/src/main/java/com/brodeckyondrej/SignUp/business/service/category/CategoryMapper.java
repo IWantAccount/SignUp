@@ -1,10 +1,12 @@
 package com.brodeckyondrej.SignUp.business.service.category;
 
+import com.brodeckyondrej.SignUp.business.specification.SignSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.Category;
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryGetListDto;
 import com.brodeckyondrej.SignUp.business.dto.category.CategoryUpdateDto;
+import com.brodeckyondrej.SignUp.persistence.repository.SignRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityMapper;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class CategoryMapper implements EntityMapper<Category, CategoryCreateDto, CategoryUpdateDto, CategoryGetDetailDto, CategoryGetListDto> {
 
     private final SubjectRepository subjectRepository;
+    private final SignRepository signRepository;
 
     @Override
     public Category fromCreateDto(CategoryCreateDto categoryCreateDto) {
@@ -41,11 +44,11 @@ public class CategoryMapper implements EntityMapper<Category, CategoryCreateDto,
 
     @Override
     public CategoryGetListDto toListDto(Category entity) {
-        //FIXME: je blby takhle tahat vsechny znaky a pak brat size. Spis nejaky sql count
+        long signCount = signRepository.count(SignSpecification.isInCategory(entity));
         return new CategoryGetListDto(
                 entity.getId(),
                 entity.getName(),
-                entity.getSigns().size(),
+                signCount,
                 new NamedDtoWithId(entity.getSubject().getId(), entity.getSubject().getName()));
     }
 }

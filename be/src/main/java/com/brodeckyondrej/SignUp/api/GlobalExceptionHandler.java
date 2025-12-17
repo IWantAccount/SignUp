@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({BadCredentialsException.class})
     public ResponseEntity<ProblemDetail> badCredentials(BadCredentialsException e) {
         ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
-        pd.setTitle(e.getMessage());
+        pd.setTitle("Chybné heslo");
         pd.setDetail(e.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(pd);
     }

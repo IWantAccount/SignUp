@@ -1,13 +1,15 @@
 package com.brodeckyondrej.SignUp.business.service.subject;
 
-import com.brodeckyondrej.SignUp.business.service.category.CategoryMapper;
 import com.brodeckyondrej.SignUp.business.dto.subject.SubjectCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.subject.SubjectGetDetailDto;
 import com.brodeckyondrej.SignUp.business.dto.subject.SubjectGetListDto;
 import com.brodeckyondrej.SignUp.business.dto.subject.SubjectUpdateDto;
+import com.brodeckyondrej.SignUp.business.specification.CategorySpecification;
+import com.brodeckyondrej.SignUp.business.specification.UserSpecification;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
-import com.brodeckyondrej.SignUp.business.service.user.UserMapper;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityMapper;
+import com.brodeckyondrej.SignUp.persistence.repository.CategoryRepository;
+import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SubjectMapper implements EntityMapper<Subject, SubjectCreateDto, SubjectUpdateDto, SubjectGetDetailDto, SubjectGetListDto> {
 
-    private final CategoryMapper categoryMapper;
-    private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Subject fromCreateDto(SubjectCreateDto subjectCreateDto) {
@@ -35,7 +37,8 @@ public class SubjectMapper implements EntityMapper<Subject, SubjectCreateDto, Su
 
     @Override
     public SubjectGetListDto toListDto(Subject entity) {
-        //TODO replace set.getSize() with db count calls
-        return new SubjectGetListDto(entity.getId(), entity.getName(), entity.getStudents().size(), entity.getCategories().size());
+        long categoryCount = categoryRepository.count(CategorySpecification.hasSubject(entity));
+        long studentCount = userRepository.count(UserSpecification.isInSubject(entity));
+        return new SubjectGetListDto(entity.getId(), entity.getName(), studentCount, categoryCount);
     }
 }

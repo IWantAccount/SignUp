@@ -39,7 +39,7 @@ export function BaseDialog(props: Props) {
         maxWidth="lg"
         PaperProps={{ sx: { height: "80vh", display: "flex", width: 900, padding: "50px"} }}>
 
-            <Box sx={{display: "flex", justifyContent: "center", gap: 2}}>
+            <Box sx={{display: "flex", justifyContent: "center", gap: 2, flexWrap: "wrap"}}>
                 <DialogTitle>
                     {props.title}
                 </DialogTitle>
