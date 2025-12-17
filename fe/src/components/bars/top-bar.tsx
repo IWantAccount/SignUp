@@ -56,21 +56,23 @@ export function TopBar(props: Props) {
                                 </Box>
                             </IconButton>
                             <Button color="inherit"
-                                    component={Link} to={`/app/users/${AuthService.getUserId()}`}>Účet</Button>
-                            <Button color="inherit"
                                     component={Link} to={"/app/help-me"}>Nápověda</Button>
                             <Button color="inherit"
                                     component={Link} to={"/app/ondra-je-frajer"}>O systému</Button>
                         </Box>
 
-                        <Button
-                            color="inherit"
-                            onClick={() => {
-                                navigate({
-                                    to: "/login"
-                                })
-                                AuthService.logout();
-                            }}>Odhlásit se</Button>
+                        <Box sx ={{display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap'}}>
+                            <Button color="inherit"
+                                    component={Link} to={`/app/users/${AuthService.getUserId()}`}>{AuthService.getUserName() ?? "Účet"}</Button>
+                            <Button
+                                color="inherit"
+                                onClick={() => {
+                                    navigate({
+                                        to: "/login"
+                                    })
+                                    AuthService.logout();
+                                }}>Odhlásit se</Button>
+                        </Box>
                     </Toolbar>
                 </AppBar>
             </HideOnScroll>
