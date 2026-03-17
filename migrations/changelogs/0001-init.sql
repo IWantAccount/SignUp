@@ -52,7 +52,7 @@ ALTER TABLE "private_collection_sign" ADD CONSTRAINT "fk5rgbo1nu2ppigwrtoxjflq09
 ALTER TABLE "private_collection_sign" ADD CONSTRAINT "fk97k3vvlhht6xwwsnk3sdaajak" FOREIGN KEY ("private_collection_id") REFERENCES "private_collection" ("id") ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 -- changeset ondra:1773658848110-18 splitStatements:false
-ALTER TABLE "sign" ADD CONSTRAINT "fka25gkr6xxq525h1r0ajq974lt" FOREIGN KEY ("movement_component_id") REFERENCES "sign_component" ("id") ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE "sign" ADD CONSTRAINT "fka25gkr6xxq525h1r0ajq974lt" FOREIGN KEY ("movement_component_id") REFERENCES "sign_component" ("id")
 
 -- changeset ondra:1773658848110-19 splitStatements:false
 ALTER TABLE "subject_student" ADD CONSTRAINT "fkaofq137ktpj28dariq084g0w1" FOREIGN KEY ("subject_id") REFERENCES "subject" ("id") ON UPDATE NO ACTION ON DELETE NO ACTION;
