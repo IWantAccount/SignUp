@@ -31,7 +31,8 @@ public class InviteMapper implements EntityMapper<Invite, InviteCreateDto, Invit
                 entity.getId(),
                 entity.getRole(),
                 entity.getUsedAt(),
-                userMapper.toListDto(entity.getCreatedUser()));
+                entity.getCreatedUser() == null ? null : userMapper.toListDto(entity.getCreatedUser())
+        );
     }
 
     @Override
@@ -40,7 +41,7 @@ public class InviteMapper implements EntityMapper<Invite, InviteCreateDto, Invit
                 entity.getId(),
                 entity.getRole(),
                 entity.getUsedAt(),
-                userMapper.toListDto(entity.getCreatedUser())
+                entity.getCreatedUser() == null ? null : userMapper.toListDto(entity.getCreatedUser())
         );
     }
 }

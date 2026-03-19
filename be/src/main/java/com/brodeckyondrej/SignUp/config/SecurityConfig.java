@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/file/url-req/**").permitAll()
-                        .requestMatchers("/invite/**/process").permitAll()
+                        .requestMatchers("/invite/{id}/process").permitAll()
                         .anyRequest().authenticated()
 
                 )
