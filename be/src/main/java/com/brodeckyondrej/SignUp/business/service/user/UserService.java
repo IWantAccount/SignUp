@@ -6,7 +6,9 @@ import com.brodeckyondrej.SignUp.business.dto.user.*;
 import com.brodeckyondrej.SignUp.business.specification.UserSpecification;
 import com.brodeckyondrej.SignUp.exception.MissingObjectException;
 import com.brodeckyondrej.SignUp.persistence.entity.Classroom;
+import com.brodeckyondrej.SignUp.persistence.entity.Invite;
 import com.brodeckyondrej.SignUp.persistence.repository.ClassroomRepository;
+import com.brodeckyondrej.SignUp.persistence.repository.InviteRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.SubjectRepository;
 import com.brodeckyondrej.SignUp.persistence.entity.Subject;
 import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
@@ -39,10 +41,11 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
     private final AuthenticationManager authManager;
     private final JWTService jwtService;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    private final InviteRepository inviteRepository;
 
     public UserService(UserRepository repository, UserValidator validator, UserMapper mapper,
                        ClassroomRepository classroomRepository, SubjectRepository subjectRepository,
-                       AuthenticationManager authManager, JWTService jwtService) {
+                       AuthenticationManager authManager, JWTService jwtService, InviteRepository inviteRepository) {
         super(repository, validator, mapper);
         this.userRepository = repository;
         this.userMapper = mapper;
@@ -50,6 +53,7 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         this.subjectRepository = subjectRepository;
         this.authManager = authManager;
         this.jwtService = jwtService;
+        this.inviteRepository = inviteRepository;
 
     }
 
@@ -108,9 +112,15 @@ public class UserService extends NamedEntityService<User, UserCreateDto, UserUpd
         if(user.isEmpty()){
             return;
         }
+        User userToDelete = user.get();
+
+        Optional<Invite> invite = inviteRepository.findByCreatedUser(userToDelete);
+        if(invite.isPresent()){
+            inviteRepository.delete(invite.get());
+        }
 
         //This is owned side of many to many relationship. it is necessary to delete relationships
-        user.get().getSubjects()
+        userToDelete.getSubjects()
                 .forEach(subject -> subject.removeStudent(user.get()));
         super.delete(id);
     }

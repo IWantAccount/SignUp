@@ -1,15 +1,12 @@
 package com.brodeckyondrej.SignUp;
 
-import com.brodeckyondrej.SignUp.config.InitUserConfig;
-import com.brodeckyondrej.SignUp.config.JWTConfig;
-import com.brodeckyondrej.SignUp.config.StorageProperties;
-import com.brodeckyondrej.SignUp.config.VideoProperties;
+import com.brodeckyondrej.SignUp.config.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties({VideoProperties.class, StorageProperties.class, JWTConfig.class, InitUserConfig.class})
+@EnableConfigurationProperties({VideoProperties.class, StorageProperties.class, JWTConfig.class, InitUserConfig.class, AllowedOriginsConfig.class})
 public class SignUpApplication {
 
 	public static void main(String[] args) {

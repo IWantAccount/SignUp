@@ -12,6 +12,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import {AuthService} from "@/api/util/auth-service.ts";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import EmailIcon from '@mui/icons-material/Email';
 
 //Část kódu jsem převzal z oficiální dokumentace MUI: https://mui.com/material-ui/react-drawer/
 
@@ -63,6 +64,7 @@ export function SideBar(props: Props) {
                 color: "secondary",
                 list: [
                     {text: "Přidat uživatele", Icon: PersonAddIcon, href: "/app/users/create"},
+                    {text: "Vytvořit pozvánku", Icon: EmailIcon, href: "/app/invite/create"}
                 ]
             }
         ]: [])

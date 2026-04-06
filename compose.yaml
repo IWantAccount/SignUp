@@ -29,13 +29,14 @@ services:
       INIT_NAME: admin
       INIT_PASSWORD: changeit
       INIT_ENABLED: false
+      ALLOWED_ORIGINS: http://localhost:81
     volumes:
       - ./uploads:/storage
   fe:
     build: ./fe
     container_name: signup-fe
     ports:
-      - "80:80"
+      - "81:80"
     depends_on:
       - be
 
