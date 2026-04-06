@@ -24,6 +24,6 @@ export const deleteInvite = async (id: string): Promise<void> => {
 }
 
 export const processInvite = async (inviteId: string, dto: ProcessInviteDto): Promise<InviteGetDetailDto> => {
-    const res = await api.post<InviteGetDetailDto>(buildPath([url, inviteId]), dto);
+    const res = await api.post<InviteGetDetailDto>(buildPath([url, inviteId, "process"]), dto);
     return res.data;
 }

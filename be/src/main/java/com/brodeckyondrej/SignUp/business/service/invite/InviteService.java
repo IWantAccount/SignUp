@@ -33,7 +33,7 @@ public class InviteService extends EntityService<Invite, InviteCreateDto, Invite
             throw new IllegalStateException("Opětovné použití pozvánky");
         }
 
-        UserCreateDto userCreateDto = new UserCreateDto(processInviteDto.getName(), processInviteDto.getEmail(), processInviteDto.getEmail(), invite.getRole());
+        UserCreateDto userCreateDto = new UserCreateDto(processInviteDto.getName(), processInviteDto.getPassword(), processInviteDto.getEmail(), invite.getRole());
         UserGetDetailDto createdUserDto = this.userService.create(userCreateDto);
         User createdUser = this.userRepository.findByIdOrThrow(createdUserDto.getId());
 
