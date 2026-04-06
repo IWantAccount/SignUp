@@ -4,6 +4,7 @@ import com.brodeckyondrej.SignUp.security.JWTFilter;
 import com.brodeckyondrej.SignUp.security.UserDetailServiceSpec;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -45,6 +46,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/file/url-req/**").permitAll()
+                        .requestMatchers("/invite/{id}/process").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/invite/{id}").permitAll()
                         .anyRequest().authenticated()
 
                 )

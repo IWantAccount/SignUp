@@ -27,6 +27,7 @@ import { Route as AppSubjectsCreateRouteImport } from './routes/app/subjects/cre
 import { Route as AppSignsCreateRouteImport } from './routes/app/signs/create'
 import { Route as AppSignComponentsCreateRouteImport } from './routes/app/sign-components/create'
 import { Route as AppPrivateCollectionsCreateRouteImport } from './routes/app/private-collections/create'
+import { Route as AppInviteCreateRouteImport } from './routes/app/invite/create'
 import { Route as AppClassroomsCreateRouteImport } from './routes/app/classrooms/create'
 import { Route as AppCategoriesCreateRouteImport } from './routes/app/categories/create'
 import { Route as AppUsersUserIdIndexRouteImport } from './routes/app/users/$userId/index'
@@ -42,6 +43,7 @@ import { Route as AppSignsSignIdReplaceVideoRouteImport } from './routes/app/sig
 import { Route as AppSignsSignIdEditRouteImport } from './routes/app/signs/$signId/edit'
 import { Route as AppSignComponentsComponentIdEditRouteImport } from './routes/app/sign-components/$componentId/edit'
 import { Route as AppPrivateCollectionsCollectionIdEditRouteImport } from './routes/app/private-collections/$collectionId/edit'
+import { Route as AppInviteInviteIdProcessRouteImport } from './routes/app/invite/$inviteId/process'
 import { Route as AppClassroomsClassroomIdEditRouteImport } from './routes/app/classrooms/$classroomId/edit'
 import { Route as AppCategoriesCategoryIdEditRouteImport } from './routes/app/categories/$categoryId/edit'
 
@@ -137,6 +139,11 @@ const AppPrivateCollectionsCreateRoute =
     path: '/private-collections/create',
     getParentRoute: () => AppRouteRoute,
   } as any)
+const AppInviteCreateRoute = AppInviteCreateRouteImport.update({
+  id: '/invite/create',
+  path: '/invite/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppClassroomsCreateRoute = AppClassroomsCreateRouteImport.update({
   id: '/classrooms/create',
   path: '/classrooms/create',
@@ -221,6 +228,12 @@ const AppPrivateCollectionsCollectionIdEditRoute =
     path: '/private-collections/$collectionId/edit',
     getParentRoute: () => AppRouteRoute,
   } as any)
+const AppInviteInviteIdProcessRoute =
+  AppInviteInviteIdProcessRouteImport.update({
+    id: '/invite/$inviteId/process',
+    path: '/invite/$inviteId/process',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 const AppClassroomsClassroomIdEditRoute =
   AppClassroomsClassroomIdEditRouteImport.update({
     id: '/classrooms/$classroomId/edit',
@@ -243,6 +256,7 @@ export interface FileRoutesByFullPath {
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
+  '/app/invite/create': typeof AppInviteCreateRoute
   '/app/private-collections/create': typeof AppPrivateCollectionsCreateRoute
   '/app/sign-components/create': typeof AppSignComponentsCreateRoute
   '/app/signs/create': typeof AppSignsCreateRoute
@@ -257,6 +271,7 @@ export interface FileRoutesByFullPath {
   '/app/users': typeof AppUsersIndexRoute
   '/app/categories/$categoryId/edit': typeof AppCategoriesCategoryIdEditRoute
   '/app/classrooms/$classroomId/edit': typeof AppClassroomsClassroomIdEditRoute
+  '/app/invite/$inviteId/process': typeof AppInviteInviteIdProcessRoute
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
@@ -280,6 +295,7 @@ export interface FileRoutesByTo {
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
+  '/app/invite/create': typeof AppInviteCreateRoute
   '/app/private-collections/create': typeof AppPrivateCollectionsCreateRoute
   '/app/sign-components/create': typeof AppSignComponentsCreateRoute
   '/app/signs/create': typeof AppSignsCreateRoute
@@ -294,6 +310,7 @@ export interface FileRoutesByTo {
   '/app/users': typeof AppUsersIndexRoute
   '/app/categories/$categoryId/edit': typeof AppCategoriesCategoryIdEditRoute
   '/app/classrooms/$classroomId/edit': typeof AppClassroomsClassroomIdEditRoute
+  '/app/invite/$inviteId/process': typeof AppInviteInviteIdProcessRoute
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
@@ -318,6 +335,7 @@ export interface FileRoutesById {
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
+  '/app/invite/create': typeof AppInviteCreateRoute
   '/app/private-collections/create': typeof AppPrivateCollectionsCreateRoute
   '/app/sign-components/create': typeof AppSignComponentsCreateRoute
   '/app/signs/create': typeof AppSignsCreateRoute
@@ -332,6 +350,7 @@ export interface FileRoutesById {
   '/app/users/': typeof AppUsersIndexRoute
   '/app/categories/$categoryId/edit': typeof AppCategoriesCategoryIdEditRoute
   '/app/classrooms/$classroomId/edit': typeof AppClassroomsClassroomIdEditRoute
+  '/app/invite/$inviteId/process': typeof AppInviteInviteIdProcessRoute
   '/app/private-collections/$collectionId/edit': typeof AppPrivateCollectionsCollectionIdEditRoute
   '/app/sign-components/$componentId/edit': typeof AppSignComponentsComponentIdEditRoute
   '/app/signs/$signId/edit': typeof AppSignsSignIdEditRoute
@@ -357,6 +376,7 @@ export interface FileRouteTypes {
     | '/app/ondra-je-frajer'
     | '/app/categories/create'
     | '/app/classrooms/create'
+    | '/app/invite/create'
     | '/app/private-collections/create'
     | '/app/sign-components/create'
     | '/app/signs/create'
@@ -371,6 +391,7 @@ export interface FileRouteTypes {
     | '/app/users'
     | '/app/categories/$categoryId/edit'
     | '/app/classrooms/$classroomId/edit'
+    | '/app/invite/$inviteId/process'
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
@@ -394,6 +415,7 @@ export interface FileRouteTypes {
     | '/app/ondra-je-frajer'
     | '/app/categories/create'
     | '/app/classrooms/create'
+    | '/app/invite/create'
     | '/app/private-collections/create'
     | '/app/sign-components/create'
     | '/app/signs/create'
@@ -408,6 +430,7 @@ export interface FileRouteTypes {
     | '/app/users'
     | '/app/categories/$categoryId/edit'
     | '/app/classrooms/$classroomId/edit'
+    | '/app/invite/$inviteId/process'
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
@@ -431,6 +454,7 @@ export interface FileRouteTypes {
     | '/app/ondra-je-frajer'
     | '/app/categories/create'
     | '/app/classrooms/create'
+    | '/app/invite/create'
     | '/app/private-collections/create'
     | '/app/sign-components/create'
     | '/app/signs/create'
@@ -445,6 +469,7 @@ export interface FileRouteTypes {
     | '/app/users/'
     | '/app/categories/$categoryId/edit'
     | '/app/classrooms/$classroomId/edit'
+    | '/app/invite/$inviteId/process'
     | '/app/private-collections/$collectionId/edit'
     | '/app/sign-components/$componentId/edit'
     | '/app/signs/$signId/edit'
@@ -594,6 +619,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPrivateCollectionsCreateRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/invite/create': {
+      id: '/app/invite/create'
+      path: '/invite/create'
+      fullPath: '/app/invite/create'
+      preLoaderRoute: typeof AppInviteCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/classrooms/create': {
       id: '/app/classrooms/create'
       path: '/classrooms/create'
@@ -699,6 +731,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppPrivateCollectionsCollectionIdEditRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/invite/$inviteId/process': {
+      id: '/app/invite/$inviteId/process'
+      path: '/invite/$inviteId/process'
+      fullPath: '/app/invite/$inviteId/process'
+      preLoaderRoute: typeof AppInviteInviteIdProcessRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/classrooms/$classroomId/edit': {
       id: '/app/classrooms/$classroomId/edit'
       path: '/classrooms/$classroomId/edit'
@@ -722,6 +761,7 @@ interface AppRouteRouteChildren {
   AppOndraJeFrajerRoute: typeof AppOndraJeFrajerRoute
   AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
   AppClassroomsCreateRoute: typeof AppClassroomsCreateRoute
+  AppInviteCreateRoute: typeof AppInviteCreateRoute
   AppPrivateCollectionsCreateRoute: typeof AppPrivateCollectionsCreateRoute
   AppSignComponentsCreateRoute: typeof AppSignComponentsCreateRoute
   AppSignsCreateRoute: typeof AppSignsCreateRoute
@@ -736,6 +776,7 @@ interface AppRouteRouteChildren {
   AppUsersIndexRoute: typeof AppUsersIndexRoute
   AppCategoriesCategoryIdEditRoute: typeof AppCategoriesCategoryIdEditRoute
   AppClassroomsClassroomIdEditRoute: typeof AppClassroomsClassroomIdEditRoute
+  AppInviteInviteIdProcessRoute: typeof AppInviteInviteIdProcessRoute
   AppPrivateCollectionsCollectionIdEditRoute: typeof AppPrivateCollectionsCollectionIdEditRoute
   AppSignComponentsComponentIdEditRoute: typeof AppSignComponentsComponentIdEditRoute
   AppSignsSignIdEditRoute: typeof AppSignsSignIdEditRoute
@@ -757,6 +798,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppOndraJeFrajerRoute: AppOndraJeFrajerRoute,
   AppCategoriesCreateRoute: AppCategoriesCreateRoute,
   AppClassroomsCreateRoute: AppClassroomsCreateRoute,
+  AppInviteCreateRoute: AppInviteCreateRoute,
   AppPrivateCollectionsCreateRoute: AppPrivateCollectionsCreateRoute,
   AppSignComponentsCreateRoute: AppSignComponentsCreateRoute,
   AppSignsCreateRoute: AppSignsCreateRoute,
@@ -771,6 +813,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppUsersIndexRoute: AppUsersIndexRoute,
   AppCategoriesCategoryIdEditRoute: AppCategoriesCategoryIdEditRoute,
   AppClassroomsClassroomIdEditRoute: AppClassroomsClassroomIdEditRoute,
+  AppInviteInviteIdProcessRoute: AppInviteInviteIdProcessRoute,
   AppPrivateCollectionsCollectionIdEditRoute:
     AppPrivateCollectionsCollectionIdEditRoute,
   AppSignComponentsComponentIdEditRoute: AppSignComponentsComponentIdEditRoute,
