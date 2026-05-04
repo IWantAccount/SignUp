@@ -61,50 +61,234 @@ function RouteComponent() {
                     }
                 </Box>
             </Stack>
-            <Stack spacing={2} width="30%">
-                <Card sx={{width: 300}}>
-                    <CardActionArea sx={{padding: 4}} onClick={() => navigate({
-                        to: "/app/users"
-                    })}>
-                        <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                            <GroupIcon fontSize="large"/>
-                            <Typography variant="h4">Uživatelů: {homeInfoQuery.data.userCount}</Typography>
+            <Box
+                sx={{
+                    width: {xs: "100%", md: "30%"},
+                    display: "grid",
+                    gridTemplateColumns: {
+                        xs: "1fr",
+                        sm: "repeat(2, minmax(0, 1fr))",
+                        md: "1fr",
+                    },
+                    gap: 2,
+                }}
+            >
+                <Card
+                    sx={{
+                        width: {xs: "100%", sm: 260},
+                        borderRadius: 4,
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: 2,
+                        transition: "transform 150ms ease, box-shadow 150ms ease",
+                        "&:hover": {
+                            transform: "translateY(-2px)",
+                            boxShadow: 5,
+                        },
+                    }}
+                >
+                    <CardActionArea
+                        sx={{
+                            p: {xs: 2.5, sm: 3},
+                            minHeight: 120,
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                        onClick={() => navigate({
+                            to: "/app/users"
+                        })}
+                    >
+                        <Box sx={{display: "flex", alignItems: "center", gap: 2, width: "100%"}}>
+                            <Box
+                                sx={{
+                                    width: 52,
+                                    height: 52,
+                                    borderRadius: 3,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    bgcolor: "primary.main",
+                                    color: "primary.contrastText",
+                                    flexShrink: 0,
+                                }}
+                            >
+                                <GroupIcon fontSize="large"/>
+                            </Box>
+
+                            <Box sx={{minWidth: 0}}>
+                                <Typography variant="body2" color="text.secondary">
+                                    Uživatelů
+                                </Typography>
+                                <Typography variant="h4" fontWeight={700} lineHeight={1.1}>
+                                    {homeInfoQuery.data.userCount}
+                                </Typography>
+                            </Box>
                         </Box>
                     </CardActionArea>
                 </Card>
 
-                <Card sx={{width: 300}}>
-                    <CardActionArea sx={{padding: 4}} onClick={() => navigate({
-                        to: "/app/signs"
-                    })}>
-                        <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                            <SignLanguageIcon fontSize="large"/>
-                            <Typography variant="h4">Znaků: {homeInfoQuery.data.signCount}</Typography>
-                        </Box>
-                    </CardActionArea>
-                </Card>
-                <Card sx={{width: 300}}>
-                    <CardActionArea sx={{padding: 4}} onClick={() => navigate({
-                        to: "/app/subjects"
-                    })}>
-                        <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                            <SchoolIcon fontSize="large"/>
-                            <Typography variant="h4">Předmětů: {homeInfoQuery.data.subjectCount}</Typography>
+                <Card
+                    sx={{
+                        width: {xs: "100%", sm: 260},
+                        borderRadius: 4,
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: 2,
+                        transition: "transform 150ms ease, box-shadow 150ms ease",
+                        "&:hover": {
+                            transform: "translateY(-2px)",
+                            boxShadow: 5,
+                        },
+                    }}
+                >
+                    <CardActionArea
+                        sx={{
+                            p: {xs: 2.5, sm: 3},
+                            minHeight: 120,
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                        onClick={() => navigate({
+                            to: "/app/signs"
+                        })}
+                    >
+                        <Box sx={{display: "flex", alignItems: "center", gap: 2, width: "100%"}}>
+                            <Box
+                                sx={{
+                                    width: 52,
+                                    height: 52,
+                                    borderRadius: 3,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    bgcolor: "primary.main",
+                                    color: "primary.contrastText",
+                                    flexShrink: 0,
+                                }}
+                            >
+                                <SignLanguageIcon fontSize="large"/>
+                            </Box>
+
+                            <Box sx={{minWidth: 0}}>
+                                <Typography variant="body2" color="text.secondary">
+                                    Znaků
+                                </Typography>
+                                <Typography variant="h4" fontWeight={700} lineHeight={1.1}>
+                                    {homeInfoQuery.data.signCount}
+                                </Typography>
+                            </Box>
                         </Box>
                     </CardActionArea>
                 </Card>
 
-                <Card sx={{width: 300}}>
-                    <CardActionArea sx={{padding: 4}} onClick={() => navigate({
-                        to: "/app/categories"
-                    })}>
-                        <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between"}}>
-                            <CategoryIcon fontSize="large"/>
-                            <Typography variant="h4">Kategorií: {homeInfoQuery.data.categoryCount}</Typography>
+                <Card
+                    sx={{
+                        width: {xs: "100%", sm: 260},
+                        borderRadius: 4,
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: 2,
+                        transition: "transform 150ms ease, box-shadow 150ms ease",
+                        "&:hover": {
+                            transform: "translateY(-2px)",
+                            boxShadow: 5,
+                        },
+                    }}
+                >
+                    <CardActionArea
+                        sx={{
+                            p: {xs: 2.5, sm: 3},
+                            minHeight: 120,
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                        onClick={() => navigate({
+                            to: "/app/subjects"
+                        })}
+                    >
+                        <Box sx={{display: "flex", alignItems: "center", gap: 2, width: "100%"}}>
+                            <Box
+                                sx={{
+                                    width: 52,
+                                    height: 52,
+                                    borderRadius: 3,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    bgcolor: "primary.main",
+                                    color: "primary.contrastText",
+                                    flexShrink: 0,
+                                }}
+                            >
+                                <SchoolIcon fontSize="large"/>
+                            </Box>
+
+                            <Box sx={{minWidth: 0}}>
+                                <Typography variant="body2" color="text.secondary">
+                                    Předmětů
+                                </Typography>
+                                <Typography variant="h4" fontWeight={700} lineHeight={1.1}>
+                                    {homeInfoQuery.data.subjectCount}
+                                </Typography>
+                            </Box>
                         </Box>
                     </CardActionArea>
                 </Card>
-            </Stack>
+
+                <Card
+                    sx={{
+                        width: {xs: "100%", sm: 260},
+                        borderRadius: 4,
+                        border: "1px solid",
+                        borderColor: "divider",
+                        boxShadow: 2,
+                        transition: "transform 150ms ease, box-shadow 150ms ease",
+                        "&:hover": {
+                            transform: "translateY(-2px)",
+                            boxShadow: 5,
+                        },
+                    }}
+                >
+                    <CardActionArea
+                        sx={{
+                            p: {xs: 2.5, sm: 3},
+                            minHeight: 120,
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                        onClick={() => navigate({
+                            to: "/app/categories"
+                        })}
+                    >
+                        <Box sx={{display: "flex", alignItems: "center", gap: 2, width: "100%"}}>
+                            <Box
+                                sx={{
+                                    width: 52,
+                                    height: 52,
+                                    borderRadius: 3,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    bgcolor: "primary.main",
+                                    color: "primary.contrastText",
+                                    flexShrink: 0,
+                                }}
+                            >
+                                <CategoryIcon fontSize="large"/>
+                            </Box>
+
+                            <Box sx={{minWidth: 0}}>
+                                <Typography variant="body2" color="text.secondary">
+                                    Kategorií
+                                </Typography>
+                                <Typography variant="h4" fontWeight={700} lineHeight={1.1}>
+                                    {homeInfoQuery.data.categoryCount}
+                                </Typography>
+                            </Box>
+                        </Box>
+                    </CardActionArea>
+                </Card>
+            </Box>
         </Box>
     )
 }

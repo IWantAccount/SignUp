@@ -6,7 +6,7 @@ import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import {ProcessInviteForm} from "@/components/forms/process-invite-form.tsx";
 import {userRoleToCzech} from "@/domain/user-role-enum.ts";
 
-export const Route = createFileRoute('/app/invite/$inviteId/process')({
+export const Route = createFileRoute('/invite/$inviteId/process')({
   component: RouteComponent,
 })
 
