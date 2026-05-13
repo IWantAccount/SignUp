@@ -9,16 +9,14 @@ import type {StudentClassroomDto, UserGetListDto} from "@/api/user/user-dtos.ts"
 import {TopBarItemsGrid} from "@/components/grids/top-bar-items-grid.tsx";
 import {SearchableCardSectionTopBarActions} from "@/components/bars/searchable-card-section-top-bar-actions.tsx";
 import {deleteClassroom} from "@/api/classroom/classroom-api.ts";
-import {Box, Button, CircularProgress, IconButton} from '@mui/material';
+import {Box, Button} from '@mui/material';
 import {useDebounce} from "use-debounce";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import {AddStudentToClassRoomDialog} from "@/components/dialogs/add-student-to-classroom-dialog.tsx";
 import {MultipleCardSkeleton} from "@/components/util/multiple-card-skeleton.tsx";
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import {AuthService} from "@/api/util/auth-service.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
-import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import {CustomSpeedDial} from "@/components/util/custom-speed-dial.tsx";
 
 export const Route = createFileRoute('/app/classrooms/$classroomId/')({
@@ -36,22 +34,6 @@ function RouteComponent() {
             const dto: StudentClassroomDto = {studentId: AuthService.getUserId(), classroomId}
             const res = await api.post<boolean>(buildPath(["classroom", "student-present"]), dto);
             return res.data;
-        }
-    })
-    const removeYourselfMutation = useMutation({
-        mutationKey: [userQueryKey, classroomQueryKey, AuthService.getUserId(), "present"],
-        mutationFn: async () => {
-            const dto: StudentClassroomDto = {studentId: AuthService.getUserId(), classroomId}
-            await api.post(buildPath(["user", "remove-classroom"]), dto);
-        },
-        onSuccess: async () => {
-            await Promise.all([
-                queryClient.invalidateQueries({queryKey: [classroomQueryKey]}),
-                queryClient.invalidateQueries({queryKey: [userQueryKey]}),
-                navigate({
-                    to: "/app/home"
-                })
-            ])
         }
     })
     const [searchItem, setSearchItem] = useState<string>("");
@@ -105,20 +87,7 @@ function RouteComponent() {
                                                                     deleteMutation.mutate();
                                                                 }
                                                                 : undefined
-                                                        }
-                                                        extraElement={
-                                                            AuthService.isStudent() && isPresentQuery.data ? (
-                                                            removeYourselfMutation.isPending ? (
-                                                                    <CircularProgress color="secondary"/>
-                                                                ) :
-                                                                (
-                                                                    <ZoomTooltip title={"Odejít ze třídy"}>
-                                                                        <IconButton onClick={() => removeYourselfMutation.mutate()}>
-                                                                            <DirectionsRunIcon/>
-                                                                        </IconButton>
-                                                                    </ZoomTooltip>
-                                                                )
-                                                        ): undefined}/>
+                                                        }/>
                 </Box>
                 {userQuery.isPending ? <MultipleCardSkeleton/> : <UserGrid list={users}/>}
                 <Button variant="outlined" disabled={userQuery.isPending || !userQuery.hasNextPage} onClick={() => {

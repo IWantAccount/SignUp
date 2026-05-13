@@ -8,63 +8,69 @@ import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import {AuthService} from "@/api/util/auth-service.ts";
+import {useState} from "react";
+import {Confirm} from "@/components/util/confirm.tsx";
 
 
 export function SignComponentCard(props: SignComponentGetListDto) {
     const queryClient = useQueryClient();
     const mutation = useMutation(createDeleteSignComponentOptions(props.id, queryClient));
     const navigate = useNavigate();
+    const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
 
     return (
-        <Card sx={{
-            minWidth: 200,
-        }}>
-            {
-                mutation.isPending ? (
-                        <CardContent>
-                            <Skeleton variant="text" width="80%"/>
-                            <Skeleton variant="rectangular" width="80%"/>
-                        </CardContent>
-                    ) :
-                    (
-                        <Stack>
+        <>
+            <Card sx={{
+                width: 200,
+            }}>
+                {
+                    mutation.isPending ? (
                             <CardContent>
-                                <Stack>
-                                    <Typography variant="body2">Popis: {props.textDescription}</Typography>
-                                    <Typography
-                                        variant="body2">Druh: {componentTypeToCzech(props.type)}</Typography>
-                                </Stack>
+                                <Skeleton variant="text" width="80%"/>
+                                <Skeleton variant="rectangular" width="80%"/>
                             </CardContent>
-                            <CardActions sx={{justifyContent: "space-between"}}>
-                                {
-                                    AuthService.atLeastTeacher() && (
-                                        <ZoomTooltip title={"upravit"}>
-                                            <IconButton
-                                                onClick={() => {
-                                                    navigate({to: `/app/sign-components/${props.id}/edit/`});
-                                                }}>
-                                                <EditIcon/>
-                                            </IconButton>
+                        ) :
+                        (
+                            <Stack>
+                                <CardContent>
+                                    <Stack>
+                                        <ZoomTooltip title={props.textDescription}>
+                                            <Typography variant="body2" noWrap sx={{width: "100%"}}>Popis: {props.textDescription}</Typography>
                                         </ZoomTooltip>
-                                    )
-                                }
+                                        <Typography
+                                            variant="body2">Druh: {componentTypeToCzech(props.type)}</Typography>
+                                    </Stack>
+                                </CardContent>
+                                <CardActions sx={{justifyContent: "space-between"}}>
+                                    {
+                                        AuthService.atLeastTeacher() && (
+                                            <ZoomTooltip title={"upravit"}>
+                                                <IconButton
+                                                    onClick={() => {
+                                                        navigate({to: `/app/sign-components/${props.id}/edit/`});
+                                                    }}>
+                                                    <EditIcon/>
+                                                </IconButton>
+                                            </ZoomTooltip>
+                                        )
+                                    }
 
-                                {
-                                    AuthService.atLeastTeacher() && (
-                                        <ZoomTooltip title={"smazat"}>
-                                            <IconButton
-                                                onClick={() => mutation.mutate(props.id)}>
-                                                <ClearIcon/>
-                                            </IconButton>
-                                        </ZoomTooltip>
-                                    )
-                                }
-                            </CardActions>
-                        </Stack>
-
-                    )
-            }
-
-        </Card>
+                                    {
+                                        AuthService.atLeastTeacher() && (
+                                            <ZoomTooltip title={"smazat"}>
+                                                <IconButton
+                                                    onClick={() => setConfirmOpen(true)}>
+                                                    <ClearIcon color={"error"}/>
+                                                </IconButton>
+                                            </ZoomTooltip>
+                                        )
+                                    }
+                                </CardActions>
+                            </Stack>
+                        )
+                }
+            </Card>
+            <Confirm open={confirmOpen} onClose={() => setConfirmOpen(false)} onConfirm={() => mutation.mutate(props.id)}/>
+        </>
     )
 }

@@ -10,7 +10,7 @@ import {createCategoryInfiniteSearch} from "@/api/category/category-query-option
 import {useState} from "react";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import {Box, CircularProgress, IconButton, Tab, Tabs} from "@mui/material";
+import {Box, Tab, Tabs} from "@mui/material";
 import {AddClassroomToSubjectDialog} from "@/components/dialogs/add-classroom-to-subject-dialog.tsx";
 import {AddStudentToSubjectDialog} from "@/components/dialogs/add-student-to-subject-dialog.tsx";
 import {
@@ -23,8 +23,6 @@ import {AuthService} from "@/api/util/auth-service.ts";
 import api from "@/api/universal/axios.ts";
 import {buildPath} from "@/api/util/build-path.ts";
 import type {SubjectStudentDto} from "@/api/subject/subject-dtos.ts";
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
-import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import CategoryIcon from '@mui/icons-material/Category';
 import {CustomSpeedDial} from "@/components/util/custom-speed-dial.tsx";
 
@@ -43,22 +41,6 @@ function RouteComponent() {
             const dto: SubjectStudentDto = {studentId: AuthService.getUserId(), subjectId}
             const res = await api.post<boolean>(buildPath(["subject", "student-present"]), dto);
             return res.data;
-        }
-    })
-    const removeYourselfMutation = useMutation({
-        mutationKey: [userQueryKey, subjectQueryKey, AuthService.getUserId(), "present"],
-        mutationFn: async () => {
-            const dto: SubjectStudentDto = {studentId: AuthService.getUserId(), subjectId}
-            await api.post(buildPath(["subject", "remove-student"]), dto);
-        },
-        onSuccess: async () => {
-            await Promise.all([
-                queryClient.invalidateQueries({queryKey: [subjectQueryKey]}),
-                queryClient.invalidateQueries({queryKey: [userQueryKey]}),
-                navigate({
-                    to: "/app/home"
-                })
-            ])
         }
     })
     const [categoriesSearch, setCategoriesSearch] = useState<string>("");
@@ -136,18 +118,6 @@ function RouteComponent() {
                                         params: {subjectId},
                                     })
                             } : undefined
-                        }
-                        extraElement={
-                            AuthService.isStudent() && isPresentQuery.data ?
-                                (removeYourselfMutation.isPending ? (
-                                    <CircularProgress color="secondary"/>
-                                ) : (
-                                    <ZoomTooltip title={"Odejít z předmětu"}>
-                                        <IconButton onClick={() => removeYourselfMutation.mutate()}>
-                                            <DirectionsRunIcon/>
-                                        </IconButton>
-                                    </ZoomTooltip>
-                                )) : undefined
                         }/>
                 </Box>
                 <Tabs

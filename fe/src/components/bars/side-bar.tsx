@@ -28,7 +28,7 @@ export function SideBar(props: Props) {
             color: "primary",
             list: [
                 {text: "Znaky", Icon: SignLanguageIcon, href: "/app/signs"},
-                {text: "Předměty", Icon: SchoolIcon, href: "/app/subjects"},
+                {text: AuthService.isStudent() ? "Moje předměty" : "Předměty", Icon: SchoolIcon, href: "/app/subjects"},
                 {text: "Kategorie", Icon: CategoryIcon, href: "/app/categories"},
                 {text: "Třídy", Icon: GroupIcon, href: "/app/classrooms"},
                 {text: "Komponenty znaku", Icon: ExtensionIcon, href: "/app/sign-components"},

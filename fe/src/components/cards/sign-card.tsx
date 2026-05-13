@@ -22,6 +22,7 @@ import {AddSignToCollectionDialog} from "@/components/dialogs/add-sign-to-collec
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import {AuthService} from "@/api/util/auth-service.ts";
 import EditIcon from "@mui/icons-material/Edit";
+import {Confirm} from "@/components/util/confirm.tsx";
 
 
 export function SignCard(props: SignGetListDto) {
@@ -30,6 +31,7 @@ export function SignCard(props: SignGetListDto) {
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
     const mutation = useMutation(createDeleteSignOptions(props.id, queryClient))
+    const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
 
     return mutation.isPending ? <CardSkeleton/> : (
         <>
@@ -88,8 +90,8 @@ export function SignCard(props: SignGetListDto) {
                         {
                             AuthService.atLeastTeacher() && (
                                 <ZoomTooltip title={"smazat"}>
-                                    <IconButton onClick={() => mutation.mutate()}>
-                                        <ClearIcon/>
+                                    <IconButton onClick={() => setConfirmOpen(true)}>
+                                        <ClearIcon color={"error"}/>
                                     </IconButton>
                                 </ZoomTooltip>
                             )
@@ -98,6 +100,7 @@ export function SignCard(props: SignGetListDto) {
                 </CardActionArea>
 
             </Card>
+            <Confirm open={confirmOpen} onClose={() => setConfirmOpen(false)} onConfirm={() => mutation.mutate()}/>
         </>
     )
 }
