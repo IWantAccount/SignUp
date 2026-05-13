@@ -17,7 +17,7 @@ export function SignComponentCard(props: SignComponentGetListDto) {
 
     return (
         <Card sx={{
-            minWidth: 200,
+            width: 200,
         }}>
             {
                 mutation.isPending ? (
@@ -30,7 +30,9 @@ export function SignComponentCard(props: SignComponentGetListDto) {
                         <Stack>
                             <CardContent>
                                 <Stack>
-                                    <Typography variant="body2">Popis: {props.textDescription}</Typography>
+                                    <ZoomTooltip title={props.textDescription}>
+                                        <Typography variant="body2" noWrap sx={{width: "100%"}}>Popis: {props.textDescription}</Typography>
+                                    </ZoomTooltip>
                                     <Typography
                                         variant="body2">Druh: {componentTypeToCzech(props.type)}</Typography>
                                 </Stack>
@@ -54,7 +56,7 @@ export function SignComponentCard(props: SignComponentGetListDto) {
                                         <ZoomTooltip title={"smazat"}>
                                             <IconButton
                                                 onClick={() => mutation.mutate(props.id)}>
-                                                <ClearIcon/>
+                                                <ClearIcon color={"error"}/>
                                             </IconButton>
                                         </ZoomTooltip>
                                     )

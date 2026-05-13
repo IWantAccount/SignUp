@@ -1,4 +1,4 @@
-import {Button, Card, CardActions, CardContent, IconButton, Skeleton, Stack, Typography} from "@mui/material";
+import {Button, Card, CardActions, CardContent, IconButton, Skeleton, Stack} from "@mui/material";
 import {Link, useNavigate} from "@tanstack/react-router";
 import type {UserGetListDto} from "@/api/user/user-dtos.ts";
 import EditIcon from "@mui/icons-material/Edit";
@@ -8,6 +8,7 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import {AuthService} from "@/api/util/auth-service.ts";
 import {StringAvatar} from "@/components/util/string-avatar.tsx";
+import {TypographyNowrapTooltip} from "@/components/util/typography-nowrap-tooltip.tsx";
 
 export function UserCard({id, name, email, classroomName}: UserGetListDto){
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ export function UserCard({id, name, email, classroomName}: UserGetListDto){
     const mutation = useMutation(createDeleteUserOptions(id, queryClient));
     return (
         <Card sx={{
-            minWidth: 200,
+            width: 220,
             position: "relative",
         }}>
             {
@@ -34,9 +35,9 @@ export function UserCard({id, name, email, classroomName}: UserGetListDto){
                         <CardContent>
                             <Stack spacing={2} alignItems="center">
                                 <StringAvatar name={name}/>
-                                <Typography variant="subtitle1">{name}</Typography>
-                                <Typography variant="body2">{email}</Typography>
-                                <Typography variant="body2">{classroomName}</Typography>
+                                <TypographyNowrapTooltip variant="subtitle1" text={name}></TypographyNowrapTooltip>
+                                <TypographyNowrapTooltip variant="body2" text={email}></TypographyNowrapTooltip>
+                                <TypographyNowrapTooltip variant="body2" text={classroomName}></TypographyNowrapTooltip>
                             </Stack>
                             <CardActions sx={{justifyContent: "space-around"}}>
                                 <Button component={Link} to={`/app/users/${id}`}>Detail</Button>
@@ -58,7 +59,7 @@ export function UserCard({id, name, email, classroomName}: UserGetListDto){
                                         <ZoomTooltip title={"smazat"}>
                                             <IconButton
                                                 onClick={() => mutation.mutate(id)}>
-                                                <ClearIcon/>
+                                                <ClearIcon color={"error"}/>
                                             </IconButton>
                                         </ZoomTooltip>
                                     )

@@ -1,4 +1,4 @@
-import {Button, Card, CardActions, CardContent, IconButton, Skeleton, Typography} from "@mui/material";
+import {Button, Card, CardActions, CardContent, IconButton, Skeleton} from "@mui/material";
 import {Link, useNavigate} from "@tanstack/react-router";
 import type {PrivateCollectionGetListDto} from "@/api/private-collection/private-collection-dtos.ts";
 import EditIcon from "@mui/icons-material/Edit";
@@ -6,6 +6,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createDeleteCollectionByIdOptions} from "@/api/private-collection/private-collection-query-options.ts";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
+import {TypographyNowrapTooltip} from "@/components/util/typography-nowrap-tooltip.tsx";
 
 export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
     const navigate = useNavigate();
@@ -13,7 +14,7 @@ export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
     const mutation = useMutation(createDeleteCollectionByIdOptions(dto.id, queryClient))
 
     return (
-        <Card sx={{minWidth: 200, minHeight: 100}}>
+        <Card sx={{width: 200, minHeight: 100}}>
             {mutation.isPending ? (
                 <CardContent>
                     <Skeleton variant="text" width="80%"/>
@@ -22,7 +23,7 @@ export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
             ) : (
                 <>
                     <CardContent>
-                        <Typography variant="h5">{dto.name}</Typography>
+                        <TypographyNowrapTooltip text={dto.name} variant={"h6"}/>
                     </CardContent>
                     <CardActions sx={{justifyContent: "space-around"}}>
                         <Button component={Link} to={`/app/private-collections/${dto.id}/`}>
@@ -37,7 +38,7 @@ export function PrivateCollectionCard(dto: PrivateCollectionGetListDto) {
 
                         <ZoomTooltip title={"smazat"}>
                             <IconButton onClick={() => mutation.mutate(dto.id)}>
-                                <ClearIcon/>
+                                <ClearIcon color={"error"}/>
                             </IconButton>
                         </ZoomTooltip>
                     </CardActions>

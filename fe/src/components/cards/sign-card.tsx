@@ -89,7 +89,7 @@ export function SignCard(props: SignGetListDto) {
                             AuthService.atLeastTeacher() && (
                                 <ZoomTooltip title={"smazat"}>
                                     <IconButton onClick={() => mutation.mutate()}>
-                                        <ClearIcon/>
+                                        <ClearIcon color={"error"}/>
                                     </IconButton>
                                 </ZoomTooltip>
                             )
