@@ -7,6 +7,7 @@ import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
 import {AuthService} from "@/api/util/auth-service.ts";
+import {TypographyNowrapTooltip} from "@/components/util/typography-nowrap-tooltip.tsx";
 
 export function SubjectCard(props: SubjectGetListDto) {
     const queryClient = useQueryClient();
@@ -14,7 +15,11 @@ export function SubjectCard(props: SubjectGetListDto) {
 
     return (
         <Card sx={{
-            minWidth: 200,
+            width: 220,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center"
+
         }}>
             {
                 deleteMutation.isPending ? (
@@ -30,12 +35,12 @@ export function SubjectCard(props: SubjectGetListDto) {
                         <>
                             <CardContent>
                                 <Stack spacing={2} alignItems="center">
-                                    <Typography variant="h6">{props.name}</Typography>
+                                    <TypographyNowrapTooltip text={props.name} variant={"h6"}/>
                                     <Typography variant="body2">Počet kategorií: {props.numberOfCategories}</Typography>
                                     <Typography variant="body2">Počet studentů: {props.numberOfStudents}</Typography>
                                 </Stack>
                             </CardContent>
-                            <CardActions>
+                            <CardActions sx={{justifyContent: "center", px: 0}}>
                                 <Button size="small"
                                         component={Link} to={`/app/subjects/${props.id}`}
                                 >Detail</Button>
@@ -53,7 +58,7 @@ export function SubjectCard(props: SubjectGetListDto) {
                                         <ZoomTooltip title={"smazat"}>
                                             <IconButton
                                                 onClick={() => deleteMutation.mutate()}>
-                                                <ClearIcon/>
+                                                <ClearIcon color={"error"}/>
                                             </IconButton>
                                         </ZoomTooltip>
                                     )
