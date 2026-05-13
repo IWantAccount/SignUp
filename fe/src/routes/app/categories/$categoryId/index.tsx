@@ -17,6 +17,7 @@ import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
 import SignLanguageIcon from '@mui/icons-material/SignLanguage';
 import {AuthService} from "@/api/util/auth-service.ts";
 import {CustomSpeedDial} from "@/components/util/custom-speed-dial.tsx";
+import {Button} from "@mui/material";
 
 export const Route = createFileRoute('/app/categories/$categoryId/')({
     component: RouteComponent,
@@ -83,6 +84,17 @@ function RouteComponent() {
                     {AuthService.atLeastTeacher() && <CategorySpeedDial/>}
                 </>
             )}
+            <Button
+                variant="outlined"
+                onClick={() => signQuery.fetchNextPage()}
+                disabled={!signQuery.hasNextPage || signQuery.isFetchingNextPage}
+                sx={{maxWidth: 200}}>
+                {
+                    !signQuery.hasNextPage ?
+                        "Vše načteno" :
+                        signQuery.isFetchingNextPage ? "Načítání..." : "Načíst další"
+                }
+            </Button>
         </TopBarItemsGrid>
     )
 }
