@@ -7,13 +7,14 @@ import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {createDeleteClassroomOptions} from "@/api/classroom/classroom-query-options.ts";
 import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import {AuthService} from "@/api/util/auth-service.ts";
+import {TypographyNowrapTooltip} from "@/components/util/typography-nowrap-tooltip.tsx";
 
 export function ClassroomCard(dto: ClassroomGetListDto) {
     const queryClient = useQueryClient();
     const mutation = useMutation(createDeleteClassroomOptions(dto.id, queryClient))
     return (
         <Card sx={{
-            minWidth: 200
+            width: 200
         }}>
             {
                 mutation.isPending ? (
@@ -32,7 +33,7 @@ export function ClassroomCard(dto: ClassroomGetListDto) {
                         <Stack>
                             <CardContent>
                                 <Stack>
-                                    <Typography variant="h6">{dto.name}</Typography>
+                                    <TypographyNowrapTooltip text={dto.name} variant={"h6"}/>
                                     <Typography variant="body2">Počet studentů: {dto.numberOfStudents}</Typography>
                                 </Stack>
                             </CardContent>
@@ -54,7 +55,7 @@ export function ClassroomCard(dto: ClassroomGetListDto) {
                                         <ZoomTooltip title={"smazat"}>
                                             <IconButton
                                                 onClick={() => mutation.mutate()}>
-                                                <ClearIcon/>
+                                                <ClearIcon color={"error"}/>
                                             </IconButton>
                                         </ZoomTooltip>
                                     )

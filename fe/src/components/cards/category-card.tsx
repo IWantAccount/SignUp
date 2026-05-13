@@ -7,6 +7,7 @@ import {ZoomTooltip} from "@/components/util/zoom-tooltip.tsx";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
 import {AuthService} from "@/api/util/auth-service.ts";
+import {TypographyNowrapTooltip} from "@/components/util/typography-nowrap-tooltip.tsx";
 
 export function CategoryCard(props: CategoryGetListDto) {
     const queryClient = useQueryClient();
@@ -14,7 +15,7 @@ export function CategoryCard(props: CategoryGetListDto) {
 
     return (
         <Card sx={{
-            minWidth: 200,
+            width: 220,
         }}>
             {
                 deleteMutation.isPending ? (
@@ -30,14 +31,17 @@ export function CategoryCard(props: CategoryGetListDto) {
                     <>
                         <CardContent>
                             <Stack spacing={2} alignItems="center">
-                                <Typography variant="h6">{props.name}</Typography>
-                                <Button variant="contained"
-                                        component={Link} to={`/app/subjects/${props.subjectNameId.id}/`}>
-                                    {props.subjectNameId.name}</Button>
+                                <TypographyNowrapTooltip text={props.name} variant={"h6"}/>
+                                <ZoomTooltip title={props.subjectNameId.name}>
+                                    <Button variant="contained"
+                                            sx={{whiteSpace: "hidden", width: "100%", textAlign: "center"}}
+                                            component={Link} to={`/app/subjects/${props.subjectNameId.id}/`}>
+                                        {props.subjectNameId.name}</Button>
+                                </ZoomTooltip>
                                 <Typography variant="body2">Počet znaků: {props.numberOfSigns}</Typography>
                             </Stack>
                         </CardContent>
-                        <CardActions>
+                        <CardActions sx={{justifyContent: "center", px: 0}}>
                             <Button size="small"
                                     component={Link} to={`/app/categories/${props.id}/`}
                             >Detail</Button>
@@ -55,7 +59,7 @@ export function CategoryCard(props: CategoryGetListDto) {
                                     <ZoomTooltip title={"smazat"}>
                                         <IconButton
                                             onClick={() => deleteMutation.mutate()}>
-                                            <ClearIcon/>
+                                            <ClearIcon color={"error"}/>
                                         </IconButton>
                                     </ZoomTooltip>
                                 )
