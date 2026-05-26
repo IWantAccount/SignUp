@@ -213,6 +213,15 @@ export function UpdateSignForm({signId, defaultDto}: Props)  {
                                             "Napiš překlad a potvrď Enterem."
                                         }
                                         error={!!fieldState.error}
+                                        slotProps={{
+                                            htmlInput: {
+                                                autoCorrect: "off",
+                                                autoComplete: "off",
+                                                autoCapitalize: "off",
+                                                spellCheck: false,
+                                                translate: "no"
+                                            }
+                                        }}
                                     />
 
                                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
