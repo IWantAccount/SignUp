@@ -170,15 +170,18 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
                         borderRadius: 2,
                     }}
                     >
-                        <Stack>
-
-                            <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
-                                Vysvětlení:
-                            </Typography>
-                            <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
-                                {sign.explanation}
-                            </Typography>
-                        </Stack>
+                        {
+                            sign.explanation && (
+                                <Stack>
+                                    <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                                        Vysvětlení:
+                                    </Typography>
+                                    <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                                        {sign.explanation}
+                                    </Typography>
+                                </Stack>
+                            )
+                        }
                     </Box>
                 </Grid>
             </Grid>
