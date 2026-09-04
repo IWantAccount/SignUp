@@ -2,7 +2,7 @@ import {createFileRoute, Link, useNavigate} from '@tanstack/react-router'
 import {useState} from "react";
 import {Box, Button, Chip, Grid, IconButton, Paper, Stack, Tab, Tabs, Typography} from "@mui/material";
 import {createGetSignByIdOptions} from "@/api/sign/sign-query-options.ts";
-import { useQuery } from '@tanstack/react-query';
+import {useQuery} from '@tanstack/react-query';
 import type {SignGetDetailDto} from "@/api/sign/sign-dtos.ts";
 import {BackdropLoading} from "@/components/util/backdrop-loading.tsx";
 import {signTypeToCzech} from "@/domain/sign-type.ts";
@@ -26,10 +26,9 @@ function RouteComponent() {
     const [dialogOpen, setDialogOpen] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    if(signQuery.isPending) return <BackdropLoading/>
-    if(signQuery.isError) return <></>;
+    if (signQuery.isPending) return <BackdropLoading/>
+    if (signQuery.isError) return <></>;
     const sign: SignGetDetailDto = signQuery.data;
-
 
 
     return (
@@ -53,7 +52,7 @@ function RouteComponent() {
                         <ZoomTooltip title={"upravit"}>
                             <IconButton onClick={() => {
                                 navigate({
-                                    to:`/app/signs/${signId}/edit`,
+                                    to: `/app/signs/${signId}/edit`,
                                 })
                             }}>
                                 <EditIcon/>
@@ -70,7 +69,7 @@ function RouteComponent() {
     )
 }
 
-function SpaceBetweenFlexBox(props: {children: React.ReactNode}) {
+function SpaceBetweenFlexBox(props: { children: React.ReactNode }) {
     return (
         <Box sx={{display: "flex", justifyContent: "space-between", width: "100%"}}>
             {props.children}
@@ -78,46 +77,154 @@ function SpaceBetweenFlexBox(props: {children: React.ReactNode}) {
     )
 }
 
-function TextAssigment(props: {label: string, value?: string}) {
+function TextAssignmentNotation({label, value}: {
+    label: string
+    value?: string
+}) {
     return (
-        <SpaceBetweenFlexBox>
-            <Typography variant="h6">{props.label}</Typography>
-            <Typography variant="h6">{props.value ?? "nevyplněno"}</Typography>
-        </SpaceBetweenFlexBox>
+        <Box
+            sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                    xs: "1fr",
+                    sm: "minmax(180px, 1fr) minmax(0, 1fr)",
+                },
+                gap: {
+                    xs: 0.5,
+                    sm: 2,
+                },
+                width: "100%",
+                alignItems: "baseline",
+            }}
+        >
+            <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{fontWeight: 500}}
+            >
+                {label}
+            </Typography>
+
+            <Typography
+                variant="body1"
+                sx={{
+                    fontWeight: 500,
+                    overflowWrap: "anywhere",
+                }}
+            >
+                {value ?? "nevyplněno"}
+            </Typography>
+        </Box>
     )
 }
 
-function Notation({ sign }: { sign: SignGetDetailDto }) {
+function TextAssignmentBase(props: { label: string, value?: string }) {
     return (
-        <Box sx={{display: "flex", flexDirection: "row", gap: 8, width: "100%", justifyContent: "center"}}>
-            <Stack sx={{gap: 2, alignItems: "center", width: "45%"  }}>
-                <TextAssigment label={"Obouruční znak: "} value={sign.notation.bothHandsUsed ? "Ano" : "Ne"}/>
-                {sign.notation.bothHandsUsed && <TextAssigment label={"Asymetrický znak: "} value={sign.notation.asymmetricSign ? "Ano" : "Ne"}/>}
+        <SpaceBetweenFlexBox>
+            <Typography variant="h6">{props.label}</Typography> <Typography
+        variant="h6">{props.value ?? "nevyplněno"}</Typography>
+        </SpaceBetweenFlexBox>)
 
-                <TextAssigment label={"Tvar dominantní ruky: "} value={sign.notation.activeHandNotation.handShape?.textDescription}/>
-                <TextAssigment label={"Orientace dlaně dominantní ruky: "} value={sign.notation.activeHandNotation.palmOrientation?.textDescription}/>
-                <TextAssigment label={"Orientace prstů dominantní ruky: "} value={sign.notation.activeHandNotation.fingerOrientation?.textDescription}/>
-                <TextAssigment label={"Místo artikulace: "} value={sign.notation.articulationLocation?.textDescription}/>
-                <TextAssigment label={"Pohyb: "} value={sign.notation.movement?.textDescription}/>
-                <TextAssigment label={"Dotek: "} value={sign.notation.contact?.textDescription}/>
-                <TextAssigment label={"Vzájemná poloha rukou: "} value={sign.notation.handArrangement?.textDescription}/>
+}
 
+function Notation({sign}: { sign: SignGetDetailDto }) {
+    const {notation} = sign
+
+    return (
+        <Box
+            sx={{
+                display: "grid",
+                padding: 2,
+                maxWidth: 1200,
+                gridTemplateColumns: {
+                    xs: "1fr",
+                    md: notation.bothHandsUsed
+                        ? "minmax(0, 1fr) minmax(0, 1fr)"
+                        : "minmax(0, 700px)",
+                },
+                gap: {
+                    xs: 3,
+                    md: 6,
+                },
+                width: "100%",
+                justifyContent: "center",
+            }}
+        >
+            <Stack spacing={2}>
+                <TextAssignmentNotation
+                    label="Obouruční znak"
+                    value={notation.bothHandsUsed ? "Ano" : "Ne"}
+                />
+
+                {notation.bothHandsUsed && (
+                    <TextAssignmentNotation
+                        label="Asymetrický znak"
+                        value={notation.asymmetricSign ? "Ano" : "Ne"}
+                    />
+                )}
+
+                <TextAssignmentNotation
+                    label="Tvar dominantní ruky"
+                    value={notation.activeHandNotation.handShape?.textDescription}
+                />
+
+                <TextAssignmentNotation
+                    label="Orientace dlaně dominantní ruky"
+                    value={notation.activeHandNotation.palmOrientation?.textDescription}
+                />
+
+                <TextAssignmentNotation
+                    label="Orientace prstů dominantní ruky"
+                    value={notation.activeHandNotation.fingerOrientation?.textDescription}
+                />
+
+                <TextAssignmentNotation
+                    label="Místo artikulace"
+                    value={notation.articulationLocation?.textDescription}
+                />
+
+                <TextAssignmentNotation
+                    label="Pohyb"
+                    value={notation.movement?.textDescription}
+                />
+
+                <TextAssignmentNotation
+                    label="Dotek"
+                    value={notation.contact?.textDescription}
+                />
+
+                <TextAssignmentNotation
+                    label="Vzájemná poloha rukou"
+                    value={notation.handArrangement?.textDescription}
+                />
             </Stack>
-            {sign.notation.bothHandsUsed && (
-                <Stack sx={{gap: 2, alignItems: "center", width: "45%" }}>
-                    <TextAssigment label={"Tvar nedominantní ruky: "} value={sign.notation.passiveHandNotation?.handShape?.textDescription}/>
-                    <TextAssigment label={"Orientace dlaně nedominantní ruky: "} value={sign.notation.passiveHandNotation?.palmOrientation?.textDescription}/>
-                    <TextAssigment label={"Orientace prstů nedominantní ruky: "} value={sign.notation.passiveHandNotation?.fingerOrientation?.textDescription}/>
+
+            {notation.bothHandsUsed && (
+                <Stack spacing={2}>
+                    <TextAssignmentNotation
+                        label="Tvar nedominantní ruky"
+                        value={notation.passiveHandNotation?.handShape?.textDescription}
+                    />
+
+                    <TextAssignmentNotation
+                        label="Orientace dlaně nedominantní ruky"
+                        value={notation.passiveHandNotation?.palmOrientation?.textDescription}
+                    />
+
+                    <TextAssignmentNotation
+                        label="Orientace prstů nedominantní ruky"
+                        value={notation.passiveHandNotation?.fingerOrientation?.textDescription}
+                    />
                 </Stack>
             )}
         </Box>
     )
 }
 
-function Base({ sign }: { sign: SignGetDetailDto }) {
+function Base({sign}: { sign: SignGetDetailDto }) {
     return (
         <Stack sx={{gap: 2, alignItems: "center", padding: 2}}>
-            <Grid container spacing={4} sx={{ width: "100%", maxWidth: 1200 }}>
+            <Grid container spacing={4} sx={{width: "100%", maxWidth: 1200}}>
                 <Grid size={{xs: 12, md: 8}}>
                     <Box
                         sx={{
@@ -139,21 +246,22 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
                 </Grid>
 
                 <Grid size={{xs: 12, md: 4}}>
-                    <Paper sx={{ p:3, borderRadius: 2}}>
+                    <Paper sx={{p: 3, borderRadius: 2}}>
                         <Stack sx={{alignItems: "center", gap: 4}}>
-                            <TextAssigment label={"Typ znaku"} value={signTypeToCzech(sign.signType)}/>
+                            <TextAssignmentBase label={"Typ znaku"} value={signTypeToCzech(sign.signType)}/>
                             <SpaceBetweenFlexBox>
                                 <Typography variant="h6">Kategorie:</Typography>
-                                <Button component={Link} to={`/app/categories/${sign.category.id}`}>{sign.category.name}</Button>
+                                <Button component={Link}
+                                        to={`/app/categories/${sign.category.id}`}>{sign.category.name}</Button>
                             </SpaceBetweenFlexBox>
-                            <TextAssigment label={"Region"} value={regionToCzech(sign.region)}/>
-                            <TextAssigment label={"RRZJ"} value={sign.languageLevel}/>
+                            <TextAssignmentBase label={"Region"} value={regionToCzech(sign.region)}/>
+                            <TextAssignmentBase label={"RRZJ"} value={sign.languageLevel}/>
                         </Stack>
                     </Paper>
                 </Grid>
             </Grid>
 
-            <Grid container spacing={4} sx={{ width: "100%", maxWidth: 1200 }}>
+            <Grid container spacing={4} sx={{width: "100%", maxWidth: 1200}}>
                 <Grid size={{xs: 12, md: 8}}>
                     <Typography variant="h6">Možné překlady:</Typography>
                     <Box sx={{width: "100%", display: "flex", gap: 1, flexWrap: "wrap"}}>
@@ -173,10 +281,10 @@ function Base({ sign }: { sign: SignGetDetailDto }) {
                         {
                             sign.explanation && (
                                 <Stack>
-                                    <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                                    <Typography variant="body1" sx={{whiteSpace: "pre-wrap"}}>
                                         Vysvětlení:
                                     </Typography>
-                                    <Typography variant="body1" sx={{ whiteSpace: "pre-wrap" }}>
+                                    <Typography variant="body1" sx={{whiteSpace: "pre-wrap"}}>
                                         {sign.explanation}
                                     </Typography>
                                 </Stack>
