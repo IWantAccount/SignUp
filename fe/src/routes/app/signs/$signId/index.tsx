@@ -78,11 +78,11 @@ function SpaceBetweenFlexBox(props: {children: React.ReactNode}) {
     )
 }
 
-function TextAssigment(props: {label: string, value: string}) {
+function TextAssigment(props: {label: string, value?: string}) {
     return (
         <SpaceBetweenFlexBox>
             <Typography variant="h6">{props.label}</Typography>
-            <Typography variant="h6">{props.value}</Typography>
+            <Typography variant="h6">{props.value ?? "nevyplněno"}</Typography>
         </SpaceBetweenFlexBox>
     )
 }
@@ -94,20 +94,20 @@ function Notation({ sign }: { sign: SignGetDetailDto }) {
                 <TextAssigment label={"Obouruční znak: "} value={sign.notation.bothHandsUsed ? "Ano" : "Ne"}/>
                 {sign.notation.bothHandsUsed && <TextAssigment label={"Asymetrický znak: "} value={sign.notation.asymmetricSign ? "Ano" : "Ne"}/>}
 
-                <TextAssigment label={"Tvar dominantní ruky: "} value={sign.notation.activeHandNotation.handShape?.textDescription ?? ""}/>
-                <TextAssigment label={"Orientace dlaně dominantní ruky: "} value={sign.notation.activeHandNotation.palmOrientation?.textDescription ?? ""}/>
-                <TextAssigment label={"Orientace prstů dominantní ruky: "} value={sign.notation.activeHandNotation.fingerOrientation?.textDescription ?? ""}/>
-                <TextAssigment label={"Místo artikulace: "} value={sign.notation.articulationLocation?.textDescription ?? ""}/>
-                <TextAssigment label={"Pohyb: "} value={sign.notation.movement?.textDescription ?? ""}/>
-                <TextAssigment label={"Dotek: "} value={sign.notation.contact?.textDescription ?? ""}/>
-                <TextAssigment label={"Vzájemná poloha rukou: "} value={sign.notation.handArrangement?.textDescription ?? ""}/>
+                <TextAssigment label={"Tvar dominantní ruky: "} value={sign.notation.activeHandNotation.handShape?.textDescription}/>
+                <TextAssigment label={"Orientace dlaně dominantní ruky: "} value={sign.notation.activeHandNotation.palmOrientation?.textDescription}/>
+                <TextAssigment label={"Orientace prstů dominantní ruky: "} value={sign.notation.activeHandNotation.fingerOrientation?.textDescription}/>
+                <TextAssigment label={"Místo artikulace: "} value={sign.notation.articulationLocation?.textDescription}/>
+                <TextAssigment label={"Pohyb: "} value={sign.notation.movement?.textDescription}/>
+                <TextAssigment label={"Dotek: "} value={sign.notation.contact?.textDescription}/>
+                <TextAssigment label={"Vzájemná poloha rukou: "} value={sign.notation.handArrangement?.textDescription}/>
 
             </Stack>
             {sign.notation.bothHandsUsed && (
                 <Stack sx={{gap: 2, alignItems: "center", width: "45%" }}>
-                    <TextAssigment label={"Tvar nedominantní ruky: "} value={sign.notation.passiveHandNotation?.handShape?.textDescription ?? ""}/>
-                    <TextAssigment label={"Orientace dlaně nedominantní ruky: "} value={sign.notation.passiveHandNotation?.palmOrientation?.textDescription ?? ""}/>
-                    <TextAssigment label={"Orientace prstů nedominantní ruky: "} value={sign.notation.passiveHandNotation?.fingerOrientation?.textDescription ?? ""}/>
+                    <TextAssigment label={"Tvar nedominantní ruky: "} value={sign.notation.passiveHandNotation?.handShape?.textDescription}/>
+                    <TextAssigment label={"Orientace dlaně nedominantní ruky: "} value={sign.notation.passiveHandNotation?.palmOrientation?.textDescription}/>
+                    <TextAssigment label={"Orientace prstů nedominantní ruky: "} value={sign.notation.passiveHandNotation?.fingerOrientation?.textDescription}/>
                 </Stack>
             )}
         </Box>
