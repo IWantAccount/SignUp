@@ -31,6 +31,7 @@ import { Route as AppPrivateCollectionsCreateRouteImport } from './routes/app/pr
 import { Route as AppInviteCreateRouteImport } from './routes/app/invite/create'
 import { Route as AppClassroomsCreateRouteImport } from './routes/app/classrooms/create'
 import { Route as AppCategoriesCreateRouteImport } from './routes/app/categories/create'
+import { Route as AppAnnouncementsCreateRouteImport } from './routes/app/announcements/create'
 import { Route as AppUsersUserIdIndexRouteImport } from './routes/app/users/$userId/index'
 import { Route as AppSubjectsSubjectIdIndexRouteImport } from './routes/app/subjects/$subjectId/index'
 import { Route as AppSignsSignIdIndexRouteImport } from './routes/app/signs/$signId/index'
@@ -159,6 +160,11 @@ const AppCategoriesCreateRoute = AppCategoriesCreateRouteImport.update({
   path: '/categories/create',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppAnnouncementsCreateRoute = AppAnnouncementsCreateRouteImport.update({
+  id: '/announcements/create',
+  path: '/announcements/create',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AppUsersUserIdIndexRoute = AppUsersUserIdIndexRouteImport.update({
   id: '/users/$userId/',
   path: '/users/$userId/',
@@ -253,6 +259,7 @@ export interface FileRoutesByFullPath {
   '/app/help-me': typeof AppHelpMeRoute
   '/app/home': typeof AppHomeRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
+  '/app/announcements/create': typeof AppAnnouncementsCreateRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
   '/app/invite/create': typeof AppInviteCreateRoute
@@ -292,6 +299,7 @@ export interface FileRoutesByTo {
   '/app/help-me': typeof AppHelpMeRoute
   '/app/home': typeof AppHomeRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
+  '/app/announcements/create': typeof AppAnnouncementsCreateRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
   '/app/invite/create': typeof AppInviteCreateRoute
@@ -332,6 +340,7 @@ export interface FileRoutesById {
   '/app/help-me': typeof AppHelpMeRoute
   '/app/home': typeof AppHomeRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
+  '/app/announcements/create': typeof AppAnnouncementsCreateRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
   '/app/invite/create': typeof AppInviteCreateRoute
@@ -373,6 +382,7 @@ export interface FileRouteTypes {
     | '/app/help-me'
     | '/app/home'
     | '/app/ondra-je-frajer'
+    | '/app/announcements/create'
     | '/app/categories/create'
     | '/app/classrooms/create'
     | '/app/invite/create'
@@ -412,6 +422,7 @@ export interface FileRouteTypes {
     | '/app/help-me'
     | '/app/home'
     | '/app/ondra-je-frajer'
+    | '/app/announcements/create'
     | '/app/categories/create'
     | '/app/classrooms/create'
     | '/app/invite/create'
@@ -451,6 +462,7 @@ export interface FileRouteTypes {
     | '/app/help-me'
     | '/app/home'
     | '/app/ondra-je-frajer'
+    | '/app/announcements/create'
     | '/app/categories/create'
     | '/app/classrooms/create'
     | '/app/invite/create'
@@ -647,6 +659,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCategoriesCreateRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/app/announcements/create': {
+      id: '/app/announcements/create'
+      path: '/announcements/create'
+      fullPath: '/app/announcements/create'
+      preLoaderRoute: typeof AppAnnouncementsCreateRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/app/users/$userId/': {
       id: '/app/users/$userId/'
       path: '/users/$userId'
@@ -759,6 +778,7 @@ interface AppRouteRouteChildren {
   AppHelpMeRoute: typeof AppHelpMeRoute
   AppHomeRoute: typeof AppHomeRoute
   AppOndraJeFrajerRoute: typeof AppOndraJeFrajerRoute
+  AppAnnouncementsCreateRoute: typeof AppAnnouncementsCreateRoute
   AppCategoriesCreateRoute: typeof AppCategoriesCreateRoute
   AppClassroomsCreateRoute: typeof AppClassroomsCreateRoute
   AppInviteCreateRoute: typeof AppInviteCreateRoute
@@ -795,6 +815,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppHelpMeRoute: AppHelpMeRoute,
   AppHomeRoute: AppHomeRoute,
   AppOndraJeFrajerRoute: AppOndraJeFrajerRoute,
+  AppAnnouncementsCreateRoute: AppAnnouncementsCreateRoute,
   AppCategoriesCreateRoute: AppCategoriesCreateRoute,
   AppClassroomsCreateRoute: AppClassroomsCreateRoute,
   AppInviteCreateRoute: AppInviteCreateRoute,
