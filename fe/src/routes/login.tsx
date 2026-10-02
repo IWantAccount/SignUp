@@ -1,4 +1,4 @@
-import {createFileRoute, useNavigate} from '@tanstack/react-router'
+import {createFileRoute, Link, useNavigate} from '@tanstack/react-router'
 import {LoginForm} from "@/components/forms/login-form.tsx";
 import {useMutation} from "@tanstack/react-query";
 import api from "@/api/universal/axios.ts";
@@ -61,6 +61,7 @@ function RouteComponent() {
                 submitButtonDisabled={
                     mutation.isPending
                 }/>
+            <Link to={"/password/request-new"}>Zapomenuté heslo</Link>
         </Box>
 
     )

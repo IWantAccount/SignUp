@@ -48,6 +48,8 @@ public class SecurityConfig {
                         .requestMatchers("/file/url-req/**").permitAll()
                         .requestMatchers("/invite/{id}/process").permitAll()
                         .requestMatchers(HttpMethod.GET, "/invite/{id}").permitAll()
+                        .requestMatchers("/user/restore-password").permitAll()
+                        .requestMatchers("/user/req-passwd-change").permitAll()
                         .anyRequest().authenticated()
 
                 )

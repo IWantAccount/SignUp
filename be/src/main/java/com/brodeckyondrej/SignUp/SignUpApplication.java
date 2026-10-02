@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties({VideoProperties.class, StorageProperties.class, JWTConfig.class, InitUserConfig.class, AllowedOriginsConfig.class})
+@EnableConfigurationProperties({VideoProperties.class, StorageProperties.class, JWTConfig.class, InitUserConfig.class, AllowedOriginsConfig.class, EmailSourceConfig.class, WebAddresConfig.class})
 public class SignUpApplication {
 
 	public static void main(String[] args) {

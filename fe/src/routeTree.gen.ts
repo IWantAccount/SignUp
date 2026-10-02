@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PasswordRequestNewRouteImport } from './routes/password/request-new'
 import { Route as AppOndraJeFrajerRouteImport } from './routes/app/ondra-je-frajer'
 import { Route as AppHomeRouteImport } from './routes/app/home'
 import { Route as AppHelpMeRouteImport } from './routes/app/help-me'
@@ -22,6 +23,7 @@ import { Route as AppSignComponentsIndexRouteImport } from './routes/app/sign-co
 import { Route as AppPrivateCollectionsIndexRouteImport } from './routes/app/private-collections/index'
 import { Route as AppClassroomsIndexRouteImport } from './routes/app/classrooms/index'
 import { Route as AppCategoriesIndexRouteImport } from './routes/app/categories/index'
+import { Route as PasswordRestoreIdRouteImport } from './routes/password/restore/$id'
 import { Route as InviteInviteIdProcessRouteImport } from './routes/invite/$inviteId/process'
 import { Route as AppUsersCreateRouteImport } from './routes/app/users/create'
 import { Route as AppSubjectsCreateRouteImport } from './routes/app/subjects/create'
@@ -61,6 +63,11 @@ const AppRouteRoute = AppRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PasswordRequestNewRoute = PasswordRequestNewRouteImport.update({
+  id: '/password/request-new',
+  path: '/password/request-new',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppOndraJeFrajerRoute = AppOndraJeFrajerRouteImport.update({
@@ -113,6 +120,11 @@ const AppCategoriesIndexRoute = AppCategoriesIndexRouteImport.update({
   id: '/categories/',
   path: '/categories/',
   getParentRoute: () => AppRouteRoute,
+} as any)
+const PasswordRestoreIdRoute = PasswordRestoreIdRouteImport.update({
+  id: '/password/restore/$id',
+  path: '/password/restore/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const InviteInviteIdProcessRoute = InviteInviteIdProcessRouteImport.update({
   id: '/invite/$inviteId/process',
@@ -259,6 +271,7 @@ export interface FileRoutesByFullPath {
   '/app/help-me': typeof AppHelpMeRoute
   '/app/home': typeof AppHomeRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
+  '/password/request-new': typeof PasswordRequestNewRoute
   '/app/announcements/create': typeof AppAnnouncementsCreateRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
@@ -269,6 +282,7 @@ export interface FileRoutesByFullPath {
   '/app/subjects/create': typeof AppSubjectsCreateRoute
   '/app/users/create': typeof AppUsersCreateRoute
   '/invite/$inviteId/process': typeof InviteInviteIdProcessRoute
+  '/password/restore/$id': typeof PasswordRestoreIdRoute
   '/app/categories': typeof AppCategoriesIndexRoute
   '/app/classrooms': typeof AppClassroomsIndexRoute
   '/app/private-collections': typeof AppPrivateCollectionsIndexRoute
@@ -299,6 +313,7 @@ export interface FileRoutesByTo {
   '/app/help-me': typeof AppHelpMeRoute
   '/app/home': typeof AppHomeRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
+  '/password/request-new': typeof PasswordRequestNewRoute
   '/app/announcements/create': typeof AppAnnouncementsCreateRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
@@ -309,6 +324,7 @@ export interface FileRoutesByTo {
   '/app/subjects/create': typeof AppSubjectsCreateRoute
   '/app/users/create': typeof AppUsersCreateRoute
   '/invite/$inviteId/process': typeof InviteInviteIdProcessRoute
+  '/password/restore/$id': typeof PasswordRestoreIdRoute
   '/app/categories': typeof AppCategoriesIndexRoute
   '/app/classrooms': typeof AppClassroomsIndexRoute
   '/app/private-collections': typeof AppPrivateCollectionsIndexRoute
@@ -340,6 +356,7 @@ export interface FileRoutesById {
   '/app/help-me': typeof AppHelpMeRoute
   '/app/home': typeof AppHomeRoute
   '/app/ondra-je-frajer': typeof AppOndraJeFrajerRoute
+  '/password/request-new': typeof PasswordRequestNewRoute
   '/app/announcements/create': typeof AppAnnouncementsCreateRoute
   '/app/categories/create': typeof AppCategoriesCreateRoute
   '/app/classrooms/create': typeof AppClassroomsCreateRoute
@@ -350,6 +367,7 @@ export interface FileRoutesById {
   '/app/subjects/create': typeof AppSubjectsCreateRoute
   '/app/users/create': typeof AppUsersCreateRoute
   '/invite/$inviteId/process': typeof InviteInviteIdProcessRoute
+  '/password/restore/$id': typeof PasswordRestoreIdRoute
   '/app/categories/': typeof AppCategoriesIndexRoute
   '/app/classrooms/': typeof AppClassroomsIndexRoute
   '/app/private-collections/': typeof AppPrivateCollectionsIndexRoute
@@ -382,6 +400,7 @@ export interface FileRouteTypes {
     | '/app/help-me'
     | '/app/home'
     | '/app/ondra-je-frajer'
+    | '/password/request-new'
     | '/app/announcements/create'
     | '/app/categories/create'
     | '/app/classrooms/create'
@@ -392,6 +411,7 @@ export interface FileRouteTypes {
     | '/app/subjects/create'
     | '/app/users/create'
     | '/invite/$inviteId/process'
+    | '/password/restore/$id'
     | '/app/categories'
     | '/app/classrooms'
     | '/app/private-collections'
@@ -422,6 +442,7 @@ export interface FileRouteTypes {
     | '/app/help-me'
     | '/app/home'
     | '/app/ondra-je-frajer'
+    | '/password/request-new'
     | '/app/announcements/create'
     | '/app/categories/create'
     | '/app/classrooms/create'
@@ -432,6 +453,7 @@ export interface FileRouteTypes {
     | '/app/subjects/create'
     | '/app/users/create'
     | '/invite/$inviteId/process'
+    | '/password/restore/$id'
     | '/app/categories'
     | '/app/classrooms'
     | '/app/private-collections'
@@ -462,6 +484,7 @@ export interface FileRouteTypes {
     | '/app/help-me'
     | '/app/home'
     | '/app/ondra-je-frajer'
+    | '/password/request-new'
     | '/app/announcements/create'
     | '/app/categories/create'
     | '/app/classrooms/create'
@@ -472,6 +495,7 @@ export interface FileRouteTypes {
     | '/app/subjects/create'
     | '/app/users/create'
     | '/invite/$inviteId/process'
+    | '/password/restore/$id'
     | '/app/categories/'
     | '/app/classrooms/'
     | '/app/private-collections/'
@@ -500,7 +524,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
+  PasswordRequestNewRoute: typeof PasswordRequestNewRoute
   InviteInviteIdProcessRoute: typeof InviteInviteIdProcessRoute
+  PasswordRestoreIdRoute: typeof PasswordRestoreIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -524,6 +550,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/password/request-new': {
+      id: '/password/request-new'
+      path: '/password/request-new'
+      fullPath: '/password/request-new'
+      preLoaderRoute: typeof PasswordRequestNewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/ondra-je-frajer': {
@@ -595,6 +628,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/categories'
       preLoaderRoute: typeof AppCategoriesIndexRouteImport
       parentRoute: typeof AppRouteRoute
+    }
+    '/password/restore/$id': {
+      id: '/password/restore/$id'
+      path: '/password/restore/$id'
+      fullPath: '/password/restore/$id'
+      preLoaderRoute: typeof PasswordRestoreIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/invite/$inviteId/process': {
       id: '/invite/$inviteId/process'
@@ -858,7 +898,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
   LoginRoute: LoginRoute,
+  PasswordRequestNewRoute: PasswordRequestNewRoute,
   InviteInviteIdProcessRoute: InviteInviteIdProcessRoute,
+  PasswordRestoreIdRoute: PasswordRestoreIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
