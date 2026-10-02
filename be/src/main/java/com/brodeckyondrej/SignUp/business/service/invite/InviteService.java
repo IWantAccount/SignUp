@@ -5,10 +5,14 @@ import com.brodeckyondrej.SignUp.business.dto.user.UserCreateDto;
 import com.brodeckyondrej.SignUp.business.dto.user.UserGetDetailDto;
 import com.brodeckyondrej.SignUp.business.service.universal.EntityService;
 import com.brodeckyondrej.SignUp.business.service.user.UserService;
+import com.brodeckyondrej.SignUp.config.EmailSourceConfig;
+import com.brodeckyondrej.SignUp.config.WebAddresConfig;
 import com.brodeckyondrej.SignUp.persistence.entity.Invite;
 import com.brodeckyondrej.SignUp.persistence.entity.User;
 import com.brodeckyondrej.SignUp.persistence.repository.InviteRepository;
 import com.brodeckyondrej.SignUp.persistence.repository.UserRepository;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -19,12 +23,20 @@ public class InviteService extends EntityService<Invite, InviteCreateDto, Invite
     private final InviteRepository inviteRepository;
     private final UserService userService;
     private final UserRepository userRepository;
+    private final JavaMailSender mailSender;
+    private final EmailSourceConfig emailSourceConfig;
+    private final WebAddresConfig webAddresConfig;
 
-    public InviteService(InviteRepository inviteRepository, InviteValidator validator, InviteMapper mapper, UserService userService, UserRepository userRepository) {
+    public InviteService(InviteRepository inviteRepository, InviteValidator validator,
+                         InviteMapper mapper, UserService userService, UserRepository userRepository,
+                         JavaMailSender mailSender,EmailSourceConfig emailConf, WebAddresConfig webConf) {
         super(inviteRepository, validator, mapper);
         this.inviteRepository = inviteRepository;
         this.userService = userService;
         this.userRepository = userRepository;
+        this.mailSender = mailSender;
+        this.emailSourceConfig = emailConf;
+        this.webAddresConfig = webConf;
     }
 
     public InviteGetDetailDto ProcessInvite(ProcessInviteDto processInviteDto, UUID id){
@@ -33,7 +45,8 @@ public class InviteService extends EntityService<Invite, InviteCreateDto, Invite
             throw new IllegalStateException("Opětovné použití pozvánky");
         }
 
-        UserCreateDto userCreateDto = new UserCreateDto(processInviteDto.getName(), processInviteDto.getPassword(), processInviteDto.getEmail(), invite.getRole());
+        UserCreateDto userCreateDto = new UserCreateDto(processInviteDto.getName(), processInviteDto.getPassword(),
+                processInviteDto.getEmail(), invite.getRole());
         UserGetDetailDto createdUserDto = this.userService.create(userCreateDto);
         User createdUser = this.userRepository.findByIdOrThrow(createdUserDto.getId());
 
@@ -41,6 +54,26 @@ public class InviteService extends EntityService<Invite, InviteCreateDto, Invite
         invite.setUsedAt(Instant.now());
 
         return mapper.toDetailDto(invite);
+    }
+
+    @Override
+    public InviteGetDetailDto create(InviteCreateDto dto) {
+
+        InviteGetDetailDto res = super.create(dto);
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(emailSourceConfig.emailSource());
+        message.setTo(dto.getEmail());
+        message.setSubject("registrace na vosczj.cz");
+        message.setText(
+                """
+                Dobrý den,
+                byla Vám vytvořená pozvánka do našeho webu. Můžete se registrovat na následujícím odkazu:
+                """ + webAddresConfig.webAddress() + "/invite/" + res.getId() + "/process"
+        );
+        mailSender.send(message);
+
+        return res;
     }
 
 }

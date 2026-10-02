@@ -3,6 +3,7 @@ import type {UserGetListDto} from "@/api/user/user-dtos.ts";
 
 export interface InviteCreateDto {
     role: UserRoleEnum;
+    email: string;
 }
 
 export interface InviteUpdateDto {

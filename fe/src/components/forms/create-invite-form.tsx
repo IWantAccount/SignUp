@@ -5,7 +5,8 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Autocomplete, Box, Button, TextField} from "@mui/material";
 
 const schema = z.object({
-    role: userRoleEnum.refine((role) => role !== null, {message: "Je nutné zadat roli!"})
+    role: userRoleEnum.refine((role) => role !== null, {message: "Je nutné zadat roli!"}),
+    email: z.email("Neplatný email")
 })
 
 interface Props {
@@ -59,8 +60,21 @@ export function CreateInviteForm(props: Props) {
                             />
                         )}
             />
+
+            <Controller name="email"
+                        control={control}
+                        render={({field, fieldState}) => (
+                            <TextField
+                                {...field}
+                                label="email"
+                                error={!!fieldState.error}
+                                helperText={fieldState.error?.message}
+                            />
+                        )}
+            />
+
             <Button variant="contained" type = "submit" disabled={props.submitButtonDisabled}>
-                {props.submitButtonDisabled ? "Čekejte" : "Vytvořit roli"}
+                {props.submitButtonDisabled ? "Čekejte" : "Vytvořit pozvánku"}
             </Button>
 
         </Box>
