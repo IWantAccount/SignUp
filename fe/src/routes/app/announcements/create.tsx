@@ -16,7 +16,7 @@ function RouteComponent() {
 
     return (
         <Box sx={{display: "flex", flexDirection: "column", gap: 2, p: 2, alignItems: "center"}}>
-            <Typography variant="h5">Vytvořit novou kategorii</Typography>
+            <Typography variant="h5">Vytvořit oznámení</Typography>
             <AnnouncementForm
                 onSubmit={(data: AnnouncementCreateDto) => mutation.mutate(data)}
                 submitButtonText={
