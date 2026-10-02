@@ -6,7 +6,7 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: LetMeIn
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -18,7 +18,7 @@ services:
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/appdb
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5433/appdb
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: LetMeIn
       SPRING_UPLOADS: /storage
@@ -30,6 +30,11 @@ services:
       INIT_PASSWORD: changeit
       INIT_ENABLED: false
       ALLOWED_ORIGINS: http://localhost:81
+      MAIL_HOST: host
+      MAIL_PORT: 1
+      MAIL_ADDR: mailhere
+      MAIL_PASSWD: passwdhere
+      MAIL_SOURCE_ADDR: sourcehere
     volumes:
       - ./uploads:/storage
   fe:
