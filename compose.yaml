@@ -35,6 +35,7 @@ services:
       MAIL_ADDR: mailhere
       MAIL_PASSWD: passwdhere
       MAIL_SOURCE_ADDR: sourcehere
+      WEB_ORIGIN: example.com
     volumes:
       - ./uploads:/storage
   fe:

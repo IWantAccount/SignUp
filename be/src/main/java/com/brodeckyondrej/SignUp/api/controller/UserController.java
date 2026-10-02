@@ -1,5 +1,7 @@
 package com.brodeckyondrej.SignUp.api.controller;
 
+import com.brodeckyondrej.SignUp.business.dto.password.PasswordRequestDto;
+import com.brodeckyondrej.SignUp.business.dto.password.PasswordRestoreDto;
 import com.brodeckyondrej.SignUp.business.service.user.UserService;
 import com.brodeckyondrej.SignUp.business.dto.universal.FindByNameDto;
 import com.brodeckyondrej.SignUp.api.controller.universal.NamedEntityController;
@@ -94,5 +96,15 @@ public class UserController extends NamedEntityController<User, UserCreateDto, U
     @AtLeastAdminOrSelf
     public ResponseEntity<Void> updatePassword(@PathVariable UUID id, @Valid @RequestBody ChangePasswordDto dto) {
         return ResponseEntity.ok(userService.changePassword(id, dto));
+    }
+
+    @PostMapping("/req-passwd-change")
+    public ResponseEntity<Void> requestPasswordChange(@Valid @RequestBody PasswordRequestDto dto) {
+        return ResponseEntity.ok(userService.requestPasswordReset(dto));
+    }
+
+    @PostMapping("/restore-password")
+    public ResponseEntity<Void> restorePassword(@Valid @RequestBody PasswordRestoreDto dto) {
+        return ResponseEntity.ok(userService.restorePassword(dto.getReqId(), dto.getPassword()));
     }
 }
