@@ -13,6 +13,7 @@ import { useState } from 'react';
 import {useDebounce} from "use-debounce";
 import {createSignInfiniteSearch} from "@/api/sign/sign-query-options.ts";
 import type {SignGetListDto} from "@/api/sign/sign-dtos.ts";
+import {Button, Stack} from "@mui/material";
 export const Route = createFileRoute('/app/private-collections/$collectionId/')(
     {
         component: RouteComponent
@@ -43,7 +44,7 @@ function RouteComponent() {
     const signs: SignGetListDto[] = signsQuery.data?.pages.flatMap(page => page.content) || [];
 
     return (
-        <>
+        <Stack sx={{padding:2}} spacing={2} alignItems="center">
             <TopBarItemsGrid>
                 <SearchableCardSectionTopBarActions
                     title={
@@ -69,6 +70,15 @@ function RouteComponent() {
                     }/>
                 <SignGrid list={signs}/>
             </TopBarItemsGrid>
-        </>
+            <Button onClick={() => signsQuery.fetchNextPage()}
+                    disabled={signsQuery.isPending || !signsQuery.hasNextPage}
+                    sx={{maxWidth: 200}}
+                    variant="outlined">
+                {
+                    signsQuery.isPending ? "Načítání" :
+                        !signsQuery.hasNextPage ? "Vše načteno" : "Načíst další"
+                }
+            </Button>
+        </Stack>
     )
 }
